@@ -1,0 +1,35 @@
+# Secrets
+.env
+.env.*
+!.env.example
+
+# Python
+.venv/
+__pycache__/
+*.pyc
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+
+# Node / Next.js
+node_modules/
+.next/
+out/
+next-env.d.ts
+*.tsbuildinfo
+
+# Competition data: only the reference CSVs in services/api/seed/data are allowed.
+# Never commit training/test data, notebooks' outputs or submission files here.
+*_train.csv
+*_test.csv
+*_test_inputs.csv
+task2b_*.csv
+submission_*.csv
+*.ipynb
+
+# OS / editors
+.DS_Store
+Thumbs.db
+.vscode/*
+!.vscode/extensions.json
+.idea/

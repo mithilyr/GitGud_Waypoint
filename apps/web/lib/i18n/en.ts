@@ -35,7 +35,8 @@ import { common } from "./domains/common";
 import { store } from "./domains/store";
 import { storeTrack } from "./domains/storeTrack";
 import { storeMisc } from "./domains/storeMisc";
+import { auth } from "./domains/auth";
 
-export const en = { ...driverEn, ...common.en, ...store.en, ...storeTrack.en, ...storeMisc.en } as const;
+export const en = { ...driverEn, ...common.en, ...store.en, ...storeTrack.en, ...storeMisc.en, ...auth.en } as const;
 
 export type Key = keyof typeof en;

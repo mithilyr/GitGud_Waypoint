@@ -3,20 +3,24 @@
 import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useState } from "react";
 import { Button, ErrorNote, Logo, VineRidges } from "@/components/ui";
+import { LanguageSwitch } from "@/components/LanguageSwitch";
 import { HOME, Role, useAuth } from "@/lib/auth";
+import { useT } from "@/lib/i18n";
 
-const DEMO: Record<Role, { email: string; label: string }> = {
-  dispatcher: { email: "dispatcher@waypoint.demo", label: "Dispatcher" },
-  loader: { email: "loader@waypoint.demo", label: "Loader" },
-  driver: { email: "driver@waypoint.demo", label: "Driver" },
-  store: { email: "store@waypoint.demo", label: "Store manager" },
+const DEMO: Record<Role, { email: string }> = {
+  dispatcher: { email: "dispatcher@waypoint.demo" },
+  loader: { email: "loader@waypoint.demo" },
+  driver: { email: "driver@waypoint.demo" },
+  store: { email: "store@waypoint.demo" },
 };
 
 function LoginForm() {
   const params = useSearchParams();
   const role = (params.get("role") as Role) in DEMO ? (params.get("role") as Role) : "dispatcher";
   const router = useRouter();
+  const { t } = useT();
   const { login } = useAuth();
+  const roleLabel = t(`role.${role}` as "role.dispatcher");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [busy, setBusy] = useState(false);
@@ -30,7 +34,7 @@ function LoginForm() {
       const u = await login(email.trim(), password);
       router.replace(HOME[u.role]);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Could not sign in");
+      setError(err instanceof Error ? err.message : t("login.failed"));
     } finally {
       setBusy(false);
     }
@@ -42,13 +46,14 @@ function LoginForm() {
         <Logo size={44} />
         <div>
           <div className="text-[15px] font-semibold leading-tight">Waypoint</div>
-          <div className="text-[12px] text-muted">{DEMO[role].label} sign-in</div>
+          <div className="text-[12px] text-muted">{t("login.signInFor", { role: roleLabel })}</div>
         </div>
       </div>
-      <h1 className="font-display text-[34px] font-medium leading-[1.1]">Sign in</h1>
+      <h1 className="font-display text-[34px] font-medium leading-[1.1] tracking-[-0.8px]">{t("login.title")}</h1>
+      <div className="mt-4"><LanguageSwitch /></div>
       <form onSubmit={submit} className="mt-6 space-y-4">
         <label className="block">
-          <span className="eyebrow">Email</span>
+          <span className="eyebrow">{t("login.email")}</span>
           <input
             type="email"
             autoComplete="username"
@@ -59,7 +64,7 @@ function LoginForm() {
           />
         </label>
         <label className="block">
-          <span className="eyebrow">Password</span>
+          <span className="eyebrow">{t("login.password")}</span>
           <input
             type="password"
             autoComplete="current-password"
@@ -71,7 +76,7 @@ function LoginForm() {
         </label>
         <ErrorNote error={error} />
         <Button type="submit" size="lg" block busy={busy}>
-          Sign in
+          {t("login.submit")}
         </Button>
         <Button
           type="button"
@@ -82,7 +87,7 @@ function LoginForm() {
             setPassword("waypoint2026");
           }}
         >
-          Fill the demo {DEMO[role].label.toLowerCase()} account
+          {t("login.fill", { role: roleLabel })}
         </Button>
       </form>
       <VineRidges className="fixed inset-x-0 bottom-0 -z-10 h-44 opacity-80 sm:hidden" />

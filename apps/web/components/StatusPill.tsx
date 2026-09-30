@@ -1,12 +1,14 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useT } from "@/lib/i18n";
 
 type State = "checking" | "up" | "waking";
 
 // Free hosting puts the API to sleep when idle; the first request can take a minute.
 // Retry instead of reporting it as broken.
 export function StatusPill() {
+  const { t } = useT();
   const [state, setState] = useState<State>("checking");
 
   useEffect(() => {
@@ -34,7 +36,7 @@ export function StatusPill() {
     };
   }, []);
 
-  const text = state === "up" ? "System online" : state === "waking" ? "Waking the server, about a minute" : "Checking";
+  const text = state === "up" ? t("status.online") : state === "waking" ? t("status.waking") : t("status.checking");
   const tone = state === "up" ? "text-ok" : state === "waking" ? "text-muted" : "text-muted";
   return (
     <span className={`ml-auto inline-flex items-center gap-1.5 text-[12px] ${tone}`} role="status">

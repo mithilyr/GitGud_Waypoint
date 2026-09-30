@@ -66,7 +66,7 @@ export default function StoreLayout({ children }: { children: React.ReactNode })
 
   return (
     <Ctx.Provider value={{ pushes, refreshPushes: load }}>
-      <div className="min-h-dvh pb-[130px] lg:pb-10">
+      <div className="flex min-h-dvh flex-col pb-[calc(4rem+env(safe-area-inset-bottom))] lg:pb-10">
         <TopBar
           home="/store"
           title={t("store.brand")}
@@ -110,8 +110,8 @@ export default function StoreLayout({ children }: { children: React.ReactNode })
             </button>
           </div>
         ) : null}
-        <main className="mx-auto max-w-[520px] px-6 py-4 lg:max-w-[640px] lg:py-8">{children}</main>
-        <WaypointString compact still className="mt-10 lg:hidden" />
+        <main className="mx-auto w-full max-w-[520px] px-6 py-4 lg:max-w-[640px] lg:py-8">{children}</main>
+        <WaypointString compact still className="mt-auto pt-10 lg:hidden" />
         <BottomTabs tabs={tabs} />
       </div>
     </Ctx.Provider>

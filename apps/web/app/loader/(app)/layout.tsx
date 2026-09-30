@@ -79,7 +79,7 @@ export default function LoaderShell({ children }: { children: React.ReactNode })
 
   const onLoadDetail = path.startsWith("/loader/load/");
   return (
-    <div className="min-h-dvh pb-[76px] lg:pb-0">
+    <div className="flex min-h-dvh flex-col pb-[calc(4rem+env(safe-area-inset-bottom))] lg:pb-0">
       {/* Tablet and desktop: top bar with segmented tabs. Phone: compact header and bottom tabs. */}
       <TopBar
         home="/loader/departures"
@@ -109,8 +109,8 @@ export default function LoaderShell({ children }: { children: React.ReactNode })
           settings="/loader/settings"
         />
       </div>
-      <main className="mx-auto max-w-[1280px] px-6 py-4 lg:px-6">{children}</main>
-      <WaypointString compact still className="mt-10 lg:hidden" />
+      <main className="mx-auto w-full max-w-[1280px] px-6 py-4 lg:px-6">{children}</main>
+      <WaypointString compact still className="mt-auto pt-10 lg:hidden" />
       <BottomTabs tabs={TABS} />
     </div>
   );

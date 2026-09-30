@@ -197,7 +197,7 @@ function Shell() {
   const tab = screen.name === "home" ? "home" : screen.name === "sync" ? "sync" : screen.name === "help" || screen.name === "call" || screen.name === "settings" ? "help" : "stops";
 
   return (
-    <div className="mx-auto min-h-dvh max-w-[520px] pb-[118px] lg:border-x lg:border-line">
+    <div className="mx-auto flex min-h-dvh max-w-[520px] flex-col pb-[calc(4rem+env(safe-area-inset-bottom))] lg:border-x lg:border-line">
       <header className="sticky top-0 z-20 flex h-14 items-center bg-bg px-3">
         <div className="w-16">
           {stack.length > 1 ? (
@@ -220,7 +220,7 @@ function Shell() {
         </div>
       ) : null}
 
-      <main className="mx-auto max-w-[520px] px-6 py-4">
+      <main className="mx-auto w-full max-w-[520px] px-6 py-4">
         {!run || !current ? (
           <Card className="p-6 text-center">
             <p className="font-display text-[24px]">{t("drv.shell.noRun")}</p>
@@ -264,7 +264,7 @@ function Shell() {
         ) : null}
       </Sheet>
 
-      <WaypointString compact still className="mt-10" />
+      <WaypointString compact still className="mt-auto pt-10" />
       <nav className="safe-bottom fixed inset-x-0 bottom-0 z-20 border-t border-line bg-surface" aria-label={t("drv.shell.sections")}>
         <ul className="mx-auto flex max-w-[520px]">
           {(

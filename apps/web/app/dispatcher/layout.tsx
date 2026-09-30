@@ -166,7 +166,7 @@ export default function DispatcherLayout({ children }: { children: React.ReactNo
         },
       }}
     >
-      <div className="min-h-dvh">
+      <div className="flex min-h-dvh flex-col pb-[calc(4rem+env(safe-area-inset-bottom))] md:pb-0">
         <TopBar
           from="md"
           home="/dispatcher/orders"
@@ -188,8 +188,8 @@ export default function DispatcherLayout({ children }: { children: React.ReactNo
             {userMenu}
           </div>
         </header>
-        <div className="mx-auto max-w-[1440px] px-4 pb-28 pt-6 sm:px-8 md:pb-16">{children}</div>
-        <WaypointString compact still className="mb-24 md:hidden" />
+        <div className="mx-auto w-full max-w-[1440px] px-4 pb-6 pt-6 sm:px-8 md:pb-16">{children}</div>
+        <WaypointString compact still className="mt-auto pt-6 md:hidden" />
         <BottomTabs below="md" tabs={tabs.map((x) => ({ href: x.href, label: x.label }))} />
       </div>
     </Ctx.Provider>

@@ -87,7 +87,7 @@ function SceneSvg({ scene, className, k }: { scene: Scene; className: string; k:
 export function WaypointString({ className = "", compact = false, still = false }: { className?: string; compact?: boolean; still?: boolean }) {
   return (
     // Clips sideways overflow (so the page never scrolls sideways) but not upwards (so the last stop's halo is never cut).
-    <div className={`pointer-events-none w-full overflow-x-clip ${still ? "wp-still" : ""} ${compact ? "mx-auto max-w-[520px]" : ""} ${className}`} aria-hidden>
+    <div className={`pointer-events-none w-full shrink-0 overflow-x-clip ${still ? "wp-still" : ""} ${compact ? "mx-auto max-w-[520px]" : ""} ${className}`} aria-hidden>
       <SceneSvg scene={NARROW} k={0.9} className={compact ? "block" : "block sm:hidden"} />
       {compact ? null : <SceneSvg scene={WIDE} k={1} className="hidden sm:block" />}
     </div>

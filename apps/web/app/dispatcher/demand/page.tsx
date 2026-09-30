@@ -1,6 +1,6 @@
 "use client";
 
-import { Card, ErrorNote, Headline, Pill, Spinner } from "@/components/ui";
+import { Card, ErrorNote, Eyebrow, Headline, Lead, Pill, Spinner } from "@/components/ui";
 import { get } from "@/lib/api";
 import { fmtDate } from "@/lib/format";
 import { usePoll } from "@/lib/hooks";
@@ -34,7 +34,7 @@ export default function DemandPage() {
 
   return (
     <div className="rise">
-      <p className="text-[13px] font-medium text-muted">{t("disp.demand.eyebrow", { date: fmtDate(data.start) })}</p>
+      <Lead>{t("disp.demand.eyebrow", { date: fmtDate(data.start) })}</Lead>
       <Headline className="mt-1">{data.headline}</Headline>
       <p className="mt-2 max-w-[760px] text-[15px] text-muted">{t("disp.demand.lede")}</p>
 
@@ -78,7 +78,7 @@ export default function DemandPage() {
       </div>
 
       <section className="mt-8">
-        <div className="eyebrow">{t("disp.demand.atRisk")}</div>
+        <Eyebrow>{t("disp.demand.atRisk")}</Eyebrow>
         {data.at_risk.length ? (
           <div className="mt-2 grid gap-3 md:grid-cols-2 xl:grid-cols-3">
             {data.at_risk.map((r) => (

@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { PhotoButton } from "@/components/PhotoButton";
-import { Bar, Button, Card, ErrorNote, Icon, Pill, Sheet, Spinner, toast } from "@/components/ui";
+import { Bar, Button, Card, ErrorNote, Eyebrow, Icon, Lead, Pill, Sheet, Spinner, toast } from "@/components/ui";
 import { get, post } from "@/lib/api";
 import { usePoll } from "@/lib/hooks";
 import { useT } from "@/lib/i18n";
@@ -99,10 +99,10 @@ export function LoadPanel({ tripId, onReleased }: { tripId: number; onReleased?:
     <div className="rise">
       <div className="flex flex-wrap items-start justify-between gap-2">
         <div>
-          <p className="font-data text-[13px] font-medium text-muted">
+          <Lead mono>
             {t("loader.load.eyebrow", { v: d.trip.vehicle_id, n: d.trip.trip_no, brand: d.trip.brand, t: d.trip.depart ?? "" })}
             {d.trip.driver ? t("loader.load.eyebrowDriver", { who: d.trip.driver }) : ""}
-          </p>
+          </Lead>
           <div className="mt-1 font-display text-[34px] font-medium leading-tight tracking-[-0.8px] tabular">{t("loader.load.progress", { a: d.loaded, b: d.total })}</div>
         </div>
         <div className="grid w-full max-w-[300px] gap-2 text-[12px] text-muted">
@@ -153,7 +153,7 @@ export function LoadPanel({ tripId, onReleased }: { tripId: number; onReleased?:
             <li key={s.stop_id}>
               <Card className="border-ink/60 p-4">
                 <div className="flex items-center justify-between">
-                  <div className="eyebrow !text-ink">{t("loader.load.now", { ord: s.ordinal, name: s.name }).toUpperCase()}</div>
+                  <Eyebrow className="!text-ink">{t("loader.load.now", { ord: s.ordinal, name: s.name })}</Eyebrow>
                   {!d.released ? (
                     <button onClick={() => loadAll(s.stop_id)} className="text-[13px] font-semibold underline">
                       {t("loader.load.loadAll")}
@@ -179,7 +179,7 @@ export function LoadPanel({ tripId, onReleased }: { tripId: number; onReleased?:
 
       {d.flags.length ? (
         <div className="mt-5">
-          <div className="eyebrow">{t("loader.load.flagsTitle")}</div>
+          <Eyebrow>{t("loader.load.flagsTitle")}</Eyebrow>
           <div className="mt-2 space-y-2">
             {d.flags.map((f) => (
               <div key={f.id} className="flex flex-wrap items-center gap-2 rounded-[10px] bg-warn-bg px-3 py-2 text-[14px] text-warn">
@@ -202,13 +202,13 @@ export function LoadPanel({ tripId, onReleased }: { tripId: number; onReleased?:
           >
             {t("loader.load.flagProblem")}
           </Button>
-          <Button size="lg" className="flex-1" disabled={left > 0} onClick={() => setReleasing(true)}>
+          <Button size="xl" className="flex-1" disabled={left > 0} onClick={() => setReleasing(true)}>
             {left > 0 ? t("loader.load.releaseLeft", { n: left }) : t("loader.load.releaseVehicle")}
           </Button>
         </div>
       ) : (
         <div className="mt-5">
-          <Button size="lg" variant="secondary" onClick={onReleased}>{t("loader.load.backToDepartures")}</Button>
+          <Button size="xl" variant="secondary" onClick={onReleased}>{t("loader.load.backToDepartures")}</Button>
         </div>
       )}
 
@@ -282,7 +282,7 @@ function PlanChanged({ d, onShow }: { d: TripDetail; onShow: () => void }) {
       <p className="mt-2 text-[14px] text-muted">{t("loader.changed.body", { note: c.note })}</p>
       {c.add.length ? (
         <div className="mt-5">
-          <div className="eyebrow text-ok">{t("loader.changed.add").toUpperCase()}</div>
+          <Eyebrow className="text-ok">{t("loader.changed.add")}</Eyebrow>
           <ul className="mt-1 space-y-2">
             {c.add.map((a, i) => (
               <li key={i} className="flex items-center gap-3 rounded-[12px] border border-line bg-surface px-4 py-3">
@@ -297,7 +297,7 @@ function PlanChanged({ d, onShow }: { d: TripDetail; onShow: () => void }) {
       ) : null}
       {c.remove.length ? (
         <div className="mt-5">
-          <div className="eyebrow text-bad">{t("loader.changed.remove").toUpperCase()}</div>
+          <Eyebrow className="text-bad">{t("loader.changed.remove")}</Eyebrow>
           <ul className="mt-1 space-y-2">
             {c.remove.map((a, i) => (
               <li key={i} className="flex items-center gap-3 rounded-[12px] border border-line bg-surface px-4 py-3">
@@ -312,7 +312,7 @@ function PlanChanged({ d, onShow }: { d: TripDetail; onShow: () => void }) {
         </div>
       ) : null}
       <p className="mt-4 text-[13px] text-muted">{t("loader.changed.recheck", { kg: d.vehicle.weight_cap_kg.toLocaleString(), m3: d.vehicle.volume_cap_m3 })}</p>
-      <Button size="lg" block className="mt-5 !h-[52px] !text-[15px]" onClick={onShow}>{t("loader.changed.show")}</Button>
+      <Button size="xl" block className="mt-5" onClick={onShow}>{t("loader.changed.show")}</Button>
     </div>
   );
 }
@@ -357,7 +357,7 @@ function FlagSheet({ open, d, initial, onClose, onSent }: { open: boolean; d: Tr
         <div className="p-6">
           <div className="flex items-start justify-between">
             <div>
-              <p className="font-data text-[13px] font-medium text-muted">{t("loader.flag.eyebrow", { v: d.trip.vehicle_id, stop: sel.stop, temp: sel.l.temp === "chilled" ? t("common.chilled").toLowerCase() : t("common.ambient").toLowerCase() })}</p>
+              <Lead mono>{t("loader.flag.eyebrow", { v: d.trip.vehicle_id, stop: sel.stop, temp: sel.l.temp === "chilled" ? t("common.chilled").toLowerCase() : t("common.ambient").toLowerCase() })}</Lead>
               <div className="font-display text-[34px] font-medium leading-tight tracking-[-0.8px]">{sel.l.group}</div>
             </div>
             <button onClick={onClose} aria-label={t("common.close")} className="grid h-9 w-9 place-items-center rounded-full hover:bg-neutral"><Icon.Close /></button>
@@ -367,7 +367,7 @@ function FlagSheet({ open, d, initial, onClose, onSent }: { open: boolean; d: Tr
               <option key={l.id} value={l.id}>{t("loader.flag.option", { stop, g: l.group, n: l.planned, unit: l.unit })}</option>
             ))}
           </select>
-          <div className="eyebrow mt-5">{t("loader.flag.howMany").toUpperCase()}</div>
+          <Eyebrow className="mt-5">{t("loader.flag.howMany")}</Eyebrow>
           <div className="mt-2 flex items-center gap-4">
             <button onClick={() => setFound((f) => Math.max(0, f - 1))} className="grid h-14 w-14 place-items-center rounded-[12px] border border-line" aria-label={t("loader.flag.fewer")}><Icon.Minus /></button>
             <div className="min-w-16 text-center">
@@ -376,7 +376,7 @@ function FlagSheet({ open, d, initial, onClose, onSent }: { open: boolean; d: Tr
             </div>
             <button onClick={() => setFound((f) => Math.min(sel.l.planned, f + 1))} className="grid h-14 w-14 place-items-center rounded-[12px] border border-line" aria-label={t("loader.flag.more")}><Icon.Plus /></button>
           </div>
-          <div className="eyebrow mt-5">{t("loader.flag.what").toUpperCase()}</div>
+          <Eyebrow className="mt-5">{t("loader.flag.what")}</Eyebrow>
           <div className="mt-2 grid grid-cols-2 gap-2">
             {REASONS.map((code) => (
               <button key={code} onClick={() => setReason(code)} aria-pressed={reason === code} className={`h-14 rounded-[12px] border text-[15px] font-semibold ${reason === code ? "border-ink bg-neutral" : "border-line"}`}>
@@ -386,12 +386,12 @@ function FlagSheet({ open, d, initial, onClose, onSent }: { open: boolean; d: Tr
           </div>
           <div className="mt-4"><PhotoButton value={photo} onChange={setPhoto} label={t("loader.flag.photo")} /></div>
           <div className="mt-5 rounded-[12px] bg-neutral p-3 text-[13px]">
-            <div className="eyebrow">{t("loader.flag.told").toUpperCase()}</div>
+            <Eyebrow>{t("loader.flag.told")}</Eyebrow>
             <div className="mt-1"><b>{t("loader.flag.ruwan")}</b>{t("loader.flag.ruwanSub")}</div>
             <div><b>{t("loader.flag.store", { stop: sel.stop })}</b>{t("loader.flag.storeSub", { f: found, n: sel.l.planned })}</div>
           </div>
           <ErrorNote error={error} />
-          <Button size="lg" block className="mt-4" busy={busy} disabled={found >= sel.l.planned && reason !== "damaged"} onClick={send}>{t("loader.flag.send")}</Button>
+          <Button size="xl" block className="mt-4" busy={busy} disabled={found >= sel.l.planned && reason !== "damaged"} onClick={send}>{t("loader.flag.send")}</Button>
         </div>
       ) : null}
     </Sheet>
@@ -421,18 +421,18 @@ function ReleaseSheet({ open, d, onClose, onDone }: { open: boolean; d: TripDeta
   return (
     <Sheet open={open} onClose={onClose} title={t("loader.rel.title")}>
       <div className="p-6">
-        <div className="eyebrow">{t("loader.rel.ready").toUpperCase()}</div>
+        <Eyebrow>{t("loader.rel.ready")}</Eyebrow>
         <div className="font-display text-[34px] font-medium leading-tight tracking-[-0.8px]">{t("loader.rel.loaded", { v: d.trip.vehicle_id })}</div>
         <p className="font-data text-[13px] text-muted">{t("loader.rel.summary", { a: d.loaded, b: d.total, n: d.trip.stops, t: d.trip.depart ?? "" })}</p>
         {flagged.length ? (
           <div className="mt-4 rounded-[12px] bg-warn-bg p-3 text-[14px] text-warn">
-            <div className="eyebrow !text-warn">{t("loader.rel.flags", { n: flagged.length })}</div>
+            <Eyebrow className="!text-warn">{t("loader.rel.flags", { n: flagged.length })}</Eyebrow>
             {flagged.map((f) => (
               <div key={f.id}>{t("loader.rel.flagLine", { g: f.group, f: f.found, n: f.planned, stop: f.stop, answer: f.status === "answered" ? (f.answer === "top_up" ? t("loader.load.answerTopUp") : t("loader.load.answerAsIs")) : t("loader.rel.noAnswer") })}</div>
             ))}
           </div>
         ) : null}
-        <div className="eyebrow mt-5">{t("loader.rel.before").toUpperCase()}</div>
+        <Eyebrow className="mt-5">{t("loader.rel.before")}</Eyebrow>
         <div className="mt-2 space-y-3">
           {d.has_chilled ? (
             <label className="flex items-center justify-between gap-3 rounded-[12px] border border-line px-4 py-3">
@@ -455,7 +455,7 @@ function ReleaseSheet({ open, d, onClose, onDone }: { open: boolean; d: TripDeta
           {t("loader.rel.confirm", { who: d.trip.driver ?? t("loader.load.theDriver") })}
         </div>
         <ErrorNote error={error} />
-        <Button size="lg" block className="mt-4 !h-[52px] !text-[15px]" busy={busy} onClick={go}>{t("loader.rel.go", { v: d.trip.vehicle_id })}</Button>
+        <Button size="xl" block className="mt-4" busy={busy} onClick={go}>{t("loader.rel.go", { v: d.trip.vehicle_id })}</Button>
       </div>
     </Sheet>
   );

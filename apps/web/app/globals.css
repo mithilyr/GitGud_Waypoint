@@ -23,6 +23,8 @@
   --logo-tile: #111111;
   --logo-ink: #e6eeea;
   --logo-dot: #e07a4a;
+  --mark-ink: #14231f;
+  --mark-dot: #b5562b;
   --vr-band1: #eceae4;
   --vr-band2: #eeece7;
   --vr-band3: #f0eeea;
@@ -60,6 +62,8 @@
   --logo-tile: #ffffff;
   --logo-ink: #111111;
   --logo-dot: #b5562b;
+  --mark-ink: #e6eeea;
+  --mark-dot: #e07a4a;
   --vr-band1: #24221f;
   --vr-band2: #201e1c;
   --vr-band3: #1d1c1a;
@@ -199,4 +203,58 @@ html[data-density="compact"] table tbody tr {
 html[data-density="compact"] table tbody td {
   padding-top: 2px;
   padding-bottom: 2px;
+}
+
+/* Waypoint string (home page scene): the string draws itself in, then the stops pop in order. */
+.wp-string {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: wp-draw 2.4s cubic-bezier(0.3, 0.6, 0.2, 1) 0.15s forwards;
+}
+.wp-stop {
+  transform-box: fill-box;
+  opacity: 0;
+  animation: wp-pop 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+  animation-delay: calc(0.2s + var(--i) * 0.28s);
+}
+.wp-halo {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: wp-pulse 2.6s ease-out 3s infinite;
+}
+@keyframes wp-draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+@keyframes wp-pop {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes wp-pulse {
+  0% {
+    transform: scale(0.8);
+    opacity: 0.35;
+  }
+  100% {
+    transform: scale(1.8);
+    opacity: 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .wp-string {
+    animation: none;
+    stroke-dashoffset: 0;
+  }
+  .wp-stop {
+    animation: none;
+    opacity: 1;
+  }
+  .wp-halo {
+    animation: none;
+  }
 }

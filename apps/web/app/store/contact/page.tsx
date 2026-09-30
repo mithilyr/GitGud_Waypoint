@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { Button, Card, ErrorNote, Headline, toast } from "@/components/ui";
+import { Button, Card, ErrorNote, Headline, Lead, toast } from "@/components/ui";
 import { post } from "@/lib/api";
 import { useAuth } from "@/lib/auth";
 import { useT } from "@/lib/i18n";
@@ -16,7 +16,7 @@ export default function ContactPage() {
   const [err, setErr] = useState<string | null>(null);
   return (
     <div className="rise">
-      <p className="text-[13px] font-medium text-muted">{t("store.contact.eyebrow", { outlet: user?.outlet?.name ?? "" })}</p>
+      <Lead>{t("store.contact.eyebrow", { outlet: user?.outlet?.name ?? "" })}</Lead>
       <Headline className="mt-1">{t("store.contact.title")}</Headline>
       <p className="mt-2 text-[14px] text-muted">{t("store.contact.lede")}</p>
       <Card className="mt-5 p-4">
@@ -27,7 +27,7 @@ export default function ContactPage() {
       <Button
         size="lg"
         block
-        className="mt-8 !h-12 !text-[15px]"
+        className="mt-8"
         busy={busy}
         disabled={!text.trim()}
         onClick={async () => {
@@ -45,7 +45,7 @@ export default function ContactPage() {
       >
         {t("store.contact.send")}
       </Button>
-      <Button size="lg" variant="secondary" block className="mt-2 !h-12 !text-[15px]" onClick={() => router.back()}>{t("common.cancel")}</Button>
+      <Button size="lg" variant="secondary" block className="mt-2" onClick={() => router.back()}>{t("common.cancel")}</Button>
     </div>
   );
 }

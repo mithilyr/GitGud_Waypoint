@@ -1,7 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { Logo, VineRidges } from "@/components/ui";
+import { Logo } from "@/components/ui";
+import { WaypointString } from "@/components/WaypointString";
 import { StatusPill } from "@/components/StatusPill";
 import { LanguageSwitch } from "@/components/LanguageSwitch";
 import { useT } from "@/lib/i18n";
@@ -16,7 +17,8 @@ const roles = [
 export default function Home() {
   const { t } = useT();
   return (
-    <main className="relative mx-auto flex min-h-dvh max-w-[980px] flex-col px-4 pb-44 pt-8 sm:px-8">
+    <div className="flex min-h-dvh flex-col overflow-x-clip">
+    <main className="relative mx-auto w-full max-w-[980px] flex-1 px-4 pt-8 sm:px-8">
       <header className="flex items-center gap-3">
         <Logo size={44} />
         <div>
@@ -73,7 +75,10 @@ export default function Home() {
         </dl>
       </section>
 
-      <VineRidges className="fixed inset-x-0 bottom-0 -z-10" />
     </main>
+    <div className="pt-14">
+      <WaypointString />
+    </div>
+    </div>
   );
 }

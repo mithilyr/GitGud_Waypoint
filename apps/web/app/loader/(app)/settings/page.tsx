@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { Button, Headline } from "@/components/ui";
+import { Button, Headline, Lead } from "@/components/ui";
 import { DarkModeRow, LanguageRow, SettingsSection, TextSizeRow, ToggleRow, ValueRow } from "@/components/Settings";
 import { useAuth } from "@/lib/auth";
 import { useT } from "@/lib/i18n";
@@ -19,7 +19,7 @@ export default function LoaderSettingsPage() {
   };
   return (
     <div className="rise mx-auto max-w-[620px]">
-      <p className="font-data text-[13px] font-medium text-muted">{t("loader.settings.sub", { who: user?.name ?? "", depot: user?.depot ?? "", dock: user?.dock ?? "" })}</p>
+      <Lead mono>{t("loader.settings.sub", { who: user?.name ?? "", depot: user?.depot ?? "", dock: user?.dock ?? "" })}</Lead>
       <Headline className="mt-1">{t("settings.title")}</Headline>
       <div className="mt-6">
         <SettingsSection title={t("settings.display")}>
@@ -36,7 +36,7 @@ export default function LoaderSettingsPage() {
           <ValueRow label={t("loader.settings.switchPerson")} onClick={signOut} />
         </SettingsSection>
       </div>
-      <Button size="lg" variant="secondary" block className="mt-8 !h-[52px] !text-[15px]" onClick={signOut}>{t("common.signOut")}</Button>
+      <Button size="xl" variant="secondary" block className="mt-8" onClick={signOut}>{t("common.signOut")}</Button>
     </div>
   );
 }

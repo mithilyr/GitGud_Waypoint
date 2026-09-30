@@ -27,6 +27,9 @@ Tokens (both themes) already matched the Style guide; type sizes for pills, butt
 
 | Addition | Why |
 |---|---|
+| **Waypoint string on the home page** (`components/WaypointString.tsx`) | The home page shows a string of waypoints (the logo's stops, ending in the orange "delivered" stop) instead of the vine scene, which stays on the sign-in screens. |
+| **Tile-less logo** (`<Logo tile={false} />`, `public/logo/waypoint-mark-for-light.svg`, `waypoint-mark-for-dark.svg`) | The design's "Mark A" has no tile; the app's headers and icons use it on a tile. The bare mark is transparent and works on any background. |
+| **Shared UI components** (`Lead`, `SectionLabel`, `Tile`, `DataRow`, `Chip`, `Stepper`, `NavRow`, button sizes sm/md/lg/xl) | The same patterns were repeated page by page. |
 | **Settings screens for all four roles** (D5, L7, R9, S7) | They were on the boards and missing from the build. Dark mode, language, text size, density (dispatcher), alert toggles and security rows are real and saved on the device; the alert toggles, Wi-Fi-only photos, auto-lock and "Depots shown" are stored preferences that do not change server behaviour yet. "Simulate no signal", "Lock now" and Sign out sit in the driver and store Settings because the walkthrough needs them. |
 | **Language switch on home, sign-in and loader PIN screens** | The boards put language choice on the driver sign-in only; choosing a language before signing in is needed for the three-language request. |
 | **"Simulate no signal" switch** (driver Help) | A judge cannot switch a phone off during the walkthrough. It behaves like airplane mode inside the app: same offline path, same outbox. |

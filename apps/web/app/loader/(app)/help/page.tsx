@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Button, Card, Headline } from "@/components/ui";
+import { Button, Card, Headline, Lead, NavRow } from "@/components/ui";
 import { useAuth } from "@/lib/auth";
 import { useT } from "@/lib/i18n";
 import type { Key } from "@/lib/i18n/en";
@@ -17,7 +17,7 @@ export default function HelpPage() {
   const { user } = useAuth();
   return (
     <div className="rise mx-auto max-w-[620px]">
-      <p className="font-data text-[13px] font-medium text-muted">{t("loader.depotLine", { depot: user?.depot ?? "", dock: user?.dock ?? "" })}</p>
+      <Lead mono>{t("loader.depotLine", { depot: user?.depot ?? "", dock: user?.dock ?? "" })}</Lead>
       <Headline className="mt-1">{t("loader.nav.help")}</Headline>
       <div className="mt-5 space-y-3">
         {HELP.map(([q, a]) => (
@@ -26,15 +26,10 @@ export default function HelpPage() {
             <p className="mt-2 text-[12px] font-medium text-muted">{t(a)}</p>
           </Card>
         ))}
-        <Link href="/loader/settings" className="block">
-          <Card className="flex h-[52px] items-center justify-between px-4">
-            <span className="text-[14px] font-semibold">{t("settings.title")}</span>
-            <span className="text-[18px] leading-none text-muted" aria-hidden>›</span>
-          </Card>
-        </Link>
+        <NavRow label={t("settings.title")} href="/loader/settings" />
       </div>
       <Link href="/loader/departures?tab=load" className="mt-6 block">
-        <Button size="lg" block className="!h-[52px] !text-[15px]">{t("loader.help.flag")}</Button>
+        <Button size="xl" block>{t("loader.help.flag")}</Button>
       </Link>
     </div>
   );

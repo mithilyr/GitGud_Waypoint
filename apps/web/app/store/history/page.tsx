@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Button, Card, Empty, ErrorNote, Headline, Pill, Spinner } from "@/components/ui";
+import { Button, Card, Empty, ErrorNote, Headline, Lead, Pill, Spinner } from "@/components/ui";
 import { get } from "@/lib/api";
 import { useAuth } from "@/lib/auth";
 import { fmtDate } from "@/lib/format";
@@ -22,7 +22,7 @@ export default function HistoryPage() {
   if (!data) return <ErrorNote error={error} retry={reload} />;
   return (
     <div className="rise">
-      <p className="text-[13px] font-medium text-muted">{t("store.history.eyebrow", { outlet: user?.outlet?.name ?? "" })}</p>
+      <Lead>{t("store.history.eyebrow", { outlet: user?.outlet?.name ?? "" })}</Lead>
       <Headline className="mt-1">{t("store.history.title")}</Headline>
       {!data.length ? (
         <div className="mt-5"><Empty title={t("store.history.empty")}>{t("store.history.emptyBody")}</Empty></div>
@@ -45,7 +45,7 @@ export default function HistoryPage() {
         </div>
       )}
       <Link href="/store" className="mt-6 block">
-        <Button size="lg" block className="!h-12 !text-[15px]">{t("store.order.reorder")}</Button>
+        <Button size="lg" block>{t("store.order.reorder")}</Button>
       </Link>
     </div>
   );

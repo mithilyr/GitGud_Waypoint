@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { PhotoButton } from "@/components/PhotoButton";
-import { Button, Card, ErrorNote, Headline, Icon, Logo, Pill, Sheet, Spinner, VineHorizon, VineRidges } from "@/components/ui";
+import { Button, Card, ErrorNote, Eyebrow, Headline, Icon, Lead, Logo, NavRow, Pill, SectionLabel, Sheet, Spinner, Tile, VineHorizon, VineRidges } from "@/components/ui";
 import { DriverProvider, useDriver, type TripT } from "@/lib/driver/engine";
 import { useT } from "@/lib/i18n";
 import type { Key } from "@/lib/i18n/en";
@@ -77,7 +77,7 @@ function SignIn() {
           <input type="password" autoComplete="current-password" required value={password} onChange={(e) => setPassword(e.target.value)} className="mt-1 h-12 w-full rounded-[8px] border border-line bg-surface px-3 outline-none focus:border-ink" />
         </label>
         <ErrorNote error={error} />
-        <Button type="submit" size="lg" block busy={busy}>{t("drv.signin.verify")}</Button>
+        <Button type="submit" size="xl" block busy={busy}>{t("drv.signin.verify")}</Button>
         <Button
           type="button"
           variant="secondary"
@@ -242,7 +242,7 @@ function Shell() {
               ))}
               <div className="rounded-[10px] bg-neutral px-3 py-2 text-[14px]">{t("drv.change.upToDate")}</div>
             </div>
-            <Button size="lg" block className="mt-5" onClick={() => d.record({ kind: "notice_read", trip_id: current.trip_id, payload: { notification_id: unreadPlanChange.id }, label: "Read plan change" })}>
+            <Button size="xl" block className="mt-5" onClick={() => d.record({ kind: "notice_read", trip_id: current.trip_id, payload: { notification_id: unreadPlanChange.id }, label: "Read plan change" })}>
               {t("gotIt")}
             </Button>
           </div>
@@ -294,7 +294,7 @@ function Home({ trip, onPick, onStart }: { trip: TripT; onPick: (id: number) => 
   );
   return (
     <div className="rise">
-      <p className="text-[13px] font-medium text-muted">{t("drv.home.eyebrow", { date: dateLabel, depot: run.depot })}</p>
+      <Lead>{t("drv.home.eyebrow", { date: dateLabel, depot: run.depot })}</Lead>
       <Headline className="mt-1">{done ? t("tripDone") : t("tripLeaves", { n: trip.trip_no, t: trip.depart ?? "" })}</Headline>
       <p className="mt-1 text-[15px] text-muted">{t("homeLede", { count: stops.length, brand: trip.brand, district: trip.district })}</p>
       {run.trips.length > 1 ? (
@@ -307,11 +307,11 @@ function Home({ trip, onPick, onStart }: { trip: TripT; onPick: (id: number) => 
         </div>
       ) : null}
       <div className="mt-4 grid grid-cols-2 gap-3">
-        <Card className="min-h-[108px] p-4"><div className="text-[11px] font-semibold uppercase text-muted">{t("stops")}</div><div className="mt-1 font-display text-[24px] font-medium leading-tight">{stops.length}</div><div className="font-data mt-2 text-[12px] text-muted">{win}</div></Card>
-        <Card className="min-h-[108px] p-4"><div className="text-[11px] font-semibold uppercase text-muted">{t("vehicle")}</div><div className="mt-1 font-display text-[24px] font-medium leading-tight">{run.vehicle?.id}</div><div className="font-data mt-2 text-[12px] text-muted">{run.vehicle?.kind}{trip.checks.chilled && trip.checks.reefer_temp != null ? ` · ${trip.checks.reefer_temp} °C` : ""}</div></Card>
+        <Tile label={t("stops")} value={stops.length} sub={win} />
+        <Tile label={t("vehicle")} value={run.vehicle?.id} sub={`${run.vehicle?.kind ?? ""}${trip.checks.chilled && trip.checks.reefer_temp != null ? ` · ${trip.checks.reefer_temp} °C` : ""}`} />
       </div>
       <Card className="mt-4 p-4">
-        <div className="text-[13px] font-semibold">{t("beforeYouLeave")}</div>
+        <SectionLabel>{t("beforeYouLeave")}</SectionLabel>
         <ul className="mt-1 divide-y divide-line">
           <Check ok>{t("runSaved")}</Check>
           <Check ok={ready}>{ready ? t("loadReleased", { who: trip.checks.released_by?.split(" ")[0] ?? "", dock: trip.checks.dock ?? "Dock 3" }) : t("loadPending")}</Check>
@@ -330,10 +330,10 @@ function Home({ trip, onPick, onStart }: { trip: TripT; onPick: (id: number) => 
       ) : null}
       <div className="mt-5">
         {out || done ? (
-          <Button size="lg" block onClick={onStart}>{done ? t("stops") : t("continueTrip", { n: trip.trip_no })}</Button>
+          <Button size="xl" block onClick={onStart}>{done ? t("stops") : t("continueTrip", { n: trip.trip_no })}</Button>
         ) : (
           <Button
-            size="lg"
+            size="xl"
             block
             disabled={!ready || !tyres}
             onClick={async () => {
@@ -361,7 +361,7 @@ function Stops({ trip, onOpen }: { trip: TripT; onOpen: (id: number) => void }) 
   const idx = next ? stops.indexOf(next) + 1 : stops.length;
   return (
     <div className="rise">
-      <p className="text-[13px] font-medium text-muted">{t("drv.stops.eyebrow", { n: trip.trip_no, brand: trip.brand, district: trip.district })}</p>
+      <Lead>{t("drv.stops.eyebrow", { n: trip.trip_no, brand: trip.brand, district: trip.district })}</Lead>
       <Headline className="mt-1">{next ? t("drv.stops.stopOf", { i: idx, n: stops.length }) : t("tripDone")}</Headline>
       <p className="mt-2 text-[14px] text-muted">{t("drv.stops.progress", { d: doneN, r: stops.length - doneN })}</p>
       <ol className="mt-4 space-y-2">
@@ -395,7 +395,7 @@ function Stops({ trip, onOpen }: { trip: TripT; onOpen: (id: number) => void }) 
           );
         })}
       </ol>
-      {next ? <Button size="lg" block className="mt-4" onClick={() => onOpen(next.id)}>{t("gotoStop", { name: next.name })}</Button> : null}
+      {next ? <Button size="xl" block className="mt-4" onClick={() => onOpen(next.id)}>{t("gotoStop", { name: next.name })}</Button> : null}
     </div>
   );
 }
@@ -413,15 +413,15 @@ function StopDetail({ trip, stopId, onRecord, onDone }: { trip: TripT; stopId: n
   const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${s.name}, ${s.district}, Sri Lanka`)}`;
   return (
     <div className="rise">
-      <p className="text-[13px] font-medium text-muted">{t("drv.stop.eyebrow", { i: stops.indexOf(s) + 1, n: stops.length, brand: trip.brand })}</p>
+      <Lead>{t("drv.stop.eyebrow", { i: stops.indexOf(s) + 1, n: stops.length, brand: trip.brand })}</Lead>
       <Headline className="mt-1">{s.name}</Headline>
       <div className="mt-1 text-[14px] text-muted">{s.district} · <a className="underline" href={mapsUrl} target="_blank" rel="noreferrer">{t("drv.stop.openMaps")}</a></div>
       <div className="mt-4 grid grid-cols-3 gap-2">
-        <Card className="p-3"><div className="eyebrow">{t("drv.stop.arrive")}</div><div className="font-data text-[18px] font-semibold tabular">{s.eta}</div>{isDone ? null : <Pill tone={late ? "bad" : "ok"}>{late ? t("drv.stop.late", { n: s.late_risk }) : t("drv.stop.onTime")}</Pill>}</Card>
-        <Card className="p-3"><div className="eyebrow">{t("drv.stop.window")}</div><div className="font-data text-[14px] font-semibold">{s.window_open}–{s.window_close}</div></Card>
-        <Card className="p-3"><div className="eyebrow">{t("drv.stop.access")}</div><div className="text-[14px] font-semibold leading-tight">{s.access}</div></Card>
+        <Card className="p-3"><Eyebrow>{t("drv.stop.arrive")}</Eyebrow><div className="font-data text-[18px] font-semibold tabular">{s.eta}</div>{isDone ? null : <Pill tone={late ? "bad" : "ok"}>{late ? t("drv.stop.late", { n: s.late_risk }) : t("drv.stop.onTime")}</Pill>}</Card>
+        <Card className="p-3"><Eyebrow>{t("drv.stop.window")}</Eyebrow><div className="font-data text-[14px] font-semibold">{s.window_open}–{s.window_close}</div></Card>
+        <Card className="p-3"><Eyebrow>{t("drv.stop.access")}</Eyebrow><div className="text-[14px] font-semibold leading-tight">{s.access}</div></Card>
       </div>
-      <div className="mt-5 text-[13px] font-semibold">{t("drv.stop.unload")}</div>
+      <SectionLabel className="mt-5">{t("drv.stop.unload")}</SectionLabel>
       <Card className="mt-2 divide-y divide-line">
         {s.items.map((i) => (
           <div key={i.group} className="flex min-h-14 items-center gap-3 px-4 py-2">
@@ -443,7 +443,7 @@ function StopDetail({ trip, stopId, onRecord, onDone }: { trip: TripT; stopId: n
       ) : s.status === "pending" ? (
         <div className="mt-5">
           <Button
-            size="lg"
+            size="xl"
             block
             disabled={trip.status !== "out" || busy}
             onClick={async () => {
@@ -458,7 +458,7 @@ function StopDetail({ trip, stopId, onRecord, onDone }: { trip: TripT; stopId: n
         </div>
       ) : (
         <div className="mt-5 space-y-2">
-          <Button size="lg" block onClick={onRecord}>{t("markDelivered")}</Button>
+          <Button size="xl" block onClick={onRecord}>{t("markDelivered")}</Button>
           <div className="grid grid-cols-2 gap-2">
             <Button variant="secondary" onClick={onRecord}><Icon.Camera /> {t("drv.stop.proofPhoto")}</Button>
             <Button variant="danger" onClick={onRecord}>{t("drv.stop.report")}</Button>
@@ -525,7 +525,7 @@ function Record({ trip, stopId, onSaved }: { trip: TripT; stopId: number; onSave
 
   return (
     <div className="rise">
-      <p className="text-[13px] font-medium text-muted">{t("drv.rec.eyebrow", { name: s.name, t: s.arrived_at ?? "" })}</p>
+      <Lead>{t("drv.rec.eyebrow", { name: s.name, t: s.arrived_at ?? "" })}</Lead>
       <Headline className="mt-1">{t("drv.rec.title")}</Headline>
       <div className="mt-3 grid grid-cols-3 gap-2">
         {([["delivered", t("drv.rec.all")], ["partial", t("drv.rec.partial")], ["failed", t("drv.rec.failed")]] as const).map(([k, l]) => (
@@ -535,7 +535,7 @@ function Record({ trip, stopId, onSaved }: { trip: TripT; stopId: number; onSave
 
       {mode !== "failed" ? (
         <>
-          <div className="eyebrow mt-5">{t("drv.rec.handed").toUpperCase()}</div>
+          <Eyebrow className="mt-5">{t("drv.rec.handed")}</Eyebrow>
           <Card className="mt-2 divide-y divide-line">
             {s.items.map((i) => (
               <div key={i.group} className="flex min-h-16 items-center gap-3 px-4 py-2">
@@ -558,7 +558,7 @@ function Record({ trip, stopId, onSaved }: { trip: TripT; stopId: number; onSave
         </>
       ) : (
         <>
-          <div className="eyebrow mt-5">{t("drv.rec.why").toUpperCase()}</div>
+          <Eyebrow className="mt-5">{t("drv.rec.why")}</Eyebrow>
           <div className="mt-2 grid grid-cols-2 gap-2">
             {(["store_closed", "cannot_unload", "refused", "other"] as const).map((k) => (
               <button key={k} onClick={() => setReason(k)} aria-pressed={reason === k} className={`h-12 rounded-[10px] border text-[14px] font-semibold ${reason === k ? "border-ink bg-neutral" : "border-line"}`}>{t(`drv.rec.${k}` as Key)}</button>
@@ -572,7 +572,7 @@ function Record({ trip, stopId, onSaved }: { trip: TripT; stopId: number; onSave
 
       {mode !== "failed" ? (
         <>
-          <div className="eyebrow mt-5">{t("drv.rec.proof").toUpperCase()}</div>
+          <Eyebrow className="mt-5">{t("drv.rec.proof")}</Eyebrow>
           <div className="mt-2 space-y-3">
             <input value={name} onChange={(e) => setName(e.target.value)} placeholder={t("drv.rec.receivedBy")} className="h-12 w-full rounded-[8px] border border-line bg-surface px-3 outline-none focus:border-ink" />
             <SignaturePad onChange={onSig} />
@@ -584,7 +584,7 @@ function Record({ trip, stopId, onSaved }: { trip: TripT; stopId: number; onSave
       )}
 
       <ErrorNote error={error} />
-      <Button size="lg" block className="mt-4" busy={busy} onClick={save}>{t("saveStop")}</Button>
+      <Button size="xl" block className="mt-4" busy={busy} onClick={save}>{t("saveStop")}</Button>
       <p className="mt-2 text-center text-[12px] text-muted">{t("drv.rec.savedNote")}</p>
     </div>
   );
@@ -600,7 +600,7 @@ function SyncScreen() {
   const total = pending.length;
   return (
     <div className="rise">
-      <p className="text-[13px] font-medium text-muted">{d.online ? t("drv.sync.last", { t: d.lastSync ? new Date(d.lastSync).toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit", timeZone: "Asia/Colombo" }) : "—" }) : t("noSignal")}</p>
+      <Lead>{d.online ? t("drv.sync.last", { t: d.lastSync ? new Date(d.lastSync).toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit", timeZone: "Asia/Colombo" }) : "—" }) : t("noSignal")}</Lead>
       <Headline className="mt-1">{!d.online ? t("drv.sync.savedPhone") : total ? t("drv.sync.sending", { n: total }) : t("drv.sync.backOnline")}</Headline>
       <p className="mt-2 text-[14px] text-muted">{d.message ?? (total ? t("drv.sync.recordsKeep") : t("drv.sync.reached"))}</p>
 
@@ -620,7 +620,7 @@ function SyncScreen() {
         </Card>
       ))}
 
-      <div className="eyebrow mt-6">{(total ? t("drv.sync.savedTitle") : t("drv.sync.outbox")).toUpperCase()}</div>
+      <Eyebrow className="mt-6">{(total ? t("drv.sync.savedTitle") : t("drv.sync.outbox"))}</Eyebrow>
       {total ? (
         <ul className="mt-2 divide-y divide-line rounded-[12px] border border-line bg-surface">
           {pending.map((e) => (
@@ -634,7 +634,7 @@ function SyncScreen() {
       ) : (
         <p className="mt-2 rounded-[12px] border border-dashed border-line px-4 py-6 text-center text-muted">{t("drv.sync.nothing")}</p>
       )}
-      <Button size="lg" block className="mt-4" busy={d.syncing} onClick={() => d.sync()}>{t("syncNow")}</Button>
+      <Button size="xl" block className="mt-4" busy={d.syncing} onClick={() => d.sync()}>{t("syncNow")}</Button>
     </div>
   );
 }
@@ -650,20 +650,15 @@ function HelpScreen({ onCall, onSettings }: { onCall: () => void; onSettings: ()
   ];
   return (
     <div className="rise">
-      <p className="text-[13px] font-medium text-muted">{t("drv.help.eyebrow", { depot: d.run?.depot ?? "", v: d.run?.vehicle?.id ?? "" })}</p>
+      <Lead>{t("drv.help.eyebrow", { depot: d.run?.depot ?? "", v: d.run?.vehicle?.id ?? "" })}</Lead>
       <Headline className="mt-1">{t("help")}</Headline>
       <div className="mt-5 space-y-3">
         {HELP.map(([q, a]) => (
           <Card key={q} className="p-4"><div className="text-[15px] font-semibold">{t(q)}</div><p className="mt-2 text-[13px] text-muted">{t(a)}</p></Card>
         ))}
-        <button onClick={onSettings} className="block w-full text-left">
-          <Card className="flex h-[52px] items-center justify-between px-4">
-            <span className="text-[15px] font-semibold">{t("settings.title")}</span>
-            <span className="text-[18px] leading-none text-muted" aria-hidden>›</span>
-          </Card>
-        </button>
+        <NavRow label={t("settings.title")} onClick={onSettings} />
       </div>
-      <Button size="lg" block className="mt-6 !h-[52px] !text-[15px]" onClick={onCall}><Icon.Phone /> {t("drv.help.call", { name: d.run?.dispatcher?.name ?? t("drv.help.dispatch") })}</Button>
+      <Button size="xl" block className="mt-6" onClick={onCall}><Icon.Phone /> {t("drv.help.call", { name: d.run?.dispatcher?.name ?? t("drv.help.dispatch") })}</Button>
     </div>
   );
 }
@@ -675,7 +670,7 @@ function SettingsScreen() {
   const [planAlert, setPlanAlert] = usePref<boolean>("wp_driver_plan_alert", true);
   return (
     <div className="rise">
-      <p className="text-[13px] font-medium text-muted">{t("drv.settings.sub", { who: d.profile?.user.name ?? "", v: d.run?.vehicle?.id ?? d.profile?.user.vehicle_id ?? "", depot: d.run?.depot ?? d.profile?.user.depot ?? "" })}</p>
+      <Lead>{t("drv.settings.sub", { who: d.profile?.user.name ?? "", v: d.run?.vehicle?.id ?? d.profile?.user.vehicle_id ?? "", depot: d.run?.depot ?? d.profile?.user.depot ?? "" })}</Lead>
       <Headline className="mt-1">{t("settings.title")}</Headline>
       <div className="mt-6">
         <SettingsSection title={t("settings.display")}>
@@ -693,7 +688,7 @@ function SettingsScreen() {
           <ValueRow label={t("drv.settings.autoLock")} value={t("drv.settings.autoLockValue")} />
         </SettingsSection>
       </div>
-      <Button size="lg" variant="secondary" block className="mt-8 !h-[52px] !text-[15px]" onClick={d.forget}>{t("common.signOut")}</Button>
+      <Button size="xl" variant="secondary" block className="mt-8" onClick={d.forget}>{t("common.signOut")}</Button>
       <p className="mt-2 text-center text-[12px] text-muted">{t("drv.settings.signOutNote")}</p>
     </div>
   );
@@ -710,7 +705,7 @@ function CallScreen({ onBack }: { onBack: () => void }) {
   const name = run.dispatcher?.name ?? t("drv.help.dispatch");
   return (
     <div className="rise">
-      <p className="text-[13px] font-medium text-muted">{t("drv.call.eyebrow", { v: run.vehicle?.id ?? "" })}</p>
+      <Lead>{t("drv.call.eyebrow", { v: run.vehicle?.id ?? "" })}</Lead>
       <Headline className="mt-1">{t("drv.call.title", { name })}</Headline>
       <p className="mt-2 text-[14px] text-muted">{t("drv.call.lede")}</p>
       <Card className="mt-5 p-4">
@@ -719,7 +714,7 @@ function CallScreen({ onBack }: { onBack: () => void }) {
         <p className="mt-2 text-[13px] text-muted">{t("drv.call.same")}</p>
       </Card>
       <a href={d.online ? `tel:${phone}` : `sms:${phone}?body=${encodeURIComponent(line)}`} className="mt-6 block">
-        <Button size="lg" block className="!h-[52px] !text-[15px]"><Icon.Phone /> {d.online ? t("drv.call.now") : t("drv.call.text")}</Button>
+        <Button size="xl" block><Icon.Phone /> {d.online ? t("drv.call.now") : t("drv.call.text")}</Button>
       </a>
       <Button variant="secondary" block className="mt-2" onClick={onBack}>{t("drv.call.back")}</Button>
     </div>

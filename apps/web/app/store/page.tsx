@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
-import { Button, Card, ErrorNote, FullScreen, Headline, Icon, Sheet, Spinner, toast } from "@/components/ui";
+import { Button, Chip, ErrorNote, Eyebrow, FullScreen, Headline, Icon, Lead, SectionLabel, Sheet, Spinner, Stepper, Tile, toast } from "@/components/ui";
 import { get, post } from "@/lib/api";
 import { fmtDate, fmtLong } from "@/lib/format";
 import { usePoll } from "@/lib/hooks";
@@ -84,27 +84,19 @@ export default function OrderPage() {
 
   return (
     <div className="rise">
-      <p className="text-[13px] font-medium text-muted">
+      <Lead>
         {t("store.order.eyebrow", { outlet: home.outlet.name, who: home.manager.split(" ")[0], date: fmtDate(new Date().toISOString().slice(0, 10)) })}
-      </p>
+      </Lead>
       <Headline className="mt-1">{countdown}</Headline>
       <p className="mt-2 text-[15px] text-muted">{t("store.order.afterCutoff", { cutoff: c.label })}</p>
 
       <div className="mt-5 grid grid-cols-2 gap-3">
-        <Card className="min-h-[108px] p-4">
-          <div className="text-[11px] font-semibold uppercase text-muted">{t("store.order.items")}</div>
-          <div className="mt-1 font-display text-[22px] font-medium leading-tight">{t("store.order.lineCount", { n: lines.length })}</div>
-          <div className="font-data mt-3 text-[12px] text-muted">{mix}</div>
-        </Card>
-        <Card className="min-h-[108px] p-4">
-          <div className="text-[11px] font-semibold uppercase text-muted">{t("store.order.expected")}</div>
-          <div className="mt-1 font-display text-[22px] font-medium leading-tight">{fmtDate(c.service_date, { weekday: "short", day: "numeric" })}</div>
-          <div className="font-data mt-3 text-[12px] text-muted">{c.window}</div>
-        </Card>
+        <Tile label={t("store.order.items")} value={t("store.order.lineCount", { n: lines.length })} sub={mix} />
+        <Tile label={t("store.order.expected")} value={fmtDate(c.service_date, { weekday: "short", day: "numeric" })} sub={c.window} />
       </div>
 
       <div className="mt-6 flex items-center justify-between">
-        <div className="text-[13px] font-semibold">{t("store.order.orderLines")}</div>
+        <SectionLabel>{t("store.order.orderLines")}</SectionLabel>
         {lines.length ? <button onClick={() => setBasket({})} className="text-[13px] font-medium text-muted underline">{t("store.order.clear")}</button> : null}
       </div>
       <div className="mt-2 divide-y divide-line">
@@ -123,7 +115,7 @@ export default function OrderPage() {
       ) : null}
 
       <div className="mt-4 flex gap-3">
-        <Button variant="secondary" className="h-auto min-h-11 flex-1 !px-2 py-2 !text-[15px] leading-tight" onClick={() => setAdding(true)}>
+        <Button variant="secondary" className="h-auto min-h-11 flex-1 !px-2 py-2 leading-tight" onClick={() => setAdding(true)}>
           {t("store.order.addItem")}
         </Button>
         <Button variant="secondary" className="h-auto min-h-11 flex-1 !px-2 py-2 !text-[14px] leading-tight" onClick={reorder}>
@@ -133,7 +125,7 @@ export default function OrderPage() {
 
       <div className="mt-6">
         <ErrorNote error={error} />
-        <Button size="lg" block className="mt-2 !h-[52px] !text-[15px]" busy={busy} disabled={!lines.length} onClick={place}>
+        <Button size="xl" block className="mt-2" busy={busy} disabled={!lines.length} onClick={place}>
           {t("store.order.place")}
         </Button>
         <p className="font-data mt-3 text-center text-[12px] text-muted">{t("store.order.foot", { cutoff: c.label, date: fmtDate(c.service_date), window: c.window })}</p>
@@ -144,46 +136,29 @@ export default function OrderPage() {
         {placed ? (
           <div className="p-6">
             <div className="grid h-11 w-11 place-items-center rounded-full bg-ok-bg text-ok"><Icon.Check size={22} /></div>
-            <div className="mt-4 text-[11px] font-semibold uppercase text-muted">{t("store.placed.eyebrow", { at: placed.received_at })}</div>
+            <Eyebrow className="mt-4">{t("store.placed.eyebrow", { at: placed.received_at })}</Eyebrow>
             <div className="mt-1 font-display text-[26px] font-medium leading-tight tracking-[-0.8px]">{t("store.placed.title")}</div>
             <p className="mt-2 text-[14px] text-muted">{t("store.placed.body", { message: placed.message, date: fmtLong(placed.service_date) })}</p>
             <div className="mt-4 space-y-2 border-t border-line pt-4">
               {placed.orders.map((o) => (
                 <div key={o.id} className="flex items-baseline gap-4">
-                  <span className="w-20 text-[11px] font-semibold uppercase text-muted">{t("store.placed.order")}</span>
+                  <Eyebrow className="w-20">{t("store.placed.order")}</Eyebrow>
                   <span className="font-data text-[12px]">{o.id}</span>
                   <span className="ml-auto text-[12px] text-muted">{o.temp === "chilled" ? t("common.chilled") : t("common.ambient")}</span>
                 </div>
               ))}
               <div className="flex items-baseline gap-4">
-                <span className="w-20 text-[11px] font-semibold uppercase text-muted">{t("store.placed.delivery")}</span>
+                <Eyebrow className="w-20">{t("store.placed.delivery")}</Eyebrow>
                 <span className="font-data text-[12px]">{fmtDate(placed.service_date)} · {c.window}</span>
               </div>
             </div>
             <Link href="/store/track" className="mt-5 block">
-              <Button size="lg" block className="!h-12 !text-[15px]">{t("store.placed.track")}</Button>
+              <Button size="lg" block>{t("store.placed.track")}</Button>
             </Link>
             <Button variant="secondary" block className="mt-2" onClick={() => setPlaced(null)}>{t("common.done")}</Button>
           </div>
         ) : null}
       </Sheet>
-    </div>
-  );
-}
-
-function Stepper({ value, onChange }: { value: number; onChange: (v: number) => void }) {
-  const { t } = useT();
-  return (
-    <div className="font-data flex h-[34px] w-[104px] shrink-0 items-center justify-between rounded-[8px] bg-neutral px-1 text-[13px]">
-      <button onClick={() => onChange(value - 1)} className="grid h-8 w-8 place-items-center" aria-label={t("store.add.fewer")}>−</button>
-      <input
-        inputMode="numeric"
-        value={value}
-        onChange={(e) => onChange(Number(e.target.value.replace(/\D/g, "")) || 0)}
-        className="w-9 bg-transparent text-center outline-none"
-        aria-label={t("store.add.qty")}
-      />
-      <button onClick={() => onChange(value + 1)} className="grid h-8 w-8 place-items-center" aria-label={t("store.add.more")}>+</button>
     </div>
   );
 }
@@ -205,14 +180,14 @@ function AddItems({ open, onClose, catalog, basket, set, outlet, cutoff }: { ope
           {i.temp === "chilled" ? t("common.chilled") : t("common.dry")} · Rs {i.price.toLocaleString()}
         </div>
       </div>
-      {basket[i.sku] ? <Stepper value={basket[i.sku]} onChange={(v) => set(i.sku, v)} /> : <Button size="sm" variant="secondary" className="!h-[34px] w-16" onClick={() => set(i.sku, 1)}>{t("store.add.add")}</Button>}
+      {basket[i.sku] ? <Stepper value={basket[i.sku]} onChange={(v) => set(i.sku, v)} fewerLabel={t("store.add.fewer")} moreLabel={t("store.add.more")} valueLabel={t("store.add.qty")} /> : <Button size="sm" variant="secondary" className="w-16" onClick={() => set(i.sku, 1)}>{t("store.add.add")}</Button>}
     </div>
   );
   return (
     <FullScreen open={open} onClose={onClose} title={t("store.add.title")}>
       <div>
         <div className="flex items-start justify-between">
-          <p className="text-[13px] font-medium text-muted">{t("store.add.eyebrow", { outlet })}</p>
+          <Lead>{t("store.add.eyebrow", { outlet })}</Lead>
           <button onClick={onClose} aria-label={t("common.close")} className="-mr-2 -mt-2 grid h-9 w-9 place-items-center rounded-full hover:bg-neutral"><Icon.Close /></button>
         </div>
         <Headline className="mt-1">{t("store.add.title")}</Headline>
@@ -220,14 +195,14 @@ function AddItems({ open, onClose, catalog, basket, set, outlet, cutoff }: { ope
         <input value={q} onChange={(e) => setQ(e.target.value)} placeholder={t("store.add.search")} className="mt-4 h-11 w-full rounded-[8px] border border-line bg-surface px-4 text-[14px] font-medium outline-none focus:border-ink" />
         <div className="mt-4 flex gap-2 overflow-x-auto pb-1">
           {cats.map((c) => (
-            <button key={c} onClick={() => setCat(c)} className={`h-[30px] shrink-0 rounded-full px-4 text-[13px] font-medium ${cat === c ? "bg-primary text-on-primary" : "bg-neutral text-muted"}`}>{c === "All" ? t("store.add.all") : c}</button>
+            <Chip key={c} on={cat === c} onClick={() => setCat(c)}>{c === "All" ? t("store.add.all") : c}</Chip>
           ))}
         </div>
-        {often.length ? <div className="mt-5 text-[13px] font-semibold">{t("store.add.often")}</div> : null}
+        {often.length ? <SectionLabel className="mt-5">{t("store.add.often")}</SectionLabel> : null}
         <div className="divide-y divide-line">{often.map(row)}</div>
-        {rest.length ? <div className="mt-5 text-[13px] font-semibold">{t("store.add.rest")}</div> : null}
+        {rest.length ? <SectionLabel className="mt-5">{t("store.add.rest")}</SectionLabel> : null}
         <div className="divide-y divide-line">{rest.map(row)}</div>
-        <Button size="lg" block className="mt-5 !h-[52px] !text-[15px]" onClick={onClose}>{n ? t("store.add.cta", { n }) : t("store.add.ctaNone")}</Button>
+        <Button size="xl" block className="mt-5" onClick={onClose}>{n ? t("store.add.cta", { n }) : t("store.add.ctaNone")}</Button>
         <p className="font-data mt-3 text-center text-[12px] text-muted">{t("store.add.caption", { cutoff })}</p>
       </div>
     </FullScreen>

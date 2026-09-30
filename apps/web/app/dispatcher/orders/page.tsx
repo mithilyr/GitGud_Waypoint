@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { Button, Card, ErrorNote, Headline, Pill, Spinner } from "@/components/ui";
+import { Button, Card, ErrorNote, Eyebrow, Headline, Lead, Pill, Spinner } from "@/components/ui";
 import { get, post } from "@/lib/api";
 import { fmtDate, kg, m3 } from "@/lib/format";
 import { useAction, usePoll } from "@/lib/hooks";
@@ -55,7 +55,7 @@ export default function OrdersPage() {
 
   return (
     <div className="rise">
-      <p className="text-[13px] font-medium text-muted">{t("disp.orders.eyebrow", { depot, date: fmtDate(data.date) })}</p>
+      <Lead>{t("disp.orders.eyebrow", { depot, date: fmtDate(data.date) })}</Lead>
       <Headline className="mt-1">{t("disp.orders.title", { n: data.total, day })}</Headline>
       <p className="mt-3 max-w-[900px] text-[15px] text-muted">
         {t("disp.orders.chilled", { n: data.chilled })}
@@ -111,7 +111,7 @@ export default function OrdersPage() {
           [t("disp.orders.mallDock"), data.mall_dock],
         ].map(([k, v]) => (
           <div key={k}>
-            <div className="eyebrow">{k}</div>
+            <Eyebrow>{k}</Eyebrow>
             <div className="font-display text-[26px] font-medium tabular">{v}</div>
           </div>
         ))}

@@ -4,7 +4,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useEffect, useState } from "react";
 import { useWide } from "@/components/Chrome";
 import { LoadPanel } from "@/components/loader/LoadPanel";
-import { Card, Empty, ErrorNote, Headline, Pill, Spinner, type Tone } from "@/components/ui";
+import { Card, Empty, ErrorNote, Headline, Lead, Pill, Spinner, type Tone } from "@/components/ui";
 import { get } from "@/lib/api";
 import { fmtLong } from "@/lib/format";
 import { usePoll } from "@/lib/hooks";
@@ -57,7 +57,7 @@ function Departures() {
 
   const list = (
     <div>
-      <p className="text-[13px] font-medium text-muted">{data.date ? fmtLong(data.date) : ""}</p>
+      <Lead>{data.date ? fmtLong(data.date) : ""}</Lead>
       <Headline className="mt-1">{t("loader.dep.leaving", { dock: data.dock })}</Headline>
       <p className="mt-2 text-[14px] leading-[1.5] text-muted">{t("loader.dep.lede")}</p>
       {!trips.length ? (

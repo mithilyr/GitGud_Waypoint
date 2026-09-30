@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import { PhotoButton } from "@/components/PhotoButton";
-import { Button, Card, Empty, ErrorNote, FullScreen, Headline, Icon, Pill, Spinner, toast } from "@/components/ui";
+import { Button, Card, Chip, DataRow, Empty, ErrorNote, Eyebrow, FullScreen, Headline, Icon, Lead, Pill, SectionLabel, Spinner, Tile, toast } from "@/components/ui";
 import { get, post } from "@/lib/api";
 import { useAuth } from "@/lib/auth";
 import { fmtDate } from "@/lib/format";
@@ -54,8 +54,6 @@ const STEP_KEY: Record<string, Key> = {
   Delivered: "store.track.step.delivered",
 };
 
-const tile = "min-h-[108px] p-4";
-const tileLabel = "text-[11px] font-semibold uppercase text-muted";
 
 export default function TrackPage() {
   const { t } = useT();
@@ -110,7 +108,7 @@ function DeferralNotice({ order, outlet, reason, second, onDismiss }: { order: T
   const to = fmtDate(order.deferral?.deferred_to ?? order.service_date);
   return (
     <div>
-      <p className="text-[13px] font-medium text-muted">{t("store.track.eyebrowToday", { outlet })}</p>
+      <Lead>{t("store.track.eyebrowToday", { outlet })}</Lead>
       <Headline className="mt-1">{t("store.track.deferredTitle")}</Headline>
       <p className="mt-2 text-[15px] text-muted">{t("store.track.deferredLede", { kind: order.temp === "chilled" ? t("store.track.chilledKind") : "", date: to })}</p>
       <div className="mt-5 rounded-[12px] bg-warn-bg p-5 text-warn">
@@ -124,9 +122,9 @@ function DeferralNotice({ order, outlet, reason, second, onDismiss }: { order: T
         {second ? t("store.track.secondSkip") : ""}
         {t("store.track.serveFirst")}
       </p>
-      <Button size="lg" block className="mt-6 !h-12 !text-[15px]" onClick={onDismiss}>{t("store.track.gotIt")}</Button>
+      <Button size="lg" block className="mt-6" onClick={onDismiss}>{t("store.track.gotIt")}</Button>
       <Link href="/store/contact" className="mt-2 block">
-        <Button size="lg" block variant="secondary" className="!h-12 !text-[15px]">{t("store.track.contact")}</Button>
+        <Button size="lg" block variant="secondary">{t("store.track.contact")}</Button>
       </Link>
     </div>
   );
@@ -143,7 +141,7 @@ function DeliveryView({ d, outlet, onReport, onChange }: { d: Delivery; outlet: 
   if (!s) {
     return (
       <div>
-        <p className="text-[13px] font-medium text-muted">{d.order.id} · {kindLabel}</p>
+        <Lead>{d.order.id} · {kindLabel}</Lead>
         <Headline className="mt-1">{t("store.track.received")}</Headline>
         <p className="mt-2 text-[15px] text-muted">{t("store.track.receivedBody")}</p>
         <Steps steps={d.steps} />
@@ -171,17 +169,17 @@ function DeliveryView({ d, outlet, onReport, onChange }: { d: Delivery; outlet: 
           {issue ? t("store.track.reportWith", { code: d.report?.code ?? "" }) : t("store.track.closedSub", { who: driver })}
         </p>
         <Card className="mt-6 divide-y divide-line px-4">
-          <SummaryRow label={t("store.closed.received")} value={t("store.closed.linesOf", { n: full, total: rows.length })} />
+          <DataRow label={t("store.closed.received")} value={t("store.closed.linesOf", { n: full, total: rows.length })} />
           {shorts.length ? (
-            <SummaryRow
+            <DataRow
               label={t("store.closed.short")}
               value={shorts.map((l) => t("store.closed.shortLine", { g: l.group, n: l.expected - l.received, unit: s.lines.find((x) => x.group === l.group)?.unit ?? "" })).join(", ")}
             />
           ) : null}
-          <SummaryRow label={t("store.closed.signed")} value={t("store.closed.signedVal", { who: r.by.split(" ")[0], at: r.at })} />
+          <DataRow label={t("store.closed.signed")} value={t("store.closed.signedVal", { who: r.by.split(" ")[0], at: r.at })} />
         </Card>
         <Link href="/store" className="mt-8 block">
-          <Button size="lg" block className="!h-12 !text-[15px]">{t("store.closed.backOrders")}</Button>
+          <Button size="lg" block>{t("store.closed.backOrders")}</Button>
         </Link>
       </div>
     );
@@ -226,16 +224,8 @@ function DeliveryView({ d, outlet, onReport, onChange }: { d: Delivery; outlet: 
       {!arrived ? (
         <>
           <div className="mt-5 grid grid-cols-2 gap-3">
-            <Card className={tile}>
-              <div className={tileLabel}>{t("store.track.eta")}</div>
-              <div className="mt-1 font-display text-[24px] font-medium leading-tight tabular">{s.eta}</div>
-              <div className="font-data mt-3 text-[12px] text-muted">{t("store.track.windowCloses", { t: s.window_close })}</div>
-            </Card>
-            <Card className={tile}>
-              <div className={tileLabel}>{t("store.track.vehicle")}</div>
-              <div className="mt-1 font-display text-[24px] font-medium leading-tight">{s.vehicle_id}</div>
-              <div className="font-data mt-3 text-[12px] text-muted">{s.vehicle_kind}{s.driver ? ` · ${s.driver}` : ""}</div>
-            </Card>
+            <Tile label={t("store.track.eta")} value={s.eta} sub={t("store.track.windowCloses", { t: s.window_close })} />
+            <Tile label={t("store.track.vehicle")} value={s.vehicle_id} sub={`${s.vehicle_kind}${s.driver ? ` · ${s.driver}` : ""}`} />
           </div>
           <Steps steps={d.steps} />
         </>
@@ -249,14 +239,14 @@ function DeliveryView({ d, outlet, onReport, onChange }: { d: Delivery; outlet: 
               <div className="grid h-20 w-20 shrink-0 place-items-center rounded-[10px] bg-neutral text-faint"><Icon.Check size={22} /></div>
             )}
             <div>
-              <div className="text-[13px] font-semibold">{t("store.track.proof")}</div>
+              <SectionLabel>{t("store.track.proof")}</SectionLabel>
               <div className="font-data mt-1 text-[12px] text-muted">{t("store.track.takenBy", { who: s.driver ?? t("store.track.driver"), t: s.delivered_at ?? "" })}</div>
               {s.signed_by ? <div className="font-data mt-1 text-[12px] text-muted">{t("store.track.signedBy", { who: s.signed_by })}</div> : null}
               {shortCount ? <div className="font-data mt-1 text-[12px] text-muted">{t("store.track.flaggedShort")}</div> : null}
             </div>
           </div>
 
-          <div className="mt-6 text-[13px] font-semibold">{t("store.track.whatArrived")}</div>
+          <SectionLabel className="mt-6">{t("store.track.whatArrived")}</SectionLabel>
           <div className="mt-2 divide-y divide-line">
             {s.lines.map((l) => {
               const v = value(l);
@@ -275,19 +265,10 @@ function DeliveryView({ d, outlet, onReport, onChange }: { d: Delivery; outlet: 
             })}
           </div>
           <ErrorNote error={err} />
-          <Button size="lg" block className="mt-6 !h-[52px] !text-[15px]" busy={busy} onClick={confirm}>{t("store.track.confirm")}</Button>
-          <Button size="lg" block variant="secondary" className="mt-2 !h-12 !text-[15px]" onClick={onReport}>{t("store.track.report")}</Button>
+          <Button size="xl" block className="mt-6" busy={busy} onClick={confirm}>{t("store.track.confirm")}</Button>
+          <Button size="lg" block variant="secondary" className="mt-2" onClick={onReport}>{t("store.track.report")}</Button>
         </>
       )}
-    </div>
-  );
-}
-
-function SummaryRow({ label, value }: { label: string; value: string }) {
-  return (
-    <div className="py-3">
-      <div className="text-[11px] font-semibold uppercase text-muted">{label}</div>
-      <div className="mt-1 text-[14px] font-medium">{value}</div>
     </div>
   );
 }
@@ -296,7 +277,7 @@ function Steps({ steps }: { steps: Delivery["steps"] }) {
   const { t } = useT();
   return (
     <div className="mt-6">
-      <div className="text-[13px] font-semibold">{t("store.track.progress")}</div>
+      <SectionLabel>{t("store.track.progress")}</SectionLabel>
       <ol className="mt-3">
         {steps.map((st, i) => (
           <li key={st.label} className="relative flex items-start gap-4 pb-[18px] last:pb-0">
@@ -351,16 +332,16 @@ function ReportScreen({ d, onClose, onSent }: { d: Delivery | null; onClose: () 
     <FullScreen open={!!d} onClose={onClose} title={t("store.report.title")}>
       {s ? (
         <div>
-          <p className="text-[13px] font-medium text-muted">{t("store.report.eyebrow", { t: s.delivered_at ?? "", v: s.vehicle_id, who: s.driver ?? "" })}</p>
+          <Lead>{t("store.report.eyebrow", { t: s.delivered_at ?? "", v: s.vehicle_id, who: s.driver ?? "" })}</Lead>
           <Headline className="mt-1">{t("store.report.title")}</Headline>
           <p className="mt-2 text-[15px] text-muted">{t("store.report.lede")}</p>
-          <div className="mt-5 text-[11px] font-semibold uppercase text-muted">{t("store.report.what")}</div>
+          <Eyebrow className="mt-5">{t("store.report.what")}</Eyebrow>
           <div className="mt-2 flex flex-wrap gap-2">
             {kinds.map(([k, label]) => (
-              <button key={k} onClick={() => setKind(k)} aria-pressed={kind === k} className={`h-[30px] rounded-full px-4 text-[13px] font-medium ${kind === k ? "bg-primary text-on-primary" : "bg-neutral text-muted"}`}>{t(label)}</button>
+              <Chip key={k} on={kind === k} onClick={() => setKind(k)}>{t(label)}</Chip>
             ))}
           </div>
-          <div className="mt-5 text-[11px] font-semibold uppercase text-muted">{t("store.report.which")}</div>
+          <Eyebrow className="mt-5">{t("store.report.which")}</Eyebrow>
           <div className="mt-1 divide-y divide-line">
             {s.lines.map((l) => {
               const on = (line || s.lines[0].group) === l.group;
@@ -373,12 +354,12 @@ function ReportScreen({ d, onClose, onSent }: { d: Delivery | null; onClose: () 
               );
             })}
           </div>
-          <div className="mt-5 text-[11px] font-semibold uppercase text-muted">{t("store.report.photo")}</div>
+          <Eyebrow className="mt-5">{t("store.report.photo")}</Eyebrow>
           <div className="mt-2"><PhotoButton value={photo} onChange={setPhoto} label={t("store.report.photo")} /></div>
           <textarea value={note} onChange={(e) => setNote(e.target.value)} rows={3} placeholder={t("store.report.note")} className="mt-5 w-full rounded-[8px] border border-line bg-surface p-4 text-[13px] font-medium outline-none focus:border-ink" />
           <ErrorNote error={err} />
-          <Button size="lg" block className="mt-5 !h-[52px] !text-[15px]" busy={busy} onClick={send}>{t("store.report.send")}</Button>
-          <Button size="lg" block variant="secondary" className="mt-2 !h-12 !text-[15px]" onClick={onClose}>{t("common.cancel")}</Button>
+          <Button size="xl" block className="mt-5" busy={busy} onClick={send}>{t("store.report.send")}</Button>
+          <Button size="lg" block variant="secondary" className="mt-2" onClick={onClose}>{t("common.cancel")}</Button>
         </div>
       ) : null}
     </FullScreen>
@@ -399,15 +380,15 @@ function SentScreen({ sent, d, onClose }: { sent: Sent | null; d: Delivery | nul
           <Headline className="mt-1">{t("store.track.reportedTitle")}</Headline>
           <p className="mt-2 text-[15px] text-muted">{t("store.track.reportedBody", { t: sent.reply_by })}</p>
           <Card className="mt-6 divide-y divide-line px-4">
-            <SummaryRow
+            <DataRow
               label={t("store.sent.problem")}
               value={t("store.sent.problemVal", { kind: t(kindKey[sent.kind] ?? "store.report.other"), line: line ? `${sent.line}, ${t("store.track.ofPlanned", { v: line.handed ?? line.expected, n: line.planned })}` : sent.line })}
             />
-            <SummaryRow label={t("store.sent.photo")} value={sent.photo ? t("store.sent.photoCount", { n: 1 }) : t("store.sent.noPhoto")} />
+            <DataRow label={t("store.sent.photo")} value={sent.photo ? t("store.sent.photoCount", { n: 1 }) : t("store.sent.noPhoto")} />
           </Card>
-          <Button size="lg" block className="mt-8 !h-12 !text-[15px]" onClick={onClose}>{t("store.track.backToDelivery")}</Button>
+          <Button size="lg" block className="mt-8" onClick={onClose}>{t("store.track.backToDelivery")}</Button>
           <Link href="/store" className="mt-2 block" aria-label={user?.outlet?.name}>
-            <Button size="lg" block variant="secondary" className="!h-12 !text-[15px]">{t("store.closed.backOrders")}</Button>
+            <Button size="lg" block variant="secondary">{t("store.closed.backOrders")}</Button>
           </Link>
         </div>
       ) : null}

@@ -76,7 +76,7 @@ function LoginForm() {
           />
         </label>
         <ErrorNote error={error} />
-        <Button type="submit" size="lg" block busy={busy}>
+        <Button type="submit" size="xl" block busy={busy}>
           {t("login.submit")}
         </Button>
         <Button

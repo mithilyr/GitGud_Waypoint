@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useRouter, usePathname } from "next/navigation";
 import { createContext, useContext, useEffect, useRef, useState } from "react";
-import { Icon, Logo, Spinner, toast } from "@/components/ui";
+import { Eyebrow, Icon, Logo, Spinner, toast } from "@/components/ui";
 import { get, post } from "@/lib/api";
 import { useAuth, useRequireRole } from "@/lib/auth";
 import { fmtDate, hhmm, initial } from "@/lib/format";
@@ -140,7 +140,7 @@ export default function DispatcherLayout({ children }: { children: React.ReactNo
               {menu ? (
                 <div className="rise absolute right-0 top-12 z-40 w-64 rounded-[12px] border border-line bg-surface p-2 shadow-lg" role="menu">
                   <div className="px-3 py-2">
-                    <div className="eyebrow">{t("disp.menu.depot")}</div>
+                    <Eyebrow>{t("disp.menu.depot")}</Eyebrow>
                     <div className="mt-1.5 flex gap-1.5">
                       {depots.map((d) => (
                         <button

@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { Bar, Button, Card, ErrorNote, Headline, Icon, Pill, Sheet, Spinner, toast } from "@/components/ui";
+import { Bar, Button, Card, ErrorNote, Eyebrow, Headline, Icon, Lead, Pill, Sheet, Spinner, toast } from "@/components/ui";
 import { get, post } from "@/lib/api";
 import { fmtDate, kg, m3 } from "@/lib/format";
 import { useAction, usePoll } from "@/lib/hooks";
@@ -89,7 +89,7 @@ export default function PlanPage() {
   if (!data.plan) {
     return (
       <div className="rise max-w-[640px] py-10">
-        <p className="text-[13px] font-medium text-muted">{t("disp.plan.eyebrow", { date: fmtDate(date), depot })}</p>
+        <Lead>{t("disp.plan.eyebrow", { date: fmtDate(date), depot })}</Lead>
         <Headline className="mt-1">{t("disp.plan.none")}</Headline>
         <p className="mt-2 text-muted">{t("disp.plan.noneBody")}</p>
         <ErrorNote error={build.error} />
@@ -107,11 +107,11 @@ export default function PlanPage() {
 
   return (
     <div className="rise">
-      <p className="text-[13px] font-medium text-muted">
+      <Lead>
         {released
           ? t("disp.plan.eyebrowReleased", { date: fmtDate(plan.service_date), depot: plan.depot, v: plan.version })
           : t("disp.plan.eyebrow", { date: fmtDate(plan.service_date), depot: plan.depot })}
-      </p>
+      </Lead>
       <Headline className="mt-1">
         {released ? t("disp.plan.released") : ready ? t("disp.plan.ready") : t("disp.plan.assigned", { a: summary.vehicles_assigned, b: summary.vehicles_available })}
       </Headline>
@@ -148,7 +148,7 @@ export default function PlanPage() {
 
       {deferred.length ? (
         <section className="mt-8">
-          <div className="eyebrow">{t("disp.plan.deferredTitle", { n: deferred.length })}</div>
+          <Eyebrow>{t("disp.plan.deferredTitle", { n: deferred.length })}</Eyebrow>
           <Card className="mt-2 divide-y divide-line">
             {deferred.map((d) => (
               <div key={d.order_id} className="flex flex-wrap items-center gap-x-4 gap-y-2 px-4 py-3">
@@ -342,7 +342,7 @@ function VehicleSheet({
         <div className="p-6">
           <div className="flex items-start justify-between">
             <div>
-              <div className="eyebrow">{v.kind}</div>
+              <Eyebrow>{v.kind}</Eyebrow>
               <div className="font-display text-[28px] font-medium">{v.vehicle_id}</div>
               <div className="font-data text-muted">
                 {v.volume_cap_m3} m³ · {kg(v.weight_cap_kg)}
@@ -361,9 +361,9 @@ function VehicleSheet({
           </div>
           {v.trips.map((trip) => (
             <div key={trip.trip_id} className="mt-6">
-              <div className="eyebrow">
+              <Eyebrow>
                 {t("disp.plan.trip", { n: trip.trip_no, brand: trip.brand, district: trip.district, t: trip.depart ?? "?", m: trip.minutes })}
-              </div>
+              </Eyebrow>
               <div className="mt-2 divide-y divide-line rounded-[10px] border border-line">
                 {trip.stops_detail
                   .slice()
@@ -439,7 +439,7 @@ function DeferSheet({
     <Sheet open={!!target} onClose={onClose} title={t("disp.plan.deferTitle")}>
       {o ? (
         <div className="p-6">
-          <div className="eyebrow">{t("disp.plan.deferEyebrow", { id: o.order_id })}</div>
+          <Eyebrow>{t("disp.plan.deferEyebrow", { id: o.order_id })}</Eyebrow>
           <div className="mt-1 font-display text-[26px] font-medium">
             {o.outlet} <span className="text-muted">· {o.temp === "chilled" ? t("disp.orders.kind.chilled") : t("disp.plan.kindDry")}</span>
           </div>
@@ -451,7 +451,7 @@ function DeferSheet({
               <b>{t("disp.plan.alreadySkipped")}</b>{t("disp.plan.alreadySkippedBody")}
             </div>
           ) : null}
-          <div className="eyebrow mt-5">{t("disp.plan.reason")}</div>
+          <Eyebrow className="mt-5">{t("disp.plan.reason")}</Eyebrow>
           <div className="mt-2 grid grid-cols-2 gap-2">
             {REASONS.map((code) => (
               <button

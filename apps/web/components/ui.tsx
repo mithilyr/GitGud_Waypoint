@@ -1,34 +1,57 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import Link from "next/link";
+import { useEffect, useId, useState } from "react";
 import { createPortal } from "react-dom";
 
 /* ---------- Logo: Route-W (five stops joined into a W; the last, orange stop is delivered) ---------- */
-export function Logo({ size = 40 }: { size?: number }) {
+const MARK_STOPS = [
+  [7.38, 13.84],
+  [18.45, 46.13],
+  [29.52, 24.91],
+  [40.59, 46.13],
+] as const;
+
+/**
+ * `tile` (default): the mark on a filled rounded tile, for app icons and headers.
+ * `tile={false}`: the bare mark on a transparent background. The string is masked around each stop ring,
+ * so nothing is filled and it sits on any surface; ink and the orange stop follow the theme.
+ * Standalone files: /logo/waypoint-mark-for-light.svg and /logo/waypoint-mark-for-dark.svg.
+ */
+export function Logo({ size = 40, tile = true }: { size?: number; tile?: boolean }) {
+  const id = useId();
+  const ink = tile ? "var(--logo-ink)" : "var(--mark-ink)";
+  const dot = tile ? "var(--logo-dot)" : "var(--mark-dot)";
   return (
     <span
       className="inline-flex shrink-0 items-center justify-center overflow-hidden"
-      style={{ width: size, height: size, borderRadius: size * 0.22, background: "var(--logo-tile)" }}
+      style={tile ? { width: size, height: size, borderRadius: size * 0.22, background: "var(--logo-tile)" } : { width: size, height: size }}
+      role="img"
       aria-label="Waypoint"
     >
       <svg viewBox="0 0 59.04 59.04" width={size} height={size} aria-hidden>
+        {tile ? null : (
+          <mask id={id} maskUnits="userSpaceOnUse" x="0" y="0" width="59.04" height="59.04">
+            <rect width="59.04" height="59.04" fill="#fff" />
+            {MARK_STOPS.map(([x, y]) => (
+              <circle key={x} cx={x} cy={y} r="5.9" fill="#000" />
+            ))}
+            <circle cx="51.66" cy="13.84" r="7.4" fill="#000" />
+          </mask>
+        )}
         <path
+          mask={tile ? undefined : `url(#${id})`}
           d="M7.38 13.84 L18.45 46.13 L29.52 24.91 L40.59 46.13 L51.66 13.84"
           fill="none"
-          stroke="var(--logo-ink)"
+          stroke={ink}
           strokeWidth="4.8"
           strokeLinecap="round"
           strokeLinejoin="round"
         />
-        {[
-          [7.38, 13.84],
-          [18.45, 46.13],
-          [29.52, 24.91],
-          [40.59, 46.13],
-        ].map(([x, y]) => (
-          <circle key={x} cx={x} cy={y} r="4.61" fill="var(--logo-tile)" stroke="var(--logo-ink)" strokeWidth="2.58" />
+        {MARK_STOPS.map(([x, y]) => (
+          <circle key={x} cx={x} cy={y} r="4.61" fill={tile ? "var(--logo-tile)" : "none"} stroke={ink} strokeWidth="2.58" />
         ))}
-        <circle cx="51.66" cy="13.84" r="6.01" fill="var(--logo-dot)" />
+        <circle cx="51.66" cy="13.84" r="6.01" fill={dot} />
       </svg>
     </span>
   );
@@ -120,7 +143,8 @@ export function Pill({ tone = "neutral", children, className = "" }: { tone?: To
 
 type BtnProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
   variant?: "primary" | "secondary" | "danger" | "ghost" | "accent";
-  size?: "md" | "lg" | "sm";
+  /** sm 34 · md 44 · lg 48 · xl 52 (the design's inline, field, secondary and primary call-to-action heights). */
+  size?: "sm" | "md" | "lg" | "xl";
   block?: boolean;
   busy?: boolean;
 };
@@ -133,7 +157,7 @@ export function Button({ variant = "primary", size = "md", block, busy, classNam
     ghost: "bg-transparent text-muted hover:text-ink",
     accent: "bg-accent text-[#111] hover:opacity-90",
   }[variant];
-  const s = { sm: "h-9 px-3 text-[13px]", md: "h-11 px-4 text-[15px]", lg: "h-14 px-5 text-[16px]" }[size];
+  const s = { sm: "h-[34px] px-3 text-[13px]", md: "h-11 px-4 text-[15px]", lg: "h-12 px-5 text-[15px]", xl: "h-[52px] px-5 text-[15px]" }[size];
   return (
     <button
       {...rest}
@@ -164,6 +188,73 @@ export function Eyebrow({ children, className = "" }: { children: React.ReactNod
 
 export function Headline({ children, className = "" }: { children: React.ReactNode; className?: string }) {
   return <h1 className={`font-display text-[34px] font-medium leading-[1.1] tracking-[-0.8px] [overflow-wrap:anywhere] ${className}`}>{children}</h1>;
+}
+
+/** The one line above a headline: where you are (13 / 500, muted). `mono` for IDs and times. */
+export function Lead({ children, mono = false, className = "" }: { children: React.ReactNode; mono?: boolean; className?: string }) {
+  return <p className={`${mono ? "font-data " : ""}text-[13px] font-medium text-muted ${className}`}>{children}</p>;
+}
+
+/** A sentence-case label above a list or group (13 / 600). Column headers and small caps use `Eyebrow`. */
+export function SectionLabel({ children, className = "" }: { children: React.ReactNode; className?: string }) {
+  return <div className={`text-[13px] font-semibold ${className}`}>{children}</div>;
+}
+
+/** A stat tile: small caps label, Newsreader value, optional mono sub-line (boards S1, S2, R1). */
+export function Tile({ label, value, sub, className = "" }: { label: string; value: React.ReactNode; sub?: React.ReactNode; className?: string }) {
+  return (
+    <Card className={`min-h-[108px] p-4 ${className}`}>
+      <Eyebrow>{label}</Eyebrow>
+      <div className="mt-1 font-display text-[24px] font-medium leading-tight tabular">{value}</div>
+      {sub ? <div className="font-data mt-2 text-[12px] text-muted">{sub}</div> : null}
+    </Card>
+  );
+}
+
+/** A label with its value underneath, used in summary cards (boards S3b, S3c). Put several in a `Card` with `divide-y`. */
+export function DataRow({ label, value }: { label: string; value: React.ReactNode }) {
+  return (
+    <div className="py-3">
+      <Eyebrow>{label}</Eyebrow>
+      <div className="mt-1 text-[14px] font-medium">{value}</div>
+    </div>
+  );
+}
+
+/** A filter / choice chip (30 px, fully rounded); `on` fills it with the primary colour. */
+export function Chip({ on, onClick, children, className = "" }: { on: boolean; onClick: () => void; children: React.ReactNode; className?: string }) {
+  return (
+    <button onClick={onClick} aria-pressed={on} className={`h-[30px] shrink-0 rounded-full px-4 text-[13px] font-medium ${on ? "bg-primary text-on-primary" : "bg-neutral text-muted"} ${className}`}>
+      {children}
+    </button>
+  );
+}
+
+/** The grey − n + stepper (104 × 34). Pass translated labels for the two buttons. */
+export function Stepper({ value, onChange, min = 0, max = 500, fewerLabel, moreLabel, valueLabel }: { value: number; onChange: (v: number) => void; min?: number; max?: number; fewerLabel: string; moreLabel: string; valueLabel: string }) {
+  const set = (n: number) => onChange(Math.max(min, Math.min(max, n)));
+  return (
+    <div className="font-data flex h-[34px] w-[104px] shrink-0 items-center justify-between rounded-[8px] bg-neutral px-1 text-[13px]">
+      <button onClick={() => set(value - 1)} className="grid h-8 w-8 place-items-center" aria-label={fewerLabel}>−</button>
+      <input inputMode="numeric" value={value} onChange={(e) => set(Number(e.target.value.replace(/\D/g, "")) || 0)} className="w-9 bg-transparent text-center outline-none" aria-label={valueLabel} />
+      <button onClick={() => set(value + 1)} className="grid h-8 w-8 place-items-center" aria-label={moreLabel}>+</button>
+    </div>
+  );
+}
+
+/** A full-width row card with a chevron (Help → Settings, and similar). Renders a link when `href` is set, else a button. */
+export function NavRow({ label, href, onClick }: { label: string; href?: string; onClick?: () => void }) {
+  const inner = (
+    <Card className="flex h-[52px] items-center justify-between px-4">
+      <span className="text-[15px] font-semibold">{label}</span>
+      <span className="text-[18px] leading-none text-muted" aria-hidden>›</span>
+    </Card>
+  );
+  return href ? (
+    <Link href={href} className="block">{inner}</Link>
+  ) : (
+    <button onClick={onClick} className="block w-full text-left">{inner}</button>
+  );
 }
 
 export function Bar({ pct, tone }: { pct: number; tone?: Tone }) {

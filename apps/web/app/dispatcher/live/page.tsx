@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { Button, Card, ErrorNote, Headline, Pill, Spinner, toast, type Tone } from "@/components/ui";
+import { Button, Card, ErrorNote, Eyebrow, Headline, Lead, Pill, Spinner, toast, type Tone } from "@/components/ui";
 import { get, post } from "@/lib/api";
 import { fmtDate } from "@/lib/format";
 import { usePoll } from "@/lib/hooks";
@@ -54,7 +54,7 @@ export default function LivePage() {
   if (!data.plan) {
     return (
       <div className="rise max-w-[640px] py-10">
-        <p className="text-[13px] font-medium text-muted">{t("disp.live.eyebrowNone", { depot })}</p>
+        <Lead>{t("disp.live.eyebrowNone", { depot })}</Lead>
         <Headline className="mt-1">{t("disp.live.nothing")}</Headline>
         <p className="mt-2 text-muted">{t("disp.live.nothingBody")}</p>
         <Link href="/dispatcher/plan" className="mt-4 inline-block font-semibold underline">
@@ -83,7 +83,7 @@ export default function LivePage() {
   return (
     <div className="hill-wash -mx-4 rounded-[16px] px-4 py-2 sm:-mx-6 sm:px-6">
       <div className="rise">
-        <p className="text-[13px] font-medium text-muted">{t("disp.live.eyebrow", { depot, date: fmtDate(data.plan.service_date) })}</p>
+        <Lead>{t("disp.live.eyebrow", { depot, date: fmtDate(data.plan.service_date) })}</Lead>
         <Headline className="mt-1">
           {t("disp.live.title", { out: data.headline.out, needs: data.headline.needs_you ? t("disp.live.needsSome", { n: data.headline.needs_you }) : t("disp.live.needsNone") })}
         </Headline>
@@ -100,12 +100,12 @@ export default function LivePage() {
                     {n.type === "count" ? (
                       <div className="mt-3 grid max-w-[420px] grid-cols-2 gap-3">
                         <div className="rounded-[10px] bg-neutral p-3">
-                          <div className="eyebrow">{t("disp.live.driverOffline")}</div>
+                          <Eyebrow>{t("disp.live.driverOffline")}</Eyebrow>
                           <div className="font-display text-[28px]">{n.driver_count}</div>
                           {n.driver_stance ? <div className="text-[12px] text-muted">{n.driver_stance === "dispute" ? t("disp.live.driverDisputes") : t("disp.live.driverAccepts")}</div> : null}
                         </div>
                         <div className="rounded-[10px] bg-neutral p-3">
-                          <div className="eyebrow">{t("disp.live.storeConfirmed")}</div>
+                          <Eyebrow>{t("disp.live.storeConfirmed")}</Eyebrow>
                           <div className="font-display text-[28px]">{n.store_count}</div>
                         </div>
                       </div>
@@ -162,7 +162,7 @@ export default function LivePage() {
               </span>
               <Pill tone={tone(spot.state.tone)}>{spot.back_online ? t("disp.live.backOnline", { t: spot.back_online }) : spot.state.label}</Pill>
             </div>
-            <div className="eyebrow mt-3">{t("disp.live.whatOffline")}</div>
+            <Eyebrow className="mt-3">{t("disp.live.whatOffline")}</Eyebrow>
             <ul className="mt-1 divide-y divide-line">
               {spot.offline.map((o, i) => (
                 <li key={i} className="flex gap-4 py-1.5 text-[14px]">
@@ -235,7 +235,7 @@ export default function LivePage() {
 
         {data.deferrals?.length ? (
           <section className="mt-8">
-            <div className="eyebrow">{t("disp.live.deferrals")}</div>
+            <Eyebrow>{t("disp.live.deferrals")}</Eyebrow>
             <Card className="mt-2 divide-y divide-line">
               {data.deferrals.map((d, i) => (
                 <div key={i} className="flex flex-wrap items-center gap-3 px-4 py-3 text-[14px]">

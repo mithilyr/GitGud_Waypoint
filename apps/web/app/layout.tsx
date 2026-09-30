@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono, Newsreader, Noto_Sans_Sinhala, Noto_Sans_Tamil } from "next/font/google";
 import "./globals.css";
 import { AuthProvider } from "@/lib/auth";
+import { LanguageProvider } from "@/lib/i18n";
 import { ToastHost } from "@/components/ui";
 
 const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
@@ -39,8 +40,10 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
       </head>
       <body className={`${geistSans.variable} ${geistMono.variable} ${newsreader.variable} ${notoSi.variable} ${notoTa.variable} antialiased`}>
         <AuthProvider>
-          {children}
-          <ToastHost />
+          <LanguageProvider>
+            {children}
+            <ToastHost />
+          </LanguageProvider>
         </AuthProvider>
       </body>
     </html>

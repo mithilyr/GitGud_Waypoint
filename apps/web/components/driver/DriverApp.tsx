@@ -1,25 +1,17 @@
 "use client";
 
-import { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { PhotoButton } from "@/components/PhotoButton";
 import { Button, Card, ErrorNote, Eyebrow, Headline, Icon, Logo, Pill, Sheet, Spinner, VineHorizon, VineRidges } from "@/components/ui";
 import { DriverProvider, useDriver, type TripT } from "@/lib/driver/engine";
-import { useLang, type Key, type Lang } from "@/lib/driver/i18n";
+import { useT } from "@/lib/i18n";
 import { useTheme } from "@/lib/hooks";
 import { SignaturePad } from "./SignaturePad";
 
-/* ---------- language ---------- */
-type T = (k: Key, v?: Record<string, string | number>) => string;
-const LangCtx = createContext<{ t: T; lang: Lang; setLang: (l: Lang) => void }>({ t: (k) => k, lang: "en", setLang: () => {} });
-const useT = () => useContext(LangCtx);
-
 export default function DriverApp() {
-  const l = useLang();
   return (
     <DriverProvider>
-      <LangCtx.Provider value={l}>
-        <Gate />
-      </LangCtx.Provider>
+      <Gate />
     </DriverProvider>
   );
 }

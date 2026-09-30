@@ -4,7 +4,6 @@ import Link from "next/link";
 import { useRouter, usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Icon } from "./ui";
-import { WaypointStrip } from "./WaypointString";
 import { useT } from "@/lib/i18n";
 
 export type Tab = { href: string; label: string; match?: string; also?: string[]; exact?: boolean; badge?: number };
@@ -56,9 +55,6 @@ export function BottomTabs({ tabs, below = "lg" }: { tabs: Tab[]; below?: keyof 
   const path = usePathname();
   return (
     <>
-      <div className={`fixed inset-x-0 bottom-[64px] z-10 mx-auto max-w-[520px] bg-gradient-to-t from-bg via-bg/80 to-transparent ${HIDE_FROM[below]}`} style={{ marginBottom: "env(safe-area-inset-bottom)" }}>
-        <WaypointStrip />
-      </div>
       <nav
         className={`safe-bottom fixed inset-x-0 bottom-0 z-20 border-t border-line bg-surface ${HIDE_FROM[below]}`}
         aria-label="Sections"

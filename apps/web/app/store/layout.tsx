@@ -4,6 +4,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { createContext, useContext, useEffect, useRef, useState } from "react";
 import { BottomTabs, PhoneHeader } from "@/components/Chrome";
 import { TopBar } from "@/components/TopBar";
+import { WaypointString } from "@/components/WaypointString";
 import { Icon, Spinner } from "@/components/ui";
 import { get, post } from "@/lib/api";
 import { useAuth, useRequireRole } from "@/lib/auth";
@@ -110,6 +111,7 @@ export default function StoreLayout({ children }: { children: React.ReactNode })
           </div>
         ) : null}
         <main className="mx-auto max-w-[520px] px-6 py-4 lg:max-w-[640px] lg:py-8">{children}</main>
+        <WaypointString compact still className="mt-10 lg:hidden" />
         <BottomTabs tabs={tabs} />
       </div>
     </Ctx.Provider>

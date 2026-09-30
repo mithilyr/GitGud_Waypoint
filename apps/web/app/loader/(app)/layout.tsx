@@ -4,6 +4,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { BottomTabs, PhoneHeader } from "@/components/Chrome";
 import { TopBar } from "@/components/TopBar";
+import { WaypointString } from "@/components/WaypointString";
 import { Spinner, toast } from "@/components/ui";
 import { get } from "@/lib/api";
 import { useAuth, useRequireRole } from "@/lib/auth";
@@ -18,7 +19,7 @@ export default function LoaderShell({ children }: { children: React.ReactNode })
   const { t } = useT();
   const TABS = [
     { href: "/loader/departures", label: t("loader.nav.departures"), match: "/loader/departures", wide: true },
-    { href: "/loader/departures?tab=load", label: t("loader.nav.load"), match: "/loader/load", wide: false },
+    { href: "/loader/load", label: t("loader.nav.load"), match: "/loader/load", wide: false },
     { href: "/loader/issues", label: t("loader.nav.issues"), wide: true },
     { href: "/loader/help", label: t("loader.nav.help"), also: ["/loader/settings"], wide: true },
   ];
@@ -109,6 +110,7 @@ export default function LoaderShell({ children }: { children: React.ReactNode })
         />
       </div>
       <main className="mx-auto max-w-[1280px] px-6 py-4 lg:px-6">{children}</main>
+      <WaypointString compact still className="mt-10 lg:hidden" />
       <BottomTabs tabs={TABS} />
     </div>
   );

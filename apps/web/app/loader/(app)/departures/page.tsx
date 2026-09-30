@@ -1,6 +1,6 @@
 "use client";
 
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { Suspense, useEffect, useState } from "react";
 import { useWide } from "@/components/Chrome";
 import { LoadPanel } from "@/components/loader/LoadPanel";
@@ -31,12 +31,11 @@ export type Departure = {
 };
 
 const TONE: Record<string, Tone> = { RELEASED: "ok", LEFT: "ok", LOADING: "info", "PLAN CHANGED": "warn", "NOT STARTED": "neutral" };
-const KEY = "wp_loader_trip";
+export const KEY = "wp_loader_trip";
 
 function Departures() {
   const { t } = useT();
   const router = useRouter();
-  const params = useSearchParams();
   const wide = useWide();
   const { data, error, loading, reload } = usePoll(() => get<{ date: string | null; dock: string; depot: string; trips: Departure[] }>("/loader/departures"), 3000);
   const [sel, setSel] = useState<number | null>(null);
@@ -45,9 +44,6 @@ function Departures() {
     const saved = Number(sessionStorage.getItem(KEY));
     if (saved) setSel(saved);
   }, []);
-  useEffect(() => {
-    if (params.get("tab") === "load" && sel && !wide) router.replace(`/loader/load/${sel}`);
-  }, [params, sel, wide, router]);
 
   if (loading && !data) return <div className="grid place-items-center py-24 text-muted"><Spinner /></div>;
   if (!data) return <ErrorNote error={error} retry={reload} />;

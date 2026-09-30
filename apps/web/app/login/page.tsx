@@ -4,6 +4,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useState } from "react";
 import { Button, ErrorNote, Logo } from "@/components/ui";
 import { WaypointString } from "@/components/WaypointString";
+import { HomeLink } from "@/components/HomeLink";
 import { LanguageSwitch } from "@/components/LanguageSwitch";
 import { HOME, Role, useAuth } from "@/lib/auth";
 import { useT } from "@/lib/i18n";
@@ -44,6 +45,7 @@ function LoginForm() {
 
   return (
     <main className="relative mx-auto flex min-h-dvh max-w-[420px] flex-col justify-center px-5 pb-44 pt-10">
+      <HomeLink className="mb-4 self-start" />
       <div className="mb-8 flex items-center gap-3">
         <Logo size={44} />
         <div>

@@ -3,7 +3,8 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { PhotoButton } from "@/components/PhotoButton";
 import { Button, Card, ErrorNote, Eyebrow, Headline, Icon, Lead, Logo, NavRow, Pill, SectionLabel, Sheet, Spinner, Tile } from "@/components/ui";
-import { WaypointStrip, WaypointString } from "@/components/WaypointString";
+import { WaypointString } from "@/components/WaypointString";
+import { HomeLink } from "@/components/HomeLink";
 import { DriverProvider, useDriver, type TripT } from "@/lib/driver/engine";
 import { useT } from "@/lib/i18n";
 import type { Key } from "@/lib/i18n/en";
@@ -40,8 +41,9 @@ function SignIn() {
   const [error, setError] = useState<string | null>(null);
   return (
     <div className="flex min-h-dvh flex-col overflow-x-clip">
-    <main className="relative mx-auto flex w-full max-w-[480px] flex-1 flex-col px-5 pb-6 pt-8">
-      <div className="flex items-center gap-3">
+    <main className="relative mx-auto flex w-full max-w-[480px] flex-1 flex-col px-5 pb-6 pt-4">
+      <HomeLink />
+      <div className="mt-2 flex items-center gap-3">
         <Logo size={40} />
         <div>
           <div className="text-[15px] font-semibold leading-tight">Waypoint</div>
@@ -135,7 +137,8 @@ function PinScreen({ mode }: { mode: "setup" | "unlock" }) {
   const name = profile?.user.name ?? "";
   return (
     <div className="flex min-h-dvh flex-col overflow-x-clip">
-    <main className="relative mx-auto flex w-full max-w-[480px] flex-1 flex-col items-center px-5 pb-6 pt-10">
+    <main className="relative mx-auto flex w-full max-w-[480px] flex-1 flex-col items-center px-5 pb-6 pt-4">
+      <div className="self-start"><HomeLink /></div>
       <Logo size={48} />
       <div className="mt-4 text-center">
         <div className="font-display text-[26px] font-medium">{name}</div>
@@ -261,7 +264,7 @@ function Shell() {
         ) : null}
       </Sheet>
 
-      <div className="fixed inset-x-0 bottom-[64px] z-10 mx-auto max-w-[520px]"><WaypointStrip /></div>
+      <WaypointString compact still className="mt-10" />
       <nav className="safe-bottom fixed inset-x-0 bottom-0 z-20 border-t border-line bg-surface" aria-label={t("drv.shell.sections")}>
         <ul className="mx-auto flex max-w-[520px]">
           {(

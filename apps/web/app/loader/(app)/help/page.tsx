@@ -28,7 +28,7 @@ export default function HelpPage() {
         ))}
         <NavRow label={t("settings.title")} href="/loader/settings" />
       </div>
-      <Link href="/loader/departures?tab=load" className="mt-6 block">
+      <Link href="/loader/load" className="mt-6 block">
         <Button size="xl" block>{t("loader.help.flag")}</Button>
       </Link>
     </div>

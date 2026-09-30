@@ -2,6 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { HomeLink } from "@/components/HomeLink";
 import { LanguageSwitch } from "@/components/LanguageSwitch";
 import { ErrorNote, Logo, Spinner } from "@/components/ui";
 import { WaypointString } from "@/components/WaypointString";
@@ -54,8 +55,9 @@ export default function LoaderSignIn() {
 
   return (
     <div className="flex min-h-dvh flex-col overflow-x-clip">
-    <main className="relative mx-auto flex w-full max-w-[520px] flex-1 flex-col px-5 pb-6 pt-8">
-      <div className="flex items-center gap-3">
+    <main className="relative mx-auto flex w-full max-w-[520px] flex-1 flex-col px-5 pb-6 pt-4">
+      <HomeLink />
+      <div className="mt-2 flex items-center gap-3">
         <Logo size={40} />
         <div>
           <div className="text-[15px] font-semibold leading-tight">Waypoint</div>

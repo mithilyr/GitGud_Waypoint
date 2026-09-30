@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { createContext, useContext, useEffect, useRef, useState } from "react";
 import { BottomTabs, SettingsButton } from "@/components/Chrome";
 import { TopBar } from "@/components/TopBar";
+import { WaypointString } from "@/components/WaypointString";
 import { Eyebrow, Icon, Logo, Spinner, toast } from "@/components/ui";
 import { get, post } from "@/lib/api";
 import { useAuth, useRequireRole } from "@/lib/auth";
@@ -188,6 +189,7 @@ export default function DispatcherLayout({ children }: { children: React.ReactNo
           </div>
         </header>
         <div className="mx-auto max-w-[1440px] px-4 pb-28 pt-6 sm:px-8 md:pb-16">{children}</div>
+        <WaypointString compact still className="mb-24 md:hidden" />
         <BottomTabs below="md" tabs={tabs.map((x) => ({ href: x.href, label: x.label }))} />
       </div>
     </Ctx.Provider>

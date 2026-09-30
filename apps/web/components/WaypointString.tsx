@@ -8,7 +8,9 @@ type Scene = { viewBox: string; stops: readonly Stop[]; hills: readonly string[]
  * with reduced motion it simply appears.
  *
  * Two compositions, each scaled to the full width (never cropped): a wide one from `sm` up and a narrow one
- * for phones, so every stop, including the orange "delivered" one, is always in view.
+ * for phones, so every stop, including the orange "delivered" one, is always in view. `compact` shows only the
+ * narrow one, in a column at most 520 px wide (the end of every phone screen); `still` turns the animation off for
+ * screens you revisit all the time.
  */
 const WIDE: Scene = {
   viewBox: "0 -10 1200 240",
@@ -82,37 +84,12 @@ function SceneSvg({ scene, className, k }: { scene: Scene; className: string; k:
   );
 }
 
-export function WaypointString({ className = "" }: { className?: string }) {
+export function WaypointString({ className = "", compact = false, still = false }: { className?: string; compact?: boolean; still?: boolean }) {
   return (
     // Clips sideways overflow (so the page never scrolls sideways) but not upwards (so the last stop's halo is never cut).
-    <div className={`pointer-events-none w-full overflow-x-clip ${className}`} aria-hidden>
-      <SceneSvg scene={NARROW} k={0.9} className="block sm:hidden" />
-      <SceneSvg scene={WIDE} k={1} className="hidden sm:block" />
+    <div className={`pointer-events-none w-full overflow-x-clip ${still ? "wp-still" : ""} ${compact ? "mx-auto max-w-[520px]" : ""} ${className}`} aria-hidden>
+      <SceneSvg scene={NARROW} k={0.9} className={compact ? "block" : "block sm:hidden"} />
+      {compact ? null : <SceneSvg scene={WIDE} k={1} className="hidden sm:block" />}
     </div>
-  );
-}
-
-const STRIP = [
-  { x: 28, y: 20, r: 3.4 },
-  { x: 108, y: 11, r: 2.8 },
-  { x: 192, y: 21, r: 3.2 },
-  { x: 278, y: 11, r: 2.8 },
-  { x: 360, y: 18, r: 4 },
-] as const;
-
-/** The same idea as the home scene, small: a slim string of stops for the strip above the phone tab bars. */
-export function WaypointStrip({ className = "" }: { className?: string }) {
-  const d = `M${STRIP[0].x} ${STRIP[0].y} ` + STRIP.slice(1).map((s, i) => `Q${(STRIP[i].x + s.x) / 2} ${Math.max(STRIP[i].y, s.y) + 9} ${s.x} ${s.y}`).join(" ");
-  return (
-    <svg viewBox="0 0 390 34" preserveAspectRatio="xMidYMax slice" className={`pointer-events-none block h-[34px] w-full ${className}`} aria-hidden>
-      <path d={d} fill="none" stroke="var(--text)" strokeOpacity="0.3" strokeWidth="1.2" strokeLinecap="round" />
-      {STRIP.map((s, i) =>
-        i === STRIP.length - 1 ? (
-          <circle key={i} cx={s.x} cy={s.y} r={s.r} fill="var(--logo-dot)" />
-        ) : (
-          <circle key={i} cx={s.x} cy={s.y} r={s.r} fill="var(--bg)" stroke="var(--text)" strokeOpacity="0.45" strokeWidth="1.4" />
-        ),
-      )}
-    </svg>
   );
 }

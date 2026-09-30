@@ -229,6 +229,17 @@ html[data-density="compact"] table tbody td {
     opacity: 0;
   }
 }
+.wp-still .wp-string {
+  animation: none;
+  stroke-dashoffset: 0;
+}
+.wp-still .wp-stop {
+  animation: none;
+  opacity: 1;
+}
+.wp-still .wp-halo {
+  animation: none;
+}
 @media (prefers-reduced-motion: reduce) {
   .wp-string {
     animation: none;

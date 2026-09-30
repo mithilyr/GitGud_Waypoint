@@ -27,6 +27,8 @@ Tokens (both themes) already matched the Style guide; type sizes for pills, butt
 
 | Addition | Why |
 |---|---|
+| **Both layouts for every role** | Phone and desktop now both work everywhere. Store and loader show a top bar (logo, tabs, settings, user) from 1024 px and the phone header with bottom tabs below it. The dispatcher shows the desktop bar from 768 px and, below that, a compact header with bottom tabs and card lists instead of tables (orders, plan, live). The driver app stays a phone column, framed and centred on wide screens. |
+| **Settings gear in every header** | Settings was only reachable through Help. A gear in the phone header and in the wide top bar (and the dispatcher menu) opens it from any screen. |
 | **Waypoint string scenes** (`components/WaypointString.tsx`) | The vine and ridge scenes are replaced everywhere: the big scene (home, sign-in, loader PIN, driver sign-in and PIN) and a slim strip above the phone tab bars are a string of waypoints, the logo's stops ending in the orange "delivered" stop. |
 | **Logo without a tile, with a faint glow** (`<Logo />`, `public/logo/waypoint-mark-for-light.svg`, `waypoint-mark-for-dark.svg`) | The design's "Mark A" has no tile. The app now shows the bare mark on a transparent background with a soft glow behind it (`--logo-glow`); `<Logo tile />` gives the tiled version for icons. |
 | **Shared UI components** (`Lead`, `SectionLabel`, `Tile`, `DataRow`, `Chip`, `Stepper`, `NavRow`, button sizes sm/md/lg/xl) | The same patterns were repeated page by page. |

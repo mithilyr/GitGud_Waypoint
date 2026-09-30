@@ -1,10 +1,10 @@
 "use client";
 
-import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { BottomTabs, PhoneHeader } from "@/components/Chrome";
-import { Logo, Spinner, toast } from "@/components/ui";
+import { TopBar } from "@/components/TopBar";
+import { Spinner, toast } from "@/components/ui";
 import { get } from "@/lib/api";
 import { useAuth, useRequireRole } from "@/lib/auth";
 import { hhmm, initial } from "@/lib/format";
@@ -80,37 +80,32 @@ export default function LoaderShell({ children }: { children: React.ReactNode })
   return (
     <div className="min-h-dvh pb-[76px] lg:pb-0">
       {/* Tablet and desktop: top bar with segmented tabs. Phone: compact header and bottom tabs. */}
-      <header className="sticky top-0 z-30 hidden h-16 items-center gap-4 border-b border-line bg-surface px-6 lg:flex">
-        <Link href="/loader/departures" className="flex items-center gap-3">
-          <Logo size={38} />
-          <div className="leading-tight">
-            <div className="text-[15px] font-semibold">{t("loader.brand")}</div>
-            <div className="text-[12px] font-medium text-muted">{t("loader.depotLine", { depot: user.depot ?? "", dock: user.dock ?? "" })}</div>
-          </div>
-        </Link>
-        <nav className="mx-auto flex rounded-[8px] bg-neutral p-0.5" aria-label={t("loader.nav.sections")}>
-          {TABS.filter((x) => x.wide).map((x) => (
-            <Link key={x.href} href={x.href} className={`flex h-8 items-center rounded-[6px] px-5 text-[14px] ${[x.match ?? x.href, ...(x.also ?? [])].some((m) => path.startsWith(m)) ? "border border-line bg-surface font-semibold text-ink" : "font-medium text-muted"}`}>
-              {x.label}
-            </Link>
-          ))}
-        </nav>
-        <div className="font-data text-[15px] font-semibold tabular">{hhmm(clock)}</div>
-        <button
-          onClick={() => {
-            logout();
-            router.replace("/loader");
-          }}
-          className="flex h-9 items-center gap-2 rounded-[8px] border border-line bg-surface pl-2 pr-3 text-[13px] font-semibold"
-        >
-          <span className="grid h-5 w-5 place-items-center rounded-full bg-primary text-[11px] font-semibold text-on-primary">{initial(user.name)}</span>
-          {t("loader.switch", { name: user.name.split(" ")[0] })}
-        </button>
-      </header>
+      <TopBar
+        home="/loader/departures"
+        title={t("loader.brand")}
+        subtitle={t("loader.depotLine", { depot: user.depot ?? "", dock: user.dock ?? "" })}
+        tabs={TABS.filter((x) => x.wide)}
+        label={t("loader.nav.sections")}
+        clock={{ time: hhmm(clock) }}
+        settings={{ href: "/loader/settings", label: t("settings.title") }}
+        right={
+          <button
+            onClick={() => {
+              logout();
+              router.replace("/loader");
+            }}
+            className="flex h-9 items-center gap-2 rounded-[8px] border border-line bg-surface pl-2 pr-3 text-[13px] font-semibold"
+          >
+            <span className="grid h-5 w-5 place-items-center rounded-full bg-primary text-[11px] font-semibold text-on-primary">{initial(user.name)}</span>
+            {t("loader.switch", { name: user.name.split(" ")[0] })}
+          </button>
+        }
+      />
       <div className="lg:hidden">
         <PhoneHeader
           label={t("loader.depotDock", { depot: user.depot ?? "", dock: user.dock ?? "" })}
           back={onLoadDetail ? "/loader/departures" : path.startsWith("/loader/settings") ? "/loader/help" : false}
+          settings="/loader/settings"
         />
       </div>
       <main className="mx-auto max-w-[1280px] px-6 py-4 lg:px-6">{children}</main>

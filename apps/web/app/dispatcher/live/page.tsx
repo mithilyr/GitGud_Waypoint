@@ -176,7 +176,7 @@ export default function LivePage() {
           </Card>
         ) : null}
 
-        <Card className="mt-5 overflow-hidden">
+        <Card className="mt-5 hidden overflow-hidden md:block">
           <div className="overflow-x-auto">
             <table className="w-full min-w-[860px] text-left">
               <thead>
@@ -232,6 +232,34 @@ export default function LivePage() {
             </table>
           </div>
         </Card>
+
+        {/* Phones: one card per run */}
+        <div className="mt-5 space-y-2 md:hidden">
+          {runs.map((r) => (
+            <Card key={r.trip_id} className="p-4">
+              <div className="flex items-start justify-between gap-2">
+                <div>
+                  <div className="font-data text-[15px] font-semibold">{r.vehicle_id}</div>
+                  <div className="text-[12px] text-muted">{r.driver ?? "—"}</div>
+                </div>
+                <Pill tone={tone(r.state.tone)}>{r.state.label}</Pill>
+              </div>
+              <div className="mt-2 text-[14px]">
+                {r.brand} · {r.district}
+                <div className="text-[12px] text-muted">{t("disp.live.leaves", { n: r.trip_no, t: r.depart ?? "" })}</div>
+              </div>
+              <div className="mt-2 flex items-center gap-1">
+                {r.stops.map((s) => (
+                  <span key={s.id} title={`${s.name} · ${s.status}`} className={`h-2.5 flex-1 rounded-full ${["delivered", "partial"].includes(s.status) ? "bg-ok" : s.status === "failed" ? "bg-bad" : s.status === "arrived" ? "bg-warn" : "bg-neutral"}`} />
+                ))}
+              </div>
+              <div className="font-data mt-1 flex justify-between text-[12px] text-muted">
+                <span>{t("disp.live.stopsDone", { a: r.progress.done, b: r.progress.total })}</span>
+                {r.next_stop ? <span>{r.next_stop.name} · {r.next_stop.eta}</span> : null}
+              </div>
+            </Card>
+          ))}
+        </div>
 
         {data.deferrals?.length ? (
           <section className="mt-8">

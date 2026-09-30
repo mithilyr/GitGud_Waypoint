@@ -62,7 +62,7 @@ export default function OrdersPage() {
         {skippedNames.length ? t(skippedNames.length > 1 ? "disp.orders.skipMany" : "disp.orders.skipOne", { names: skippedNames.join(", ") }) : ""}
       </p>
 
-      <Card className="mt-6 overflow-hidden">
+      <Card className="mt-6 hidden overflow-hidden md:block">
         <div className="max-h-[56dvh] overflow-auto">
           <table className="w-full min-w-[820px] text-left">
             <thead className="sticky top-0 bg-surface">
@@ -103,6 +103,32 @@ export default function OrdersPage() {
         </div>
       </Card>
 
+      {/* Phones: one card per order */}
+      <div className="mt-5 space-y-2 md:hidden">
+        {data.orders.map((o) => (
+          <Card key={o.id} className="p-4">
+            <div className="flex items-start justify-between gap-2">
+              <span className="font-data text-[14px] font-semibold">{o.id}</span>
+              <div className="flex flex-wrap justify-end gap-1">
+                {o.status === "deferred" ? <Pill tone="warn">{t("disp.flag.deferred")}</Pill> : null}
+                {o.flags.map((f) => (
+                  <Pill key={f} tone={FLAG_TONE[f] ?? "neutral"}>
+                    {t(`disp.flag.${f}` as Key)}
+                  </Pill>
+                ))}
+              </div>
+            </div>
+            <div className="mt-1 text-[15px] font-medium">{o.outlet}</div>
+            <div className="mt-0.5 text-[13px] text-muted">
+              {o.temp === "chilled" ? `${o.brand} · ${t("disp.orders.kind.chilled")}` : o.brand === "Fresh" ? `${o.brand} · ${t("disp.orders.kind.dry")}` : o.brand} · {o.window}
+            </div>
+            <div className="font-data mt-1 text-[12px] text-muted tabular">
+              {kg(o.weight_kg)} · {m3(o.volume_m3)}
+            </div>
+          </Card>
+        ))}
+      </div>
+
       <div className="mt-5 flex flex-wrap items-center gap-6">
         {[
           [t("disp.orders.total"), data.total],
@@ -115,7 +141,7 @@ export default function OrdersPage() {
             <div className="font-display text-[26px] font-medium tabular">{v}</div>
           </div>
         ))}
-        <div className="ml-auto flex items-center gap-3">
+        <div className="flex w-full flex-wrap items-center gap-3 md:ml-auto md:w-auto">
           <ErrorNote error={build.error} />
           {data.plan ? (
             <Button variant="secondary" size="lg" onClick={() => router.push("/dispatcher/plan")}>

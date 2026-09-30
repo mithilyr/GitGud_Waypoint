@@ -1,8 +1,10 @@
 "use client";
 
 import Link from "next/link";
-import { useRouter, usePathname } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { createContext, useContext, useEffect, useRef, useState } from "react";
+import { BottomTabs, SettingsButton } from "@/components/Chrome";
+import { TopBar } from "@/components/TopBar";
 import { Eyebrow, Icon, Logo, Spinner, toast } from "@/components/ui";
 import { get, post } from "@/lib/api";
 import { useAuth, useRequireRole } from "@/lib/auth";
@@ -24,7 +26,6 @@ export default function DispatcherLayout({ children }: { children: React.ReactNo
   const user = useRequireRole("dispatcher");
   const { logout } = useAuth();
   const router = useRouter();
-  const path = usePathname();
   const clock = useClock();
   const { t } = useT();
   const tabs = [
@@ -87,6 +88,71 @@ export default function DispatcherLayout({ children }: { children: React.ReactNo
     );
   }
 
+  const userMenu = (
+  <div className="relative">
+      <button
+        onClick={() => setMenu((m) => !m)}
+        className="flex h-9 items-center gap-2 rounded-[8px] border border-line bg-surface pl-2 pr-3 text-[13px] font-semibold"
+        aria-haspopup="menu"
+        aria-expanded={menu}
+      >
+        <span className="grid h-5 w-5 place-items-center rounded-full bg-primary text-[11px] font-semibold text-on-primary">{initial(user.name)}</span>
+        <span className="hidden sm:inline">{t("disp.switch", { name: user.name.split(" ")[0] })}</span>
+      </button>
+      {menu ? (
+        <div className="rise absolute right-0 top-12 z-40 w-64 rounded-[12px] border border-line bg-surface p-2 shadow-lg" role="menu">
+          <div className="px-3 py-2">
+            <Eyebrow>{t("disp.menu.depot")}</Eyebrow>
+            <div className="mt-1.5 flex gap-1.5">
+              {depots.map((d) => (
+                <button
+                  key={d}
+                  onClick={() => {
+                    setDepotState(d);
+                    sessionStorage.setItem("wp_depot", d);
+                    setMenu(false);
+                  }}
+                  className={`h-8 flex-1 rounded-[6px] text-[13px] font-semibold ${d === depot ? "bg-primary text-on-primary" : "bg-neutral text-muted"}`}
+                >
+                  {d}
+                </button>
+              ))}
+            </div>
+          </div>
+          <MenuItem
+            onClick={() => {
+              setMenu(false);
+              router.push("/dispatcher/settings");
+            }}
+          >
+            {t("disp.menu.settings")}
+          </MenuItem>
+          <MenuItem
+            onClick={async () => {
+              if (!confirm(t("disp.menu.resetConfirm"))) return;
+              await post("/demo/reset");
+              setMenu(false);
+              toast(t("disp.menu.resetDone"), "ok");
+              router.push("/dispatcher/orders");
+              setTimeout(() => location.reload(), 300);
+            }}
+          >
+            {t("disp.menu.reset")}
+          </MenuItem>
+          <MenuItem
+            onClick={() => {
+              logout();
+              router.replace("/");
+            }}
+          >
+            {t("common.signOut")}
+          </MenuItem>
+        </div>
+      ) : null}
+    </div>
+  
+  );
+
   return (
     <Ctx.Provider
       value={{
@@ -100,97 +166,29 @@ export default function DispatcherLayout({ children }: { children: React.ReactNo
       }}
     >
       <div className="min-h-dvh">
-        <header className="sticky top-0 z-30 border-b border-line bg-surface">
-          <div className="mx-auto flex h-16 max-w-[1440px] items-center gap-4 px-4 sm:px-6">
-            <Link href="/dispatcher/orders" className="flex items-center gap-3">
-              <Logo size={38} />
-              <div className="hidden leading-tight sm:block">
-                <div className="text-[15px] font-semibold">{t("disp.brand")}</div>
-                <div className="text-[12px] font-medium text-muted">{t("disp.office")}</div>
-              </div>
-            </Link>
-            <nav className="mx-auto flex rounded-[8px] bg-neutral p-0.5" aria-label={t("disp.sections")}>
-              {tabs.map((tab) => {
-                const on = path.startsWith(tab.href);
-                return (
-                  <Link
-                    key={tab.href}
-                    href={tab.href}
-                    className={`flex h-8 items-center rounded-[6px] px-3.5 text-[14px] sm:px-6 ${on ? "border border-line bg-surface font-semibold text-ink" : "font-medium text-muted hover:text-ink"}`}
-                  >
-                    {tab.label}
-                  </Link>
-                );
-              })}
-            </nav>
-            <div className="hidden text-right leading-tight md:block">
-              <div className="font-data text-[15px] font-semibold tabular">{hhmm(clock)}</div>
-              <div className="text-[11px] text-muted">{fmtDate(new Date().toISOString().slice(0, 10))}</div>
-            </div>
-            <div className="relative">
-              <button
-                onClick={() => setMenu((m) => !m)}
-                className="flex h-9 items-center gap-2 rounded-[8px] border border-line bg-surface pl-2 pr-3 text-[13px] font-semibold"
-                aria-haspopup="menu"
-                aria-expanded={menu}
-              >
-                <span className="grid h-5 w-5 place-items-center rounded-full bg-primary text-[11px] font-semibold text-on-primary">{initial(user.name)}</span>
-                <span className="hidden sm:inline">{t("disp.switch", { name: user.name.split(" ")[0] })}</span>
-              </button>
-              {menu ? (
-                <div className="rise absolute right-0 top-12 z-40 w-64 rounded-[12px] border border-line bg-surface p-2 shadow-lg" role="menu">
-                  <div className="px-3 py-2">
-                    <Eyebrow>{t("disp.menu.depot")}</Eyebrow>
-                    <div className="mt-1.5 flex gap-1.5">
-                      {depots.map((d) => (
-                        <button
-                          key={d}
-                          onClick={() => {
-                            setDepotState(d);
-                            sessionStorage.setItem("wp_depot", d);
-                            setMenu(false);
-                          }}
-                          className={`h-8 flex-1 rounded-[6px] text-[13px] font-semibold ${d === depot ? "bg-primary text-on-primary" : "bg-neutral text-muted"}`}
-                        >
-                          {d}
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-                  <MenuItem
-                    onClick={() => {
-                      setMenu(false);
-                      router.push("/dispatcher/settings");
-                    }}
-                  >
-                    {t("disp.menu.settings")}
-                  </MenuItem>
-                  <MenuItem
-                    onClick={async () => {
-                      if (!confirm(t("disp.menu.resetConfirm"))) return;
-                      await post("/demo/reset");
-                      setMenu(false);
-                      toast(t("disp.menu.resetDone"), "ok");
-                      router.push("/dispatcher/orders");
-                      setTimeout(() => location.reload(), 300);
-                    }}
-                  >
-                    {t("disp.menu.reset")}
-                  </MenuItem>
-                  <MenuItem
-                    onClick={() => {
-                      logout();
-                      router.replace("/");
-                    }}
-                  >
-                    {t("common.signOut")}
-                  </MenuItem>
-                </div>
-              ) : null}
-            </div>
+        <TopBar
+          from="md"
+          home="/dispatcher/orders"
+          title={t("disp.brand")}
+          subtitle={t("disp.office")}
+          tabs={tabs}
+          label={t("disp.sections")}
+          clock={{ time: hhmm(clock), date: fmtDate(new Date().toISOString().slice(0, 10)) }}
+          settings={{ href: "/dispatcher/settings", label: t("settings.title") }}
+          right={userMenu}
+        />
+        <header className="sticky top-0 z-30 flex h-14 items-center justify-between border-b border-line bg-surface px-4 md:hidden">
+          <Link href="/dispatcher/orders" className="flex items-center gap-2">
+            <Logo size={32} />
+            <span className="text-[15px] font-semibold">{t("disp.brand")}</span>
+          </Link>
+          <div className="flex items-center gap-1">
+            <SettingsButton to="/dispatcher/settings" label={t("settings.title")} />
+            {userMenu}
           </div>
         </header>
-        <div className="mx-auto max-w-[1440px] px-4 pb-16 pt-6 sm:px-8">{children}</div>
+        <div className="mx-auto max-w-[1440px] px-4 pb-28 pt-6 sm:px-8 md:pb-16">{children}</div>
+        <BottomTabs below="md" tabs={tabs.map((x) => ({ href: x.href, label: x.label }))} />
       </div>
     </Ctx.Provider>
   );

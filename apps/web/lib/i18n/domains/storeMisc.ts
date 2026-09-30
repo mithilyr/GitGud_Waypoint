@@ -2,6 +2,9 @@ import { defineDomain } from "../define";
 
 export const storeMisc = defineDomain({
   en: {
+    "store.brand": "Waypoint Store",
+    "store.switch": "{name} · Switch",
+    "store.nav.sections": "Sections",
     "store.order.clear": "Clear",
     "store.history.status.received": "Received",
     "store.history.status.issue_reported": "Issue reported",
@@ -14,6 +17,9 @@ export const storeMisc = defineDomain({
     "store.settings.signOutRow": "Sign out",
   },
   si: {
+    "store.brand": "Waypoint Store",
+    "store.switch": "{name} · මාරු වන්න",
+    "store.nav.sections": "අංශ",
     "store.order.clear": "මකන්න",
     "store.history.status.received": "ලැබුණා",
     "store.history.status.issue_reported": "ගැටලුව වාර්තා කළා",
@@ -26,6 +32,9 @@ export const storeMisc = defineDomain({
     "store.settings.signOutRow": "ඉවත් වන්න",
   },
   ta: {
+    "store.brand": "Waypoint Store",
+    "store.switch": "{name} · மாறு",
+    "store.nav.sections": "பிரிவுகள்",
     "store.order.clear": "அழி",
     "store.history.status.received": "பெறப்பட்டது",
     "store.history.status.issue_reported": "சிக்கல் தெரிவிக்கப்பட்டது",

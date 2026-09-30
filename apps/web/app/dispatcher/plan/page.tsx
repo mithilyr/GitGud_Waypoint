@@ -125,7 +125,7 @@ export default function PlanPage() {
             : t("disp.plan.blockBody", { u: summary.unassigned, b: summary.blocking })}
       </p>
 
-      <Card className="mt-6 overflow-hidden">
+      <Card className="mt-6 hidden overflow-hidden md:block">
         <div className="max-h-[58dvh] overflow-auto">
           <table className="w-full min-w-[1040px] text-left">
             <thead className="sticky top-0 z-10 bg-surface">
@@ -145,6 +145,13 @@ export default function PlanPage() {
           </table>
         </div>
       </Card>
+
+      {/* Phones: one card per vehicle */}
+      <div className="mt-5 space-y-2 md:hidden">
+        {vehicles.map((v) => (
+          <VehicleCard key={v.vehicle_id} v={v} onOpen={() => setOpen(v)} />
+        ))}
+      </div>
 
       {deferred.length ? (
         <section className="mt-8">
@@ -283,6 +290,50 @@ function VehicleTr({ v, onOpen }: { v: VehicleRow; onOpen: () => void }) {
         </div>
       </td>
     </tr>
+  );
+}
+
+function VehicleCard({ v, onOpen }: { v: VehicleRow; onOpen: () => void }) {
+  const { t } = useT();
+  return (
+    <Card className={`p-4 ${!v.available ? "opacity-60" : ""}`}>
+      <button onClick={v.available || v.trips.length ? onOpen : undefined} className="block w-full text-left">
+        <div className="flex items-start justify-between gap-2">
+          <div>
+            <div className="font-data text-[15px] font-semibold">{v.vehicle_id}</div>
+            <div className="text-[12px] text-muted">{v.kind}</div>
+          </div>
+          {!v.available ? <Pill tone="neutral">{t("disp.plan.workshop")}</Pill> : <span className="font-data text-[12px] text-muted tabular">{v.fuel_left_pct}%</span>}
+        </div>
+        {v.trips.map((tr) => (
+          <div key={tr.trip_id} className="mt-2 text-[14px] font-semibold">
+            {t("disp.plan.tripCell", { brand: tr.brand, district: tr.district, n: tr.stops })}
+            {tr.chilled ? <span className="ml-1 text-[12px] font-normal text-info">{t("disp.plan.chilledTag")}</span> : null}
+          </div>
+        ))}
+        {v.available && !v.trips.length ? <div className="mt-2 text-[12px] text-muted">{t("disp.plan.notAssigned")}</div> : null}
+        {v.trips.length ? (
+          <div className="mt-3 grid grid-cols-2 gap-3">
+            <div>
+              <div className="font-data mb-1 text-[11px] text-muted tabular">{v.volume_m3.toFixed(1)}/{v.volume_cap_m3} m³ · {v.volume_pct}%</div>
+              <Bar pct={v.volume_pct} />
+            </div>
+            <div>
+              <div className="font-data mb-1 text-[11px] text-muted tabular">{v.weight_pct}%</div>
+              <Bar pct={v.weight_pct} />
+            </div>
+          </div>
+        ) : null}
+        {v.warnings.length || !v.available ? (
+          <div className="mt-3 flex flex-wrap gap-1">
+            {!v.available ? <span className="text-[12px] text-muted">{v.workshop_note}</span> : null}
+            {v.warnings.map((w, i) => (
+              <Pill key={i} tone={w.severity === "red" ? "bad" : "warn"}>{w.text}</Pill>
+            ))}
+          </div>
+        ) : null}
+      </button>
+    </Card>
   );
 }
 

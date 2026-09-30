@@ -10,7 +10,7 @@ import { useT } from "@/lib/i18n";
 export type Tab = { href: string; label: string; match?: string; also?: string[]; exact?: boolean; badge?: number };
 
 /** Phone header: back chevron on the left (none on a role's first screen), centred location label (Style guide: phone header). */
-export function PhoneHeader({ label, back, right }: { label: string; back?: boolean | string; right?: React.ReactNode }) {
+export function PhoneHeader({ label, back, right, settings }: { label: string; back?: boolean | string; right?: React.ReactNode; settings?: string | (() => void) }) {
   const router = useRouter();
   const { t } = useT();
   return (
@@ -27,20 +27,40 @@ export function PhoneHeader({ label, back, right }: { label: string; back?: bool
         ) : null}
       </div>
       <div className="flex-1 text-center text-[12px] font-medium text-muted">{label}</div>
-      <div className="flex w-16 justify-end">{right}</div>
+      <div className="flex w-16 justify-end">
+        {right}
+        {settings ? <SettingsButton to={settings} label={t("settings.title")} /> : null}
+      </div>
     </header>
   );
 }
 
-export function BottomTabs({ tabs }: { tabs: Tab[] }) {
+const HIDE_FROM = { md: "md:hidden", lg: "lg:hidden" } as const;
+
+/** Phone bottom tab bar. Hidden from the `below` breakpoint up, where a TopBar takes over. */
+/** The gear that opens Settings from any screen: a link when given a path, else a button. */
+export function SettingsButton({ to, label }: { to: string | (() => void); label: string }) {
+  const cls = "-mr-2 grid h-11 w-11 place-items-center rounded-full text-muted hover:bg-neutral hover:text-ink";
+  return typeof to === "string" ? (
+    <Link href={to} aria-label={label} className={cls}>
+      <Icon.Settings />
+    </Link>
+  ) : (
+    <button onClick={to} aria-label={label} className={cls}>
+      <Icon.Settings />
+    </button>
+  );
+}
+
+export function BottomTabs({ tabs, below = "lg" }: { tabs: Tab[]; below?: keyof typeof HIDE_FROM }) {
   const path = usePathname();
   return (
     <>
-      <div className="fixed inset-x-0 bottom-[64px] z-10 mx-auto max-w-[520px] lg:hidden" style={{ marginBottom: "env(safe-area-inset-bottom)" }}>
+      <div className={`fixed inset-x-0 bottom-[64px] z-10 mx-auto max-w-[520px] bg-gradient-to-t from-bg via-bg/80 to-transparent ${HIDE_FROM[below]}`} style={{ marginBottom: "env(safe-area-inset-bottom)" }}>
         <WaypointStrip />
       </div>
       <nav
-        className="safe-bottom fixed inset-x-0 bottom-0 z-20 border-t border-line bg-surface lg:hidden"
+        className={`safe-bottom fixed inset-x-0 bottom-0 z-20 border-t border-line bg-surface ${HIDE_FROM[below]}`}
         aria-label="Sections"
       >
         <ul className="mx-auto flex max-w-[520px]">

@@ -8,6 +8,7 @@ import { DriverProvider, useDriver, type TripT } from "@/lib/driver/engine";
 import { useT } from "@/lib/i18n";
 import type { Key } from "@/lib/i18n/en";
 import { fmtDate } from "@/lib/format";
+import { SettingsButton } from "@/components/Chrome";
 import { DarkModeRow, LanguageRow, SettingsSection, TextSizeRow, ToggleRow, ValueRow } from "@/components/Settings";
 import { usePref } from "@/lib/prefs";
 import { SignaturePad } from "./SignaturePad";
@@ -185,7 +186,7 @@ function Shell() {
   const tab = screen.name === "home" ? "home" : screen.name === "sync" ? "sync" : screen.name === "help" || screen.name === "call" || screen.name === "settings" ? "help" : "stops";
 
   return (
-    <div className="min-h-dvh pb-[118px]">
+    <div className="mx-auto min-h-dvh max-w-[520px] pb-[118px] lg:border-x lg:border-line">
       <header className="sticky top-0 z-20 flex h-14 items-center bg-bg px-3">
         <div className="w-16">
           {stack.length > 1 ? (
@@ -193,7 +194,9 @@ function Shell() {
           ) : null}
         </div>
         <div className="flex-1 text-center text-[12px] font-medium text-muted">{label}</div>
-        <div className="w-16" />
+        <div className="flex w-16 justify-end">
+          <SettingsButton to={() => push({ name: "settings" })} label={t("settings.title")} />
+        </div>
       </header>
 
       {!d.online ? (

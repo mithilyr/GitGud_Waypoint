@@ -3,9 +3,11 @@
 import { usePathname, useRouter } from "next/navigation";
 import { createContext, useContext, useEffect, useRef, useState } from "react";
 import { BottomTabs, PhoneHeader } from "@/components/Chrome";
+import { TopBar } from "@/components/TopBar";
 import { Icon, Spinner } from "@/components/ui";
 import { get, post } from "@/lib/api";
-import { useRequireRole } from "@/lib/auth";
+import { useAuth, useRequireRole } from "@/lib/auth";
+import { initial } from "@/lib/format";
 import { useT } from "@/lib/i18n";
 
 export type Push = { id: number; kind: string; title: string; body: string; meta: Record<string, string | boolean>; at: string; read: boolean };
@@ -16,6 +18,7 @@ export const useStore = () => useContext(Ctx);
 export default function StoreLayout({ children }: { children: React.ReactNode }) {
   const user = useRequireRole("store");
   const { t } = useT();
+  const { logout } = useAuth();
   const router = useRouter();
   const path = usePathname();
   const tabs = [
@@ -62,8 +65,30 @@ export default function StoreLayout({ children }: { children: React.ReactNode })
 
   return (
     <Ctx.Provider value={{ pushes, refreshPushes: load }}>
-      <div className="min-h-dvh pb-[130px]">
-        <PhoneHeader label={t("store.outlet", { name: user.outlet?.name ?? "" })} back={back} />
+      <div className="min-h-dvh pb-[130px] lg:pb-10">
+        <TopBar
+          home="/store"
+          title={t("store.brand")}
+          subtitle={t("store.outlet", { name: user.outlet?.name ?? "" })}
+          tabs={tabs}
+          label={t("store.nav.sections")}
+          settings={{ href: "/store/settings", label: t("settings.title") }}
+          right={
+            <button
+              onClick={() => {
+                logout();
+                router.replace("/");
+              }}
+              className="flex h-9 items-center gap-2 rounded-[8px] border border-line bg-surface pl-2 pr-3 text-[13px] font-semibold"
+            >
+              <span className="grid h-5 w-5 place-items-center rounded-full bg-primary text-[11px] font-semibold text-on-primary">{initial(user.name)}</span>
+              {t("store.switch", { name: user.name.split(" ")[0] })}
+            </button>
+          }
+        />
+        <div className="lg:hidden">
+          <PhoneHeader label={t("store.outlet", { name: user.outlet?.name ?? "" })} back={back} settings="/store/settings" />
+        </div>
         {banner ? (
           <div className="rise fixed inset-x-0 top-2 z-40 mx-auto w-[calc(100%-24px)] max-w-[496px]">
             <button
@@ -84,7 +109,7 @@ export default function StoreLayout({ children }: { children: React.ReactNode })
             </button>
           </div>
         ) : null}
-        <main className="mx-auto max-w-[520px] px-6 py-4">{children}</main>
+        <main className="mx-auto max-w-[520px] px-6 py-4 lg:max-w-[640px] lg:py-8">{children}</main>
         <BottomTabs tabs={tabs} />
       </div>
     </Ctx.Provider>

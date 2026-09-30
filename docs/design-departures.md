@@ -2,6 +2,10 @@
 
 We built the submitted Designathon file (screens D1–D5, L1–L7, R0–R8, S1–S6 and the Daylight and Dark systems). Where the build differs, it is listed here with the reason. Everything not listed follows the design.
 
+## Fidelity pass (branch `design-fidelity`)
+
+Tokens (both themes) already matched the Style guide; type sizes for pills, buttons, headlines and eyebrows were aligned. The phone header now has no logo, border, sign-out or network label, and the bottom bar is 64 px with the active dot under the label, as on the boards. Store, loader and driver screens follow the boards' text styles, tiles and buttons. Known gaps: the vine and ridge motifs stay our simplified inline SVG rather than the design's exact paths; the store counts on Track keep small minus/plus buttons (the board shows static counts) so the receipt difference in the walkthrough still works; the add-item, report and receipt-confirmed screens are full-screen overlays rather than routes.
+
 ## What we changed
 
 | Screen / flow | What changed | Why |
@@ -15,7 +19,7 @@ We built the submitted Designathon file (screens D1–D5, L1–L7, R0–R8, S1�
 | **Order dates and the 4 PM cutoff (S1)** | The countdown and the "waits for the next run" copy are shown, but the cutoff is **not enforced** (`ENFORCE_CUTOFF=false`). New orders join the first delivery day whose plan is not yet released. | A judge may run the walkthrough at any hour. Enforcing against the wall clock would make the demo depend on when it is run. Set `ENFORCE_CUTOFF=true` to enforce. |
 | **Demand outlook (D4)** | Two-week window starts 30 Mar 2026 (two weeks before Avurudu, inside the dataset). Percentages come from a fitted model and stated capacity assumptions, not the mock numbers on the screen. | The design's numbers were illustrative. The build computes them (see `services/api/app/services/demand.py`) and shows its assumptions under the chart. |
 | **Story data** | Vehicles, capacities, outlets and depots are the dataset's. Outlet display names are ours (the dataset only has IDs). The design's fixed story (Nuwan on VEH041 with six stops) cannot come from the real data: only 4 of Kandy's 12 Fresh outlets accept trucks. Instead, when a plan is released the two demo drivers are pointed at the vehicles that serve the demo store, so order, plan, load, deliver and receipt meet on one truck whatever the engine decided. | Consistency with the booklet's rules beats matching one illustrative vehicle number. Driver rostering is on the cut list (the booklet says every vehicle has a driver). A test (`test_demo_story_…`) protects this. |
-| **Languages** | The language switch is on the driver sign-in and in Help, and translates the driver app's main words (Sinhala, Tamil, English). The dispatcher, loader and store are English only. | The design shows Sinhala and Tamil as exemplar screens (R1-SI, D1-SI, L2-TA, S1-TA) outside the flows. Strings are Claude-drafted and need native review (see `ai-disclosure.md`). |
+| **Languages** | English, Sinhala and Tamil work in all four roles and on the home and sign-in screens. The picker is on Settings (Language row on phones, segmented control on the dispatcher desktop) and, as an addition, on the home, sign-in and driver sign-in screens. Text that the API sends as free text (rule warnings on the plan board, reason text written by the dispatcher, outlet names, step details) is shown as the server sends it. Dates follow the language; numbers and times keep Latin digits. | The design shows Sinhala and Tamil only as exemplar screens; the request was to make the choice real everywhere. Strings copied from the exemplar boards are verbatim; the rest are Claude-drafted (see `ai-disclosure.md`). |
 | **Vine motifs (page 08)** | A simplified vine horizon above the phone tab bars and the Vine Ridges scene on the sign-in screens. The hill-contour wash sits behind the live board. | Same intent, drawn as light inline SVG so pages stay small and work offline. |
 | **Cut list, kept** | No live GPS map, no chat, no drag-and-drop routes, no driver rostering, no prices or invoicing. | As designed. |
 
@@ -23,6 +27,8 @@ We built the submitted Designathon file (screens D1–D5, L1–L7, R0–R8, S1�
 
 | Addition | Why |
 |---|---|
+| **Settings screens for all four roles** (D5, L7, R9, S7) | They were on the boards and missing from the build. Dark mode, language, text size, density (dispatcher), alert toggles and security rows are real and saved on the device; the alert toggles, Wi-Fi-only photos, auto-lock and "Depots shown" are stored preferences that do not change server behaviour yet. "Simulate no signal", "Lock now" and Sign out sit in the driver and store Settings because the walkthrough needs them. |
+| **Language switch on home, sign-in and loader PIN screens** | The boards put language choice on the driver sign-in only; choosing a language before signing in is needed for the three-language request. |
 | **"Simulate no signal" switch** (driver Help) | A judge cannot switch a phone off during the walkthrough. It behaves like airplane mode inside the app: same offline path, same outbox. |
 | **"Reset the demo day"** (dispatcher menu, `POST /demo/reset`) | Lets a reviewer run the walkthrough again from a clean start on a shared deployment. |
 | **Second driver and second demo loaders** | The dock tablet is shared (four names on L1). A second driver (Mahesh, VEH045) carries Shanika's dry order so every delivery on Track can be completed. |

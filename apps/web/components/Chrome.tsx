@@ -3,7 +3,8 @@
 import Link from "next/link";
 import { useRouter, usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import { Icon, VineHorizon } from "./ui";
+import { Icon } from "./ui";
+import { WaypointStrip } from "./WaypointString";
 import { useT } from "@/lib/i18n";
 
 export type Tab = { href: string; label: string; match?: string; also?: string[]; exact?: boolean; badge?: number };
@@ -36,7 +37,7 @@ export function BottomTabs({ tabs }: { tabs: Tab[] }) {
   return (
     <>
       <div className="fixed inset-x-0 bottom-[64px] z-10 mx-auto max-w-[520px] lg:hidden" style={{ marginBottom: "env(safe-area-inset-bottom)" }}>
-        <VineHorizon />
+        <WaypointStrip />
       </div>
       <nav
         className="safe-bottom fixed inset-x-0 bottom-0 z-20 border-t border-line bg-surface lg:hidden"

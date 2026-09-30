@@ -3,7 +3,8 @@
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { LanguageSwitch } from "@/components/LanguageSwitch";
-import { ErrorNote, Logo, Spinner, VineRidges } from "@/components/ui";
+import { ErrorNote, Logo, Spinner } from "@/components/ui";
+import { WaypointString } from "@/components/WaypointString";
 import { get } from "@/lib/api";
 import { useAuth } from "@/lib/auth";
 import { initial } from "@/lib/format";
@@ -115,7 +116,7 @@ export default function LoaderSignIn() {
         )}
       </div>
       <p className="mt-4 text-center text-[12px] text-muted">{t("loader.signin.demoPins")}</p>
-      <div className="mt-auto pt-6 opacity-80"><VineRidges /></div>
+      <div className="mt-auto pt-10"><WaypointString className="!h-[130px]" /></div>
     </main>
   );
 }

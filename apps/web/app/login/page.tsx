@@ -2,7 +2,8 @@
 
 import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useState } from "react";
-import { Button, ErrorNote, Logo, VineRidges } from "@/components/ui";
+import { Button, ErrorNote, Logo } from "@/components/ui";
+import { WaypointString } from "@/components/WaypointString";
 import { LanguageSwitch } from "@/components/LanguageSwitch";
 import { HOME, Role, useAuth } from "@/lib/auth";
 import { useT } from "@/lib/i18n";
@@ -91,7 +92,7 @@ function LoginForm() {
           {t("login.fill", { role: roleLabel })}
         </Button>
       </form>
-      <VineRidges className="fixed inset-x-0 bottom-0 -z-10" />
+      <WaypointString className="fixed inset-x-0 bottom-0 -z-10 !h-[140px] sm:!h-[200px]" />
     </main>
   );
 }

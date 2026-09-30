@@ -2,7 +2,8 @@
 
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { PhotoButton } from "@/components/PhotoButton";
-import { Button, Card, ErrorNote, Eyebrow, Headline, Icon, Lead, Logo, NavRow, Pill, SectionLabel, Sheet, Spinner, Tile, VineHorizon, VineRidges } from "@/components/ui";
+import { Button, Card, ErrorNote, Eyebrow, Headline, Icon, Lead, Logo, NavRow, Pill, SectionLabel, Sheet, Spinner, Tile } from "@/components/ui";
+import { WaypointStrip, WaypointString } from "@/components/WaypointString";
 import { DriverProvider, useDriver, type TripT } from "@/lib/driver/engine";
 import { useT } from "@/lib/i18n";
 import type { Key } from "@/lib/i18n/en";
@@ -91,7 +92,7 @@ function SignIn() {
         </Button>
       </form>
       <p className="mt-3 text-center text-[12px] font-medium text-muted">{t("drv.signin.once")}</p>
-      <div className="mt-auto pt-6 opacity-80"><VineRidges /></div>
+      <div className="mt-auto pt-10"><WaypointString className="!h-[130px]" /></div>
     </main>
   );
 }
@@ -156,7 +157,7 @@ function PinScreen({ mode }: { mode: "setup" | "unlock" }) {
         {mode === "unlock" ? t("drv.pin.unlockNote") : t("drv.pin.setupNote")}
       </p>
       <button onClick={forget} className="mt-4 text-[13px] font-semibold text-muted underline">{t("drv.pin.notYou", { name: name.split(" ")[0] || t("drv.pin.you") })}</button>
-      <div className="mt-auto w-full pt-6 opacity-80"><VineRidges /></div>
+      <div className="mt-auto w-full pt-10"><WaypointString className="!h-[130px]" /></div>
     </main>
   );
 }
@@ -249,7 +250,7 @@ function Shell() {
         ) : null}
       </Sheet>
 
-      <div className="fixed inset-x-0 bottom-[64px] z-10 mx-auto max-w-[520px]"><VineHorizon /></div>
+      <div className="fixed inset-x-0 bottom-[64px] z-10 mx-auto max-w-[520px]"><WaypointStrip /></div>
       <nav className="safe-bottom fixed inset-x-0 bottom-0 z-20 border-t border-line bg-surface" aria-label={t("drv.shell.sections")}>
         <ul className="mx-auto flex max-w-[520px]">
           {(

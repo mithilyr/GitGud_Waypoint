@@ -25,12 +25,9 @@ const STRING = `M${STOPS[0].x} ${STOPS[0].y} ` + STOPS.slice(1).map((s, i) => sl
 
 export function WaypointString({ className = "" }: { className?: string }) {
   return (
-    <svg
-      viewBox="0 -60 1200 290"
-      preserveAspectRatio="xMidYMax slice"
-      className={`pointer-events-none block h-[200px] w-full overflow-visible sm:h-[250px] ${className}`}
-      aria-hidden
-    >
+    // The wrapper clips sideways overflow (so the page never scrolls sideways) but not upwards (so the last stop's halo is never cut).
+    <div className={`pointer-events-none h-[200px] w-full overflow-x-clip sm:h-[250px] ${className}`} aria-hidden>
+    <svg viewBox="0 -60 1200 290" preserveAspectRatio="xMidYMax slice" className="block h-full w-full overflow-visible">
       {/* soft ground, two low hills */}
       <path d="M0 230V196C150 170 260 184 400 196S650 204 800 186 1050 168 1200 190V230Z" fill="var(--muted)" opacity="0.07" />
       <path d="M0 230V212C180 198 330 210 520 214S860 206 1010 200 1130 204 1200 208V230Z" fill="var(--muted)" opacity="0.06" />
@@ -68,6 +65,32 @@ export function WaypointString({ className = "" }: { className?: string }) {
           </g>
         );
       })}
+    </svg>
+    </div>
+  );
+}
+
+const STRIP = [
+  { x: 28, y: 20, r: 3.4 },
+  { x: 108, y: 11, r: 2.8 },
+  { x: 192, y: 21, r: 3.2 },
+  { x: 278, y: 11, r: 2.8 },
+  { x: 360, y: 18, r: 4 },
+] as const;
+
+/** The same idea as the home scene, small: a slim string of stops for the strip above the phone tab bars. */
+export function WaypointStrip({ className = "" }: { className?: string }) {
+  const d = `M${STRIP[0].x} ${STRIP[0].y} ` + STRIP.slice(1).map((s, i) => `Q${(STRIP[i].x + s.x) / 2} ${Math.max(STRIP[i].y, s.y) + 9} ${s.x} ${s.y}`).join(" ");
+  return (
+    <svg viewBox="0 0 390 34" preserveAspectRatio="xMidYMax slice" className={`pointer-events-none block h-[34px] w-full ${className}`} aria-hidden>
+      <path d={d} fill="none" stroke="var(--text)" strokeOpacity="0.3" strokeWidth="1.2" strokeLinecap="round" />
+      {STRIP.map((s, i) =>
+        i === STRIP.length - 1 ? (
+          <circle key={i} cx={s.x} cy={s.y} r={s.r} fill="var(--logo-dot)" />
+        ) : (
+          <circle key={i} cx={s.x} cy={s.y} r={s.r} fill="var(--bg)" stroke="var(--text)" strokeOpacity="0.45" strokeWidth="1.4" />
+        ),
+      )}
     </svg>
   );
 }

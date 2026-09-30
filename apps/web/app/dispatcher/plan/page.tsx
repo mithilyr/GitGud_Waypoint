@@ -2,6 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { ActionBar } from "@/components/ActionBar";
 import { Bar, Button, Card, ErrorNote, Eyebrow, Headline, Icon, Lead, Pill, Sheet, Spinner, toast } from "@/components/ui";
 import { get, post } from "@/lib/api";
 import { fmtDate, kg, m3 } from "@/lib/format";
@@ -187,28 +188,29 @@ export default function PlanPage() {
         </section>
       ) : null}
 
-      <div className="sticky bottom-0 -mx-4 mt-6 flex flex-wrap items-center gap-3 border-t border-line bg-bg/95 px-4 py-3 backdrop-blur sm:-mx-6 sm:px-6">
-        <p className="text-[14px] text-muted">
-          {released ? t("disp.plan.footReleased") : ready ? t("disp.plan.footReady") : t("disp.plan.footBlock", { n: summary.blocking })}
-        </p>
-        <ErrorNote error={release.error} />
-        <div className="ml-auto flex gap-2">
-          {!released ? (
-            <Button variant="secondary" size="lg" busy={build.busy} onClick={() => build.run()}>
-              {t("disp.plan.rebuild")}
-            </Button>
-          ) : null}
-          {released ? (
-            <Button size="lg" onClick={() => router.push("/dispatcher/live")}>
-              {t("disp.plan.openLive")}
-            </Button>
-          ) : (
-            <Button size="lg" disabled={!ready} busy={release.busy} onClick={() => release.run(plan.id)}>
-              {ready ? t("disp.plan.release") : t("disp.plan.fix")}
-            </Button>
-          )}
-        </div>
-      </div>
+      <ActionBar
+        note={
+          <>
+            {released ? t("disp.plan.footReleased") : ready ? t("disp.plan.footReady") : t("disp.plan.footBlock", { n: summary.blocking })}
+            <ErrorNote error={release.error} />
+          </>
+        }
+      >
+        {!released ? (
+          <Button variant="secondary" size="lg" busy={build.busy} onClick={() => build.run()}>
+            {t("disp.plan.rebuild")}
+          </Button>
+        ) : null}
+        {released ? (
+          <Button size="lg" onClick={() => router.push("/dispatcher/live")}>
+            {t("disp.plan.openLive")}
+          </Button>
+        ) : (
+          <Button size="lg" disabled={!ready} busy={release.busy} onClick={() => release.run(plan.id)}>
+            {ready ? t("disp.plan.release") : t("disp.plan.fix")}
+          </Button>
+        )}
+      </ActionBar>
 
       <VehicleSheet
         v={open ? vehicles.find((x) => x.vehicle_id === open.vehicle_id) ?? null : null}

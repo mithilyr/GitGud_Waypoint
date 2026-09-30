@@ -1,6 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+import { ActionBar } from "@/components/ActionBar";
 import { Button, Card, ErrorNote, Eyebrow, Headline, Lead, Pill, Spinner } from "@/components/ui";
 import { get, post } from "@/lib/api";
 import { fmtDate, kg, m3 } from "@/lib/format";
@@ -141,20 +142,24 @@ export default function OrdersPage() {
             <div className="font-display text-[26px] font-medium tabular">{v}</div>
           </div>
         ))}
-        <div className="flex w-full flex-wrap items-center gap-3 md:ml-auto md:w-auto">
-          <ErrorNote error={build.error} />
-          {data.plan ? (
-            <Button variant="secondary" size="lg" onClick={() => router.push("/dispatcher/plan")}>
-              {t("disp.orders.openPlan", { status: data.plan.status === "released" ? t("disp.status.released") : t("disp.status.draft") })}
-            </Button>
-          ) : null}
-          {data.plan?.status !== "released" ? (
-            <Button size="lg" busy={build.busy} onClick={() => build.run()}>
-              {t(data.plan ? "disp.orders.rebuild" : "disp.orders.build", { day })}
-            </Button>
-          ) : null}
-        </div>
       </div>
+
+      <ActionBar note={<ErrorNote error={build.error} />}>
+        {data.plan && data.plan.status !== "released" ? (
+          <Button variant="secondary" size="lg" busy={build.busy} onClick={() => build.run()}>
+            {t("disp.plan.rebuild")}
+          </Button>
+        ) : null}
+        {data.plan ? (
+          <Button size="lg" onClick={() => router.push("/dispatcher/plan")}>
+            {t("disp.orders.openPlan")}
+          </Button>
+        ) : (
+          <Button size="lg" busy={build.busy} onClick={() => build.run()}>
+            {t("disp.orders.build", { day })}
+          </Button>
+        )}
+      </ActionBar>
     </div>
   );
 }

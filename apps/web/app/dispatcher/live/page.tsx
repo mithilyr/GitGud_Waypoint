@@ -57,8 +57,8 @@ export default function LivePage() {
         <Lead>{t("disp.live.eyebrowNone", { depot })}</Lead>
         <Headline className="mt-1">{t("disp.live.nothing")}</Headline>
         <p className="mt-2 text-muted">{t("disp.live.nothingBody")}</p>
-        <Link href="/dispatcher/plan" className="mt-4 inline-block font-semibold underline">
-          {t("disp.live.goPlan")}
+        <Link href="/dispatcher/plan" className="mt-5 inline-block">
+          <Button size="lg">{t("disp.live.goPlan")}</Button>
         </Link>
       </div>
     );

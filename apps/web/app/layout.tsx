@@ -30,7 +30,7 @@ export const viewport: Viewport = {
 };
 
 // Sets the theme before first paint so there is no flash between Daylight and Dark.
-const themeScript = `try{var t=localStorage.getItem('wp_theme');if(!t){t=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'}document.documentElement.dataset.theme=t}catch(e){}`;
+const themeScript = `try{var t=localStorage.getItem('wp_theme');if(!t){t=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'}document.documentElement.dataset.theme=t;var z=localStorage.getItem('wp_text');if(z)document.documentElement.dataset.textSize=z;var d=localStorage.getItem('wp_density');if(d)document.documentElement.dataset.density=d}catch(e){}`;
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (

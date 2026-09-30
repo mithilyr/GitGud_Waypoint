@@ -1,0 +1,37 @@
+import { defineDomain } from "../define";
+
+export const storeMisc = defineDomain({
+  en: {
+    "store.history.status.received": "Received",
+    "store.history.status.issue_reported": "Issue reported",
+    "store.history.status.deferred": "Deferred",
+    "store.history.status.delivered": "Delivered",
+    "store.history.status.partial": "Partial",
+    "store.history.status.failed": "Failed",
+    "store.history.status.other": "Order placed",
+    "store.settings.cutoffValue": "3:30 PM",
+    "store.settings.signOutRow": "Sign out",
+  },
+  si: {
+    "store.history.status.received": "ලැබුණා",
+    "store.history.status.issue_reported": "ගැටලුව වාර්තා කළා",
+    "store.history.status.deferred": "කල් දමා ඇත",
+    "store.history.status.delivered": "බෙදා හැරියා",
+    "store.history.status.partial": "අර්ධ වශයෙන්",
+    "store.history.status.failed": "අසාර්ථකයි",
+    "store.history.status.other": "ඇණවුම දුන්නා",
+    "store.settings.cutoffValue": "සවස 3:30",
+    "store.settings.signOutRow": "ඉවත් වන්න",
+  },
+  ta: {
+    "store.history.status.received": "பெறப்பட்டது",
+    "store.history.status.issue_reported": "சிக்கல் தெரிவிக்கப்பட்டது",
+    "store.history.status.deferred": "ஒத்திவைக்கப்பட்டது",
+    "store.history.status.delivered": "வழங்கப்பட்டது",
+    "store.history.status.partial": "பகுதியளவு",
+    "store.history.status.failed": "தோல்வி",
+    "store.history.status.other": "ஆர்டர் செய்யப்பட்டது",
+    "store.settings.cutoffValue": "மாலை 3:30",
+    "store.settings.signOutRow": "வெளியேறு",
+  },
+});

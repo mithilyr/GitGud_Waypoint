@@ -1,7 +1,13 @@
+/** Date locale follows the language chosen in the app (set by LanguageProvider). Numbers and times stay in Latin digits. */
+let dateLocale = "en-GB";
+export function setDateLocale(lang: "en" | "si" | "ta") {
+  dateLocale = { en: "en-GB", si: "si-LK", ta: "ta-LK" }[lang];
+}
+
 export function fmtDate(iso: string | null | undefined, opts: Intl.DateTimeFormatOptions = { weekday: "short", day: "numeric", month: "short" }) {
   if (!iso) return "";
   const d = new Date(iso.length === 10 ? `${iso}T00:00:00` : iso);
-  return d.toLocaleDateString("en-GB", opts);
+  return d.toLocaleDateString(dateLocale + "-u-nu-latn", opts);
 }
 
 export function fmtLong(iso: string | null | undefined) {

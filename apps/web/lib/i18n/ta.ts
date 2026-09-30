@@ -1,6 +1,10 @@
-import type { Key } from "./en";
+import type { Key, driverEn } from "./en";
+import { common } from "./domains/common";
+import { store } from "./domains/store";
+import { storeTrack } from "./domains/storeTrack";
+import { storeMisc } from "./domains/storeMisc";
 
-export const ta: Record<Key, string> = {
+const driver: Record<keyof typeof driverEn, string> = {
   run: "பயணம்",
   stops: "நிறுத்தங்கள்",
   sync: "ஒத்திசை",
@@ -29,3 +33,5 @@ export const ta: Record<Key, string> = {
   gotoStop: "{name} செல்",
   tripDone: "பயணம் முடிந்தது.",
 };
+
+export const ta: Record<Key, string> = { ...driver, ...common.ta, ...store.ta, ...storeTrack.ta, ...storeMisc.ta };

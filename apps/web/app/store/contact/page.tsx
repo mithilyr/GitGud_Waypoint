@@ -2,43 +2,50 @@
 
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { Button, ErrorNote, Eyebrow, Headline, toast } from "@/components/ui";
+import { Button, Card, ErrorNote, Headline, toast } from "@/components/ui";
 import { post } from "@/lib/api";
+import { useAuth } from "@/lib/auth";
+import { useT } from "@/lib/i18n";
 
 export default function ContactPage() {
+  const { t } = useT();
+  const { user } = useAuth();
   const router = useRouter();
   const [text, setText] = useState("");
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState<string | null>(null);
   return (
     <div className="rise">
-      <Eyebrow>Ruwan, dispatch</Eyebrow>
-      <Headline className="mt-1">Contact dispatch</Headline>
-      <p className="mt-1 text-[14px] text-muted">Ask Ruwan about a deferral or a delivery. He replies by push. It reaches him with your outlet attached.</p>
-      <textarea value={text} onChange={(e) => setText(e.target.value)} rows={5} placeholder="Write your question…" className="mt-4 w-full rounded-[10px] border border-line bg-surface p-3 outline-none focus:border-ink" />
+      <p className="text-[13px] font-medium text-muted">{t("store.contact.eyebrow", { outlet: user?.outlet?.name ?? "" })}</p>
+      <Headline className="mt-1">{t("store.contact.title")}</Headline>
+      <p className="mt-2 text-[14px] text-muted">{t("store.contact.lede")}</p>
+      <Card className="mt-5 p-4">
+        <div className="text-[16px] font-semibold">{t("store.contact.cardTitle")}</div>
+        <textarea value={text} onChange={(e) => setText(e.target.value)} rows={3} placeholder={t("store.contact.placeholder")} className="mt-2 w-full resize-none bg-transparent text-[14px] outline-none placeholder:text-muted" />
+      </Card>
       <ErrorNote error={err} />
       <Button
         size="lg"
         block
-        className="mt-3"
+        className="mt-8 !h-12 !text-[15px]"
         busy={busy}
         disabled={!text.trim()}
         onClick={async () => {
           setBusy(true);
           try {
             await post("/store/message", { text });
-            toast("Sent to Ruwan.");
+            toast(t("store.contact.sent"));
             router.push("/store/track");
           } catch (e) {
-            setErr(e instanceof Error ? e.message : "Could not send");
+            setErr(e instanceof Error ? e.message : t("store.contact.failed"));
           } finally {
             setBusy(false);
           }
         }}
       >
-        Send message
+        {t("store.contact.send")}
       </Button>
-      <Button variant="ghost" block className="mt-1" onClick={() => router.back()}>Cancel</Button>
+      <Button size="lg" variant="secondary" block className="mt-2 !h-12 !text-[15px]" onClick={() => router.back()}>{t("common.cancel")}</Button>
     </div>
   );
 }

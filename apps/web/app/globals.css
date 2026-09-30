@@ -25,6 +25,9 @@
   --logo-dot: #e07a4a;
   --on-primary: #ffffff;
   --primary: #111111;
+  --toggle-on: #346538;
+  --toggle-off: #dcdad4;
+  --seg-active: #ffffff;
 }
 
 :root[data-theme="dark"] {
@@ -50,6 +53,9 @@
   --logo-dot: #b5562b;
   --on-primary: #111111;
   --primary: #f2f0eb;
+  --toggle-on: #6fbf78;
+  --toggle-off: #44423d;
+  --seg-active: #4a4842;
 }
 
 @theme inline {
@@ -161,4 +167,9 @@ textarea {
   background-image:
     radial-gradient(ellipse 60% 40% at 15% 100%, color-mix(in srgb, var(--muted) 9%, transparent), transparent 70%),
     radial-gradient(ellipse 50% 35% at 85% 0%, color-mix(in srgb, var(--muted) 7%, transparent), transparent 70%);
+}
+
+/* Settings: text size (see lib/prefs.ts). */
+html[data-text-size="large"] body {
+  zoom: 1.12;
 }

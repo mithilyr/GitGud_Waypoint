@@ -1,39 +1,41 @@
 "use client";
 
 import Link from "next/link";
-import { Button, Card, Eyebrow, Headline } from "@/components/ui";
-import { useTheme } from "@/lib/hooks";
+import { Button, Card, Headline } from "@/components/ui";
+import { useAuth } from "@/lib/auth";
+import { useT } from "@/lib/i18n";
+import type { Key } from "@/lib/i18n/en";
 
-const HELP = [
-  ["Missed the 4 PM cutoff?", "Orders after 4 PM go on the next run. Dispatch shows the new date before you confirm."],
-  ["Something arrived short or damaged", "Open the delivery on Track and tap Report an issue. Add a photo if you can."],
-  ["Order deferred", "Dispatch tells you why and when it moves to. Deferred outlets are served first next run."],
+const HELP: [Key, Key][] = [
+  ["store.help.q1", "store.help.a1"],
+  ["store.help.q2", "store.help.a2"],
+  ["store.help.q3", "store.help.a3"],
 ];
 
 export default function HelpPage() {
-  const { theme, setTheme } = useTheme();
+  const { t } = useT();
+  const { user } = useAuth();
   return (
     <div className="rise">
-      <Eyebrow>Help</Eyebrow>
-      <Headline className="mt-1">Help</Headline>
-      <div className="mt-4 space-y-2">
+      <p className="text-[13px] font-medium text-muted">{t("store.outlet", { name: user?.outlet?.name ?? "" })}</p>
+      <Headline className="mt-1">{t("store.help.title")}</Headline>
+      <div className="mt-5 space-y-3">
         {HELP.map(([q, a]) => (
           <Card key={q} className="p-4">
-            <div className="font-semibold">{q}</div>
-            <p className="mt-1 text-[14px] text-muted">{a}</p>
+            <div className="text-[16px] font-semibold">{t(q)}</div>
+            <p className="mt-2 text-[14px] text-muted">{t(a)}</p>
           </Card>
         ))}
+        <Link href="/store/settings" className="block">
+          <Card className="flex h-[52px] items-center justify-between px-4">
+            <span className="text-[16px] font-semibold">{t("settings.title")}</span>
+            <span className="text-[18px] leading-none text-muted" aria-hidden>›</span>
+          </Card>
+        </Link>
       </div>
-      <Link href="/store/contact" className="mt-4 block">
-        <Button size="lg" block>Contact dispatch</Button>
+      <Link href="/store/contact" className="mt-6 block">
+        <Button size="lg" block className="!h-12 !text-[15px]">{t("store.help.contact")}</Button>
       </Link>
-      <Card className="mt-6 flex items-center justify-between p-4">
-        <div>
-          <div className="font-semibold">Dark mode</div>
-          <div className="text-[13px] text-muted">Daylight or Dark</div>
-        </div>
-        <Button variant="secondary" size="sm" onClick={() => setTheme(theme === "dark" ? "light" : "dark")}>{theme === "dark" ? "On" : "Off"}</Button>
-      </Card>
     </div>
   );
 }

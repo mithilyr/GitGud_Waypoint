@@ -1,7 +1,7 @@
 // Interface words only. IDs, outlet names, numbers and times never change with the language.
 // Sinhala and Tamil were drafted with Claude (strings on the Penpot boards are copied verbatim)
 // and still need a native-speaker review; see docs/ai-disclosure.md.
-export const en = {
+export const driverEn = {
   run: "Run",
   stops: "Stops",
   sync: "Sync",
@@ -30,5 +30,12 @@ export const en = {
   gotoStop: "Go to {name}",
   tripDone: "Run complete.",
 } as const;
+
+import { common } from "./domains/common";
+import { store } from "./domains/store";
+import { storeTrack } from "./domains/storeTrack";
+import { storeMisc } from "./domains/storeMisc";
+
+export const en = { ...driverEn, ...common.en, ...store.en, ...storeTrack.en, ...storeMisc.en } as const;
 
 export type Key = keyof typeof en;

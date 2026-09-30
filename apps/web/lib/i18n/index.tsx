@@ -1,6 +1,7 @@
 "use client";
 
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
+import { setDateLocale } from "../format";
 import { en, type Key } from "./en";
 import { si } from "./si";
 import { ta } from "./ta";
@@ -38,6 +39,9 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     document.documentElement.lang = lang;
   }, [lang]);
+
+  // Set during render so dates formatted by children in this pass already use the new language.
+  setDateLocale(lang);
 
   const setLang = useCallback((l: Lang) => {
     setLangState(l);

@@ -243,6 +243,25 @@ export function Sheet({ open, onClose, children, side = false, title }: { open: 
   );
 }
 
+/** A phone-sized full screen above the app (boards S1a, S3a, S3b): same background as a page, closes on Escape. */
+export function FullScreen({ open, onClose, children, title }: { open: boolean; onClose: () => void; children: React.ReactNode; title?: string }) {
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+  useEffect(() => {
+    if (!open) return;
+    const h = (e: KeyboardEvent) => e.key === "Escape" && onClose();
+    window.addEventListener("keydown", h);
+    return () => window.removeEventListener("keydown", h);
+  }, [open, onClose]);
+  if (!open || !mounted) return null;
+  return createPortal(
+    <div className="fixed inset-0 z-50 overflow-y-auto bg-bg text-ink" role="dialog" aria-modal aria-label={title}>
+      <div className="rise mx-auto min-h-full max-w-[520px] px-6 pb-8 pt-14">{children}</div>
+    </div>,
+    document.body,
+  );
+}
+
 /* ---------- Toasts ---------- */
 type ToastMsg = { id: number; text: string; tone: Tone };
 let toastId = 0;

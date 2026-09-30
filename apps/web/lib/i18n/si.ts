@@ -1,6 +1,10 @@
-import type { Key } from "./en";
+import type { Key, driverEn } from "./en";
+import { common } from "./domains/common";
+import { store } from "./domains/store";
+import { storeTrack } from "./domains/storeTrack";
+import { storeMisc } from "./domains/storeMisc";
 
-export const si: Record<Key, string> = {
+const driver: Record<keyof typeof driverEn, string> = {
   run: "ධාවනය",
   stops: "නැවතුම්",
   sync: "සමමුහුර්ත",
@@ -29,3 +33,5 @@ export const si: Record<Key, string> = {
   gotoStop: "{name} වෙත යන්න",
   tripDone: "ධාවනය අවසන්.",
 };
+
+export const si: Record<Key, string> = { ...driver, ...common.si, ...store.si, ...storeTrack.si, ...storeMisc.si };

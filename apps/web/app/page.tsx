@@ -11,7 +11,7 @@ const roles = [
 
 export default function Home() {
   return (
-    <main className="relative mx-auto flex min-h-dvh max-w-[980px] flex-col px-4 pb-10 pt-8 sm:px-8">
+    <main className="relative mx-auto flex min-h-dvh max-w-[980px] flex-col px-4 pb-48 pt-8 sm:px-8 sm:pb-0">
       <header className="flex items-center gap-3">
         <Logo size={44} />
         <div>
@@ -67,7 +67,8 @@ export default function Home() {
         </dl>
       </section>
 
-      <div className="mt-auto pt-10 opacity-80">
+      <VineRidges className="fixed inset-x-0 bottom-0 -z-10 h-44 opacity-80 sm:hidden" />
+      <div className="mt-auto hidden pt-10 opacity-80 sm:block [mask-image:linear-gradient(to_right,transparent,black_15%,black_85%,transparent)]">
         <VineRidges />
       </div>
     </main>

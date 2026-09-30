@@ -1,9 +1,6 @@
 import Link from "next/link";
 import { Logo, VineRidges } from "@/components/ui";
-import { serverGet } from "@/lib/api";
-
-// Render on each request so the API status is live, not baked in at build time.
-export const dynamic = "force-dynamic";
+import { StatusPill } from "@/components/StatusPill";
 
 const roles = [
   { href: "/dispatcher", name: "Dispatcher", who: "Ruwan", device: "Desktop", line: "Order queue, plan board, live runs, demand outlook." },
@@ -12,17 +9,7 @@ const roles = [
   { href: "/store", name: "Store manager", who: "Shanika", device: "Phone or desktop", line: "Order before 4 PM, track the ETA, confirm receipt." },
 ];
 
-async function apiStatus(): Promise<boolean> {
-  try {
-    const h = await serverGet<{ status: string; db: string }>("/health");
-    return h.status === "ok" && h.db === "ok";
-  } catch {
-    return false;
-  }
-}
-
-export default async function Home() {
-  const up = await apiStatus();
+export default function Home() {
   return (
     <main className="relative mx-auto flex min-h-dvh max-w-[980px] flex-col px-4 pb-10 pt-8 sm:px-8">
       <header className="flex items-center gap-3">
@@ -31,10 +18,7 @@ export default async function Home() {
           <div className="text-[15px] font-semibold leading-tight">Waypoint</div>
           <div className="text-[12px] text-muted">Delivery system · Kandy and Peliyagoda depots</div>
         </div>
-        <span className={`ml-auto inline-flex items-center gap-1.5 text-[12px] ${up ? "text-ok" : "text-bad"}`}>
-          <span className="h-2 w-2 rounded-full bg-current" />
-          {up ? "System online" : "API unreachable"}
-        </span>
+        <StatusPill />
       </header>
 
       <section className="mt-12 max-w-[640px]">

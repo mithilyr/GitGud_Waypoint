@@ -6,8 +6,8 @@
   --surface: #ffffff;
   --border: #eaeaea;
   --text: #111111;
-  --muted: #787774;
-  --stroke-muted: #a9a8a4;
+  --muted: #6a6864;
+  --stroke-muted: #86847f;
   --accent: #f5b301;
   --ok-bg: #edf3ec;
   --ok-fg: #346538;
@@ -39,7 +39,7 @@
   --border: #2f2d2a;
   --text: #f2f0eb;
   --muted: #a3a19c;
-  --stroke-muted: #6f6d68;
+  --stroke-muted: #8c8a84;
   --ok-bg: #1b2a1e;
   --ok-fg: #7cc488;
   --warn-bg: #302612;
@@ -251,5 +251,43 @@ html[data-density="compact"] table tbody td {
   }
   .wp-halo {
     animation: none;
+  }
+}
+
+/* Phones: one step up in text size, more room inside cards, bigger touch targets. */
+@media (max-width: 639px) {
+  body {
+    font-size: 16px;
+    line-height: 1.5;
+  }
+  .eyebrow {
+    font-size: 12px;
+  }
+  .font-data {
+    font-size: 14px;
+  }
+  .text-\[10px\] {
+    font-size: 11px;
+  }
+  .text-\[11px\] {
+    font-size: 12px;
+  }
+  .text-\[12px\] {
+    font-size: 13px;
+  }
+  .text-\[13px\] {
+    font-size: 14px;
+  }
+  .text-\[14px\] {
+    font-size: 15px;
+  }
+  .text-\[15px\] {
+    font-size: 16px;
+  }
+  .p-4 {
+    padding: 1.25rem;
+  }
+  .p-5 {
+    padding: 1.5rem;
   }
 }

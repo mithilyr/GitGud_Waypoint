@@ -105,7 +105,7 @@ export default function OrdersPage() {
       </Card>
 
       {/* Phones: one card per order */}
-      <div className="mt-5 space-y-2 md:hidden">
+      <div className="mt-5 space-y-3 md:hidden">
         {data.orders.map((o) => (
           <Card key={o.id} className="p-4">
             <div className="flex items-start justify-between gap-2">

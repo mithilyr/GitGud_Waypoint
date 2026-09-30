@@ -27,6 +27,8 @@ Tokens (both themes) already matched the Style guide; type sizes for pills, butt
 
 | Addition | Why |
 |---|---|
+| **Phone readability pass** | On phones (below 640 px) every small text size goes up one step, cards and lists have more padding and gaps, and buttons, chips, steppers and Settings rows have touch targets of 40 to 56 px. Desktop is unchanged. |
+| **Slightly darker muted and faint text colours** | The style guide's `#787774` and `#a9a8a4` on the light background are below the contrast needed to read small text (about 4.0:1 and 2.3:1). Muted is now `#6a6864`, faint `#86847f`; in Dark, faint is `#8c8a84`. |
 | **Both layouts for every role** | Phone and desktop now both work everywhere. Store and loader show a top bar (logo, tabs, settings, user) from 1024 px and the phone header with bottom tabs below it. The dispatcher shows the desktop bar from 768 px and, below that, a compact header with bottom tabs and card lists instead of tables (orders, plan, live). The driver app stays a phone column, framed and centred on wide screens. |
 | **Settings gear in every header** | Settings was only reachable through Help. A gear in the phone header and in the wide top bar (and the dispatcher menu) opens it from any screen. |
 | **Waypoint string scenes** (`components/WaypointString.tsx`) | The vine and ridge scenes are replaced everywhere: the big scene (home, sign-in, loader PIN, driver sign-in and PIN) is a string of waypoints, and every phone screen ends with the same phone version of it (still, not animated) above the tab bar, the logo's stops ending in the orange "delivered" stop. |

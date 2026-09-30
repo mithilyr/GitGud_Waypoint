@@ -148,7 +148,7 @@ export default function PlanPage() {
       </Card>
 
       {/* Phones: one card per vehicle */}
-      <div className="mt-5 space-y-2 md:hidden">
+      <div className="mt-5 space-y-3 md:hidden">
         {vehicles.map((v) => (
           <VehicleCard key={v.vehicle_id} v={v} onOpen={() => setOpen(v)} />
         ))}

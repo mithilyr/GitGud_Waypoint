@@ -178,7 +178,7 @@ export default function DispatcherLayout({ children }: { children: React.ReactNo
           settings={{ href: "/dispatcher/settings", label: t("settings.title") }}
           right={userMenu}
         />
-        <header className="sticky top-0 z-30 flex h-14 items-center justify-between border-b border-line bg-surface px-4 md:hidden">
+        <header className="sticky top-0 z-30 flex h-14 items-center justify-between border-b border-line bg-surface px-5 md:hidden">
           <Link href="/dispatcher/orders" className="flex items-center gap-2">
             <Logo size={32} />
             <span className="text-[15px] font-semibold">{t("disp.brand")}</span>
@@ -188,7 +188,7 @@ export default function DispatcherLayout({ children }: { children: React.ReactNo
             {userMenu}
           </div>
         </header>
-        <div className="mx-auto w-full max-w-[1440px] px-4 pb-6 pt-6 sm:px-8 md:pb-16">{children}</div>
+        <div className="mx-auto w-full max-w-[1440px] px-5 pb-6 pt-6 sm:px-8 md:pb-16">{children}</div>
         <WaypointString compact still className="mt-auto pt-6 md:hidden" />
         <BottomTabs below="md" tabs={tabs.map((x) => ({ href: x.href, label: x.label }))} />
       </div>

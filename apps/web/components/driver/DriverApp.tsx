@@ -220,7 +220,7 @@ function Shell() {
         </div>
       ) : null}
 
-      <main className="mx-auto w-full max-w-[520px] px-6 py-4">
+      <main className="mx-auto w-full max-w-[520px] px-6 py-6">
         {!run || !current ? (
           <Card className="p-6 text-center">
             <p className="font-display text-[24px]">{t("drv.shell.noRun")}</p>
@@ -379,7 +379,7 @@ function Stops({ trip, onOpen }: { trip: TripT; onOpen: (id: number) => void }) 
       <Lead>{t("drv.stops.eyebrow", { n: trip.trip_no, brand: trip.brand, district: trip.district })}</Lead>
       <Headline className="mt-1">{next ? t("drv.stops.stopOf", { i: idx, n: stops.length }) : t("tripDone")}</Headline>
       <p className="mt-2 text-[14px] text-muted">{t("drv.stops.progress", { d: doneN, r: stops.length - doneN })}</p>
-      <ol className="mt-4 space-y-2">
+      <ol className="mt-5 space-y-3">
         {trip.stops.map((s) => {
           const isDone = ["delivered", "partial", "failed"].includes(s.status);
           const isNext = next?.id === s.id;

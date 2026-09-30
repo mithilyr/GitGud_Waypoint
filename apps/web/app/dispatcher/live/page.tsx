@@ -234,7 +234,7 @@ export default function LivePage() {
         </Card>
 
         {/* Phones: one card per run */}
-        <div className="mt-5 space-y-2 md:hidden">
+        <div className="mt-5 space-y-3 md:hidden">
           {runs.map((r) => (
             <Card key={r.trip_id} className="p-4">
               <div className="flex items-start justify-between gap-2">

@@ -59,7 +59,7 @@ function Departures() {
       {!trips.length ? (
         <div className="mt-5"><Empty title={t("loader.dep.empty")}>{t("loader.dep.emptyBody", { depot: data.depot })}</Empty></div>
       ) : (
-        <ul className="mt-4 space-y-2">
+        <ul className="mt-5 space-y-3">
           {trips.map((tr) => (
             <li key={tr.trip_id}>
               <button

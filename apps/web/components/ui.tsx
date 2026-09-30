@@ -143,7 +143,7 @@ const toneClass: Record<Tone, string> = {
 export function Pill({ tone = "neutral", children, className = "" }: { tone?: Tone; children: React.ReactNode; className?: string }) {
   return (
     <span
-      className={`inline-flex h-[22px] max-w-full items-center truncate whitespace-nowrap rounded-full px-2.5 text-[10px] font-bold uppercase tracking-[0.6px] ${toneClass[tone]} ${className}`}
+      className={`inline-flex h-6 max-w-full items-center truncate whitespace-nowrap rounded-full px-3 sm:h-[22px] sm:px-2.5 text-[10px] font-bold uppercase tracking-[0.6px] ${toneClass[tone]} ${className}`}
     >
       {children}
     </span>
@@ -166,7 +166,7 @@ export function Button({ variant = "primary", size = "md", block, busy, classNam
     ghost: "bg-transparent text-muted hover:text-ink",
     accent: "bg-accent text-[#111] hover:opacity-90",
   }[variant];
-  const s = { sm: "h-[34px] px-3 text-[13px]", md: "h-11 px-4 text-[15px]", lg: "h-12 px-5 text-[15px]", xl: "h-[52px] px-5 text-[15px]" }[size];
+  const s = { sm: "h-10 px-3 text-[13px] sm:h-[34px]", md: "h-12 px-4 text-[15px] sm:h-11", lg: "h-12 px-5 text-[15px]", xl: "h-14 px-5 text-[15px] sm:h-[52px]" }[size];
   return (
     <button
       {...rest}
@@ -233,7 +233,7 @@ export function DataRow({ label, value }: { label: string; value: React.ReactNod
 /** A filter / choice chip (30 px, fully rounded); `on` fills it with the primary colour. */
 export function Chip({ on, onClick, children, className = "" }: { on: boolean; onClick: () => void; children: React.ReactNode; className?: string }) {
   return (
-    <button onClick={onClick} aria-pressed={on} className={`h-[30px] shrink-0 rounded-full px-4 text-[13px] font-medium ${on ? "bg-primary text-on-primary" : "bg-neutral text-muted"} ${className}`}>
+    <button onClick={onClick} aria-pressed={on} className={`h-10 shrink-0 rounded-full px-4 text-[13px] font-medium sm:h-[30px] ${on ? "bg-primary text-on-primary" : "bg-neutral text-muted"} ${className}`}>
       {children}
     </button>
   );
@@ -243,10 +243,10 @@ export function Chip({ on, onClick, children, className = "" }: { on: boolean; o
 export function Stepper({ value, onChange, min = 0, max = 500, fewerLabel, moreLabel, valueLabel }: { value: number; onChange: (v: number) => void; min?: number; max?: number; fewerLabel: string; moreLabel: string; valueLabel: string }) {
   const set = (n: number) => onChange(Math.max(min, Math.min(max, n)));
   return (
-    <div className="font-data flex h-[34px] w-[104px] shrink-0 items-center justify-between rounded-[8px] bg-neutral px-1 text-[13px]">
-      <button onClick={() => set(value - 1)} className="grid h-8 w-8 place-items-center" aria-label={fewerLabel}>−</button>
+    <div className="font-data flex h-11 w-[120px] shrink-0 items-center justify-between rounded-[8px] bg-neutral px-1 text-[13px] sm:h-[34px] sm:w-[104px]">
+      <button onClick={() => set(value - 1)} className="grid h-10 w-10 place-items-center sm:h-8 sm:w-8" aria-label={fewerLabel}>−</button>
       <input inputMode="numeric" value={value} onChange={(e) => set(Number(e.target.value.replace(/\D/g, "")) || 0)} className="w-9 bg-transparent text-center outline-none" aria-label={valueLabel} />
-      <button onClick={() => set(value + 1)} className="grid h-8 w-8 place-items-center" aria-label={moreLabel}>+</button>
+      <button onClick={() => set(value + 1)} className="grid h-10 w-10 place-items-center sm:h-8 sm:w-8" aria-label={moreLabel}>+</button>
     </div>
   );
 }

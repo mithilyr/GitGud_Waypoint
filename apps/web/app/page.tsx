@@ -19,27 +19,32 @@ export default function Home() {
   return (
     <div className="flex min-h-dvh flex-col overflow-x-clip">
     <main className="relative mx-auto w-full max-w-[980px] flex-1 px-4 pt-8 sm:px-8">
-      <header className="flex items-center gap-3">
-        <Logo size={44} />
-        <div>
-          <div className="text-[15px] font-semibold leading-tight">Waypoint</div>
-          <div className="text-[12px] text-muted">{t("home.tagline")}</div>
+      {/* Phones: the brand on the first row, status and language on a second row that wraps. From sm: one row. */}
+      <header className="flex flex-wrap items-center gap-x-3 gap-y-3">
+        <div className="flex min-w-0 items-center gap-3 sm:flex-1">
+          <Logo size={44} />
+          <div className="min-w-0">
+            <div className="text-[15px] font-semibold leading-tight">Waypoint</div>
+            <div className="text-[12px] leading-snug text-muted">{t("home.tagline")}</div>
+          </div>
         </div>
-        <StatusPill />
-        <div className="ml-3"><LanguageSwitch /></div>
+        <div className="flex w-full flex-wrap items-center justify-between gap-x-3 gap-y-2 sm:w-auto sm:justify-end">
+          <StatusPill />
+          <LanguageSwitch />
+        </div>
       </header>
 
-      <section className="mt-12 max-w-[640px]">
+      <section className="mt-8 max-w-[640px] sm:mt-12">
         <p className="eyebrow">{t("home.eyebrow")}</p>
-        <h1 className="mt-2 font-display text-[44px] font-medium leading-[1.05] tracking-[-0.015em] sm:text-[56px]">
+        <h1 className="mt-2 font-display text-[36px] font-medium leading-[1.08] tracking-[-0.015em] [overflow-wrap:anywhere] sm:text-[56px] sm:leading-[1.05]">
           {t("home.title")}
         </h1>
-        <p className="mt-4 text-[16px] text-muted">
+        <p className="mt-4 text-[15px] text-muted sm:text-[16px]">
           {t("home.lede")}
         </p>
       </section>
 
-      <ul className="mt-10 grid gap-3 sm:grid-cols-2">
+      <ul className="mt-8 grid gap-3 sm:mt-10 sm:grid-cols-2">
         {roles.map((r) => (
           <li key={r.href}>
             <Link

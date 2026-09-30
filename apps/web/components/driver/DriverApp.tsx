@@ -39,7 +39,8 @@ function SignIn() {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
   return (
-    <main className="relative mx-auto flex min-h-dvh max-w-[480px] flex-col px-5 pb-6 pt-8">
+    <div className="flex min-h-dvh flex-col overflow-x-clip">
+    <main className="relative mx-auto flex w-full max-w-[480px] flex-1 flex-col px-5 pb-6 pt-8">
       <div className="flex items-center gap-3">
         <Logo size={40} />
         <div>
@@ -93,8 +94,11 @@ function SignIn() {
         </Button>
       </form>
       <p className="mt-3 text-center text-[12px] font-medium text-muted">{t("drv.signin.once")}</p>
-      <div className="mt-auto pt-10"><WaypointString className="!h-[130px]" /></div>
     </main>
+    <div className="pt-6">
+      <WaypointString className="!h-[130px] sm:!h-[180px]" />
+    </div>
+  </div>
   );
 }
 
@@ -130,7 +134,8 @@ function PinScreen({ mode }: { mode: "setup" | "unlock" }) {
   }
   const name = profile?.user.name ?? "";
   return (
-    <main className="relative mx-auto flex min-h-dvh max-w-[480px] flex-col items-center px-5 pb-6 pt-10">
+    <div className="flex min-h-dvh flex-col overflow-x-clip">
+    <main className="relative mx-auto flex w-full max-w-[480px] flex-1 flex-col items-center px-5 pb-6 pt-10">
       <Logo size={48} />
       <div className="mt-4 text-center">
         <div className="font-display text-[26px] font-medium">{name}</div>
@@ -158,8 +163,11 @@ function PinScreen({ mode }: { mode: "setup" | "unlock" }) {
         {mode === "unlock" ? t("drv.pin.unlockNote") : t("drv.pin.setupNote")}
       </p>
       <button onClick={forget} className="mt-4 text-[13px] font-semibold text-muted underline">{t("drv.pin.notYou", { name: name.split(" ")[0] || t("drv.pin.you") })}</button>
-      <div className="mt-auto w-full pt-10"><WaypointString className="!h-[130px]" /></div>
     </main>
+    <div className="pt-6">
+      <WaypointString className="!h-[130px] sm:!h-[180px]" />
+    </div>
+  </div>
   );
 }
 

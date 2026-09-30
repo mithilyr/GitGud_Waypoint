@@ -39,7 +39,7 @@ export function StatusPill() {
   const text = state === "up" ? t("status.online") : state === "waking" ? t("status.waking") : t("status.checking");
   const tone = state === "up" ? "text-ok" : state === "waking" ? "text-muted" : "text-muted";
   return (
-    <span className={`ml-auto inline-flex items-center gap-1.5 text-[12px] ${tone}`} role="status">
+    <span className={`inline-flex min-w-0 items-center gap-1.5 text-[12px] ${tone}`} role="status">
       <span className="h-2 w-2 rounded-full bg-current" />
       {text}
     </span>

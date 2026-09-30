@@ -53,7 +53,8 @@ export default function LoaderSignIn() {
   }
 
   return (
-    <main className="relative mx-auto flex min-h-dvh max-w-[520px] flex-col px-5 pb-6 pt-8">
+    <div className="flex min-h-dvh flex-col overflow-x-clip">
+    <main className="relative mx-auto flex w-full max-w-[520px] flex-1 flex-col px-5 pb-6 pt-8">
       <div className="flex items-center gap-3">
         <Logo size={40} />
         <div>
@@ -116,7 +117,10 @@ export default function LoaderSignIn() {
         )}
       </div>
       <p className="mt-4 text-center text-[12px] text-muted">{t("loader.signin.demoPins")}</p>
-      <div className="mt-auto pt-10"><WaypointString className="!h-[130px]" /></div>
     </main>
+    <div className="pt-6">
+      <WaypointString className="!h-[130px] sm:!h-[180px]" />
+    </div>
+  </div>
   );
 }

@@ -92,7 +92,7 @@ function LoginForm() {
           {t("login.fill", { role: roleLabel })}
         </Button>
       </form>
-      <WaypointString className="fixed inset-x-0 bottom-0 -z-10 !h-[140px] sm:!h-[200px]" />
+      <WaypointString className="fixed inset-x-0 bottom-0 -z-10" />
     </main>
   );
 }

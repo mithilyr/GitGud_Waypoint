@@ -119,7 +119,7 @@ export default function LoaderSignIn() {
       <p className="mt-4 text-center text-[12px] text-muted">{t("loader.signin.demoPins")}</p>
     </main>
     <div className="pt-6">
-      <WaypointString className="!h-[130px] sm:!h-[180px]" />
+      <WaypointString />
     </div>
   </div>
   );

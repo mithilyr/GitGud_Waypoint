@@ -96,7 +96,7 @@ function SignIn() {
       <p className="mt-3 text-center text-[12px] font-medium text-muted">{t("drv.signin.once")}</p>
     </main>
     <div className="pt-6">
-      <WaypointString className="!h-[130px] sm:!h-[180px]" />
+      <WaypointString />
     </div>
   </div>
   );
@@ -165,7 +165,7 @@ function PinScreen({ mode }: { mode: "setup" | "unlock" }) {
       <button onClick={forget} className="mt-4 text-[13px] font-semibold text-muted underline">{t("drv.pin.notYou", { name: name.split(" ")[0] || t("drv.pin.you") })}</button>
     </main>
     <div className="pt-6">
-      <WaypointString className="!h-[130px] sm:!h-[180px]" />
+      <WaypointString />
     </div>
   </div>
   );

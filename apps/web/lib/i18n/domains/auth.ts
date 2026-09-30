@@ -2,8 +2,8 @@ import { defineDomain } from "../define";
 
 export const auth = defineDomain({
   en: {
-    "home.who": "Who are you today?",
-    "home.pick": "Pick your role to start your delivery day.",
+    "home.title": "From the store’s order to the signed receipt.",
+    "home.lede": "Four people, one shared record. Pick who you are to walk one delivery day: order, plan, load, deliver, receive.",
     "home.verb.dispatcher": "Plans the day",
     "home.verb.loader": "Loads the trucks",
     "home.verb.driver": "Delivers the orders",
@@ -32,8 +32,8 @@ export const auth = defineDomain({
     "login.failed": "Could not sign in",
   },
   si: {
-    "home.who": "අද ඔබ කවුද?",
-    "home.pick": "ඔබේ බෙදාහැරීමේ දිනය ආරම්භ කිරීමට ඔබේ භූමිකාව තෝරන්න.",
+    "home.title": "අලෙවිසැලේ ඇණවුමේ සිට අත්සන් කළ රිසිට්පත දක්වා.",
+    "home.lede": "පුද්ගලයන් හතරයි, හවුල් වාර්තාවක්. ඔබ කවුදැයි තෝරා බෙදාහැරීමේ දිනයක් අත්විඳින්න: ඇණවුම, සැලසුම, පැටවීම, බෙදාහැරීම, භාර ගැනීම.",
     "home.verb.dispatcher": "දිනය සැලසුම් කරයි",
     "home.verb.loader": "ට්‍රක් පටවයි",
     "home.verb.driver": "ඇණවුම් බෙදාහරී",
@@ -62,8 +62,8 @@ export const auth = defineDomain({
     "login.failed": "පිවිසිය නොහැකි විය",
   },
   ta: {
-    "home.who": "இன்று நீங்கள் யார்?",
-    "home.pick": "உங்கள் வழங்கல் நாளைத் தொடங்க உங்கள் பங்கைத் தேர்ந்தெடுங்கள்.",
+    "home.title": "கடையின் ஆர்டரிலிருந்து கையொப்பமிட்ட ரசீது வரை.",
+    "home.lede": "நான்கு பேர், ஒரே பதிவு. நீங்கள் யார் என்பதைத் தேர்ந்தெடுத்து ஒரு வழங்கல் நாளைப் பாருங்கள்: ஆர்டர், திட்டம், ஏற்றுதல், வழங்கல், பெறுதல்.",
     "home.verb.dispatcher": "நாளைத் திட்டமிடுகிறார்",
     "home.verb.loader": "லாரிகளை ஏற்றுகிறார்",
     "home.verb.driver": "ஆர்டர்களை வழங்குகிறார்",

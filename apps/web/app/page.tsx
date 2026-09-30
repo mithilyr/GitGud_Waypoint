@@ -76,8 +76,8 @@ export default function Home() {
         </header>
 
         <section className="mt-12 sm:mt-14">
-          <h1 className="font-display text-[40px] font-medium leading-[1.08] tracking-[-0.015em] [overflow-wrap:anywhere] sm:text-[56px] sm:leading-[1.05]">{t("home.who")}</h1>
-          <p className="mt-3 max-w-[560px] text-[17px] leading-relaxed text-muted sm:text-[16px] sm:leading-normal">{t("home.pick")}</p>
+          <h1 className="font-display text-[40px] font-medium leading-[1.08] tracking-[-0.015em] [overflow-wrap:anywhere] sm:text-[56px] sm:leading-[1.05]">{t("home.title")}</h1>
+          <p className="mt-3 max-w-[560px] text-[17px] leading-relaxed text-muted sm:text-[16px] sm:leading-normal">{t("home.lede")}</p>
         </section>
 
         <ul className="mt-8 grid grid-cols-2 gap-3">

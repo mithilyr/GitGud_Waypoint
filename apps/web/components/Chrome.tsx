@@ -19,7 +19,7 @@ export function PhoneHeader({ label, back, right }: { label: string; back?: bool
           <button
             onClick={() => (typeof back === "string" ? router.push(back) : router.back())}
             aria-label={t("common.back")}
-            className="grid h-[29px] w-[29px] place-items-center rounded-full text-ink hover:bg-neutral"
+            className="-ml-2 grid h-11 w-11 place-items-center rounded-full text-ink hover:bg-neutral"
           >
             <Icon.Back />
           </button>

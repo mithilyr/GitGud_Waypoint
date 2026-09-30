@@ -188,7 +188,7 @@ function Shell() {
       <header className="sticky top-0 z-20 flex h-14 items-center bg-bg px-3">
         <div className="w-16">
           {stack.length > 1 ? (
-            <button onClick={back} aria-label={t("common.back")} className="grid h-[29px] w-[29px] place-items-center rounded-full hover:bg-neutral"><Icon.Back /></button>
+            <button onClick={back} aria-label={t("common.back")} className="-ml-2 grid h-11 w-11 place-items-center rounded-full hover:bg-neutral"><Icon.Back /></button>
           ) : null}
         </div>
         <div className="flex-1 text-center text-[12px] font-medium text-muted">{label}</div>

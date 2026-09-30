@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Button, Card, Empty, ErrorNote, Headline, Spinner } from "@/components/ui";
+import { Button, Card, Empty, ErrorNote, Headline, Pill, Spinner } from "@/components/ui";
 import { get } from "@/lib/api";
 import { useAuth } from "@/lib/auth";
 import { fmtDate } from "@/lib/format";
@@ -11,6 +11,7 @@ import type { Key } from "@/lib/i18n/en";
 
 type Row = { id: string; temp: string; status: string; service_date: string; summary: string; lines: unknown[] };
 
+const TONE: Record<string, "ok" | "warn" | "info" | "neutral" | "bad"> = { received: "ok", issue_reported: "bad", deferred: "warn", delivered: "info", partial: "warn", failed: "bad" };
 const STATUSES = ["received", "issue_reported", "deferred", "delivered", "partial", "failed"];
 
 export default function HistoryPage() {
@@ -30,8 +31,11 @@ export default function HistoryPage() {
           {data.map((o) => (
             <Link key={o.id} href="/store/track" className="block">
               <Card className="p-4">
-                <div className="text-[16px] font-semibold">
-                  {fmtDate(o.service_date)} · {t(`store.history.status.${STATUSES.includes(o.status) ? o.status : "other"}` as Key)}
+                <div className="flex items-center justify-between gap-2">
+                  <div className="text-[16px] font-semibold">
+                    {fmtDate(o.service_date)} · {o.temp === "chilled" ? t("common.chilled") : t("common.ambient")}
+                  </div>
+                  <Pill tone={TONE[o.status] ?? "neutral"}>{t(`store.history.status.${STATUSES.includes(o.status) ? o.status : "other"}` as Key)}</Pill>
                 </div>
                 <div className="mt-1 text-[14px] text-muted">{o.summary}</div>
                 <div className="font-data mt-2 text-[12px] text-faint">{t("store.history.lines", { id: o.id, n: o.lines.length })}</div>

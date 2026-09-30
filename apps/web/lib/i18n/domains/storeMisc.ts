@@ -2,6 +2,7 @@ import { defineDomain } from "../define";
 
 export const storeMisc = defineDomain({
   en: {
+    "store.order.clear": "Clear",
     "store.history.status.received": "Received",
     "store.history.status.issue_reported": "Issue reported",
     "store.history.status.deferred": "Deferred",
@@ -13,6 +14,7 @@ export const storeMisc = defineDomain({
     "store.settings.signOutRow": "Sign out",
   },
   si: {
+    "store.order.clear": "මකන්න",
     "store.history.status.received": "ලැබුණා",
     "store.history.status.issue_reported": "ගැටලුව වාර්තා කළා",
     "store.history.status.deferred": "කල් දමා ඇත",
@@ -24,6 +26,7 @@ export const storeMisc = defineDomain({
     "store.settings.signOutRow": "ඉවත් වන්න",
   },
   ta: {
+    "store.order.clear": "அழி",
     "store.history.status.received": "பெறப்பட்டது",
     "store.history.status.issue_reported": "சிக்கல் தெரிவிக்கப்பட்டது",
     "store.history.status.deferred": "ஒத்திவைக்கப்பட்டது",

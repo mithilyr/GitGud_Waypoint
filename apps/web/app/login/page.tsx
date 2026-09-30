@@ -16,7 +16,8 @@ const DEMO: Record<Role, { email: string }> = {
 
 function LoginForm() {
   const params = useSearchParams();
-  const role = (params.get("role") as Role) in DEMO ? (params.get("role") as Role) : "dispatcher";
+  const asked = params.get("role") ?? "";
+  const role: Role = Object.hasOwn(DEMO, asked) ? (asked as Role) : "dispatcher";
   const router = useRouter();
   const { t } = useT();
   const { login } = useAuth();

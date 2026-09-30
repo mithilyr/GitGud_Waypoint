@@ -103,13 +103,16 @@ export default function OrderPage() {
         </Card>
       </div>
 
-      <div className="mt-6 text-[13px] font-semibold">{t("store.order.orderLines")}</div>
+      <div className="mt-6 flex items-center justify-between">
+        <div className="text-[13px] font-semibold">{t("store.order.orderLines")}</div>
+        {lines.length ? <button onClick={() => setBasket({})} className="text-[13px] font-medium text-muted underline">{t("store.order.clear")}</button> : null}
+      </div>
       <div className="mt-2 divide-y divide-line">
         {visible.map(([sku, qty]) => (
-          <div key={sku} className="flex min-h-11 items-center gap-3 py-3">
+          <button key={sku} onClick={() => setAdding(true)} className="flex min-h-11 w-full items-center gap-3 py-3 text-left">
             <div className="min-w-0 flex-1 truncate text-[14px] font-medium">{byId[sku]?.name ?? sku}</div>
             <div className="font-data text-[13px] text-muted">× {qty}</div>
-          </div>
+          </button>
         ))}
         {!lines.length ? <div className="py-6 text-center text-muted">{t("store.order.empty")}</div> : null}
       </div>
@@ -120,10 +123,10 @@ export default function OrderPage() {
       ) : null}
 
       <div className="mt-4 flex gap-3">
-        <Button variant="secondary" className="flex-1 !px-2 !text-[15px]" onClick={() => setAdding(true)}>
+        <Button variant="secondary" className="h-auto min-h-11 flex-1 !px-2 py-2 !text-[15px] leading-tight" onClick={() => setAdding(true)}>
           {t("store.order.addItem")}
         </Button>
-        <Button variant="secondary" className="flex-1 !px-2 !text-[14px]" onClick={reorder}>
+        <Button variant="secondary" className="h-auto min-h-11 flex-1 !px-2 py-2 !text-[14px] leading-tight" onClick={reorder}>
           {t("store.order.reorder")}
         </Button>
       </div>

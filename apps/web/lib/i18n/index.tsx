@@ -17,7 +17,7 @@ const dict: Record<Lang, Record<Key, string>> = { en, si, ta };
 const LANG_KEY = "wp_lang";
 
 export function translate(lang: Lang, key: Key, vars: Record<string, string | number> = {}): string {
-  const raw = dict[lang][key] ?? en[key];
+  const raw = dict[lang][key] ?? en[key] ?? key;
   return raw.replace(/\{(\w+)\}/g, (_, k) => String(vars[k] ?? ""));
 }
 

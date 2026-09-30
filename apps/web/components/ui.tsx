@@ -111,7 +111,7 @@ const toneClass: Record<Tone, string> = {
 export function Pill({ tone = "neutral", children, className = "" }: { tone?: Tone; children: React.ReactNode; className?: string }) {
   return (
     <span
-      className={`inline-flex h-[22px] items-center whitespace-nowrap rounded-full px-2.5 text-[10px] font-bold uppercase tracking-[0.6px] ${toneClass[tone]} ${className}`}
+      className={`inline-flex h-[22px] max-w-full items-center truncate whitespace-nowrap rounded-full px-2.5 text-[10px] font-bold uppercase tracking-[0.6px] ${toneClass[tone]} ${className}`}
     >
       {children}
     </span>
@@ -163,7 +163,7 @@ export function Eyebrow({ children, className = "" }: { children: React.ReactNod
 }
 
 export function Headline({ children, className = "" }: { children: React.ReactNode; className?: string }) {
-  return <h1 className={`font-display text-[34px] font-medium leading-[1.1] tracking-[-0.8px] ${className}`}>{children}</h1>;
+  return <h1 className={`font-display text-[34px] font-medium leading-[1.1] tracking-[-0.8px] [overflow-wrap:anywhere] ${className}`}>{children}</h1>;
 }
 
 export function Bar({ pct, tone }: { pct: number; tone?: Tone }) {

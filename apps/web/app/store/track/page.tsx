@@ -85,7 +85,7 @@ export default function TrackPage() {
             onDismiss={() => setDismissed((d) => [...d, o.id])}
           />
         ))}
-      {!data.deliveries.length && !data.deferred.length ? <Empty title={t("store.track.nothing")}>{t("store.track.nothingBody")}</Empty> : null}
+      {!data.deliveries.length && !data.deferred.filter((o) => !dismissed.includes(o.id)).length ? <Empty title={t("store.track.nothing")}>{t("store.track.nothingBody")}</Empty> : null}
       {[...data.deliveries]
         .sort((a, b) => b.steps.filter((x) => x.state === "done").length - a.steps.filter((x) => x.state === "done").length)
         .map((d) => (
@@ -158,19 +158,20 @@ function DeliveryView({ d, outlet, onReport, onChange }: { d: Delivery; outlet: 
 
   if (closed) {
     const r = d.receipt!;
-    const full = r.lines.filter((l) => l.received >= l.expected).length;
-    const shorts = r.lines.filter((l) => l.received < l.expected);
     const issue = r.status === "issue";
+    const rows = r.lines.length ? r.lines : s.lines.map((l) => ({ group: l.group, expected: l.planned, received: l.handed ?? l.expected }));
+    const full = rows.filter((l) => l.received >= l.expected).length;
+    const shorts = rows.filter((l) => l.received < l.expected);
     return (
       <div>
-        <div className="grid h-14 w-14 place-items-center rounded-full bg-ok-bg text-ok"><Icon.Check size={26} /></div>
+        <div className={`grid h-14 w-14 place-items-center rounded-full ${issue ? "bg-warn-bg text-warn" : "bg-ok-bg text-ok"}`}>{issue ? <span className="text-[22px] font-bold" aria-hidden>!</span> : <Icon.Check size={26} />}</div>
         <p className="mt-6 text-[13px] font-medium text-muted">{t("store.closed.eyebrow", { outlet, at: r.at })}</p>
         <Headline className="mt-1">{issue ? t("store.track.problemReported") : t("store.track.receiptConfirmed")}</Headline>
         <p className="mt-2 text-[15px] text-muted">
           {issue ? t("store.track.reportWith", { code: d.report?.code ?? "" }) : t("store.track.closedSub", { who: driver })}
         </p>
         <Card className="mt-6 divide-y divide-line px-4">
-          <SummaryRow label={t("store.closed.received")} value={t("store.closed.linesOf", { n: full, total: r.lines.length })} />
+          <SummaryRow label={t("store.closed.received")} value={t("store.closed.linesOf", { n: full, total: rows.length })} />
           {shorts.length ? (
             <SummaryRow
               label={t("store.closed.short")}

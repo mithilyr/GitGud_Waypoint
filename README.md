@@ -3,7 +3,8 @@
 > Tech-Triathlon 2026 · Hackathon · Theme: *The Intelligent Enterprise*
 > One system connecting **order → plan → load → deliver → receipt** for Waypoint Group's four roles: Dispatcher, Loader, Driver and Store manager.
 
-**Live demo:** _TBD (deployed URL)_ · **API docs:** `<api-url>/docs`
+**Live demo:** https://waypoint-web-5ssl.onrender.com · **API docs:** https://waypoint-api-h4p1.onrender.com/docs
+_Hosted on Render's free tier: the first request after idle takes 30–60 s while the services wake._
 **Design:** the submitted Designathon file (Penpot). Every departure is listed in [docs/design-departures.md](docs/design-departures.md).
 
 ## Quick start

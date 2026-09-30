@@ -2,6 +2,8 @@ import { defineDomain } from "../define";
 
 export const disp = defineDomain({
   en: {
+    "disp.status.draft": "draft",
+    "disp.status.released": "released",
     "disp.brand": "Waypoint Dispatch",
     "disp.office": "Peliyagoda office",
     "disp.tab.orders": "Orders",
@@ -182,6 +184,8 @@ export const disp = defineDomain({
     "disp.settings.both": "Both",
   },
   si: {
+    "disp.status.draft": "කෙටුම්පත",
+    "disp.status.released": "නිකුත් කළ",
     "disp.brand": "Waypoint Dispatch",
     "disp.office": "පැලියගොඩ කාර්යාලය",
     "disp.tab.orders": "ඇණවුම්",
@@ -357,6 +361,8 @@ export const disp = defineDomain({
     "disp.settings.both": "දෙකම",
   },
   ta: {
+    "disp.status.draft": "வரைவு",
+    "disp.status.released": "வெளியிடப்பட்ட",
     "disp.brand": "Waypoint Dispatch",
     "disp.office": "பெலியகொட அலுவலகம்",
     "disp.tab.orders": "ஆர்டர்கள்",

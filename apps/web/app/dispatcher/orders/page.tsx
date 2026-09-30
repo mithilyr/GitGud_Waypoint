@@ -119,7 +119,7 @@ export default function OrdersPage() {
           <ErrorNote error={build.error} />
           {data.plan ? (
             <Button variant="secondary" size="lg" onClick={() => router.push("/dispatcher/plan")}>
-              {t("disp.orders.openPlan", { status: data.plan.status })}
+              {t("disp.orders.openPlan", { status: data.plan.status === "released" ? t("disp.status.released") : t("disp.status.draft") })}
             </Button>
           ) : null}
           {data.plan?.status !== "released" ? (

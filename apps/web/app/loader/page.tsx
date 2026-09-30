@@ -2,15 +2,18 @@
 
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { LanguageSwitch } from "@/components/LanguageSwitch";
 import { ErrorNote, Logo, Spinner, VineRidges } from "@/components/ui";
 import { get } from "@/lib/api";
 import { useAuth } from "@/lib/auth";
 import { initial } from "@/lib/format";
+import { useT } from "@/lib/i18n";
 
 type Person = { id: number; name: string; dock: string | null };
 
 /** L1 · Dock sign-in on the shared tablet: tap your name, enter a 4-digit PIN. */
 export default function LoaderSignIn() {
+  const { t } = useT();
   const router = useRouter();
   const { user, ready, pinLogin } = useAuth();
   const [people, setPeople] = useState<Person[] | null>(null);
@@ -42,7 +45,7 @@ export default function LoaderSignIn() {
         await pinLogin(who.id, next);
         router.replace("/loader/departures");
       } catch (e) {
-        setError(e instanceof Error ? e.message : "That PIN is not right");
+        setError(e instanceof Error ? e.message : t("loader.signin.wrongPin"));
         setTimeout(() => setPin(""), 350);
       }
     }
@@ -54,11 +57,12 @@ export default function LoaderSignIn() {
         <Logo size={40} />
         <div>
           <div className="text-[15px] font-semibold leading-tight">Waypoint</div>
-          <div className="text-[12px] text-muted">Loader · Kandy depot · Dock 3</div>
+          <div className="text-[13px] font-medium text-muted">{t("loader.signin.sub")}</div>
         </div>
       </div>
-      <h1 className="mt-8 font-display text-[34px] font-medium leading-[1.1]">Who&rsquo;s loading?</h1>
-      <p className="mt-1 text-muted">This tablet is shared. Tap your name.</p>
+      <h1 className="mt-8 font-display text-[32px] font-medium leading-[1.2] tracking-[-0.7px]">{t("loader.signin.title")}</h1>
+      <p className="mt-1 text-[14px] text-muted">{t("loader.signin.lede")}</p>
+      <div className="mt-4"><LanguageSwitch /></div>
 
       {people === null ? (
         <div className="grid place-items-center py-10 text-muted"><Spinner /></div>
@@ -77,7 +81,7 @@ export default function LoaderSignIn() {
               >
                 <span className="grid h-9 w-9 place-items-center rounded-full bg-neutral font-semibold">{initial(p.name)}</span>
                 <span className="text-[16px] font-semibold">{p.name}</span>
-                {who?.id === p.id ? <span className="eyebrow ml-auto">Selected</span> : null}
+                {who?.id === p.id ? <span className="ml-auto text-[12px] font-medium text-muted">{t("loader.signin.selected")}</span> : null}
               </button>
             </li>
           ))}
@@ -85,8 +89,8 @@ export default function LoaderSignIn() {
       )}
 
       <div className="mt-6 text-center">
-        <p className="text-[14px] font-semibold">{who ? `${who.name.split(" ")[0]}, enter your PIN` : "Pick your name"}</p>
-        <div className="mt-3 flex justify-center gap-3" aria-label={`${pin.length} of 4 digits entered`}>
+        <p className="text-[14px] font-semibold">{who ? t("loader.signin.enterPin", { name: who.name.split(" ")[0] }) : t("loader.signin.pickName")}</p>
+        <div className="mt-3 flex justify-center gap-3" aria-label={t("loader.signin.digits", { n: pin.length })}>
           {[0, 1, 2, 3].map((i) => (
             <span key={i} className={`h-3.5 w-3.5 rounded-full border-2 ${i < pin.length ? "border-ink bg-ink" : "border-faint"}`} />
           ))}
@@ -101,7 +105,7 @@ export default function LoaderSignIn() {
               key={i}
               onClick={() => press(k)}
               className="hoverable h-14 rounded-[12px] border border-line bg-surface text-[22px] font-medium active:bg-neutral"
-              aria-label={k === "⌫" ? "Delete" : k}
+              aria-label={k === "⌫" ? t("loader.signin.delete") : k}
             >
               {k}
             </button>
@@ -110,7 +114,7 @@ export default function LoaderSignIn() {
           ),
         )}
       </div>
-      <p className="mt-4 text-center text-[12px] text-muted">Demo PINs: Kamal 1234 · Tharindu 2345 · Fathima 3456 · Suresh 4567</p>
+      <p className="mt-4 text-center text-[12px] text-muted">{t("loader.signin.demoPins")}</p>
       <div className="mt-auto pt-6 opacity-80"><VineRidges /></div>
     </main>
   );

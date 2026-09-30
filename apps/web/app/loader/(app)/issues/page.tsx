@@ -1,15 +1,18 @@
 "use client";
 
 import Link from "next/link";
-import { Card, Empty, ErrorNote, Eyebrow, Headline, Pill, Spinner } from "@/components/ui";
+import { Card, Empty, ErrorNote, Headline, Pill, Spinner } from "@/components/ui";
 import { get } from "@/lib/api";
 import { usePoll } from "@/lib/hooks";
+import { useT } from "@/lib/i18n";
+import type { Key } from "@/lib/i18n/en";
 import type { Departure } from "../departures/page";
 import type { TripDetail } from "@/components/loader/LoadPanel";
 
 type Row = { vehicle: string; tripId: number; flags: TripDetail["flags"] };
 
 export default function IssuesPage() {
+  const { t } = useT();
   const { data, error, loading, reload } = usePoll(async () => {
     const deps = await get<{ trips: Departure[] }>("/loader/departures");
     const rows: Row[] = [];
@@ -24,11 +27,10 @@ export default function IssuesPage() {
   if (!data) return <ErrorNote error={error} retry={reload} />;
   return (
     <div className="rise mx-auto max-w-[620px]">
-      <Eyebrow>Issues</Eyebrow>
-      <Headline className="mt-1 !text-[28px]">Flags you have sent.</Headline>
-      <p className="mt-1 text-[14px] text-muted">Ruwan&rsquo;s answers appear here as soon as he gives them.</p>
+      <Headline className="mt-1">{t("loader.issues.title")}</Headline>
+      <p className="mt-2 text-[14px] text-muted">{t("loader.issues.lede")}</p>
       {!data.length ? (
-        <div className="mt-5"><Empty title="No flags.">If a count does not match, flag it from the load list before you release.</Empty></div>
+        <div className="mt-5"><Empty title={t("loader.issues.none")}>{t("loader.issues.noneBody")}</Empty></div>
       ) : (
         <div className="mt-4 space-y-3">
           {data.map((r) =>
@@ -37,10 +39,10 @@ export default function IssuesPage() {
                 <Card className="p-4">
                   <div className="flex items-center justify-between">
                     <span className="font-data font-semibold">{r.vehicle}</span>
-                    <Pill tone={f.status === "answered" ? "ok" : "warn"}>{f.status === "answered" ? (f.answer === "top_up" ? "Top up" : "Send as is") : "Waiting for Ruwan"}</Pill>
+                    <Pill tone={f.status === "answered" ? "ok" : "warn"}>{f.status === "answered" ? (f.answer === "top_up" ? t("loader.issues.topUp") : t("loader.issues.asIs")) : t("loader.load.waiting")}</Pill>
                   </div>
-                  <div className="mt-1 font-semibold">{f.stop} · {f.group} {f.found} of {f.planned}</div>
-                  <div className="text-[13px] text-muted">{f.reason.replace("_", " ")}</div>
+                  <div className="mt-1 font-semibold">{t("loader.issues.line", { stop: f.stop, g: f.group, f: f.found, n: f.planned })}</div>
+                  <div className="text-[13px] text-muted">{t(`loader.reason.${f.reason}` as Key)}</div>
                 </Card>
               </Link>
             )),

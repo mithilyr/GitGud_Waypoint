@@ -4,10 +4,12 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useEffect, useState } from "react";
 import { useWide } from "@/components/Chrome";
 import { LoadPanel } from "@/components/loader/LoadPanel";
-import { Card, Empty, ErrorNote, Eyebrow, Headline, Pill, Spinner, type Tone } from "@/components/ui";
+import { Card, Empty, ErrorNote, Headline, Pill, Spinner, type Tone } from "@/components/ui";
 import { get } from "@/lib/api";
 import { fmtLong } from "@/lib/format";
 import { usePoll } from "@/lib/hooks";
+import { useT } from "@/lib/i18n";
+import type { Key } from "@/lib/i18n/en";
 
 export type Departure = {
   trip_id: number;
@@ -32,6 +34,7 @@ const TONE: Record<string, Tone> = { RELEASED: "ok", LEFT: "ok", LOADING: "info"
 const KEY = "wp_loader_trip";
 
 function Departures() {
+  const { t } = useT();
   const router = useRouter();
   const params = useSearchParams();
   const wide = useWide();
@@ -50,48 +53,48 @@ function Departures() {
   if (!data) return <ErrorNote error={error} retry={reload} />;
 
   const trips = data.trips;
-  const active = trips.find((t) => t.trip_id === sel) ?? (wide ? trips.find((t) => t.status === "LOADING") ?? trips.find((t) => t.status === "PLAN CHANGED") ?? trips.find((t) => t.status === "NOT STARTED") ?? trips[0] : undefined);
+  const active = trips.find((x) => x.trip_id === sel) ?? (wide ? trips.find((x) => x.status === "LOADING") ?? trips.find((x) => x.status === "PLAN CHANGED") ?? trips.find((x) => x.status === "NOT STARTED") ?? trips[0] : undefined);
 
   const list = (
     <div>
-      <Eyebrow>Leaving {data.dock}{data.date ? ` · ${fmtLong(data.date)}` : ""}</Eyebrow>
-      <Headline className="mt-1 !text-[28px]">Leaving {data.dock}</Headline>
-      <p className="mt-1 text-[14px] text-muted">In departure order. Changes from the dispatcher show here straight away.</p>
+      <p className="text-[13px] font-medium text-muted">{data.date ? fmtLong(data.date) : ""}</p>
+      <Headline className="mt-1">{t("loader.dep.leaving", { dock: data.dock })}</Headline>
+      <p className="mt-2 text-[14px] leading-[1.5] text-muted">{t("loader.dep.lede")}</p>
       {!trips.length ? (
-        <div className="mt-5"><Empty title="Nothing to load yet.">When Ruwan releases the plan, the {data.depot} vehicles appear here in departure order.</Empty></div>
+        <div className="mt-5"><Empty title={t("loader.dep.empty")}>{t("loader.dep.emptyBody", { depot: data.depot })}</Empty></div>
       ) : (
         <ul className="mt-4 space-y-2">
-          {trips.map((t) => (
-            <li key={t.trip_id}>
+          {trips.map((tr) => (
+            <li key={tr.trip_id}>
               <button
                 onClick={() => {
-                  sessionStorage.setItem(KEY, String(t.trip_id));
-                  setSel(t.trip_id);
-                  if (!wide) router.push(`/loader/load/${t.trip_id}`);
+                  sessionStorage.setItem(KEY, String(tr.trip_id));
+                  setSel(tr.trip_id);
+                  if (!wide) router.push(`/loader/load/${tr.trip_id}`);
                 }}
-                aria-current={active?.trip_id === t.trip_id}
-                className={`hoverable w-full rounded-[12px] border bg-surface p-4 text-left ${active?.trip_id === t.trip_id && wide ? "border-ink" : "border-line"}`}
+                aria-current={active?.trip_id === tr.trip_id}
+                className={`hoverable w-full rounded-[12px] border bg-surface p-4 text-left ${active?.trip_id === tr.trip_id && wide ? "border-ink" : "border-line"}`}
               >
                 <div className="flex items-center justify-between gap-2">
-                  <span className="font-data text-[18px] font-semibold">{t.vehicle_id}</span>
-                  <Pill tone={TONE[t.status] ?? "neutral"}>
-                    {t.status === "LOADING" ? `Loading ${t.loaded}/${t.total}` : t.status === "LEFT" ? "Left" : t.status}
+                  <span className="font-data text-[17px] font-semibold">{tr.vehicle_id}</span>
+                  <Pill tone={TONE[tr.status] ?? "neutral"}>
+                    {tr.status === "LOADING" ? t("loader.dep.loading", { a: tr.loaded, b: tr.total }) : t(`loader.dep.status.${tr.status}` as Key)}
                   </Pill>
                 </div>
                 <div className="mt-0.5 text-[14px] text-muted">
-                  {t.kind} · {t.brand} · {t.district} · {t.stops} stop{t.stops === 1 ? "" : "s"}
+                  {t("loader.dep.tripLine", { kind: tr.kind, brand: tr.brand, district: tr.district, n: tr.stops })}
                 </div>
-                <div className="mt-0.5 text-[13px] text-muted">
-                  {t.status === "RELEASED" || t.status === "LEFT" ? `Released ${t.released_at}` : `Leaves ${t.depart}`}
-                  {t.driver ? ` · ${t.driver}` : ""}
+                <div className="font-data mt-0.5 text-[12px] text-muted">
+                  {tr.status === "RELEASED" || tr.status === "LEFT" ? t("loader.dep.released", { t: tr.released_at ?? "" }) : t("loader.dep.leaves", { t: tr.depart ?? "" })}
+                  {tr.driver ? ` · ${tr.driver}` : ""}
                 </div>
-                {t.change_note ? <div className="mt-2 text-[13px] font-semibold text-warn">↻ {t.change_lines} line{t.change_lines === 1 ? "" : "s"} changed at {t.change_at} · review</div> : null}
+                {tr.change_note ? <div className="mt-2 text-[12px] font-semibold text-bad">{t("loader.dep.changed", { n: tr.change_lines, t: tr.change_at ?? "" })}</div> : null}
               </button>
             </li>
           ))}
         </ul>
       )}
-      <p className="mt-4 text-[13px] text-muted">No printed sheets. Always load from this list.</p>
+      <p className="mt-4 text-[12px] font-medium text-muted">{t("loader.dep.noSheets")}</p>
     </div>
   );
 
@@ -99,7 +102,7 @@ function Departures() {
   return (
     <div className="rise grid grid-cols-[380px_1fr] gap-6">
       {list}
-      <Card className="p-5">{active ? <LoadPanel tripId={active.trip_id} onReleased={reload} /> : <Empty title="Pick a vehicle." />}</Card>
+      <Card className="p-5">{active ? <LoadPanel tripId={active.trip_id} onReleased={reload} /> : <Empty title={t("loader.dep.pick")} />}</Card>
     </div>
   );
 }

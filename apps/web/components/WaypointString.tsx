@@ -26,9 +26,9 @@ const STRING = `M${STOPS[0].x} ${STOPS[0].y} ` + STOPS.slice(1).map((s, i) => sl
 export function WaypointString({ className = "" }: { className?: string }) {
   return (
     <svg
-      viewBox="0 0 1200 230"
+      viewBox="0 -60 1200 290"
       preserveAspectRatio="xMidYMax slice"
-      className={`pointer-events-none block h-[170px] w-full sm:h-[210px] ${className}`}
+      className={`pointer-events-none block h-[200px] w-full overflow-visible sm:h-[250px] ${className}`}
       aria-hidden
     >
       {/* soft ground, two low hills */}

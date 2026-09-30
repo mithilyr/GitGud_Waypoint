@@ -7,7 +7,8 @@ import { Icon, Logo, Spinner, toast } from "@/components/ui";
 import { get, post } from "@/lib/api";
 import { useAuth, useRequireRole } from "@/lib/auth";
 import { fmtDate, hhmm, initial } from "@/lib/format";
-import { useClock, useTheme } from "@/lib/hooks";
+import { useClock } from "@/lib/hooks";
+import { useT } from "@/lib/i18n";
 
 type DispatchCtx = { depot: string; setDepot: (d: string) => void; date: string; depots: string[] };
 const Ctx = createContext<DispatchCtx | null>(null);
@@ -17,13 +18,6 @@ export const useDispatch = () => {
   return c;
 };
 
-const TABS = [
-  { href: "/dispatcher/orders", label: "Orders" },
-  { href: "/dispatcher/plan", label: "Plan" },
-  { href: "/dispatcher/live", label: "Live" },
-  { href: "/dispatcher/demand", label: "Demand" },
-];
-
 type Note = { id: number; kind: string; title: string; body: string };
 
 export default function DispatcherLayout({ children }: { children: React.ReactNode }) {
@@ -32,7 +26,13 @@ export default function DispatcherLayout({ children }: { children: React.ReactNo
   const router = useRouter();
   const path = usePathname();
   const clock = useClock();
-  const { theme, setTheme } = useTheme();
+  const { t } = useT();
+  const tabs = [
+    { href: "/dispatcher/orders", label: t("disp.tab.orders") },
+    { href: "/dispatcher/plan", label: t("disp.tab.plan") },
+    { href: "/dispatcher/live", label: t("disp.tab.live") },
+    { href: "/dispatcher/demand", label: t("disp.tab.demand") },
+  ];
   const [depot, setDepotState] = useState("Kandy");
   const [date, setDate] = useState<string | null>(null);
   const [depots, setDepots] = useState<string[]>(["Kandy", "Peliyagoda"]);
@@ -105,20 +105,20 @@ export default function DispatcherLayout({ children }: { children: React.ReactNo
             <Link href="/dispatcher/orders" className="flex items-center gap-3">
               <Logo size={38} />
               <div className="hidden leading-tight sm:block">
-                <div className="text-[15px] font-semibold">Waypoint Dispatch</div>
-                <div className="text-[12px] text-muted">Peliyagoda planning office</div>
+                <div className="text-[15px] font-semibold">{t("disp.brand")}</div>
+                <div className="text-[12px] font-medium text-muted">{t("disp.office")}</div>
               </div>
             </Link>
-            <nav className="mx-auto flex rounded-[8px] bg-neutral p-0.5" aria-label="Sections">
-              {TABS.map((t) => {
-                const on = path.startsWith(t.href);
+            <nav className="mx-auto flex rounded-[8px] bg-neutral p-0.5" aria-label={t("disp.sections")}>
+              {tabs.map((tab) => {
+                const on = path.startsWith(tab.href);
                 return (
                   <Link
-                    key={t.href}
-                    href={t.href}
-                    className={`flex h-9 items-center rounded-[6px] px-3.5 text-[14px] font-semibold sm:px-5 ${on ? "bg-surface text-ink shadow-sm" : "text-muted hover:text-ink"}`}
+                    key={tab.href}
+                    href={tab.href}
+                    className={`flex h-8 items-center rounded-[6px] px-3.5 text-[14px] sm:px-6 ${on ? "border border-line bg-surface font-semibold text-ink" : "font-medium text-muted hover:text-ink"}`}
                   >
-                    {t.label}
+                    {tab.label}
                   </Link>
                 );
               })}
@@ -130,17 +130,17 @@ export default function DispatcherLayout({ children }: { children: React.ReactNo
             <div className="relative">
               <button
                 onClick={() => setMenu((m) => !m)}
-                className="flex h-10 items-center gap-2 rounded-full border border-line pl-1 pr-3 text-[13px] font-medium"
+                className="flex h-9 items-center gap-2 rounded-[8px] border border-line bg-surface pl-2 pr-3 text-[13px] font-semibold"
                 aria-haspopup="menu"
                 aria-expanded={menu}
               >
-                <span className="grid h-8 w-8 place-items-center rounded-full bg-neutral font-semibold">{initial(user.name)}</span>
-                <span className="hidden sm:inline">{user.name.split(" ")[0]} · Switch</span>
+                <span className="grid h-5 w-5 place-items-center rounded-full bg-primary text-[11px] font-semibold text-on-primary">{initial(user.name)}</span>
+                <span className="hidden sm:inline">{t("disp.switch", { name: user.name.split(" ")[0] })}</span>
               </button>
               {menu ? (
                 <div className="rise absolute right-0 top-12 z-40 w-64 rounded-[12px] border border-line bg-surface p-2 shadow-lg" role="menu">
                   <div className="px-3 py-2">
-                    <div className="eyebrow">Depot</div>
+                    <div className="eyebrow">{t("disp.menu.depot")}</div>
                     <div className="mt-1.5 flex gap-1.5">
                       {depots.map((d) => (
                         <button
@@ -157,18 +157,25 @@ export default function DispatcherLayout({ children }: { children: React.ReactNo
                       ))}
                     </div>
                   </div>
-                  <MenuItem onClick={() => setTheme(theme === "dark" ? "light" : "dark")}>{theme === "dark" ? "Switch to Daylight" : "Switch to Dark"}</MenuItem>
+                  <MenuItem
+                    onClick={() => {
+                      setMenu(false);
+                      router.push("/dispatcher/settings");
+                    }}
+                  >
+                    {t("disp.menu.settings")}
+                  </MenuItem>
                   <MenuItem
                     onClick={async () => {
-                      if (!confirm("Reset the demo day? All orders, plans, loads and deliveries go back to the start.")) return;
+                      if (!confirm(t("disp.menu.resetConfirm"))) return;
                       await post("/demo/reset");
                       setMenu(false);
-                      toast("Demo day reset. Queue restored.", "ok");
+                      toast(t("disp.menu.resetDone"), "ok");
                       router.push("/dispatcher/orders");
                       setTimeout(() => location.reload(), 300);
                     }}
                   >
-                    Reset the demo day
+                    {t("disp.menu.reset")}
                   </MenuItem>
                   <MenuItem
                     onClick={() => {
@@ -176,14 +183,14 @@ export default function DispatcherLayout({ children }: { children: React.ReactNo
                       router.replace("/");
                     }}
                   >
-                    Sign out
+                    {t("common.signOut")}
                   </MenuItem>
                 </div>
               ) : null}
             </div>
           </div>
         </header>
-        <div className="mx-auto max-w-[1440px] px-4 pb-16 pt-6 sm:px-6">{children}</div>
+        <div className="mx-auto max-w-[1440px] px-4 pb-16 pt-6 sm:px-8">{children}</div>
       </div>
     </Ctx.Provider>
   );

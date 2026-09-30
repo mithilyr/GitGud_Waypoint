@@ -42,7 +42,7 @@ function LoginForm() {
   }
 
   return (
-    <main className="relative mx-auto flex min-h-dvh max-w-[420px] flex-col justify-center px-5 pb-48 pt-10 sm:pb-0">
+    <main className="relative mx-auto flex min-h-dvh max-w-[420px] flex-col justify-center px-5 pb-44 pt-10">
       <div className="mb-8 flex items-center gap-3">
         <Logo size={44} />
         <div>
@@ -91,10 +91,7 @@ function LoginForm() {
           {t("login.fill", { role: roleLabel })}
         </Button>
       </form>
-      <VineRidges className="fixed inset-x-0 bottom-0 -z-10 h-44 opacity-80 sm:hidden" />
-      <div className="mt-auto hidden pt-10 opacity-80 sm:block [mask-image:linear-gradient(to_right,transparent,black_15%,black_85%,transparent)]">
-        <VineRidges />
-      </div>
+      <VineRidges className="fixed inset-x-0 bottom-0 -z-10" />
     </main>
   );
 }

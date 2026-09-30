@@ -26,6 +26,9 @@ class Order:
     volume_m3: float
     deferred_yesterday: bool = False
     days_since_last_served: int = 0
+    window_open: str = "00:00"  # HH:MM
+    window_close: str = "23:59"
+    festival_ramp: float = 0.0
 
 
 @dataclass(frozen=True)
@@ -36,6 +39,7 @@ class Vehicle:
     weight_cap_kg: float
     volume_cap_m3: float
     depot: str
+    km_per_l: float = 0.0  # 0 = unknown, fuel is not checked
 
 
 @dataclass

@@ -18,13 +18,13 @@ export default function Home() {
   const { t } = useT();
   return (
     <div className="flex min-h-dvh flex-col overflow-x-clip">
-    <main className="relative mx-auto w-full max-w-[980px] flex-1 px-4 pt-8 sm:px-8">
+    <main className="relative mx-auto w-full max-w-[980px] flex-1 px-5 pt-8 sm:px-8">
       {/* Phones: the brand on the first row, status and language on a second row that wraps. From sm: one row. */}
-      <header className="flex flex-wrap items-center gap-x-3 gap-y-3">
+      <header className="flex flex-wrap items-center gap-x-3 gap-y-4">
         <div className="flex min-w-0 items-center gap-3 sm:flex-1">
-          <Logo size={44} />
+          <Logo size={48} />
           <div className="min-w-0">
-            <div className="text-[15px] font-semibold leading-tight">Waypoint</div>
+            <div className="text-[17px] font-semibold leading-tight sm:text-[15px]">Waypoint</div>
             <div className="text-[12px] leading-snug text-muted">{t("home.tagline")}</div>
           </div>
         </div>
@@ -34,54 +34,57 @@ export default function Home() {
         </div>
       </header>
 
-      <section className="mt-8 max-w-[640px] sm:mt-12">
+      <section className="mt-10 max-w-[640px] sm:mt-12">
         <p className="eyebrow">{t("home.eyebrow")}</p>
-        <h1 className="mt-2 font-display text-[36px] font-medium leading-[1.08] tracking-[-0.015em] [overflow-wrap:anywhere] sm:text-[56px] sm:leading-[1.05]">
+        <h1 className="mt-3 font-display text-[38px] font-medium leading-[1.1] tracking-[-0.015em] [overflow-wrap:anywhere] sm:text-[56px] sm:leading-[1.05]">
           {t("home.title")}
         </h1>
-        <p className="mt-4 text-[15px] text-muted sm:text-[16px]">
+        <p className="mt-5 text-[17px] leading-relaxed text-muted sm:mt-4 sm:text-[16px] sm:leading-normal">
           {t("home.lede")}
         </p>
       </section>
 
-      <ul className="mt-8 grid gap-3 sm:mt-10 sm:grid-cols-2">
+      <ul className="mt-10 grid gap-4 sm:mt-10 sm:grid-cols-2 sm:gap-3">
         {roles.map((r) => (
           <li key={r.href}>
             <Link
               href={r.href}
-              className="hoverable group block rounded-[12px] border border-line bg-surface p-5 transition-colors hover:border-faint"
+              className="hoverable group block rounded-[14px] border border-line bg-surface p-6 transition-colors hover:border-faint sm:rounded-[12px] sm:p-5"
             >
               <div className="flex items-baseline justify-between">
-                <span className="font-display text-[24px] font-medium">{t(`role.${r.key}` as "role.dispatcher")}</span>
+                <span className="font-display text-[28px] font-medium sm:text-[24px]">{t(`role.${r.key}` as "role.dispatcher")}</span>
                 <span className="eyebrow">{r.who}</span>
               </div>
-              <p className="mt-1 text-[14px] text-muted">{t(`home.${r.key}.line` as "home.dispatcher.line")}</p>
-              <p className="mt-4 text-[12px] font-semibold text-muted">{t(`home.${r.key}.device` as "home.dispatcher.device")} →</p>
+              <p className="mt-2 text-[15px] leading-relaxed text-muted sm:mt-1 sm:leading-normal">{t(`home.${r.key}.line` as "home.dispatcher.line")}</p>
+              <p className="mt-5 flex items-center justify-between border-t border-line pt-4 text-[14px] font-semibold text-muted sm:mt-4 sm:block sm:border-0 sm:pt-0 sm:text-[12px]">
+                <span>{t(`home.${r.key}.device` as "home.dispatcher.device")}</span>
+                <span aria-hidden className="sm:ml-1">→</span>
+              </p>
             </Link>
           </li>
         ))}
       </ul>
 
-      <section className="mt-10 rounded-[12px] border border-line bg-surface p-5">
+      <section className="mt-12 rounded-[14px] border border-line bg-surface p-6 sm:mt-10 sm:rounded-[12px] sm:p-5">
         <p className="eyebrow">{t("home.demo")}</p>
-        <p className="mt-1 text-[14px] text-muted">{t("home.demoPassword")} <span className="font-data text-ink">waypoint2026</span></p>
-        <dl className="mt-3 grid gap-x-8 gap-y-1.5 text-[14px] sm:grid-cols-2">
+        <p className="mt-2 text-[15px] text-muted sm:mt-1 sm:text-[14px]">{t("home.demoPassword")} <span className="font-data text-ink">waypoint2026</span></p>
+        <dl className="mt-4 grid gap-x-8 text-[14px] sm:mt-3 sm:grid-cols-2 sm:gap-y-1.5">
           {[
             [t("role.dispatcher"), "dispatcher@waypoint.demo"],
             [t("role.loader"), t("home.demoLoader", { email: "loader@waypoint.demo" })],
             [t("role.driver"), t("home.demoDriver", { email: "driver@waypoint.demo" })],
             [t("role.store"), "store@waypoint.demo"],
           ].map(([k, v]) => (
-            <div key={k} className="flex justify-between gap-3 border-b border-line py-1.5">
-              <dt className="text-muted">{k}</dt>
-              <dd className="font-data text-right">{v}</dd>
+            <div key={k} className="flex flex-col gap-1 border-b border-line py-3 last:border-0 sm:flex-row sm:justify-between sm:gap-3 sm:py-1.5">
+              <dt className="text-[13px] font-medium text-muted sm:text-[14px] sm:font-normal">{k}</dt>
+              <dd className="font-data break-all sm:text-right">{v}</dd>
             </div>
           ))}
         </dl>
       </section>
 
     </main>
-    <div className="pt-14">
+    <div className="pt-16">
       <WaypointString />
     </div>
     </div>

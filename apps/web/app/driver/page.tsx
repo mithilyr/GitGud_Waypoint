@@ -1,12 +1,12 @@
-import { RolePlaceholder } from "@/components/RolePlaceholder";
+"use client";
 
-export default function Page() {
-  return (
-    <RolePlaceholder
-      role="Driver"
-      device="Phone, offline-first (judged at phone size)"
-      owner="#6"
-      screens={["Today's run", "Stop detail + proof of delivery", "Sync status"]}
-    />
-  );
+import { useEffect } from "react";
+import DriverApp from "@/components/driver/DriverApp";
+
+export default function DriverPage() {
+  // The service worker lets the app shell open with no signal after the first visit.
+  useEffect(() => {
+    if ("serviceWorker" in navigator) navigator.serviceWorker.register("/sw.js").catch(() => {});
+  }, []);
+  return <DriverApp />;
 }

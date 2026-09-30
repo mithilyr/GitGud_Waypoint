@@ -1,5 +1,5 @@
 import math
-from datetime import date, datetime
+from datetime import date
 
 from fastapi import APIRouter, Depends, HTTPException
 from pydantic import BaseModel, Field
@@ -11,21 +11,19 @@ from app.db import get_db
 from app.deps import require
 from app.models import (
     Conflict,
-    Deferral,
     IssueReport,
     Item,
     LoadLine,
     Notification,
     Order,
     Outlet,
-    Plan,
     Receipt,
     Stop,
     Trip,
     User,
     Vehicle,
 )
-from app.services.common import LK, lk_hhmm, load_groups, notify, now, ordinal
+from app.services.common import lk_hhmm, notify, now
 from app.services.planning import get_plan
 
 router = APIRouter(prefix="/store", tags=["store"])
@@ -516,5 +514,3 @@ def read_notification(nid: int, user: User = StoreUser, db: Session = Depends(ge
         db.commit()
     return {"ok": True}
 
-
-_ = (Deferral, Plan, datetime, LK, load_groups, ordinal)

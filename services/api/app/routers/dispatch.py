@@ -10,7 +10,7 @@ from app.db import get_db
 from app.deps import require
 from app.models import Conflict, Deferral, LoadLine, Notification, Order, Stop, Trip, User
 from app.services import demand, live
-from app.services.common import REASON_LABEL, lk_hhmm, notify, now
+from app.services.common import REASON_LABEL, lk_hhmm, notify
 from app.services.planning import (
     PlanError,
     build_plan,
@@ -248,5 +248,3 @@ def notifications(user: User = Dispatcher, db: Session = Depends(get_db)) -> lis
         {"id": n.id, "kind": n.kind, "title": n.title, "body": n.body, "at": lk_hhmm(n.created_at), "meta": n.meta} for n in rows
     ]
 
-
-_ = now

@@ -264,6 +264,7 @@ def _deliver(db: Session, user: User, trip: Trip, stop: Stop, ev: EventIn, dts: 
         "reason": ev.payload.get("reason"),
         "signed_by": ev.payload.get("signed_by"),
         "photo": ev.payload.get("photo"),
+        "signature": ev.payload.get("signature"),
     }
     stop.order.status = outcome
     # The store may already have confirmed a different count while the phone was offline.

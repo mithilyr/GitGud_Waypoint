@@ -490,6 +490,20 @@ def evaluate(db: Session, plan: Plan) -> dict:
                     "depart": t.depart_planned,
                     "status": t.status,
                     "stop_names": [s.outlet.name or s.outlet_id for s in _active_stops(t)],
+                    "stops_detail": [
+                        {
+                            "order_id": s.order_id,
+                            "outlet": s.outlet.name or s.outlet_id,
+                            "temp": s.order.temp_requirement,
+                            "weight_kg": s.order.weight_kg,
+                            "volume_m3": s.order.volume_m3,
+                            "eta": s.eta,
+                            "seq": s.seq,
+                            "second_skip": s.order.deferred_yesterday,
+                            "status": s.status,
+                        }
+                        for s in _active_stops(t)
+                    ],
                 }
             )
         for vio in violations:

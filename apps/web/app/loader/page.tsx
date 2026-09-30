@@ -1,12 +1,117 @@
-import { RolePlaceholder } from "@/components/RolePlaceholder";
+"use client";
 
-export default function Page() {
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { ErrorNote, Logo, Spinner, VineRidges } from "@/components/ui";
+import { get } from "@/lib/api";
+import { useAuth } from "@/lib/auth";
+import { initial } from "@/lib/format";
+
+type Person = { id: number; name: string; dock: string | null };
+
+/** L1 · Dock sign-in on the shared tablet: tap your name, enter a 4-digit PIN. */
+export default function LoaderSignIn() {
+  const router = useRouter();
+  const { user, ready, pinLogin } = useAuth();
+  const [people, setPeople] = useState<Person[] | null>(null);
+  const [who, setWho] = useState<Person | null>(null);
+  const [pin, setPin] = useState("");
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    get<Person[]>("/auth/people?role=loader&depot=Kandy")
+      .then((p) => {
+        setPeople(p);
+        setWho(p[0] ?? null);
+      })
+      .catch((e) => setError(e.message));
+  }, []);
+
+  useEffect(() => {
+    if (ready && user?.role === "loader") router.replace("/loader/departures");
+  }, [ready, user, router]);
+
+  async function press(k: string) {
+    if (!who) return;
+    setError(null);
+    if (k === "⌫") return setPin((p) => p.slice(0, -1));
+    const next = (pin + k).slice(0, 4);
+    setPin(next);
+    if (next.length === 4) {
+      try {
+        await pinLogin(who.id, next);
+        router.replace("/loader/departures");
+      } catch (e) {
+        setError(e instanceof Error ? e.message : "That PIN is not right");
+        setTimeout(() => setPin(""), 350);
+      }
+    }
+  }
+
   return (
-    <RolePlaceholder
-      role="Loader"
-      device="Tablet / phone (judged at phone size)"
-      owner="#6"
-      screens={["Trip list", "Load sheet (reverse stop order)", "Item check + shortfall flag"]}
-    />
+    <main className="relative mx-auto flex min-h-dvh max-w-[520px] flex-col px-5 pb-6 pt-8">
+      <div className="flex items-center gap-3">
+        <Logo size={40} />
+        <div>
+          <div className="text-[15px] font-semibold leading-tight">Waypoint</div>
+          <div className="text-[12px] text-muted">Loader · Kandy depot · Dock 3</div>
+        </div>
+      </div>
+      <h1 className="mt-8 font-display text-[34px] font-medium leading-[1.1]">Who&rsquo;s loading?</h1>
+      <p className="mt-1 text-muted">This tablet is shared. Tap your name.</p>
+
+      {people === null ? (
+        <div className="grid place-items-center py-10 text-muted"><Spinner /></div>
+      ) : (
+        <ul className="mt-5 grid gap-2">
+          {people.map((p) => (
+            <li key={p.id}>
+              <button
+                onClick={() => {
+                  setWho(p);
+                  setPin("");
+                  setError(null);
+                }}
+                aria-pressed={who?.id === p.id}
+                className={`flex h-14 w-full items-center gap-3 rounded-[12px] border px-3 text-left ${who?.id === p.id ? "border-ink bg-surface" : "border-line bg-surface/60"}`}
+              >
+                <span className="grid h-9 w-9 place-items-center rounded-full bg-neutral font-semibold">{initial(p.name)}</span>
+                <span className="text-[16px] font-semibold">{p.name}</span>
+                {who?.id === p.id ? <span className="eyebrow ml-auto">Selected</span> : null}
+              </button>
+            </li>
+          ))}
+        </ul>
+      )}
+
+      <div className="mt-6 text-center">
+        <p className="text-[14px] font-semibold">{who ? `${who.name.split(" ")[0]}, enter your PIN` : "Pick your name"}</p>
+        <div className="mt-3 flex justify-center gap-3" aria-label={`${pin.length} of 4 digits entered`}>
+          {[0, 1, 2, 3].map((i) => (
+            <span key={i} className={`h-3.5 w-3.5 rounded-full border-2 ${i < pin.length ? "border-ink bg-ink" : "border-faint"}`} />
+          ))}
+        </div>
+        <div className="mt-2 min-h-5"><ErrorNote error={error} /></div>
+      </div>
+
+      <div className="mx-auto mt-2 grid w-full max-w-[320px] grid-cols-3 gap-2">
+        {["1", "2", "3", "4", "5", "6", "7", "8", "9", "", "0", "⌫"].map((k, i) =>
+          k ? (
+            <button
+              key={i}
+              onClick={() => press(k)}
+              className="hoverable h-14 rounded-[12px] border border-line bg-surface text-[22px] font-medium active:bg-neutral"
+              aria-label={k === "⌫" ? "Delete" : k}
+            >
+              {k}
+            </button>
+          ) : (
+            <span key={i} />
+          ),
+        )}
+      </div>
+      <p className="mt-4 text-center text-[12px] text-muted">Demo PINs: Kamal 1234 · Tharindu 2345 · Fathima 3456 · Suresh 4567</p>
+      <div className="mt-auto pt-6 opacity-80"><VineRidges /></div>
+    </main>
   );
 }

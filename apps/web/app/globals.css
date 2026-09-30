@@ -113,12 +113,7 @@ button:disabled {
   cursor: not-allowed;
 }
 
-/* Sticky :hover on touch screens is confusing; only hover where a mouse exists. */
-@media (hover: none) {
-  .hoverable:hover {
-    background: inherit;
-  }
-}
+/* Hover styles come from Tailwind's `hover:` variants, which only apply where a pointer can hover, so a tap never leaves a sticky hover state. */
 
 input,
 select,

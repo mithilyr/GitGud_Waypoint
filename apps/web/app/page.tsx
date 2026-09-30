@@ -27,7 +27,7 @@ export default function Home() {
 
       {/* Greeting: the mark, big and in the middle, then the title and intro. */}
       <section className="mx-auto mt-16 flex max-w-[640px] flex-col items-center text-center sm:mt-20">
-        <Logo size={112} />
+        <Logo size={144} />
         <p className="eyebrow mt-12">{t("home.eyebrow")}</p>
         <h1 className="mt-3 font-display text-[38px] font-medium leading-[1.1] tracking-[-0.015em] [overflow-wrap:anywhere] sm:text-[56px] sm:leading-[1.05]">
           {t("home.title")}

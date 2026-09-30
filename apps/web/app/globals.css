@@ -25,7 +25,7 @@
   --logo-dot: #e07a4a;
   --mark-ink: #14231f;
   --mark-dot: #b5562b;
-  --logo-glow: rgba(255, 255, 255, 0.95);
+  --logo-glow: rgba(255, 255, 255, 0.55);
   --on-primary: #ffffff;
   --primary: #111111;
   --toggle-on: #346538;
@@ -56,7 +56,7 @@
   --logo-dot: #b5562b;
   --mark-ink: #e6eeea;
   --mark-dot: #e07a4a;
-  --logo-glow: rgba(255, 255, 255, 0.17);
+  --logo-glow: rgba(255, 255, 255, 0.09);
   --on-primary: #111111;
   --primary: #f2f0eb;
   --toggle-on: #6fbf78;

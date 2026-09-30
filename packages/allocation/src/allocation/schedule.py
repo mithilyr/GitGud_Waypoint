@@ -74,7 +74,11 @@ def schedule_trip(
 def schedule_vehicle(
     trips: list[Trip], std: TravelStandards, traffic_factor: float = 1.0
 ) -> dict[int, tuple[float, list[StopEta]]]:
-    """Schedule a vehicle's trips back to back (trip 1 then trip 2)."""
+    """Schedule a vehicle's trips back to back (trip 1 then trip 2).
+
+    Trip 2 leaves when trip 1's last stop is served: the booklet's daily budgets (Fresh 270 min from 03:30,
+    Style + Tech 480 min) already allow for the return leg, so the schedule must not add it again.
+    """
     out: dict[int, tuple[float, list[StopEta]]] = {}
     nxt: float | None = None
     for trip in sorted(trips, key=lambda t: t.trip_id):
@@ -83,5 +87,5 @@ def schedule_vehicle(
         start = first_departure(trip.orders[0].brand) if nxt is None else nxt
         dep, etas, back = schedule_trip(sequence_stops(trip.orders), std, start, traffic_factor)
         out[trip.trip_id] = (dep, etas)
-        nxt = back + 20  # 20 min to reload between trips
+        nxt = back - std.depot_to_district_min[trip.orders[0].district] * traffic_factor  # last stop served
     return out

@@ -190,7 +190,7 @@ function Shell() {
   return (
     <div className="min-h-dvh pb-[118px]">
       <header className="sticky top-0 z-20 flex h-14 items-center border-b border-line bg-bg/95 px-3 backdrop-blur">
-        <div className="w-14">
+        <div className="w-20">
           {stack.length > 1 ? (
             <button onClick={back} aria-label="Back" className="grid h-10 w-10 place-items-center rounded-full hover:bg-neutral"><Icon.Back /></button>
           ) : (
@@ -198,8 +198,8 @@ function Shell() {
           )}
         </div>
         <div className="flex-1 text-center text-[12px] font-medium text-muted">{label}</div>
-        <div className="flex w-14 justify-end">
-          <span className={`inline-flex items-center gap-1 text-[11px] font-semibold ${d.online ? "text-ok" : "text-warn"}`}>
+        <div className="flex w-20 justify-end">
+          <span className={`inline-flex items-center gap-1 whitespace-nowrap text-[11px] font-semibold ${d.online ? "text-ok" : "text-warn"}`}>
             <span className="h-2 w-2 rounded-full bg-current" />
             {d.online ? t("online") : t("noSignal")}
           </span>

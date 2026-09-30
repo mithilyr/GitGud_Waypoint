@@ -60,7 +60,9 @@ export default function TrackPage() {
       {!data.deliveries.length && !data.deferred.length ? (
         <Empty title="Nothing on its way yet.">Place an order and it shows up here once dispatch plans the run.</Empty>
       ) : null}
-      {data.deliveries.map((d) => (
+      {[...data.deliveries]
+        .sort((a, b) => b.steps.filter((x) => x.state === "done").length - a.steps.filter((x) => x.state === "done").length)
+        .map((d) => (
         <DeliveryCard key={d.order.id} d={d} onReport={() => setReporting(d)} onChange={reload} />
       ))}
       <ReportSheet
@@ -164,7 +166,7 @@ function DeliveryCard({ d, onReport, onChange }: { d: Delivery; onReport: () => 
     <Card className="p-5">
       <div className="flex items-center justify-between">
         <Eyebrow>{d.order.id} · {d.order.temp === "chilled" ? "Chilled" : "Ambient"}</Eyebrow>
-        {s.no_signal && !arrived ? <Pill tone="warn">No signal · ETA from plan</Pill> : <Pill tone={closed || arrived ? "ok" : "info"}>{closed ? "Closed" : arrived ? "Delivered" : "Live"}</Pill>}
+        {s.no_signal && !arrived ? <Pill tone="warn">No signal · ETA from plan</Pill> : <Pill tone={closed || arrived ? "ok" : s.trip_status === "out" ? "info" : "neutral"}>{closed ? "Closed" : arrived ? "Delivered" : s.trip_status === "out" ? "On the way" : "Planned"}</Pill>}
       </div>
       <Headline className="mt-1 !text-[30px]">{headline}</Headline>
       <p className="mt-1 text-[14px] text-muted">{sub}</p>

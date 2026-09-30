@@ -49,7 +49,8 @@ USERS = [
     ("tharindu@waypoint.demo", "Tharindu Wijesinghe", "loader", "2345", "Kandy", "Dock 3", None, {}),
     ("fathima@waypoint.demo", "Fathima Rizna", "loader", "3456", "Kandy", "Dock 3", None, {}),
     ("suresh@waypoint.demo", "Suresh Kumar", "loader", "4567", "Kandy", "Dock 3", None, {}),
-    ("driver@waypoint.demo", "Nuwan Perera", "driver", "4821", "Kandy", None, "+94 77 123 4567", {"vehicle_id": "VEH041", "driver_code": "DRV-0142"}),
+    ("driver@waypoint.demo", "Nuwan Perera", "driver", "4821", "Kandy", None, "+94 77 123 4567", {"vehicle_id": "VEH057", "driver_code": "DRV-0142"}),
+    ("driver2@waypoint.demo", "Mahesh Silva", "driver", "5678", "Kandy", None, "+94 77 555 0177", {"vehicle_id": "VEH045", "driver_code": "DRV-0177"}),
     ("store@waypoint.demo", "Shanika Wijeratne", "store", None, "Kandy", None, "+94 71 555 0142", {"pilimathalawa": True}),
 ]
 

@@ -150,7 +150,7 @@ def allocate(
 
     for o in ranked:
         best: Trip | None = None
-        best_left = float("inf")
+        best_key: tuple = (True, float("inf"))
         full_reason: DeferralReason | None = None
         for trips in st.trips.values():
             for t in trips:
@@ -162,8 +162,10 @@ def allocate(
                     full_reason = full_reason or why
                     continue
                 left = v.volume_cap_m3 - sum(x.volume_m3 for x in t.orders) - o.volume_m3
-                if left < best_left:
-                    best, best_left = t, left
+                # Prefer the trip already visiting this outlet (one visit, one delivery), then the tightest fit.
+                key = (all(x.outlet_id != o.outlet_id for x in t.orders), left)
+                if key < best_key:
+                    best, best_key = t, key
         if best is not None:
             best.orders.append(o)
             continue

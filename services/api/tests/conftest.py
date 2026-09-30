@@ -26,11 +26,18 @@ def seeded():
 @pytest.fixture()
 def fresh(seeded):
     """The seeded demo day, reset to its starting state."""
+    from sqlalchemy import select
+
     from app.db import SessionLocal
+    from app.models import Outlet, User
     from seed.demo import reset_operations
 
     with SessionLocal() as db:
         reset_operations(db)
+        # Tests may re-point the store manager; put the demo account back on Pilimathalawa.
+        pili = db.scalar(select(Outlet).where(Outlet.name == "Pilimathalawa"))
+        db.query(User).filter(User.role == "store").update({"outlet_id": pili.outlet_id})
+        db.commit()
     return TestClient(app)
 
 

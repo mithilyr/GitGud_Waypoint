@@ -59,7 +59,8 @@ def test_full_walkthrough(fresh):
 
     # Loader: departures, load list in reverse stop order, flag a shortfall, release.
     deps = c.get("/loader/departures", headers=load).json()
-    mine = next(t for t in deps["trips"] if t["vehicle_id"] == "VEH041")
+    my_vehicle = c.get("/auth/me", headers=drv).json()["vehicle_id"]  # the driver is pointed at the demo store's truck
+    mine = next(t for t in deps["trips"] if t["vehicle_id"] == my_vehicle)
     detail = c.get(f"/loader/trips/{mine['trip_id']}", headers=load).json()
     seqs = [s["seq"] for s in detail["stops"]]
     assert seqs == sorted(seqs, reverse=True)
@@ -169,3 +170,53 @@ def test_demand_outlook_flags_peak_days(fresh):
     o = c.get("/dispatch/demand", headers=disp).json()
     assert len(o["days"]) == 14
     assert o["at_risk"], "the week before Avurudu must exceed reefer capacity somewhere"
+
+
+def test_demo_story_the_store_manager_delivery_rides_the_seeded_driver(fresh):
+    """The walkthrough only works if Shanika's chilled order is on Nuwan's vehicle."""
+    c = fresh
+    disp, store, drv = login(c, "dispatcher@waypoint.demo"), login(c, "store@waypoint.demo"), login(c, "driver@waypoint.demo")
+    board = c.post("/dispatch/plan", headers=disp, json={"depot": "Kandy", "date": DAY}).json()
+    c.post(f"/dispatch/plan/{board['plan']['id']}/release", headers=disp)
+    track = c.get("/store/track", headers=store).json()
+    chilled = next(d for d in track["deliveries"] if d["order"]["temp"] == "chilled")
+    assert chilled["stop"]["vehicle_id"] == c.get("/auth/me", headers=drv).json()["vehicle_id"]
+    assert not track["deferred"]
+
+
+def test_plan_change_after_release_reaches_loader_and_driver(fresh):
+    """Design L3b / R6: the dispatcher moves a stop while a vehicle is half loaded."""
+    c = fresh
+    disp, load, drv = login(c, "dispatcher@waypoint.demo"), login(c, "loader@waypoint.demo"), login(c, "driver@waypoint.demo")
+    board = c.post("/dispatch/plan", headers=disp, json={"depot": "Kandy", "date": DAY}).json()
+    pid = board["plan"]["id"]
+    c.post(f"/dispatch/plan/{pid}/release", headers=disp)
+
+    deps = c.get("/loader/departures", headers=load).json()["trips"]
+    vehicle = c.get("/auth/me", headers=drv).json()["vehicle_id"]
+    mine = next(t for t in deps if t["vehicle_id"] == vehicle and t["trip_no"] == 1)
+    detail = c.get(f"/loader/trips/{mine['trip_id']}", headers=load).json()
+    first = detail["stops"][-1]["lines"][0]  # the first stop; the last stop is the one that will move
+    assert c.post(f"/loader/lines/{first['id']}/load", headers=load, json={"loaded": True}).status_code == 200
+
+    # Move the last stop of that trip to another available vehicle.
+    plan_now = c.get("/dispatch/plan", headers=disp, params={"depot": "Kandy", "date": DAY}).json()
+    trip = next(t for v in plan_now["vehicles"] if v["vehicle_id"] == vehicle for t in v["trips"] if t["trip_no"] == 1)
+    moved = trip["stops_detail"][-1]
+    target = next(v for v in plan_now["vehicles"] if v["available"] and v["vehicle_id"] != vehicle and v["temp"] == "reefer")
+    r = c.post(f"/dispatch/plan/{pid}/move", headers=disp, json={"order_id": moved["order_id"], "vehicle_id": target["vehicle_id"]})
+    assert r.status_code == 200, r.text
+
+    # The old list is locked until the loader taps "Show updated list".
+    detail = c.get(f"/loader/trips/{mine['trip_id']}", headers=load).json()
+    assert detail["change"] and detail["change"]["remove"], "the moved stop's lines must be listed as Take off"
+    blocked = c.post(f"/loader/lines/{first['id']}/load", headers=load, json={"loaded": False})
+    assert blocked.status_code == 409
+    assert c.post(f"/loader/trips/{mine['trip_id']}/ack-change", headers=load).status_code == 200
+    assert c.get(f"/loader/trips/{mine['trip_id']}", headers=load).json()["change"] is None
+
+    # The driver gets a plan-changed notice, and the moved stop is marked removed on the run.
+    run = c.get("/driver/run", headers=drv).json()
+    assert any(n["kind"] == "plan_changed" and not n["read"] for n in run["notices"])
+    stops = next(t for t in run["trips"] if t["trip_no"] == 1)["stops"]
+    assert any(s["removed"] for s in stops)

@@ -393,6 +393,29 @@ def sync_load_lines(db: Session, trip: Trip, announce: str | None = None) -> Non
     db.flush()
 
 
+def assign_demo_drivers(db: Session, plan: Plan) -> None:
+    """Driver rostering is out of scope (every vehicle has a driver, per the booklet), so the demo drivers are
+    pointed at the vehicles that serve the demo store manager's outlet. That keeps the walkthrough coherent
+    whatever the engine decided: order, plan, load, deliver and receive all meet on one truck."""
+    from app.models import User
+
+    drivers = list(db.scalars(select(User).where(User.role == "driver", User.depot == plan.depot).order_by(User.id)))
+    if not drivers:
+        return
+    store_outlets = {u.outlet_id for u in db.scalars(select(User).where(User.role == "store")) if u.outlet_id}
+    # The demo store's chilled delivery matters most (it needs the reefer), then its dry one, then everything else.
+    best: dict[str, tuple] = {}
+    for t in plan.trips:
+        for s in _active_stops(t):
+            key = (0 if s.outlet_id in store_outlets and s.order.temp_requirement == "chilled" else 1 if s.outlet_id in store_outlets else 2, t.trip_no)
+            if t.vehicle_id not in best or key < best[t.vehicle_id]:
+                best[t.vehicle_id] = key
+    ranked = sorted(best, key=lambda vid: (best[vid], vid))
+    for driver, vid in zip(drivers, ranked, strict=False):
+        driver.vehicle_id = vid
+    db.flush()
+
+
 def _drivers_for(db: Session, vehicle_id: str):
     from app.models import User
 
@@ -406,6 +429,7 @@ def release_plan(db: Session, plan: Plan, by: str) -> None:
     plan.status = "released"
     plan.released_at = now()
     plan.version += 1
+    assign_demo_drivers(db, plan)
     for t in plan.trips:
         if not _active_stops(t):
             continue
@@ -518,6 +542,9 @@ def evaluate(db: Session, plan: Plan) -> dict:
             warnings.append(_w("fuel_quota", "red", "Over the weekly fuel quota", None))
         elif used_pct >= 0.85:
             warnings.append(_w("fuel_quota", "amber", f"{used_pct:.0%} of weekly fuel quota used", None))
+        late = sum(1 for t in trips for s in _active_stops(t) if s.eta and s.eta > s.window_close)
+        if late:
+            warnings.append(_w("late_window", "amber", f"{late} stop{'s' if late > 1 else ''} arrive after the window closes", None))
         if len(trips) >= 2 and not any(w["rule"] == "max_trips" for w in warnings):
             warnings.append(_w("trip_limit", "amber", "At 2-trip daily limit", None))
         for grp in ("Fresh", "Style+Tech"):

@@ -19,23 +19,18 @@ export default function Home() {
   return (
     <div className="flex min-h-dvh flex-col overflow-x-clip">
     <main className="relative mx-auto w-full max-w-[980px] flex-1 px-5 pt-8 sm:px-8">
-      {/* Phones: the brand on the first row, status and language on a second row that wraps. From sm: one row. */}
-      <header className="flex flex-wrap items-center gap-x-3 gap-y-4">
-        <div className="flex min-w-0 items-center gap-3 sm:flex-1">
-          <Logo size={48} />
-          <div className="min-w-0">
-            <div className="text-[17px] font-semibold leading-tight sm:text-[15px]">Waypoint</div>
-            <div className="text-[12px] leading-snug text-muted">{t("home.tagline")}</div>
-          </div>
-        </div>
-        <div className="flex w-full flex-wrap items-center justify-between gap-x-3 gap-y-2 sm:w-auto sm:justify-end">
-          <StatusPill />
-          <LanguageSwitch />
-        </div>
+      {/* Top row: system status on the left, language on the right (wraps on a narrow phone). */}
+      <header className="flex flex-wrap items-center justify-between gap-x-3 gap-y-2">
+        <StatusPill />
+        <LanguageSwitch />
       </header>
 
-      <section className="mt-10 max-w-[640px] sm:mt-12">
-        <p className="eyebrow">{t("home.eyebrow")}</p>
+      {/* Greeting: the mark in the middle with the company name under it, then the title and intro. */}
+      <section className="mx-auto mt-8 flex max-w-[640px] flex-col items-center text-center sm:mt-10">
+        <Logo size={72} />
+        <div className="mt-4 text-[22px] font-semibold leading-tight sm:text-[20px]">Waypoint</div>
+        <div className="mt-1 max-w-[320px] text-[13px] leading-snug text-muted sm:max-w-none">{t("home.tagline")}</div>
+        <p className="eyebrow mt-10">{t("home.eyebrow")}</p>
         <h1 className="mt-3 font-display text-[38px] font-medium leading-[1.1] tracking-[-0.015em] [overflow-wrap:anywhere] sm:text-[56px] sm:leading-[1.05]">
           {t("home.title")}
         </h1>

@@ -117,7 +117,7 @@ textarea {
 .eyebrow {
   font-size: 11px;
   font-weight: 600;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.6px;
   text-transform: uppercase;
   color: var(--muted);
 }

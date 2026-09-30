@@ -25,12 +25,10 @@ export default function Home() {
         <LanguageSwitch />
       </header>
 
-      {/* Greeting: the mark in the middle with the company name under it, then the title and intro. */}
-      <section className="mx-auto mt-8 flex max-w-[640px] flex-col items-center text-center sm:mt-10">
-        <Logo size={72} />
-        <div className="mt-4 text-[22px] font-semibold leading-tight sm:text-[20px]">Waypoint</div>
-        <div className="mt-1 max-w-[320px] text-[13px] leading-snug text-muted sm:max-w-none">{t("home.tagline")}</div>
-        <p className="eyebrow mt-10">{t("home.eyebrow")}</p>
+      {/* Greeting: the mark, big and in the middle, then the title and intro. */}
+      <section className="mx-auto mt-16 flex max-w-[640px] flex-col items-center text-center sm:mt-20">
+        <Logo size={112} />
+        <p className="eyebrow mt-12">{t("home.eyebrow")}</p>
         <h1 className="mt-3 font-display text-[38px] font-medium leading-[1.1] tracking-[-0.015em] [overflow-wrap:anywhere] sm:text-[56px] sm:leading-[1.05]">
           {t("home.title")}
         </h1>

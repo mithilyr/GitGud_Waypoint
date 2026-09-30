@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Geist, Geist_Mono, Newsreader } from "next/font/google";
+import { Geist, Geist_Mono, Newsreader, Noto_Sans_Sinhala, Noto_Sans_Tamil } from "next/font/google";
 import "./globals.css";
 import { AuthProvider } from "@/lib/auth";
 import { ToastHost } from "@/components/ui";
@@ -7,6 +7,9 @@ import { ToastHost } from "@/components/ui";
 const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
 const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
 const newsreader = Newsreader({ variable: "--font-newsreader", subsets: ["latin"], weight: ["400", "500", "600"] });
+
+const notoSi = Noto_Sans_Sinhala({ variable: "--font-noto-si", subsets: ["sinhala"], weight: ["400", "500", "600", "700"] });
+const notoTa = Noto_Sans_Tamil({ variable: "--font-noto-ta", subsets: ["tamil"], weight: ["400", "500", "600", "700"] });
 
 export const metadata: Metadata = {
   title: "Waypoint Delivery System",
@@ -34,7 +37,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
       </head>
-      <body className={`${geistSans.variable} ${geistMono.variable} ${newsreader.variable} antialiased`}>
+      <body className={`${geistSans.variable} ${geistMono.variable} ${newsreader.variable} ${notoSi.variable} ${notoTa.variable} antialiased`}>
         <AuthProvider>
           {children}
           <ToastHost />

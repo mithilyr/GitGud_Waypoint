@@ -23,6 +23,15 @@
   --logo-tile: #111111;
   --logo-ink: #e6eeea;
   --logo-dot: #e07a4a;
+  --vr-band1: #eceae4;
+  --vr-band2: #eeece7;
+  --vr-band3: #f0eeea;
+  --vr-band4: #f2f0ec;
+  --vr-band5: #f3f2ee;
+  --vr-line: #111111;
+  --vr-leaf: #346538;
+  --vr-bud: #c8372d;
+  --vr-bloom: #f5b301;
   --on-primary: #ffffff;
   --primary: #111111;
 }
@@ -48,6 +57,15 @@
   --logo-tile: #ffffff;
   --logo-ink: #111111;
   --logo-dot: #b5562b;
+  --vr-band1: #24221f;
+  --vr-band2: #201e1c;
+  --vr-band3: #1d1c1a;
+  --vr-band4: #1a1917;
+  --vr-band5: #171615;
+  --vr-line: #f2f0eb;
+  --vr-leaf: #7cc488;
+  --vr-bud: #e5564b;
+  --vr-bloom: #f5b301;
   --on-primary: #111111;
   --primary: #f2f0eb;
 }

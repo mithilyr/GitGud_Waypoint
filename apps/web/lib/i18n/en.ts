@@ -38,7 +38,8 @@ import { storeMisc } from "./domains/storeMisc";
 import { auth } from "./domains/auth";
 import { disp } from "./domains/disp";
 import { loader } from "./domains/loader";
+import { driver as driverDomain } from "./domains/driver";
 
-export const en = { ...driverEn, ...common.en, ...store.en, ...storeTrack.en, ...storeMisc.en, ...auth.en, ...disp.en, ...loader.en } as const;
+export const en = { ...driverEn, ...common.en, ...store.en, ...storeTrack.en, ...storeMisc.en, ...auth.en, ...disp.en, ...loader.en, ...driverDomain.en } as const;
 
 export type Key = keyof typeof en;

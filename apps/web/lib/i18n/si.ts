@@ -6,6 +6,7 @@ import { storeMisc } from "./domains/storeMisc";
 import { auth } from "./domains/auth";
 import { disp } from "./domains/disp";
 import { loader } from "./domains/loader";
+import { driver as driverDomain } from "./domains/driver";
 
 const driver: Record<keyof typeof driverEn, string> = {
   run: "ධාවනය",
@@ -37,4 +38,4 @@ const driver: Record<keyof typeof driverEn, string> = {
   tripDone: "ධාවනය අවසන්.",
 };
 
-export const si: Record<Key, string> = { ...driver, ...common.si, ...store.si, ...storeTrack.si, ...storeMisc.si, ...auth.si, ...disp.si, ...loader.si };
+export const si: Record<Key, string> = { ...driver, ...common.si, ...store.si, ...storeTrack.si, ...storeMisc.si, ...auth.si, ...disp.si, ...loader.si, ...driverDomain.si };

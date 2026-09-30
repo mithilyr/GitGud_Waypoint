@@ -23,6 +23,7 @@ class Outlet(Base):
     mall_window: Mapped[str | None] = mapped_column(String(16))
     window_open_time: Mapped[str] = mapped_column(String(5))
     window_close_time: Mapped[str] = mapped_column(String(5))
+    name: Mapped[str | None] = mapped_column(String(48))  # display name, seeded from seed/data/outlet_names.csv
 
 
 class Vehicle(Base):

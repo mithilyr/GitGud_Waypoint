@@ -22,7 +22,7 @@ services:
       dockerfile: services/api/Dockerfile
     environment:
       DATABASE_URL: postgresql+psycopg://${POSTGRES_USER:-waypoint}:${POSTGRES_PASSWORD:-waypoint}@db:5432/${POSTGRES_DB:-waypoint}
-      JWT_SECRET: ${JWT_SECRET:-change-me}
+      JWT_SECRET: ${JWT_SECRET:-dev-only-secret-change-me-0123456789abcdef}
       CORS_ORIGINS: ${CORS_ORIGINS:-http://localhost:3000}
     ports:
       - "${API_PORT:-8000}:8000"

@@ -6,8 +6,8 @@
   --surface: #ffffff;
   --border: #eaeaea;
   --text: #111111;
-  --muted: #787774;
-  --stroke-muted: #a9a8a4;
+  --muted: #6a6864;
+  --stroke-muted: #86847f;
   --accent: #f5b301;
   --ok-bg: #edf3ec;
   --ok-fg: #346538;
@@ -23,17 +23,14 @@
   --logo-tile: #111111;
   --logo-ink: #e6eeea;
   --logo-dot: #e07a4a;
-  --vr-band1: #eceae4;
-  --vr-band2: #eeece7;
-  --vr-band3: #f0eeea;
-  --vr-band4: #f2f0ec;
-  --vr-band5: #f3f2ee;
-  --vr-line: #111111;
-  --vr-leaf: #346538;
-  --vr-bud: #c8372d;
-  --vr-bloom: #f5b301;
+  --mark-ink: #14231f;
+  --mark-dot: #b5562b;
+  --logo-glow: rgba(255, 255, 255, 0.55);
   --on-primary: #ffffff;
   --primary: #111111;
+  --toggle-on: #346538;
+  --toggle-off: #dcdad4;
+  --seg-active: #ffffff;
 }
 
 :root[data-theme="dark"] {
@@ -42,7 +39,7 @@
   --border: #2f2d2a;
   --text: #f2f0eb;
   --muted: #a3a19c;
-  --stroke-muted: #6f6d68;
+  --stroke-muted: #8c8a84;
   --ok-bg: #1b2a1e;
   --ok-fg: #7cc488;
   --warn-bg: #302612;
@@ -57,17 +54,14 @@
   --logo-tile: #ffffff;
   --logo-ink: #111111;
   --logo-dot: #b5562b;
-  --vr-band1: #24221f;
-  --vr-band2: #201e1c;
-  --vr-band3: #1d1c1a;
-  --vr-band4: #1a1917;
-  --vr-band5: #171615;
-  --vr-line: #f2f0eb;
-  --vr-leaf: #7cc488;
-  --vr-bud: #e5564b;
-  --vr-bloom: #f5b301;
+  --mark-ink: #e6eeea;
+  --mark-dot: #e07a4a;
+  --logo-glow: rgba(255, 255, 255, 0.09);
   --on-primary: #111111;
   --primary: #f2f0eb;
+  --toggle-on: #6fbf78;
+  --toggle-off: #44423d;
+  --seg-active: #4a4842;
 }
 
 @theme inline {
@@ -90,9 +84,9 @@
   --color-bad-line: var(--bad-stroke);
   --color-primary: var(--primary);
   --color-on-primary: var(--on-primary);
-  --font-sans: var(--font-geist-sans), system-ui, sans-serif;
+  --font-sans: var(--font-geist-sans), var(--font-noto-si), var(--font-noto-ta), system-ui, sans-serif;
   --font-mono: var(--font-geist-mono), ui-monospace, monospace;
-  --font-display: var(--font-newsreader), Georgia, serif;
+  --font-display: var(--font-newsreader), var(--font-noto-si), var(--font-noto-ta), Georgia, serif;
 }
 
 html {
@@ -103,7 +97,7 @@ html {
 body {
   background: var(--bg);
   color: var(--text);
-  font-family: var(--font-geist-sans), system-ui, sans-serif;
+  font-family: var(--font-geist-sans), var(--font-noto-si), var(--font-noto-ta), system-ui, sans-serif;
   font-size: 15px;
   line-height: 1.45;
   min-height: 100dvh;
@@ -119,12 +113,7 @@ button:disabled {
   cursor: not-allowed;
 }
 
-/* Sticky :hover on touch screens is confusing; only hover where a mouse exists. */
-@media (hover: none) {
-  .hoverable:hover {
-    background: inherit;
-  }
-}
+/* Hover styles come from Tailwind's `hover:` variants, which only apply where a pointer can hover, so a tap never leaves a sticky hover state. */
 
 input,
 select,
@@ -135,7 +124,7 @@ textarea {
 .eyebrow {
   font-size: 11px;
   font-weight: 600;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.6px;
   text-transform: uppercase;
   color: var(--muted);
 }
@@ -179,4 +168,121 @@ textarea {
   background-image:
     radial-gradient(ellipse 60% 40% at 15% 100%, color-mix(in srgb, var(--muted) 9%, transparent), transparent 70%),
     radial-gradient(ellipse 50% 35% at 85% 0%, color-mix(in srgb, var(--muted) 7%, transparent), transparent 70%);
+}
+
+/* Settings: text size (see lib/prefs.ts). */
+html[data-text-size="large"] body {
+  zoom: 1.12;
+}
+
+/* Dispatcher density: compact tables. */
+html[data-density="compact"] table tbody tr {
+  height: 40px !important;
+}
+html[data-density="compact"] table tbody td {
+  padding-top: 2px;
+  padding-bottom: 2px;
+}
+
+/* Waypoint string (home page scene): the string draws itself in, then the stops pop in order. */
+.wp-string {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: wp-draw 2.4s cubic-bezier(0.3, 0.6, 0.2, 1) 0.15s forwards;
+}
+.wp-stop {
+  transform-box: fill-box;
+  opacity: 0;
+  animation: wp-pop 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+  animation-delay: calc(0.2s + var(--i) * 0.28s);
+}
+.wp-halo {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: wp-pulse 2.6s ease-out 3s infinite;
+}
+@keyframes wp-draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+@keyframes wp-pop {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes wp-pulse {
+  0% {
+    transform: scale(0.8);
+    opacity: 0.35;
+  }
+  100% {
+    transform: scale(1.8);
+    opacity: 0;
+  }
+}
+.wp-still .wp-string {
+  animation: none;
+  stroke-dashoffset: 0;
+}
+.wp-still .wp-stop {
+  animation: none;
+  opacity: 1;
+}
+.wp-still .wp-halo {
+  animation: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .wp-string {
+    animation: none;
+    stroke-dashoffset: 0;
+  }
+  .wp-stop {
+    animation: none;
+    opacity: 1;
+  }
+  .wp-halo {
+    animation: none;
+  }
+}
+
+/* Phones: one step up in text size, more room inside cards, bigger touch targets. */
+@media (max-width: 639px) {
+  body {
+    font-size: 16px;
+    line-height: 1.5;
+  }
+  .eyebrow {
+    font-size: 12px;
+  }
+  .font-data {
+    font-size: 14px;
+  }
+  .text-\[10px\] {
+    font-size: 11px;
+  }
+  .text-\[11px\] {
+    font-size: 12px;
+  }
+  .text-\[12px\] {
+    font-size: 13px;
+  }
+  .text-\[13px\] {
+    font-size: 14px;
+  }
+  .text-\[14px\] {
+    font-size: 15px;
+  }
+  .text-\[15px\] {
+    font-size: 16px;
+  }
+  .p-4 {
+    padding: 1.25rem;
+  }
+  .p-5 {
+    padding: 1.5rem;
+  }
 }

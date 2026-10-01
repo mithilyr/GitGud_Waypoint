@@ -1,9 +1,10 @@
 "use client";
 
-import { Card, Eyebrow, ErrorNote, Headline, Pill, Spinner } from "@/components/ui";
+import { Card, ErrorNote, Eyebrow, Headline, Lead, Pill, Spinner } from "@/components/ui";
 import { get } from "@/lib/api";
 import { fmtDate } from "@/lib/format";
 import { usePoll } from "@/lib/hooks";
+import { useT } from "@/lib/i18n";
 
 type Day = {
   date: string;
@@ -23,6 +24,7 @@ type Outlook = {
 };
 
 export default function DemandPage() {
+  const { t } = useT();
   const { data, error, loading, reload } = usePoll(() => get<Outlook>("/dispatch/demand"));
   if (loading && !data) return <div className="grid place-items-center py-24 text-muted"><Spinner /></div>;
   if (!data) return <ErrorNote error={error} retry={reload} />;
@@ -32,11 +34,9 @@ export default function DemandPage() {
 
   return (
     <div className="rise">
-      <Eyebrow>Demand outlook · both depots · next 2 weeks · from {fmtDate(data.start)}</Eyebrow>
+      <Lead>{t("disp.demand.eyebrow", { date: fmtDate(data.start) })}</Lead>
       <Headline className="mt-1">{data.headline}</Headline>
-      <p className="mt-2 max-w-[760px] text-[15px] text-muted">
-        Forecast chilled demand is drawn against usable reefer capacity. Days over the line turn red and come with a concrete action. No action moves vehicles between depots.
-      </p>
+      <p className="mt-2 max-w-[760px] text-[15px] text-muted">{t("disp.demand.lede")}</p>
 
       <div className="mt-6 grid gap-4 lg:grid-cols-2">
         {depots.map((depot) => (
@@ -44,8 +44,8 @@ export default function DemandPage() {
             <div className="flex items-baseline justify-between">
               <div className="font-display text-[22px] font-medium">{depot}</div>
               <div className="flex items-center gap-3 text-[12px] text-muted">
-                <span className="flex items-center gap-1.5"><span className="h-2.5 w-2.5 rounded-sm bg-info" /> Chilled demand</span>
-                <span className="flex items-center gap-1.5"><span className="h-0.5 w-4 bg-ink" /> Reefer capacity</span>
+                <span className="flex items-center gap-1.5"><span className="h-2.5 w-2.5 rounded-sm bg-info" /> {t("disp.demand.demand")}</span>
+                <span className="flex items-center gap-1.5"><span className="h-0.5 w-4 bg-ink" /> {t("disp.demand.capacity")}</span>
               </div>
             </div>
             <div className="mt-4 flex h-[190px] items-end gap-1.5">
@@ -69,7 +69,7 @@ export default function DemandPage() {
                 <div key={d.date} className="flex-1 text-center">
                   <div className="text-[10px] font-semibold text-muted">{d.dow}</div>
                   <div className="font-data text-[11px]">{d.date.slice(8)}</div>
-                  <div className="h-3 text-[9px] text-warn">{d.payday ? "PAY" : d.festival_ramp >= 0.5 ? "▲" : ""}</div>
+                  <div className="h-3 text-[9px] text-warn">{d.payday ? t("disp.demand.pay") : d.festival_ramp >= 0.5 ? "▲" : ""}</div>
                 </div>
               ))}
             </div>
@@ -78,22 +78,22 @@ export default function DemandPage() {
       </div>
 
       <section className="mt-8">
-        <Eyebrow>At risk</Eyebrow>
+        <Eyebrow>{t("disp.demand.atRisk")}</Eyebrow>
         {data.at_risk.length ? (
           <div className="mt-2 grid gap-3 md:grid-cols-2 xl:grid-cols-3">
             {data.at_risk.map((r) => (
               <Card key={r.date + r.depot} className="p-4">
                 <div className="flex items-center justify-between">
                   <div className="font-semibold">{fmtDate(r.date)}</div>
-                  <Pill tone="bad">{r.pct}% of reefer capacity</Pill>
+                  <Pill tone="bad">{t("disp.demand.pctOf", { n: r.pct })}</Pill>
                 </div>
-                <div className="text-[13px] text-muted">{r.depot} · Fresh chilled</div>
+                <div className="text-[13px] text-muted">{t("disp.demand.freshChilled", { depot: r.depot })}</div>
                 <p className="mt-3 font-display text-[20px] leading-tight">{r.action}</p>
               </Card>
             ))}
           </div>
         ) : (
-          <p className="mt-2 text-muted">No day exceeds reefer capacity.</p>
+          <p className="mt-2 text-muted">{t("disp.demand.none")}</p>
         )}
       </section>
       <p className="mt-6 max-w-[760px] text-[12px] text-muted">{data.assumptions}</p>

@@ -21,7 +21,9 @@ export function SignaturePad({ onChange }: { onChange: (dataUrl: string | null) 
 
     const pos = (e: PointerEvent) => {
       const r = c.getBoundingClientRect();
-      return [e.clientX - r.left, e.clientY - r.top] as const;
+      // Large text uses CSS zoom, so pointer pixels and canvas pixels differ by this factor.
+      const k = c.clientWidth / r.width || 1;
+      return [(e.clientX - r.left) * k, (e.clientY - r.top) * k] as const;
     };
     const down = (e: PointerEvent) => {
       drawing.current = true;

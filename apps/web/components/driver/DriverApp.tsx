@@ -10,7 +10,7 @@ import { DriverProvider, useDriver, type TripT } from "@/lib/driver/engine";
 import { useT } from "@/lib/i18n";
 import type { Key } from "@/lib/i18n/en";
 import { fmtDate } from "@/lib/format";
-import { SettingsButton } from "@/components/Chrome";
+import { SettingsButton, useWide } from "@/components/Chrome";
 import { DarkModeRow, LanguageRow, SettingsSection, TextSizeRow, ToggleRow, ValueRow } from "@/components/Settings";
 import { usePref } from "@/lib/prefs";
 import { SignaturePad } from "./SignaturePad";
@@ -137,24 +137,43 @@ function Shell() {
   const unreadPlanChange = run?.notices.find((n) => n.kind === "plan_changed" && !n.read);
   const pending = d.outbox.length;
   const needsAnswer = run?.conflicts.filter((c) => !c.stance).length ?? 0;
+  const wide = useWide();
+  const nextStop = current?.stops.find((x) => !x.removed && (x.status === "pending" || x.status === "arrived")) ?? current?.stops.find((x) => !x.removed);
   const tab = screen.name === "home" ? "home" : screen.name === "sync" ? "sync" : screen.name === "help" || screen.name === "call" || screen.name === "settings" ? "help" : "stops";
 
   return (
-    <div className="mx-auto flex min-h-dvh max-w-[520px] flex-col pb-[calc(4rem+env(safe-area-inset-bottom))] lg:border-x lg:border-line">
-      <header className="sticky top-0 z-20 flex h-14 items-center bg-bg px-3">
+    <div className="mx-auto flex min-h-dvh max-w-[520px] flex-col pb-[calc(4rem+env(safe-area-inset-bottom))] lg:max-w-[1120px] lg:pb-8">
+      <header className="sticky top-0 z-20 flex h-14 items-center bg-bg px-3 lg:h-16 lg:border-b lg:border-line lg:px-6">
         <div className="w-16">
           {stack.length > 1 ? (
             <button onClick={back} aria-label={t("common.back")} className="-ml-2 grid h-11 w-11 place-items-center rounded-full hover:bg-neutral"><Icon.Back /></button>
           ) : null}
         </div>
-        <div className="flex-1 text-center text-[12px] font-medium text-muted">{label}</div>
-        <div className="flex w-16 justify-end">
+        <div className="flex-1 text-center text-[12px] font-medium text-muted lg:hidden">{label}</div>
+        {/* Desktop: the four sections as tabs in the header. */}
+        <nav className="mx-auto hidden rounded-[8px] bg-neutral p-0.5 lg:flex" aria-label={t("drv.shell.sections")}>
+          {(
+            [
+              ["home", t("run")],
+              ["stops", t("stops")],
+              ["sync", t("sync")],
+              ["help", t("help")],
+            ] as const
+          ).map(([k, text]) => (
+            <button key={k} onClick={() => goTab(k)} className={`flex h-8 items-center rounded-[6px] px-5 text-[14px] ${tab === k ? "border border-line bg-surface font-semibold text-ink" : "font-medium text-muted hover:text-ink"}`}>
+              {text}
+              {k === "sync" && pending + needsAnswer ? <span className="ml-2 grid h-4 min-w-4 place-items-center rounded-full bg-warn px-1 text-[10px] font-bold text-bg">{pending + needsAnswer}</span> : null}
+            </button>
+          ))}
+        </nav>
+        <span className="mr-3 hidden whitespace-nowrap text-[12px] font-medium text-muted lg:block">{label}</span>
+        <div className="flex w-16 justify-end lg:w-auto">
           <SettingsButton to={() => push({ name: "settings" })} label={t("settings.title")} />
         </div>
       </header>
 
       {!d.online ? (
-        <div className="mx-auto max-w-[520px] px-4 pt-3" role="status">
+        <div className="mx-auto w-full max-w-[520px] px-4 pt-3 lg:max-w-[1120px] lg:px-6" role="status">
           <div className="rounded-[12px] border border-warn/30 bg-warn-bg px-4 py-3 text-warn">
             <div className="text-[13px] font-bold uppercase tracking-wide">{t("drv.shell.offlineSince", { t: d.offlineSince ? new Date(d.offlineSince).toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit", timeZone: "Asia/Colombo" }) : t("drv.shell.now") })}</div>
             <div className="text-[15px] font-semibold">{t("drv.shell.keepGoing")}</div>
@@ -163,7 +182,14 @@ function Shell() {
         </div>
       ) : null}
 
-      <main className="mx-auto w-full max-w-[520px] px-6 py-6">
+      <div className="lg:grid lg:grid-cols-[360px_minmax(0,1fr)] lg:gap-10 lg:px-6">
+      {/* Desktop: the stop list stays on the left while a stop is open on the right. */}
+      {wide && run && current && !["sync", "help", "call", "settings"].includes(screen.name) ? (
+        <aside className="py-6">
+          <Stops trip={current} onOpen={(id) => setStack([{ name: "stop", id }])} />
+        </aside>
+      ) : null}
+      <main className="mx-auto w-full max-w-[520px] px-6 py-6 lg:max-w-[640px] lg:px-0">
         {!run || !current ? (
           <Card className="p-6 text-center">
             <p className="font-display text-[24px]">{t("drv.shell.noRun")}</p>
@@ -173,7 +199,11 @@ function Shell() {
         ) : screen.name === "home" ? (
           <Home trip={current} onPick={setTripId} onStart={() => push({ name: "stops" })} />
         ) : screen.name === "stops" ? (
-          <Stops trip={current} onOpen={(id) => push({ name: "stop", id })} />
+          wide && nextStop ? (
+            <StopDetail trip={current} stopId={nextStop.id} onRecord={() => push({ name: "record", id: nextStop.id })} onDone={() => goTab("stops")} />
+          ) : (
+            <Stops trip={current} onOpen={(id) => push({ name: "stop", id })} />
+          )
         ) : screen.name === "stop" ? (
           <StopDetail trip={current} stopId={screen.id} onRecord={() => push({ name: "record", id: screen.id })} onDone={() => goTab("stops")} />
         ) : screen.name === "record" ? (
@@ -188,6 +218,7 @@ function Shell() {
           <CallScreen onBack={back} />
         )}
       </main>
+      </div>
 
       <Sheet open={!!unreadPlanChange} onClose={() => {}} title={t("drv.change.title")}>
         {unreadPlanChange && current ? (
@@ -207,8 +238,8 @@ function Shell() {
         ) : null}
       </Sheet>
 
-      <WaypointString compact still className="mt-auto pt-10" />
-      <nav className="safe-bottom fixed inset-x-0 bottom-0 z-20 border-t border-line bg-surface" aria-label={t("drv.shell.sections")}>
+      <WaypointString compact still className="mt-auto pt-10 lg:hidden" />
+      <nav className="safe-bottom fixed inset-x-0 bottom-0 z-20 border-t border-line bg-surface lg:hidden" aria-label={t("drv.shell.sections")}>
         <ul className="mx-auto flex max-w-[520px]">
           {(
             [

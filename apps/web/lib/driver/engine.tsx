@@ -6,7 +6,7 @@
 
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from "react";
 import { ApiError, getToken, isNetworkError, post, get, setForceOffline, setToken } from "@/lib/api";
-import { User } from "@/lib/auth";
+import { User, useAuth } from "@/lib/auth";
 import { uuid } from "@/lib/format";
 import { kvDel, kvGet, kvSet, outboxAll, outboxDelete, outboxPut, type OutboxEvent } from "./idb";
 import { checkPin, makePinRecord } from "./pin";
@@ -77,7 +77,6 @@ type Engine = {
   lastSync: string | null;
   syncing: boolean;
   message: string | null;
-  signIn: (email: string, password: string) => Promise<void>;
   setPin: (pin: string) => Promise<void>;
   unlock: (pin: string) => Promise<boolean>;
   lock: () => void;
@@ -143,6 +142,7 @@ function hhmm(iso: string) {
 }
 
 export function DriverProvider({ children }: { children: React.ReactNode }) {
+  const { logout } = useAuth();
   const [phase, setPhase] = useState<Phase>("loading");
   const [profile, setProfile] = useState<Profile | null>(null);
   const [serverRun, setServerRun] = useState<Run | null>(null);
@@ -253,24 +253,6 @@ export function DriverProvider({ children }: { children: React.ReactNode }) {
     [sync],
   );
 
-  const signIn: Engine["signIn"] = useCallback(async (email, password) => {
-    const r = await post<{ token: string; user: User }>("/auth/login", { email, password });
-    if (r.user.role !== "driver") throw new Error("This sign-in is for drivers");
-    setToken(r.token);
-    await kvSet("token", r.token);
-    const prof: Profile = { user: r.user, pin: null };
-    await kvSet("profile", prof);
-    setProfile(prof);
-    setPhase("pin-setup");
-    try {
-      const first = await get<Run>("/driver/run");
-      await kvSet("run", first);
-      setServerRun(first);
-    } catch {
-      /* fetched again once unlocked */
-    }
-  }, []);
-
   const setPin: Engine["setPin"] = useCallback(
     async (pin) => {
       if (!profile) return;
@@ -302,8 +284,9 @@ export function DriverProvider({ children }: { children: React.ReactNode }) {
     setProfile(null);
     setServerRun(null);
     setOutbox([]);
+    logout();
     setPhase("signin");
-  }, []);
+  }, [logout]);
 
   const setSimulate = useCallback(
     (v: boolean) => {
@@ -322,7 +305,7 @@ export function DriverProvider({ children }: { children: React.ReactNode }) {
 
   return (
     <Ctx.Provider
-      value={{ phase, profile, run, outbox, online, simulate, offlineSince, lastSync, syncing, message, signIn, setPin, unlock, lock, forget, record, sync, setSimulate }}
+      value={{ phase, profile, run, outbox, online, simulate, offlineSince, lastSync, syncing, message, setPin, unlock, lock, forget, record, sync, setSimulate }}
     >
       {children}
     </Ctx.Provider>

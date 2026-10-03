@@ -1,10 +1,11 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { PhotoButton } from "@/components/PhotoButton";
 import { Button, Card, ErrorNote, Eyebrow, Headline, Icon, Lead, Logo, NavRow, Pill, SectionLabel, Sheet, Spinner, Tile } from "@/components/ui";
 import { WaypointString } from "@/components/WaypointString";
-import { HomeLink } from "@/components/HomeLink";
+import { HOME, useAuth } from "@/lib/auth";
 import { DriverProvider, useDriver, type TripT } from "@/lib/driver/engine";
 import { useT } from "@/lib/i18n";
 import type { Key } from "@/lib/i18n/en";
@@ -25,83 +26,26 @@ export default function DriverApp() {
 function Gate() {
   const { phase } = useDriver();
   if (phase === "loading") return <div className="grid min-h-dvh place-items-center text-muted"><Spinner /></div>;
-  if (phase === "signin") return <SignIn />;
+  if (phase === "signin") return <ToSignIn />;
   if (phase === "pin-setup") return <PinScreen mode="setup" />;
   if (phase === "locked") return <PinScreen mode="unlock" />;
   return <Shell />;
 }
 
-/* ---------- R0a · first-time sign in ---------- */
-function SignIn() {
-  const { signIn } = useDriver();
-  const { t, lang, setLang } = useT();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [busy, setBusy] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  return (
-    <div className="flex min-h-dvh flex-col overflow-x-clip">
-    <main className="relative mx-auto flex w-full max-w-[480px] flex-1 flex-col px-5 pb-6 pt-4">
-      <HomeLink />
-      <div className="mt-2 flex items-center gap-3">
-        <Logo size={40} />
-        <div>
-          <div className="text-[15px] font-semibold leading-tight">Waypoint</div>
-          <div className="text-[13px] font-medium text-muted">{t("drv.sub")}</div>
-        </div>
-      </div>
-      <h1 className="mt-8 font-display text-[32px] font-medium leading-[1.2] tracking-[-0.7px]">{t("drv.signin.title")}</h1>
-      <div className="mt-5 grid grid-cols-3 gap-2">
-        {([["si", "සිංහල"], ["ta", "தமிழ்"], ["en", "English"]] as const).map(([k, label]) => (
-          <button key={k} onClick={() => setLang(k)} aria-pressed={lang === k} className={`h-12 rounded-[10px] border text-[16px] font-semibold ${lang === k ? "border-ink bg-surface" : "border-line text-muted"}`}>
-            {label}
-          </button>
-        ))}
-      </div>
-      <form
-        className="mt-5 space-y-3"
-        onSubmit={async (e) => {
-          e.preventDefault();
-          setBusy(true);
-          setError(null);
-          try {
-            await signIn(email.trim(), password);
-          } catch (err) {
-            setError(err instanceof Error ? err.message : t("drv.signin.failed"));
-          } finally {
-            setBusy(false);
-          }
-        }}
-      >
-        <label className="block">
-          <span className="eyebrow">{t("login.email")}</span>
-          <input type="email" autoComplete="username" required value={email} onChange={(e) => setEmail(e.target.value)} className="mt-1 h-12 w-full rounded-[8px] border border-line bg-surface px-3 outline-none focus:border-ink" />
-        </label>
-        <label className="block">
-          <span className="eyebrow">{t("login.password")}</span>
-          <input type="password" autoComplete="current-password" required value={password} onChange={(e) => setPassword(e.target.value)} className="mt-1 h-12 w-full rounded-[8px] border border-line bg-surface px-3 outline-none focus:border-ink" />
-        </label>
-        <ErrorNote error={error} />
-        <Button type="submit" size="xl" block busy={busy}>{t("drv.signin.verify")}</Button>
-        <Button
-          type="button"
-          variant="secondary"
-          block
-          onClick={() => {
-            setEmail("driver@waypoint.demo");
-            setPassword("waypoint2026");
-          }}
-        >
-          {t("drv.signin.fill")}
-        </Button>
-      </form>
-      <p className="mt-3 text-center text-[12px] font-medium text-muted">{t("drv.signin.once")}</p>
-    </main>
-    <div className="pt-6">
-      <WaypointString />
-    </div>
-  </div>
-  );
+/* ---------- R0a · first-time sign in: the single sign-in page (/) replaces a driver-only form ---------- */
+function ToSignIn() {
+  const { user, ready, logout } = useAuth();
+  const router = useRouter();
+  useEffect(() => {
+    if (!ready) return;
+    // Somebody else's account is open on this device: send them to their own screens, not the driver's sign-in.
+    if (user && user.role !== "driver") router.replace(HOME[user.role]);
+    else {
+      logout();
+      router.replace("/");
+    }
+  }, [ready, user, logout, router]);
+  return <div className="grid min-h-dvh place-items-center text-muted"><Spinner /></div>;
 }
 
 /* ---------- R0b · PIN (unlock works offline; setup is the second half of first sign-in) ---------- */
@@ -138,7 +82,6 @@ function PinScreen({ mode }: { mode: "setup" | "unlock" }) {
   return (
     <div className="flex min-h-dvh flex-col overflow-x-clip">
     <main className="relative mx-auto flex w-full max-w-[480px] flex-1 flex-col items-center px-5 pb-6 pt-4">
-      <div className="self-start"><HomeLink /></div>
       <Logo size={48} />
       <div className="mt-4 text-center">
         <div className="font-display text-[26px] font-medium">{name}</div>

@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { PhotoButton } from "@/components/PhotoButton";
-import { Bar, Button, Card, ErrorNote, Eyebrow, Icon, Lead, Pill, Sheet, Spinner, toast } from "@/components/ui";
+import { Button, Card, ErrorNote, Eyebrow, Icon, Lead, Pill, Sheet, Spinner, toast } from "@/components/ui";
 import { get, post } from "@/lib/api";
 import { usePoll } from "@/lib/hooks";
 import { useT } from "@/lib/i18n";
@@ -65,8 +65,6 @@ export function LoadPanel({ tripId, onReleased }: { tripId: number; onReleased?:
 
   const d = data;
   const left = d.total - d.loaded;
-  const volPct = (d.volume_m3 / d.vehicle.volume_cap_m3) * 100;
-  const kgPct = (d.weight_kg / d.vehicle.weight_cap_kg) * 100;
   const current = d.stops.find((s) => s.state === "current");
   const later = d.stops.filter((s) => s.state === "todo");
 
@@ -97,23 +95,34 @@ export function LoadPanel({ tripId, onReleased }: { tripId: number; onReleased?:
 
   return (
     <div className="rise">
-      <div className="flex flex-wrap items-start justify-between gap-2">
-        <div>
+      <div className="flex items-start justify-between gap-4">
+        <div className="min-w-0 flex-1">
           <Lead mono>
             {t("loader.load.eyebrow", { v: d.trip.vehicle_id, n: d.trip.trip_no, brand: d.trip.brand, t: d.trip.depart ?? "" })}
             {d.trip.driver ? t("loader.load.eyebrowDriver", { who: d.trip.driver }) : ""}
           </Lead>
           <div className="mt-1 font-display text-[34px] font-medium leading-tight tracking-[-0.8px] tabular">{t("loader.load.progress", { a: d.loaded, b: d.total })}</div>
+          <div className="mt-3 h-1 w-full overflow-hidden rounded-full bg-line" role="progressbar" aria-valuemin={0} aria-valuemax={d.total} aria-valuenow={d.loaded}>
+            <div className="h-full rounded-full bg-primary transition-[width] duration-300" style={{ width: `${d.total ? (d.loaded / d.total) * 100 : 0}%` }} />
+          </div>
+          {/* Phone: one line under the bar (board L3). */}
+          <div className="font-data mt-3 flex flex-wrap gap-x-6 gap-y-1 text-[12px] text-muted lg:hidden">
+            <span>{t("loader.load.weight")} {d.weight_kg.toLocaleString()} / {d.vehicle.weight_cap_kg.toLocaleString()} kg</span>
+            <span>{t("loader.load.volume")} {d.volume_m3} / {d.vehicle.volume_cap_m3} m³</span>
+          </div>
         </div>
-        <div className="grid w-full max-w-[300px] gap-2 text-[12px] text-muted">
-          <div>
-            <div className="font-data flex justify-between"><span>{t("loader.load.weight")}</span><span>{d.weight_kg.toLocaleString()} / {d.vehicle.weight_cap_kg.toLocaleString()} kg</span></div>
-            <Bar pct={kgPct} />
-          </div>
-          <div>
-            <div className="font-data flex justify-between"><span>{t("loader.load.volume")}</span><span>{d.volume_m3} / {d.vehicle.volume_cap_m3} m³</span></div>
-            <Bar pct={volPct} />
-          </div>
+        {/* Tablet and desktop: two tiles to the right (board LT1). */}
+        <div className="hidden shrink-0 gap-3 lg:flex">
+          <Card className="min-w-[120px] px-4 py-3">
+            <Eyebrow>{t("loader.load.weight")}</Eyebrow>
+            <div className="font-data mt-1 text-[18px] font-semibold tabular">{d.weight_kg.toLocaleString()}</div>
+            <div className="font-data text-[11px] text-muted">of {d.vehicle.weight_cap_kg.toLocaleString()} kg</div>
+          </Card>
+          <Card className="min-w-[120px] px-4 py-3">
+            <Eyebrow>{t("loader.load.volume")}</Eyebrow>
+            <div className="font-data mt-1 text-[18px] font-semibold tabular">{d.volume_m3}</div>
+            <div className="font-data text-[11px] text-muted">of {d.vehicle.volume_cap_m3} m³</div>
+          </Card>
         </div>
       </div>
 

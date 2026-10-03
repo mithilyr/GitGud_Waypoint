@@ -70,7 +70,7 @@ export default function TrackPage() {
 
   const deferralPush = pushes.find((p) => p.kind === "deferral");
   return (
-    <div className="rise space-y-10">
+    <div className="rise space-y-10 lg:grid lg:grid-cols-[repeat(auto-fit,minmax(380px,1fr))] lg:items-start lg:justify-items-center lg:gap-6 lg:space-y-0 lg:[&>*]:w-full lg:[&>*]:max-w-[560px] lg:[&>*]:rounded-[16px] lg:[&>*]:border lg:[&>*]:border-line lg:[&>*]:bg-surface lg:[&>*]:p-6">
       {data.deferred
         .filter((o) => !dismissed.includes(o.id))
         .map((o) => (

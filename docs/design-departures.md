@@ -6,6 +6,15 @@ We built the submitted Designathon file (screens D1–D5, L1–L7, R0–R8, S1�
 
 Tokens (both themes) already matched the Style guide; type sizes for pills, buttons, headlines and eyebrows were aligned. The phone header now has no logo, border, sign-out or network label, and the bottom bar is 64 px with the active dot under the label, as on the boards. Store, loader and driver screens follow the boards' text styles, tiles and buttons. Known gaps: the vine and ridge motifs stay our simplified inline SVG rather than the design's exact paths; the store counts on Track keep small minus/plus buttons (the board shows static counts) so the receipt difference in the walkthrough still works; the add-item, report and receipt-confirmed screens are full-screen overlays rather than routes.
 
+## Sign-in and desktop layouts (branch `role-based-login-and-polish`)
+
+| Change | Why |
+|---|---|
+| **One sign-in page, role by account.** The home page used to be a four-tile role picker followed by role-specific sign-ins; it is now a single email and password form and the account's role decides where you land. The driver's own email form (R0a) is gone: the shared sign-in hands the session to the phone, which goes straight to the PIN step (R0b). The loader's dock PIN screen (L1) is kept and linked from the sign-in page. | The app is role-based access, not a role chooser. |
+| **Dispatcher fits one screen.** From 768 px the header, content and action bar share the window height and long lists scroll inside their own card, so the page never scrolls (Orders, Plan, Live, Demand, Settings). | Layout request for the dispatcher. |
+| **Real desktop layouts for store and driver.** Store: order lines beside a summary and Place order panel, Track and History as card grids. Driver: from 1024 px the sections are header tabs, the stop list stays on the left and the open stop is on the right. | The boards are phone-only for these roles; the desktop pages follow the same system. |
+| **Loader tablet panes scroll on their own; phone Departures and the load header follow L2, L3 and LT1 more closely.** | Fidelity. |
+
 ## What we changed
 
 | Screen / flow | What changed | Why |
@@ -29,7 +38,7 @@ Tokens (both themes) already matched the Style guide; type sizes for pills, butt
 |---|---|
 | **Phone readability pass** | On phones (below 640 px) every small text size goes up one step, cards and lists have more padding and gaps, and buttons, chips, steppers and Settings rows have touch targets of 40 to 56 px. Desktop is unchanged. |
 | **Slightly darker muted and faint text colours** | The style guide's `#787774` and `#a9a8a4` on the light background are below the contrast needed to read small text (about 4.0:1 and 2.3:1). Muted is now `#6a6864`, faint `#86847f`; in Dark, faint is `#8c8a84`. |
-| **Both layouts for every role** | Phone and desktop now both work everywhere. Store and loader show a top bar (logo, tabs, settings, user) from 1024 px and the phone header with bottom tabs below it. The dispatcher shows the desktop bar from 768 px and, below that, a compact header with bottom tabs and card lists instead of tables (orders, plan, live). The driver app stays a phone column, framed and centred on wide screens. |
+| **Both layouts for every role** | Phone and desktop now both work everywhere. Store and loader show a top bar (logo, tabs, settings, user) from 1024 px and the phone header with bottom tabs below it. The dispatcher shows the desktop bar from 768 px and, below that, a compact header with bottom tabs and card lists instead of tables (orders, plan, live). The driver app is a phone column below 1024 px and a two-pane layout above it (see above). |
 | **Settings gear in every header** | Settings was only reachable through Help. A gear in the phone header and in the wide top bar (and the dispatcher menu) opens it from any screen. |
 | **Waypoint string scenes** (`components/WaypointString.tsx`) | The vine and ridge scenes are replaced everywhere: the big scene (home, sign-in, loader PIN, driver sign-in and PIN) is a string of waypoints, and every phone screen ends with the same phone version of it (still, not animated) above the tab bar, the logo's stops ending in the orange "delivered" stop. |
 | **Logo without a tile, with a faint glow** (`<Logo />`, `public/logo/waypoint-mark-for-light.svg`, `waypoint-mark-for-dark.svg`) | The design's "Mark A" has no tile. The app now shows the bare mark on a transparent background with a soft glow behind it (`--logo-glow`); `<Logo tile />` gives the tiled version for icons. |

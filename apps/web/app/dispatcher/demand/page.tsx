@@ -33,12 +33,12 @@ export default function DemandPage() {
   const max = Math.max(...data.days.flatMap((d) => depots.map((p) => Math.max(d.depots[p].demand_m3, d.depots[p].capacity_m3))));
 
   return (
-    <div className="rise">
+    <div className="rise fit-col md:pb-4">
       <Lead>{t("disp.demand.eyebrow", { date: fmtDate(data.start) })}</Lead>
       <Headline className="mt-1">{data.headline}</Headline>
       <p className="mt-2 max-w-[760px] text-[15px] text-muted">{t("disp.demand.lede")}</p>
 
-      <div className="mt-6 grid gap-4 lg:grid-cols-2">
+      <div className="mt-5 grid gap-4 md:min-h-0 md:flex-1 md:overflow-auto md:content-start md:pb-4 lg:grid-cols-2">
         {depots.map((depot) => (
           <Card key={depot} className="p-4">
             <div className="flex items-baseline justify-between">
@@ -48,7 +48,7 @@ export default function DemandPage() {
                 <span className="flex items-center gap-1.5"><span className="h-0.5 w-4 bg-ink" /> {t("disp.demand.capacity")}</span>
               </div>
             </div>
-            <div className="mt-4 flex h-[190px] items-end gap-1.5">
+            <div className="mt-3 flex h-[190px] items-end gap-1.5 md:h-[clamp(96px,19dvh,190px)]">
               {data.days.map((d) => {
                 const x = d.depots[depot];
                 const over = x.pct > 100;
@@ -77,7 +77,7 @@ export default function DemandPage() {
         ))}
       </div>
 
-      <section className="mt-8">
+      <section className="mt-6 md:mt-4 md:shrink-0">
         <Eyebrow>{t("disp.demand.atRisk")}</Eyebrow>
         {data.at_risk.length ? (
           <div className="mt-2 grid gap-3 md:grid-cols-2 xl:grid-cols-3">
@@ -96,7 +96,7 @@ export default function DemandPage() {
           <p className="mt-2 text-muted">{t("disp.demand.none")}</p>
         )}
       </section>
-      <p className="mt-6 max-w-[760px] text-[12px] text-muted">{data.assumptions}</p>
+      <p className="mt-4 max-w-[760px] text-[12px] text-muted md:shrink-0">{data.assumptions}</p>
     </div>
   );
 }

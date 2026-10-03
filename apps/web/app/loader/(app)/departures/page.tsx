@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation";
 import { Suspense, useEffect, useState } from "react";
 import { useWide } from "@/components/Chrome";
-import { LoadPanel } from "@/components/loader/LoadPanel";
+import { KEY, LoadPanel } from "@/components/loader/LoadPanel";
 import { Card, Empty, ErrorNote, Headline, Lead, Pill, Spinner, type Tone } from "@/components/ui";
 import { get } from "@/lib/api";
 import { fmtLong } from "@/lib/format";
@@ -31,7 +31,6 @@ export type Departure = {
 };
 
 const TONE: Record<string, Tone> = { RELEASED: "ok", LEFT: "ok", LOADING: "info", "PLAN CHANGED": "warn", "NOT STARTED": "neutral" };
-export const KEY = "wp_loader_trip";
 
 function Departures() {
   const { t } = useT();

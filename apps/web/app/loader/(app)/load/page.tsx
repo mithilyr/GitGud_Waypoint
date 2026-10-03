@@ -7,7 +7,8 @@ import { Empty, ErrorNote, Spinner } from "@/components/ui";
 import { get } from "@/lib/api";
 import { usePoll } from "@/lib/hooks";
 import { useT } from "@/lib/i18n";
-import { KEY, type Departure } from "../departures/page";
+import { KEY } from "@/components/loader/LoadPanel";
+import type { Departure } from "../departures/page";
 
 /**
  * The Load tab. On a phone it opens the vehicle you were last loading, else the one most in need of loading

@@ -45,6 +45,9 @@ export type TripDetail = {
   released_by: string | null;
 };
 
+/** sessionStorage key for the vehicle the loader has open (a page file may not export constants, so it lives here). */
+export const KEY = "wp_loader_trip";
+
 const REASONS = ["not_in_stock", "damaged", "wrong_item", "wont_fit"] as const;
 const reasonKey = (code: string) => `loader.reason.${code}` as Key;
 

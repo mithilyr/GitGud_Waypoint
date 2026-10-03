@@ -110,7 +110,7 @@ export default function StoreLayout({ children }: { children: React.ReactNode })
             </button>
           </div>
         ) : null}
-        <main className="mx-auto w-full max-w-[520px] px-6 py-6 lg:max-w-[640px] lg:py-8">{children}</main>
+        <main className="mx-auto w-full max-w-[520px] px-6 py-6 lg:max-w-[1120px] lg:px-8 lg:py-8">{children}</main>
         <WaypointString compact still className="mt-auto pt-10 lg:hidden" />
         <BottomTabs tabs={tabs} />
       </div>

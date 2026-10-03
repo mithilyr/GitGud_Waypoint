@@ -83,23 +83,27 @@ export default function OrderPage() {
   }
 
   return (
-    <div className="rise">
-      <Lead>
-        {t("store.order.eyebrow", { outlet: home.outlet.name, who: home.manager.split(" ")[0], date: fmtDate(new Date().toISOString().slice(0, 10)) })}
-      </Lead>
-      <Headline className="mt-1">{countdown}</Headline>
-      <p className="mt-2 text-[15px] text-muted">{t("store.order.afterCutoff", { cutoff: c.label })}</p>
+    <div className="rise lg:grid lg:grid-cols-[minmax(0,1fr)_380px] lg:grid-rows-[auto_auto_auto_1fr] lg:gap-x-12">
+      <div className="lg:col-span-2">
+        <Lead>
+          {t("store.order.eyebrow", { outlet: home.outlet.name, who: home.manager.split(" ")[0], date: fmtDate(new Date().toISOString().slice(0, 10)) })}
+        </Lead>
+        <Headline className="mt-1 lg:text-[40px]">{countdown}</Headline>
+        <p className="mt-2 text-[15px] text-muted">{t("store.order.afterCutoff", { cutoff: c.label })}</p>
+      </div>
 
-      <div className="mt-5 grid grid-cols-2 gap-3">
+      {/* Wide screens: the order lines on the left, the summary and Place order on the right. */}
+      <div className="mt-5 grid grid-cols-2 gap-3 lg:col-start-2 lg:row-start-2 lg:self-start">
         <Tile label={t("store.order.items")} value={t("store.order.lineCount", { n: lines.length })} sub={mix} />
         <Tile label={t("store.order.expected")} value={fmtDate(c.service_date, { weekday: "short", day: "numeric" })} sub={c.window} />
       </div>
 
-      <div className="mt-6 flex items-center justify-between">
+      <div className="lg:col-start-1 lg:row-span-3 lg:row-start-2">
+      <div className="mt-6 flex items-center justify-between lg:mt-6">
         <SectionLabel>{t("store.order.orderLines")}</SectionLabel>
         {lines.length ? <button onClick={() => setBasket({})} className="text-[13px] font-medium text-muted underline">{t("store.order.clear")}</button> : null}
       </div>
-      <div className="mt-2 divide-y divide-line">
+      <div className="mt-2 divide-y divide-line lg:hidden">
         {visible.map(([sku, qty]) => (
           <button key={sku} onClick={() => setAdding(true)} className="flex min-h-11 w-full items-center gap-3 py-3 text-left">
             <div className="min-w-0 flex-1 truncate text-[14px] font-medium">{byId[sku]?.name ?? sku}</div>
@@ -108,8 +112,22 @@ export default function OrderPage() {
         ))}
         {!lines.length ? <div className="py-6 text-center text-muted">{t("store.order.empty")}</div> : null}
       </div>
+      <div className="mt-2 hidden divide-y divide-line rounded-[12px] border border-line bg-surface px-4 lg:block">
+        {lines.map(([sku, qty]) => (
+          <div key={sku} className="flex min-h-14 items-center gap-3 py-2.5">
+            <div className="min-w-0 flex-1">
+              <div className="truncate text-[14px] font-medium">{byId[sku]?.name ?? sku}</div>
+              <div className="font-data mt-0.5 text-[12px] text-muted">
+                {byId[sku]?.temp === "chilled" ? t("common.chilled") : t("common.dry")} · {byId[sku]?.pack}
+              </div>
+            </div>
+            <Stepper value={qty} onChange={(v) => set(sku, v)} fewerLabel={t("store.add.fewer")} moreLabel={t("store.add.more")} valueLabel={t("store.add.qty")} />
+          </div>
+        ))}
+        {!lines.length ? <div className="py-8 text-center text-muted">{t("store.order.empty")}</div> : null}
+      </div>
       {lines.length > 4 ? (
-        <button onClick={() => setShowAll((v) => !v)} className="mt-2 text-[13px] font-medium text-muted">
+        <button onClick={() => setShowAll((v) => !v)} className="mt-2 text-[13px] font-medium text-muted lg:hidden">
           {showAll ? t("store.order.showLess") : t("store.order.moreItems", { n: lines.length - 4 })}
         </button>
       ) : null}
@@ -122,8 +140,9 @@ export default function OrderPage() {
           {t("store.order.reorder")}
         </Button>
       </div>
+      </div>
 
-      <div className="mt-6">
+      <div className="mt-6 lg:col-start-2 lg:row-start-3 lg:self-start">
         <ErrorNote error={error} />
         <Button size="xl" block className="mt-2" busy={busy} disabled={!lines.length} onClick={place}>
           {t("store.order.place")}

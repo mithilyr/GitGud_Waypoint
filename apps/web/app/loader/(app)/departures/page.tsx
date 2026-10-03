@@ -52,7 +52,7 @@ function Departures() {
   const active = trips.find((x) => x.trip_id === sel) ?? (wide ? trips.find((x) => x.status === "LOADING") ?? trips.find((x) => x.status === "PLAN CHANGED") ?? trips.find((x) => x.status === "NOT STARTED") ?? trips[0] : undefined);
 
   const list = (
-    <div>
+    <div className="lg:min-h-0 lg:overflow-auto lg:pr-1">
       <Lead>{data.date ? fmtLong(data.date) : ""}</Lead>
       <Headline className="mt-1">{t("loader.dep.leaving", { dock: data.dock })}</Headline>
       <p className="mt-2 text-[14px] leading-[1.5] text-muted">{t("loader.dep.lede")}</p>
@@ -95,10 +95,11 @@ function Departures() {
   );
 
   if (!wide) return <div className="rise mx-auto max-w-[520px]">{list}</div>;
+  // Tablet and desktop: both panes scroll on their own, so the page stays put under the header.
   return (
-    <div className="rise grid grid-cols-[380px_1fr] gap-6">
+    <div className="rise grid h-[calc(100dvh-7rem)] grid-cols-[380px_1fr] gap-6 overflow-hidden">
       {list}
-      <Card className="p-5">{active ? <LoadPanel tripId={active.trip_id} onReleased={reload} /> : <Empty title={t("loader.dep.pick")} />}</Card>
+      <Card className="min-h-0 overflow-auto p-5">{active ? <LoadPanel tripId={active.trip_id} onReleased={reload} /> : <Empty title={t("loader.dep.pick")} />}</Card>
     </div>
   );
 }

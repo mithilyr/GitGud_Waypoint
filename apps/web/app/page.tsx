@@ -1,139 +1,156 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 import { LanguageSwitch } from "@/components/LanguageSwitch";
 import { StatusPill } from "@/components/StatusPill";
-import { Logo } from "@/components/ui";
+import { Button, ErrorNote, Logo, Spinner } from "@/components/ui";
 import { WaypointString } from "@/components/WaypointString";
+import { getToken } from "@/lib/api";
+import { HOME, Role, useAuth } from "@/lib/auth";
+import { seedDriverDevice } from "@/lib/driver/device";
 import { useT } from "@/lib/i18n";
 
-type RoleKey = "dispatcher" | "loader" | "driver" | "store";
-
-// One colour per role, from the theme tokens, so the tiles read in Daylight and Dark.
-const roles: { href: string; key: RoleKey; who: string; bg: string; fg: string }[] = [
-  { href: "/dispatcher", key: "dispatcher", who: "Ruwan", bg: "var(--info-bg)", fg: "var(--info-fg)" },
-  { href: "/loader", key: "loader", who: "Kamal", bg: "var(--warn-bg)", fg: "var(--warn-fg)" },
-  { href: "/driver", key: "driver", who: "Nuwan", bg: "var(--ok-bg)", fg: "var(--ok-fg)" },
-  { href: "/store", key: "store", who: "Shanika", bg: "color-mix(in srgb, var(--logo-dot) 16%, var(--surface))", fg: "var(--mark-dot)" },
+const DEMO_PASSWORD = "waypoint2026";
+const DEMO: { role: Role; email: string }[] = [
+  { role: "dispatcher", email: "dispatcher@waypoint.demo" },
+  { role: "loader", email: "loader@waypoint.demo" },
+  { role: "driver", email: "driver@waypoint.demo" },
+  { role: "store", email: "store@waypoint.demo" },
 ];
+const ROLES: Role[] = ["dispatcher", "loader", "driver", "store"];
 
-function RoleIcon({ role }: { role: RoleKey }) {
-  const common = { width: 26, height: 26, viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: 1.8, strokeLinecap: "round" as const, strokeLinejoin: "round" as const, "aria-hidden": true };
-  switch (role) {
-    case "dispatcher": // the plan board
-      return (
-        <svg {...common}>
-          <rect x="3" y="3" width="7" height="9" rx="1" />
-          <rect x="14" y="3" width="7" height="5" rx="1" />
-          <rect x="14" y="12" width="7" height="9" rx="1" />
-          <rect x="3" y="16" width="7" height="5" rx="1" />
-        </svg>
-      );
-    case "loader": // a crate
-      return (
-        <svg {...common}>
-          <path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />
-          <path d="M3.3 7 12 12l8.7-5" />
-          <path d="M12 22V12" />
-        </svg>
-      );
-    case "driver": // a truck
-      return (
-        <svg {...common}>
-          <path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2" />
-          <path d="M15 18H9" />
-          <path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14" />
-          <circle cx="17" cy="18" r="2" />
-          <circle cx="7" cy="18" r="2" />
-        </svg>
-      );
-    case "store": // a storefront
-      return (
-        <svg {...common}>
-          <path d="m2 7 4.41-4.41A2 2 0 0 1 7.83 2h8.34a2 2 0 0 1 1.42.59L22 7" />
-          <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8" />
-          <path d="M15 22v-4a2 2 0 0 0-2-2h-2a2 2 0 0 0-2 2v4" />
-          <path d="M2 7h20v3a2 2 0 0 1-2 2 2.7 2.7 0 0 1-2-.9 2.7 2.7 0 0 1-4 0 2.7 2.7 0 0 1-4 0 2.7 2.7 0 0 1-4 0A2.7 2.7 0 0 1 4 12a2 2 0 0 1-2-2z" />
-        </svg>
-      );
-  }
-}
-
-export default function Home() {
+/**
+ * The one way in. Everybody signs in here with their own account; the account's role decides which screens open
+ * (dispatcher board, loader departures, driver run, store order), and each area refuses any other role.
+ */
+export default function SignIn() {
   const { t } = useT();
-  return (
-    <div className="flex min-h-dvh flex-col overflow-x-clip">
-      <main className="relative mx-auto w-full max-w-[980px] flex-1 px-5 pb-40 pt-5 sm:px-8 sm:pb-56">
-        {/* Slim bar: the mark on the left; language and system status on the right (status drops to its own line on a narrow phone). */}
-        <header className="flex flex-wrap items-center gap-x-4 gap-y-3">
-          <Logo size={40} />
-          <div className="ml-auto">
-            <LanguageSwitch />
-          </div>
-          <div className="order-last w-full sm:order-none sm:w-auto">
-            <StatusPill />
-          </div>
-        </header>
+  const router = useRouter();
+  const { user, ready, login } = useAuth();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-        <section className="mt-12 sm:mt-14">
-          <h1 className="font-display text-[40px] font-medium leading-[1.08] tracking-[-0.015em] [overflow-wrap:anywhere] sm:text-[56px] sm:leading-[1.05]">{t("home.title")}</h1>
-          <p className="mt-3 max-w-[560px] text-[17px] leading-relaxed text-muted sm:text-[16px] sm:leading-normal">{t("home.lede")}</p>
+  // Already signed in: go straight to your own screens.
+  useEffect(() => {
+    if (ready && user) router.replace(HOME[user.role]);
+  }, [ready, user, router]);
+
+  async function submit(e: React.FormEvent) {
+    e.preventDefault();
+    setBusy(true);
+    setError(null);
+    try {
+      const u = await login(email.trim(), password);
+      const token = getToken();
+      if (u.role === "driver" && token) await seedDriverDevice(token, u);
+      router.replace(HOME[u.role]);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : t("login.failed"));
+      setBusy(false);
+    }
+  }
+
+  if (!ready || user) {
+    return (
+      <div className="grid min-h-dvh place-items-center text-muted">
+        <Spinner />
+      </div>
+    );
+  }
+
+  const field = "mt-1 h-12 w-full rounded-[8px] border border-line bg-surface px-3 outline-none focus:border-ink";
+  return (
+    <div className="relative flex min-h-dvh flex-col overflow-x-clip">
+      <header className="mx-auto flex w-full max-w-[1100px] items-center gap-3 px-5 pt-5 sm:px-8">
+        <Logo size={40} />
+        <span className="text-[15px] font-semibold">Waypoint</span>
+        <div className="ml-auto">
+          <LanguageSwitch />
+        </div>
+      </header>
+
+      <main className="mx-auto grid w-full max-w-[1100px] flex-1 content-start gap-10 px-5 pb-44 pt-8 sm:px-8 sm:pb-56 lg:grid-cols-[minmax(0,1fr)_420px] lg:items-start lg:gap-20 lg:pt-16">
+        {/* Desktop only: what Waypoint is. On a phone the sign-in form is the first thing you see. */}
+        <section className="hidden lg:block lg:pt-10">
+          <h1 className="font-display text-[56px] font-medium leading-[1.05] tracking-[-0.015em] [overflow-wrap:anywhere]">{t("home.title")}</h1>
+          <p className="mt-4 max-w-[520px] text-[16px] leading-normal text-muted">{t("home.lede")}</p>
+          <ul className="mt-8 flex flex-wrap gap-2" aria-hidden>
+            {ROLES.map((r) => (
+              <li key={r} className="rounded-full border border-line bg-surface px-3.5 py-1.5 text-[13px] font-medium text-muted">
+                {t(`role.${r}` as "role.dispatcher")}
+              </li>
+            ))}
+          </ul>
         </section>
 
-        <ul className="mt-8 grid grid-cols-2 gap-3">
-          {roles.map((r) => (
-            <li key={r.href}>
-              <Link
-                href={r.href}
-                className="hoverable group flex h-full flex-col rounded-[16px] border border-line bg-surface p-4 transition-colors hover:border-faint sm:p-5"
-              >
-                <div className="flex items-start justify-between gap-3">
-                  <span className="grid h-12 w-12 place-items-center rounded-[14px] sm:h-14 sm:w-14" style={{ background: r.bg, color: r.fg }}>
-                    <RoleIcon role={r.key} />
-                  </span>
-                  <span className="eyebrow mt-1 hidden sm:inline">{r.who}</span>
-                </div>
-                <div className="mt-4 font-display text-[22px] font-medium leading-tight sm:mt-5 sm:text-[26px]">{t(`role.${r.key}` as "role.dispatcher")}</div>
-                <p className="mt-1 text-[14px] font-medium leading-snug sm:text-[16px]" style={{ color: r.fg }}>
-                  {t(`home.verb.${r.key}` as "home.verb.dispatcher")}
-                </p>
-                <div className="mt-auto pt-4">
-                  <p className="flex items-end justify-between gap-2 border-t border-line pt-3 text-[12px] font-semibold leading-snug text-muted sm:pt-4 sm:text-[13px]">
-                    <span>{t(`home.${r.key}.device` as "home.dispatcher.device")}</span>
-                    <span aria-hidden className="transition-transform group-hover:translate-x-0.5">→</span>
-                  </p>
-                </div>
-              </Link>
-            </li>
-          ))}
-        </ul>
+        <section>
+          <h2 className="font-display text-[34px] font-medium leading-[1.12] tracking-[-0.8px] sm:text-[38px] lg:text-[34px]">{t("login.title")}</h2>
+          <p className="mt-2 text-[15px] text-muted">{t("login.lede")}</p>
+          <form onSubmit={submit} className="mt-6 space-y-4">
+            <label className="block">
+              <span className="eyebrow">{t("login.email")}</span>
+              <input type="email" autoComplete="username" required value={email} onChange={(e) => setEmail(e.target.value)} className={field} />
+            </label>
+            <label className="block">
+              <span className="eyebrow">{t("login.password")}</span>
+              <input type="password" autoComplete="current-password" required value={password} onChange={(e) => setPassword(e.target.value)} className={field} />
+            </label>
+            <ErrorNote error={error} />
+            <Button type="submit" size="xl" block busy={busy}>
+              {t("login.submit")}
+            </Button>
+          </form>
 
-        <details className="group mt-6 rounded-[16px] border border-line bg-surface">
-          <summary className="flex min-h-14 cursor-pointer list-none items-center justify-between gap-3 px-6 text-[15px] font-semibold sm:px-5">
-            {t("home.demo")}
-            <span aria-hidden className="text-[18px] leading-none text-muted transition-transform group-open:rotate-90">›</span>
-          </summary>
-          <div className="border-t border-line px-6 pb-5 pt-4 sm:px-5">
-            <p className="text-[15px] text-muted sm:text-[14px]">
-              {t("home.demoPassword")} <span className="font-data text-ink">waypoint2026</span>
-            </p>
-            <dl className="mt-3 grid gap-x-8 text-[14px] sm:grid-cols-2 sm:gap-y-1.5">
-              {[
-                [t("role.dispatcher"), "dispatcher@waypoint.demo"],
-                [t("role.loader"), t("home.demoLoader", { email: "loader@waypoint.demo" })],
-                [t("role.driver"), t("home.demoDriver", { email: "driver@waypoint.demo" })],
-                [t("role.store"), "store@waypoint.demo"],
-              ].map(([k, v]) => (
-                <div key={k} className="flex flex-col gap-1 border-b border-line py-3 last:border-0 sm:flex-row sm:justify-between sm:gap-3 sm:py-1.5">
-                  <dt className="text-[13px] font-medium text-muted sm:text-[14px] sm:font-normal">{k}</dt>
-                  <dd className="font-data break-all sm:text-right">{v}</dd>
-                </div>
-              ))}
-            </dl>
+          <p className="mt-5 text-center text-[13px] text-muted">
+            {t("login.dock")}{" "}
+            <Link href="/loader" className="font-semibold text-ink underline underline-offset-2">
+              {t("login.dockLink")}
+            </Link>
+          </p>
+
+          <details className="group mt-6 rounded-[12px] border border-line bg-surface">
+            <summary className="flex min-h-12 cursor-pointer list-none items-center justify-between gap-3 px-4 text-[14px] font-semibold">
+              {t("home.demo")}
+              <span aria-hidden className="text-[18px] leading-none text-muted transition-transform group-open:rotate-90">›</span>
+            </summary>
+            <div className="border-t border-line px-4 pb-3 pt-3">
+              <p className="text-[13px] text-muted">
+                {t("home.demoPassword")} <span className="font-data text-ink">{DEMO_PASSWORD}</span>
+              </p>
+              <ul className="mt-1">
+                {DEMO.map((d) => (
+                  <li key={d.role} className="flex items-center gap-3 border-b border-line py-2.5 last:border-0">
+                    <div className="min-w-0 flex-1">
+                      <div className="text-[13px] font-medium">{t(`role.${d.role}` as "role.dispatcher")}</div>
+                      <div className="font-data truncate text-[12px] text-muted">{d.email}</div>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setEmail(d.email);
+                        setPassword(DEMO_PASSWORD);
+                        setError(null);
+                      }}
+                      className="h-9 shrink-0 rounded-[8px] border border-line px-3 text-[13px] font-semibold hover:bg-neutral"
+                    >
+                      {t("login.demoUse")}
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </details>
+
+          <div className="mt-5 flex justify-center">
+            <StatusPill />
           </div>
-        </details>
+        </section>
       </main>
-      {/* A fixed background along the bottom of the screen: it stays put while the sections scroll over it. */}
+      {/* A fixed background along the bottom of the screen: it stays put while the page scrolls over it. */}
       <WaypointString className="fixed inset-x-0 bottom-0 -z-10" />
     </div>
   );

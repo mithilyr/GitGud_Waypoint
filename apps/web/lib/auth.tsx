@@ -41,7 +41,7 @@ function cachedUser(): User | null {
 
 export const HOME: Record<Role, string> = {
   dispatcher: "/dispatcher/orders",
-  loader: "/loader",
+  loader: "/loader/departures",
   driver: "/driver",
   store: "/store",
 };
@@ -121,13 +121,13 @@ export function useAuth() {
   return c;
 }
 
-/** Redirects to /login unless a user with the right role is signed in. Returns the user once ready. */
-export function useRequireRole(role: Role, loginPath = "/login"): User | null {
+/** Sends anyone without the right role away: to the sign-in page when nobody is signed in, to their own screens otherwise. */
+export function useRequireRole(role: Role, loginPath = "/"): User | null {
   const { user, ready } = useAuth();
   const router = useRouter();
   useEffect(() => {
     if (!ready) return;
-    if (!user) router.replace(`${loginPath}?role=${role}`);
+    if (!user) router.replace(loginPath);
     else if (user.role !== role) router.replace(HOME[user.role]);
   }, [ready, user, role, router, loginPath]);
   return ready && user?.role === role ? user : null;

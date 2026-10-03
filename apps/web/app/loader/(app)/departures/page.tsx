@@ -59,7 +59,7 @@ function Departures() {
       {!trips.length ? (
         <div className="mt-5"><Empty title={t("loader.dep.empty")}>{t("loader.dep.emptyBody", { depot: data.depot })}</Empty></div>
       ) : (
-        <ul className="mt-5 space-y-3">
+        <ul className="mt-5">
           {trips.map((tr) => (
             <li key={tr.trip_id}>
               <button
@@ -69,10 +69,12 @@ function Departures() {
                   if (!wide) router.push(`/loader/load/${tr.trip_id}`);
                 }}
                 aria-current={active?.trip_id === tr.trip_id}
-                className={`hoverable w-full rounded-[12px] border bg-surface p-4 text-left ${active?.trip_id === tr.trip_id && wide ? "border-ink" : "border-line"}`}
+                className={`hoverable w-full border px-4 py-4 text-left ${
+                  (wide ? active?.trip_id === tr.trip_id : tr.status === "LOADING") ? "rounded-[12px] border-line bg-surface shadow-sm" : "rounded-none border-transparent border-b-line"
+                } ${wide && active?.trip_id === tr.trip_id ? "!border-ink" : ""}`}
               >
                 <div className="flex items-center justify-between gap-2">
-                  <span className="font-data text-[17px] font-semibold">{tr.vehicle_id}</span>
+                  <span className={`font-data text-[17px] font-semibold ${tr.status === "RELEASED" || tr.status === "LEFT" ? "text-faint" : ""}`}>{tr.vehicle_id}</span>
                   <Pill tone={TONE[tr.status] ?? "neutral"}>
                     {tr.status === "LOADING" ? t("loader.dep.loading", { a: tr.loaded, b: tr.total }) : t(`loader.dep.status.${tr.status}` as Key)}
                   </Pill>

@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 59.04 59.04" width="256" height="256" role="img" aria-label="Waypoint, for dark backgrounds">
+  <title>Waypoint, for dark backgrounds</title>
+  <defs><mask id="cut" maskUnits="userSpaceOnUse" x="0" y="0" width="59.04" height="59.04"><rect width="59.04" height="59.04" fill="#fff"/><circle cx="7.38" cy="13.84" r="5.9" fill="#000"/><circle cx="18.45" cy="46.13" r="5.9" fill="#000"/><circle cx="29.52" cy="24.91" r="5.9" fill="#000"/><circle cx="40.59" cy="46.13" r="5.9" fill="#000"/><circle cx="51.66" cy="13.84" r="7.4" fill="#000"/></mask></defs>
+  <path mask="url(#cut)" d="M7.38 13.84 L18.45 46.13 L29.52 24.91 L40.59 46.13 L51.66 13.84" fill="none" stroke="#e6eeea" stroke-width="4.8" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="7.38" cy="13.84" r="4.61" fill="none" stroke="#e6eeea" stroke-width="2.58"/><circle cx="18.45" cy="46.13" r="4.61" fill="none" stroke="#e6eeea" stroke-width="2.58"/><circle cx="29.52" cy="24.91" r="4.61" fill="none" stroke="#e6eeea" stroke-width="2.58"/><circle cx="40.59" cy="46.13" r="4.61" fill="none" stroke="#e6eeea" stroke-width="2.58"/>
+  <circle cx="51.66" cy="13.84" r="6.01" fill="#e07a4a"/>
+</svg>

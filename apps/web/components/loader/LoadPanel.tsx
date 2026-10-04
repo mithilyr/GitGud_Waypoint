@@ -145,7 +145,8 @@ export function LoadPanel({
   if (!data) return <ErrorNote error={error} retry={reload} />;
 
   const d = data;
-  const left = d.total - d.loaded;
+  // A flagged shortfall counts as handled (the API treats the line as loaded), so count unhandled crates, not missing ones.
+  const left = d.stops.flatMap((s) => s.lines).reduce((n, l) => n + (l.loaded ? 0 : l.planned), 0);
   const current = d.stops.find((s) => s.state === "current");
   const later = d.stops.filter((s) => s.state === "todo");
 

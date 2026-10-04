@@ -1,0 +1,29 @@
+# Waypoint demo video
+
+A ~4:43, 1080p video made with [Remotion](https://www.remotion.dev) (free, open source) from **real screen recordings of the running app**: every clip is driven by Playwright against a local copy, using the seeded demo day.
+
+```
+capture/capture.mjs   records the walkthrough, one clip per role/segment (raw/*.webm)
+capture/api.mjs       API helpers: reset, place order, build + release plan, release a load
+capture/driver.mjs    the offline driver segment
+src/                  Remotion composition (scenes, captions, theme)
+src/data.ts           clip cut points and the on-screen caption cues
+src/narration.ts      spoken lines for the non-recording scenes
+capture/captions.ts   writes out/waypoint-demo.srt, narration.md, youtube-description.md
+```
+
+## Rebuild
+
+1. Run the stack (see the root README), with the web app on :3000 and the API on :8000.
+2. `cd video && npm install`
+3. `node capture/capture.mjs a b c d e f g h i j` records the clips into `raw/`. It resets the demo day first.
+4. Convert to `public/clips/*.mp4` (phone clips are cropped to the 390×844 viewport):
+   ```bash
+   mkdir -p public/clips
+   for n in b_disp d_flag h_resolve i_demand; do ffmpeg -y -i raw/$n.webm -r 30 -c:v libx264 -pix_fmt yuv420p -crf 18 -an public/clips/$n.mp4; done
+   for n in a_store c_load1 e_release f_driver g_store j_lang; do ffmpeg -y -i raw/$n.webm -vf "crop=390:844:0:0,scale=780:1688:flags=lanczos" -r 30 -c:v libx264 -pix_fmt yuv420p -crf 17 -an public/clips/$n.mp4; done
+   ```
+5. `npx remotion studio src/index.ts` to preview, then `node capture/render.mjs` to render `out/waypoint-demo.mp4`. If Remotion cannot download its own browser, set `REMOTION_BROWSER` to a Chromium headless shell.
+6. `npx tsx capture/captions.ts` for the subtitles, the timed script and the YouTube description.
+
+Fonts (Newsreader, Geist, Geist Mono; SIL OFL) are bundled in `public/fonts`. The video has no audio track: the captions carry the narration, and `out/narration.md` is a timed script for a voiceover.

@@ -1,0 +1,7 @@
+node_modules/
+raw/
+out/*.mp4
+stills/
+sheets/
+shots/
+public/clips/

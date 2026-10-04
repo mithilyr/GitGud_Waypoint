@@ -1,0 +1,50 @@
+[
+ {
+  "family": "Newsreader",
+  "style": "italic",
+  "weight": "400",
+  "file": "newsreader-italic-400.woff2"
+ },
+ {
+  "family": "Newsreader",
+  "style": "normal",
+  "weight": "400",
+  "file": "newsreader-normal-400.woff2"
+ },
+ {
+  "family": "Newsreader",
+  "style": "normal",
+  "weight": "500",
+  "file": "newsreader-normal-500.woff2"
+ },
+ {
+  "family": "Geist",
+  "style": "normal",
+  "weight": "400",
+  "file": "geist-normal-400.woff2"
+ },
+ {
+  "family": "Geist",
+  "style": "normal",
+  "weight": "500",
+  "file": "geist-normal-500.woff2"
+ },
+ {
+  "family": "Geist",
+  "style": "normal",
+  "weight": "600",
+  "file": "geist-normal-600.woff2"
+ },
+ {
+  "family": "Geist Mono",
+  "style": "normal",
+  "weight": "400",
+  "file": "geistmono-normal-400.woff2"
+ },
+ {
+  "family": "Geist Mono",
+  "style": "normal",
+  "weight": "500",
+  "file": "geistmono-normal-500.woff2"
+ }
+]

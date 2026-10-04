@@ -1,5 +1,6 @@
 import React from "react";
-import { AbsoluteFill, OffthreadVideo, staticFile, useCurrentFrame, interpolate } from "remotion";
+import { AbsoluteFill, Freeze, OffthreadVideo, Sequence, staticFile, useCurrentFrame, interpolate } from "remotion";
+import type { Scene } from "../schedule";
 import { C, FPS, mono, sans, serif } from "../theme";
 import { Fade, useAppear } from "./Fade";
 
@@ -17,7 +18,29 @@ export type Clip = {
   cues: Cue[];
 };
 export const STEPS = ["Order", "Plan", "Load", "Deliver", "Receipt"];
-export const clipFrames = (c: Clip) => Math.round(((c.to - c.from) / c.rate) * FPS);
+
+// Piecewise-linear time warp: the moment a caption's action happens on screen is lined up with the moment
+// its sentence is spoken. Between anchors the recording plays at a constant (clamped) rate.
+type Seg = { dstFrom: number; dstFrames: number; srcFrom: number; rate: number; lastFrame: number };
+const MIN_RATE = 0.4, MAX_RATE = 3.5;
+export const warp = (clip: Clip, scene: Scene): Seg[] => {
+  const D = scene.frames / FPS;
+  const anchors: [number, number][] = [[0, clip.from]];
+  scene.lines.forEach((l, i) => {
+    if (i === 0) return;
+    const prev = anchors[anchors.length - 1][0];
+    anchors.push([Math.max(prev + 0.6, l.at - 0.35), clip.cues[i].at]);
+  });
+  anchors.push([D, clip.to]);
+  const segs: Seg[] = [];
+  for (let k = 0; k < anchors.length - 1; k++) {
+    const [d0, s0] = anchors[k], [d1, s1] = anchors[k + 1];
+    const dst = Math.max(0.1, d1 - d0), src = Math.max(0.1, s1 - s0);
+    const rate = Math.min(MAX_RATE, Math.max(MIN_RATE, src / dst));
+    segs.push({ dstFrom: Math.round(d0 * FPS), dstFrames: Math.max(1, Math.round(dst * FPS)), srcFrom: Math.round(s0 * FPS), rate, lastFrame: Math.max(0, Math.floor((src * FPS) / rate) - 1) });
+  }
+  return segs;
+};
 
 const StepChips: React.FC<{ active: number }> = ({ active }) => (
   <div style={{ display: "flex", gap: 10, alignItems: "center", fontFamily: mono, fontSize: 20, letterSpacing: 1.2, textTransform: "uppercase" }}>
@@ -30,13 +53,23 @@ const StepChips: React.FC<{ active: number }> = ({ active }) => (
   </div>
 );
 
-export const ClipScene: React.FC<{ clip: Clip }> = ({ clip }) => {
+const SegVideo: React.FC<{ src: string; seg: Seg }> = ({ src, seg }) => {
+  const f = useCurrentFrame();
+  return (
+    <Freeze frame={Math.min(f, seg.lastFrame)}>
+      <OffthreadVideo src={staticFile(`clips/${src}.mp4`)} startFrom={seg.srcFrom} playbackRate={seg.rate} muted style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "top" }} />
+    </Freeze>
+  );
+};
+
+export const ClipScene: React.FC<{ clip: Clip; scene: Scene }> = ({ clip, scene }) => {
   const frame = useCurrentFrame();
-  const t = clip.from + (frame / FPS) * clip.rate; // source seconds
+  const t = frame / FPS; // scene seconds; captions follow the narration
+  const segs = warp(clip, scene);
   const phone = clip.device === "phone";
   const mediaH = phone ? 940 : 800;
   const mediaW = phone ? Math.round((mediaH * 390) / 844) : Math.round((mediaH * 1440) / 900);
-  const shown = clip.cues.filter((c) => c.at <= t + 0.05);
+  const shown = clip.cues.filter((_, i) => scene.lines[i].at <= t + 0.05);
   const visible = shown.slice(-3);
   const titleStyle = useAppear(2);
   return (
@@ -44,7 +77,7 @@ export const ClipScene: React.FC<{ clip: Clip }> = ({ clip }) => {
       <AbsoluteFill style={{ background: C.bg }}>
         {/* media */}
         <div style={{ position: "absolute", left: phone ? 400 : 50, top: phone ? 70 : 140, width: mediaW, height: mediaH, borderRadius: phone ? 46 : 18, overflow: "hidden", boxShadow: "0 40px 90px rgba(20,35,31,.22), 0 0 0 " + (phone ? "12px #14231f" : "1.5px " + C.line), background: "#fff" }}>
-          <OffthreadVideo src={staticFile(`clips/${clip.src}.mp4`)} startFrom={Math.round(clip.from * FPS)} endAt={Math.round(clip.to * FPS)} playbackRate={clip.rate} muted style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "top" }} />
+          {segs.map((sg, i) => <Sequence key={i} from={sg.dstFrom} durationInFrames={sg.dstFrames}><SegVideo src={clip.src} seg={sg} /></Sequence>)}
         </div>
         {!phone && <div style={{ position: "absolute", left: 50, top: 86, fontFamily: mono, fontSize: 20, color: C.muted, letterSpacing: 1.4, textTransform: "uppercase" }}>{clip.role} · desktop</div>}
         {/* text column */}
@@ -57,7 +90,7 @@ export const ClipScene: React.FC<{ clip: Clip }> = ({ clip }) => {
           <div style={{ display: "flex", flexDirection: "column", gap: 20, marginTop: 8 }}>
             {visible.map((c, i) => {
               const isLast = i === visible.length - 1;
-              const age = (t - c.at) * (1 / clip.rate);
+              const age = t - scene.lines[clip.cues.indexOf(c)].at;
               const o = interpolate(age, [0, 0.4], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
               return (
                 <div key={c.at} style={{ display: "flex", gap: 18, opacity: isLast ? o : 0.38, transform: `translateY(${isLast ? (1 - o) * 14 : 0}px)` }}>

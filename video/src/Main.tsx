@@ -1,37 +1,44 @@
 import React from "react";
 import { AbsoluteFill, Audio, Sequence, staticFile } from "remotion";
 import { CLIPS } from "./data";
-import { ClipScene, clipFrames } from "./components/ClipScene";
+import { ClipScene } from "./components/ClipScene";
+import { ScaleContext } from "./components/Fade";
 import { AllocScene, ArchScene, FidelityScene, FlowScene, OfflineScene, OutroScene, ProblemScene, ProofScene, TitleScene } from "./components/Scenes";
+import { SCENES, TOTAL, type Scene } from "./schedule";
+import { FPS } from "./theme";
 
-type Item = { id: string; frames: number; node: React.ReactNode };
-const clip = (id: string): Item => {
-  const c = CLIPS.find((x) => x.id === id)!;
-  return { id, frames: clipFrames(c), node: <ClipScene clip={c} /> };
-};
-export const TIMELINE: Item[] = [
-  { id: "title", frames: 210, node: <TitleScene /> },
-  { id: "problem", frames: 540, node: <ProblemScene /> },
-  { id: "flow", frames: 210, node: <FlowScene /> },
-  clip("store"), clip("plan"), clip("load"), clip("decide"), clip("release"), clip("drive"), clip("receipt"), clip("resolve"), clip("demand"), clip("lang"),
-  { id: "arch", frames: 540, node: <ArchScene /> },
-  { id: "alloc", frames: 570, node: <AllocScene /> },
-  { id: "offline", frames: 420, node: <OfflineScene /> },
-  { id: "fidelity", frames: 480, node: <FidelityScene /> },
-  { id: "proof", frames: 510, node: <ProofScene /> },
-  { id: "outro", frames: 300, node: <OutroScene /> },
-];
-export const TOTAL = TIMELINE.reduce((n, t) => n + t.frames, 0);
+export { TOTAL };
+const VOICE_GAIN = 1.0;   // set from the measured loudness of public/voice (see README)
+const MUSIC_GAIN = 0.28;  // music sits well under the voice
 
-export const Main: React.FC = () => {
-  let at = 0;
-  return (
-    <AbsoluteFill style={{ background: "#f7f6f3" }}>
-      <Audio src={staticFile("audio/music.m4a")} volume={0.79} />
-      {TIMELINE.map((t) => {
-        const from = at; at += t.frames;
-        return <Sequence key={t.id} from={from} durationInFrames={t.frames}>{t.node}</Sequence>;
-      })}
-    </AbsoluteFill>
-  );
+const body = (s: Scene): React.ReactNode => {
+  const clip = CLIPS.find((c) => c.id === s.id);
+  if (clip) return <ClipScene clip={clip} scene={s} />;
+  switch (s.id) {
+    case "title": return <TitleScene />;
+    case "problem": return <ProblemScene />;
+    case "flow": return <FlowScene />;
+    case "arch": return <ArchScene />;
+    case "alloc": return <AllocScene />;
+    case "offline": return <OfflineScene />;
+    case "fidelity": return <FidelityScene />;
+    case "proof": return <ProofScene />;
+    default: return <OutroScene />;
+  }
 };
+
+export const Main: React.FC = () => (
+  <AbsoluteFill style={{ background: "#f7f6f3" }}>
+    <Audio src={staticFile("audio/music.m4a")} volume={MUSIC_GAIN} />
+    {SCENES.map((s) => (
+      <Sequence key={s.id} from={s.start} durationInFrames={s.frames}>
+        <ScaleContext.Provider value={s.scale}>{body(s)}</ScaleContext.Provider>
+        {s.lines.map((l) => (
+          <Sequence key={l.idx} from={Math.round(l.at * FPS)} durationInFrames={Math.ceil(l.dur * FPS) + 2}>
+            <Audio src={staticFile(`voice/L${String(l.idx).padStart(2, "0")}.mp3`)} volume={VOICE_GAIN} />
+          </Sequence>
+        ))}
+      </Sequence>
+    ))}
+  </AbsoluteFill>
+);

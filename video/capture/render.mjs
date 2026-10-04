@@ -13,7 +13,7 @@ let last = -1;
 await renderMedia({
   composition, serveUrl, browserExecutable, chromiumOptions,
   codec: "h264", crf: 18, pixelFormat: "yuv420p", concurrency: 4,
-  outputLocation: "out/waypoint-demo.mp4",
+  outputLocation: "out/waypoint-demo-vo.mp4",
   onProgress: ({ progress }) => { const p = Math.floor(progress * 100); if (p !== last && p % 5 === 0) { last = p; console.log("render", p + "%"); } },
 });
 console.log("RENDER DONE");

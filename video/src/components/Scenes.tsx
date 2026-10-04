@@ -1,7 +1,7 @@
 import React from "react";
 import { AbsoluteFill, interpolate, useCurrentFrame, Img, staticFile } from "remotion";
 import { C, W, mono, sans, serif } from "../theme";
-import { Fade, useAppear } from "./Fade";
+import { Fade, useAppear, useScaledFrame } from "./Fade";
 import { Logo } from "./Logo";
 
 const clamp = { extrapolateLeft: "clamp", extrapolateRight: "clamp" } as const;
@@ -84,7 +84,7 @@ const FLOW = [
   ["Receipt", "Store manager"],
 ];
 export const FlowScene: React.FC = () => {
-  const f = useCurrentFrame();
+  const f = useScaledFrame();
   const prog = interpolate(f, [24, 120], [0, 4], clamp); // 0..4 along the line
   return (
     <Page>
@@ -120,7 +120,7 @@ const Box: React.FC<{ title: string; sub: string[]; delay: number; accent?: bool
   </div>
 );
 const Arrow: React.FC<{ delay: number }> = ({ delay }) => {
-  const f = useCurrentFrame();
+  const f = useScaledFrame();
   const o = interpolate(f, [delay, delay + 12], [0, 1], clamp);
   return <svg width={70} height={30} style={{ flexShrink: 0, opacity: o }}><path d="M4 15 H56 M46 5 L58 15 L46 25" fill="none" stroke={C.mark} strokeWidth={4} strokeLinecap="round" strokeLinejoin="round" /></svg>;
 };

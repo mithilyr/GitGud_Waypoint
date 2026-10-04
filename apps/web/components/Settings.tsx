@@ -234,7 +234,7 @@ export function SettingsLayout({
 }) {
   const { t } = useT();
   return (
-    <div className="rise mx-auto max-w-[620px]">
+    <div className="rise mx-auto w-full max-w-[620px]">
       <Lead>{lead}</Lead>
       <Headline className="mt-1">{t("settings.title")}</Headline>
       <div className="mt-6">{children}</div>

@@ -15,7 +15,7 @@ export function HelpLayout({
   action: React.ReactNode;
 }) {
   return (
-    <div className="rise mx-auto max-w-[620px]">
+    <div className="rise mx-auto w-full max-w-[620px]">
       <Lead>{lead}</Lead>
       <Headline className="mt-1">{title}</Headline>
       <div className="mt-5 space-y-3">

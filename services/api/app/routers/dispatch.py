@@ -112,7 +112,10 @@ def queue(depot: str, date: date, user: User = Dispatcher, db: Session = Depends
                 "flags": flags,
                 "status": o.status,
                 "days_since_last_served": o.days_since_last_served,
-                "lines": [{"name": l.get("name"), "group": l.get("group"), "qty": l.get("qty"), "pack_label": l.get("pack_label")} for l in (o.lines or [])],
+                "lines": [
+                    {"name": ln.get("name"), "group": ln.get("group"), "qty": ln.get("qty"), "pack_label": ln.get("pack_label")}
+                    for ln in (o.lines or [])
+                ],
             }
         )
     rows.sort(key=lambda r: (0 if "SKIPPED" in r["flags"] else 1, r["id"]))

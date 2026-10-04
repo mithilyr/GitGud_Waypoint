@@ -13,8 +13,8 @@ fs.mkdirSync("out", { recursive: true });
 fs.writeFileSync("out/waypoint-demo.srt", lines.map((l, i) => `${i + 1}\n${tc(l.at)} --> ${tc(l.end)}\n${l.text}\n`).join("\n"));
 
 const starts = Object.fromEntries(SCENES.map((s) => [s.id, s.start / FPS]));
-const chapters = ["title", "problem", "store", "plan", "load", "release", "drive", "receipt", "demand", "arch", "alloc", "fidelity", "proof"];
-const name: Record<string, string> = { title: "Intro", problem: "The problem", store: "1. Store manager places the order", plan: "2. Dispatcher builds the plan", load: "3. Loader loads and flags a shortfall", release: "4. Release rules", drive: "5. Driver delivers with no signal", receipt: "6. Store confirms a different count", demand: "7. Demand outlook", arch: "Architecture", alloc: "The plan engine", fidelity: "Design fidelity", proof: "Tests and AI disclosure" };
+const chapters = ["title", "problem", "store", "plan", "load", "release", "drive", "receipt", "demand", "arch", "alloc", "codemap", "fidelity", "proof"];
+const name: Record<string, string> = { title: "Intro", problem: "The problem", store: "1. Store manager places the order", plan: "2. Dispatcher builds the plan", load: "3. Loader loads and flags a shortfall", release: "4. Release rules", drive: "5. Driver delivers with no signal", receipt: "6. Store confirms a different count", demand: "7. Demand outlook", arch: "Architecture", alloc: "The plan engine", codemap: "Code walkthrough", fidelity: "Design fidelity", proof: "Tests and AI disclosure" };
 const total = TOTAL / FPS;
 fs.writeFileSync("out/youtube-description.md", `Waypoint: one system from the store's order to the signed receipt. Our Tech-Triathlon 2026 hackathon build (theme: The Intelligent Enterprise), team GitGud.
 
@@ -26,6 +26,6 @@ Chapters
 ${chapters.map((c) => `${tc(starts[c], false)} ${name[c]}`).join("\n")}
 
 Built with Claude Code under our direction. Every use is listed in docs/ai-disclosure.md.
-Runtime: ${tc(total, false)}. Made with Remotion from real screen recordings of the running app. Voiceover generated with ElevenLabs; music is an original generated ambient track.
+Runtime: ${tc(total, false)}. Made with Remotion from real screen recordings of the running app. Voiceover generated with ElevenLabs (the code walkthrough is captioned, with music only); music is an original generated ambient track.
 `);
 console.log("captions", lines.length, "lines; total", total.toFixed(1) + "s");

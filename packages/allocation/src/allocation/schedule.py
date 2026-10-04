@@ -5,6 +5,7 @@ depart + depot_to_district + inter_stop * (k - 1) + service time of the
 stops already served, stretched by an optional traffic factor. A mall stop
 never arrives before its window opens (the vehicle waits).
 """
+
 from dataclasses import dataclass
 
 from allocation.models import Order, Trip

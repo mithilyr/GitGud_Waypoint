@@ -92,7 +92,11 @@ def _fuel(db: Session, v: Vehicle, plan: Plan) -> dict:
     litres = sum(trip_km(t.orders, std) / v.km_per_l for t in _alloc_plan(plan).trips if t.vehicle_id == v.vehicle_id)
     led = db.get(FuelLedger, (v.vehicle_id, week_start(plan.service_date)))
     used = (led.litres_used if led else 0.0) + litres
-    return {"quota_l": v.weekly_fuel_quota_l, "left_l": max(0, round(v.weekly_fuel_quota_l - used)), "used_pct": round(100 * used / v.weekly_fuel_quota_l)}
+    return {
+        "quota_l": v.weekly_fuel_quota_l,
+        "left_l": max(0, round(v.weekly_fuel_quota_l - used)),
+        "used_pct": round(100 * used / v.weekly_fuel_quota_l),
+    }
 
 
 def snapshot(db: Session, user: User) -> dict:
@@ -102,7 +106,10 @@ def snapshot(db: Session, user: User) -> dict:
     v = db.get(Vehicle, user.vehicle_id)
     dispatcher = db.scalar(select(User).where(User.role == "dispatcher"))
     notices = db.scalars(
-        select(Notification).where(Notification.role == "driver", Notification.user_id == user.id).order_by(Notification.id.desc()).limit(15)
+        select(Notification)
+        .where(Notification.role == "driver", Notification.user_id == user.id)
+        .order_by(Notification.id.desc())
+        .limit(15)
     )
     out = {
         "server_time": now().isoformat(),
@@ -114,7 +121,15 @@ def snapshot(db: Session, user: User) -> dict:
         "trips": [],
         "fuel": None,
         "notices": [
-            {"id": n.id, "kind": n.kind, "title": n.title, "body": n.body, "at": lk_hhmm(n.created_at), "read": n.read_at is not None, "meta": n.meta}
+            {
+                "id": n.id,
+                "kind": n.kind,
+                "title": n.title,
+                "body": n.body,
+                "at": lk_hhmm(n.created_at),
+                "read": n.read_at is not None,
+                "meta": n.meta,
+            }
             for n in notices
         ],
         "conflicts": [],
@@ -150,13 +165,23 @@ def snapshot(db: Session, user: User) -> dict:
         s = db.get(Stop, c.stop_id)
         if s.trip.vehicle_id == user.vehicle_id and s.trip.plan_id == plan.id:
             out["conflicts"].append(
-                {"id": c.id, "stop_id": s.id, "stop": s.outlet.name, "line": c.line, "driver_count": c.driver_count, "store_count": c.store_count, "stance": c.driver_stance}
+                {
+                    "id": c.id,
+                    "stop_id": s.id,
+                    "stop": s.outlet.name,
+                    "line": c.line,
+                    "driver_count": c.driver_count,
+                    "store_count": c.store_count,
+                    "stance": c.driver_stance,
+                }
             )
     return out
 
 
 def _heartbeat(db: Session, user: User) -> None:
-    for t in db.scalars(select(Trip).join(Plan).where(Trip.vehicle_id == user.vehicle_id, Plan.depot == user.depot, Trip.status.in_(("released", "out")))):
+    for t in db.scalars(
+        select(Trip).join(Plan).where(Trip.vehicle_id == user.vehicle_id, Plan.depot == user.depot, Trip.status.in_(("released", "out")))
+    ):
         t.last_seen_at = now()
 
 
@@ -191,8 +216,19 @@ def _apply(db: Session, user: User, ev: EventIn) -> dict:
     stop = db.get(Stop, ev.stop_id) if ev.stop_id else None
     if stop is not None and stop.trip_id != trip.id:
         return {**res, "status": "rejected", "message": "Stop is not on this trip"}
-    db.add(DeliveryEvent(client_uuid=ev.client_uuid, trip_id=trip.id, stop_id=stop.id if stop else None, driver_id=user.id,
-                         kind=ev.kind, payload=ev.payload, device_ts=dts, server_ts=srv, late_by_s=late))
+    db.add(
+        DeliveryEvent(
+            client_uuid=ev.client_uuid,
+            trip_id=trip.id,
+            stop_id=stop.id if stop else None,
+            driver_id=user.id,
+            kind=ev.kind,
+            payload=ev.payload,
+            device_ts=dts,
+            server_ts=srv,
+            late_by_s=late,
+        )
+    )
 
     if ev.kind == "trip_start":
         if trip.status == "released":
@@ -209,9 +245,15 @@ def _apply(db: Session, user: User, ev: EventIn) -> dict:
             c = Conflict(stop_id=stop.id, kind="reassigned")
             db.add(c)
             db.flush()
-            notify(db, role="dispatcher", depot=user.depot, kind="reassigned_conflict",
-                   title=f"{stop.outlet.name}: recorded after the plan moved it", body=f"{user.name.split()[0]} was offline. Check the record.",
-                   meta={"conflict_id": c.id})
+            notify(
+                db,
+                role="dispatcher",
+                depot=user.depot,
+                kind="reassigned_conflict",
+                title=f"{stop.outlet.name}: recorded after the plan moved it",
+                body=f"{user.name.split()[0]} was offline. Check the record.",
+                meta={"conflict_id": c.id},
+            )
             return {**res, "status": "conflict", "message": "Dispatch moved this stop while you were offline. Ruwan will check it."}
         if ev.kind == "arrive":
             if stop.status == "pending":
@@ -226,15 +268,29 @@ def _apply(db: Session, user: User, ev: EventIn) -> dict:
             if ev.payload["stance"] == "accept":
                 c.status, c.resolution = "resolved", "accept_store"
             else:
-                notify(db, role="dispatcher", depot=user.depot, kind="dispute", title=f"{user.name.split()[0]} disputes the {c.line} count",
-                       body=f"Driver {c.driver_count}, store {c.store_count}", meta={"conflict_id": c.id})
+                notify(
+                    db,
+                    role="dispatcher",
+                    depot=user.depot,
+                    kind="dispute",
+                    title=f"{user.name.split()[0]} disputes the {c.line} count",
+                    body=f"Driver {c.driver_count}, store {c.store_count}",
+                    meta={"conflict_id": c.id},
+                )
         return res
 
     if ev.kind == "notice_read":
         n = db.get(Notification, int(ev.payload.get("notification_id", 0)))
         if n is not None and n.user_id == user.id and n.read_at is None:
             n.read_at = dts
-            notify(db, role="dispatcher", depot=user.depot, kind="notice_read", title=f"{user.name.split()[0]} read the plan change", meta={"trip_id": trip.id})
+            notify(
+                db,
+                role="dispatcher",
+                depot=user.depot,
+                kind="notice_read",
+                title=f"{user.name.split()[0]} read the plan change",
+                meta={"trip_id": trip.id},
+            )
         return res
 
     return {**res, "status": "rejected", "message": f"Unknown event {ev.kind}"}
@@ -276,14 +332,33 @@ def _deliver(db: Session, user: User, trip: Trip, stop: Stop, ev: EventIn, dts: 
                 c = Conflict(stop_id=stop.id, kind="count", line=it["group"], driver_count=it["handed"], store_count=got[it["group"]])
                 db.add(c)
                 db.flush()
-                notify(db, role="dispatcher", depot=user.depot, kind="count_conflict",
-                       title=f"{stop.outlet.name} · {c.line} count differs", body=f"Driver {c.driver_count}, store {c.store_count}",
-                       meta={"conflict_id": c.id})
-                notify(db, role="driver", user_id=user.id, kind="count_conflict", title=f"{stop.outlet.name} · {c.line}",
-                       body=f"You recorded {c.driver_count}, the store confirmed {c.store_count}. Neither count is overwritten.",
-                       meta={"conflict_id": c.id})
-    notify(db, role="store", outlet_id=stop.outlet_id, kind="delivered", title=f"Delivered {lk_hhmm(dts)}",
-           body="Confirm what you received, or report a problem.", meta={"stop_id": stop.id})
+                notify(
+                    db,
+                    role="dispatcher",
+                    depot=user.depot,
+                    kind="count_conflict",
+                    title=f"{stop.outlet.name} · {c.line} count differs",
+                    body=f"Driver {c.driver_count}, store {c.store_count}",
+                    meta={"conflict_id": c.id},
+                )
+                notify(
+                    db,
+                    role="driver",
+                    user_id=user.id,
+                    kind="count_conflict",
+                    title=f"{stop.outlet.name} · {c.line}",
+                    body=f"You recorded {c.driver_count}, the store confirmed {c.store_count}. Neither count is overwritten.",
+                    meta={"conflict_id": c.id},
+                )
+    notify(
+        db,
+        role="store",
+        outlet_id=stop.outlet_id,
+        kind="delivered",
+        title=f"Delivered {lk_hhmm(dts)}",
+        body="Confirm what you received, or report a problem.",
+        meta={"stop_id": stop.id},
+    )
     if all(s.status in ("delivered", "partial", "failed") for s in _active(trip)):
         trip.status, trip.completed_at = "completed", dts
     return res

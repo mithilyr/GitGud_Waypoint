@@ -1,5 +1,15 @@
-type Stop = { x: number; y: number; r: number; depot?: boolean; last?: boolean };
-type Scene = { viewBox: string; stops: readonly Stop[]; hills: readonly string[] };
+type Stop = {
+  x: number;
+  y: number;
+  r: number;
+  depot?: boolean;
+  last?: boolean;
+};
+type Scene = {
+  viewBox: string;
+  stops: readonly Stop[];
+  hills: readonly string[];
+};
 
 /**
  * Home-page scene: a string of waypoints. Each stop is a ring (the same stops as the logo's Route-W),
@@ -46,50 +56,132 @@ const NARROW: Scene = {
 };
 
 /** A slack string between two stops: a quadratic curve whose control point hangs below the chord. */
-function slack(a: { x: number; y: number }, b: { x: number; y: number }, k: number) {
+function slack(
+  a: { x: number; y: number },
+  b: { x: number; y: number },
+  k: number,
+) {
   const sag = (26 + Math.abs(b.x - a.x) * 0.06) * k;
   return `Q${(a.x + b.x) / 2} ${Math.max(a.y, b.y) + sag} ${b.x} ${b.y}`;
 }
 
-function SceneSvg({ scene, className, k }: { scene: Scene; className: string; k: number }) {
+function SceneSvg({
+  scene,
+  className,
+  k,
+}: {
+  scene: Scene;
+  className: string;
+  k: number;
+}) {
   const { stops } = scene;
-  const string = `M${stops[0].x} ${stops[0].y} ` + stops.slice(1).map((s, i) => slack(stops[i], s, k)).join(" ");
+  const string =
+    `M${stops[0].x} ${stops[0].y} ` +
+    stops
+      .slice(1)
+      .map((s, i) => slack(stops[i], s, k))
+      .join(" ");
   return (
-    <svg viewBox={scene.viewBox} preserveAspectRatio="xMidYMax meet" className={`h-auto w-full overflow-visible ${className}`}>
+    <svg
+      viewBox={scene.viewBox}
+      preserveAspectRatio="xMidYMax meet"
+      className={`h-auto w-full overflow-visible ${className}`}
+    >
       {/* soft ground, two low hills */}
       <path d={scene.hills[0]} fill="var(--muted)" opacity="0.07" />
       <path d={scene.hills[1]} fill="var(--muted)" opacity="0.06" />
 
       {/* the string: a faint shadow under it, then the string itself */}
-      <path d={string} transform="translate(0 6)" fill="none" stroke="var(--muted)" strokeOpacity="0.12" strokeWidth="3" strokeLinecap="round" />
-      <path className="wp-string" pathLength={1} d={string} fill="none" stroke="var(--text)" strokeOpacity="0.72" strokeWidth="1.8" strokeLinecap="round" />
+      <path
+        d={string}
+        transform="translate(0 6)"
+        fill="none"
+        stroke="var(--muted)"
+        strokeOpacity="0.12"
+        strokeWidth="3"
+        strokeLinecap="round"
+      />
+      <path
+        className="wp-string"
+        pathLength={1}
+        d={string}
+        fill="none"
+        stroke="var(--text)"
+        strokeOpacity="0.72"
+        strokeWidth="1.8"
+        strokeLinecap="round"
+      />
 
       {/* the stops */}
       {stops.map((s, i) => (
-        <g key={i} className="wp-stop" style={{ ["--i" as string]: i }} transform={`translate(${s.x} ${s.y})`}>
-          {s.last ? <circle className="wp-halo" r={s.r + 10} fill="var(--logo-dot)" opacity="0.18" /> : null}
+        <g
+          key={i}
+          className="wp-stop"
+          style={{ ["--i" as string]: i }}
+          transform={`translate(${s.x} ${s.y})`}
+        >
+          {s.last ? (
+            <circle
+              className="wp-halo"
+              r={s.r + 10}
+              fill="var(--logo-dot)"
+              opacity="0.18"
+            />
+          ) : null}
           {s.last ? (
             <circle r={s.r} fill="var(--logo-dot)" />
           ) : (
             <>
-              <circle r={s.r} fill="var(--bg)" stroke="var(--text)" strokeOpacity="0.85" strokeWidth={s.depot ? 3 : 2.4} />
-              {s.depot ? <circle r="4" fill="var(--text)" fillOpacity="0.85" /> : null}
+              <circle
+                r={s.r}
+                fill="var(--bg)"
+                stroke="var(--text)"
+                strokeOpacity="0.85"
+                strokeWidth={s.depot ? 3 : 2.4}
+              />
+              {s.depot ? (
+                <circle r="4" fill="var(--text)" fillOpacity="0.85" />
+              ) : null}
             </>
           )}
           {/* a short stem to the ground, so each stop reads as a pin rather than a bead */}
-          <path d={`M0 ${s.r + 2}V${s.r + 14}`} stroke="var(--text)" strokeOpacity="0.22" strokeWidth="1.4" strokeLinecap="round" strokeDasharray="1 4" />
+          <path
+            d={`M0 ${s.r + 2}V${s.r + 14}`}
+            stroke="var(--text)"
+            strokeOpacity="0.22"
+            strokeWidth="1.4"
+            strokeLinecap="round"
+            strokeDasharray="1 4"
+          />
         </g>
       ))}
     </svg>
   );
 }
 
-export function WaypointString({ className = "", compact = false, still = false }: { className?: string; compact?: boolean; still?: boolean }) {
+export function WaypointString({
+  className = "",
+  compact = false,
+  still = false,
+}: {
+  className?: string;
+  compact?: boolean;
+  still?: boolean;
+}) {
   return (
     // Clips sideways overflow (so the page never scrolls sideways) but not upwards (so the last stop's halo is never cut).
-    <div className={`pointer-events-none w-full shrink-0 overflow-x-clip ${still ? "wp-still" : ""} ${compact ? "mx-auto max-w-[520px]" : ""} ${className}`} aria-hidden>
-      <SceneSvg scene={NARROW} k={0.9} className={compact ? "block" : "block sm:hidden"} />
-      {compact ? null : <SceneSvg scene={WIDE} k={1} className="hidden sm:block" />}
+    <div
+      className={`pointer-events-none w-full shrink-0 overflow-x-clip ${still ? "wp-still" : ""} ${compact ? "mx-auto max-w-[520px]" : ""} ${className}`}
+      aria-hidden
+    >
+      <SceneSvg
+        scene={NARROW}
+        k={0.9}
+        className={compact ? "block" : "block sm:hidden"}
+      />
+      {compact ? null : (
+        <SceneSvg scene={WIDE} k={1} className="hidden sm:block" />
+      )}
     </div>
   );
 }

@@ -17,7 +17,12 @@ export default function HelpPage() {
   const { user } = useAuth();
   return (
     <div className="rise mx-auto max-w-[620px]">
-      <Lead mono>{t("loader.depotLine", { depot: user?.depot ?? "", dock: user?.dock ?? "" })}</Lead>
+      <Lead mono>
+        {t("loader.depotLine", {
+          depot: user?.depot ?? "",
+          dock: user?.dock ?? "",
+        })}
+      </Lead>
       <Headline className="mt-1">{t("loader.nav.help")}</Headline>
       <div className="mt-5 space-y-3">
         {HELP.map(([q, a]) => (
@@ -29,7 +34,9 @@ export default function HelpPage() {
         <NavRow label={t("settings.title")} href="/loader/settings" />
       </div>
       <Link href="/loader/load" className="mt-6 block">
-        <Button size="xl" block>{t("loader.help.flag")}</Button>
+        <Button size="xl" block>
+          {t("loader.help.flag")}
+        </Button>
       </Link>
     </div>
   );

@@ -1,5 +1,6 @@
 """Plan building, editing, validation and release. The allocation package makes the decisions;
 this module stores them and keeps the dispatcher, loader, driver and store views consistent."""
+
 from collections import defaultdict
 from datetime import date, timedelta
 
@@ -68,11 +69,7 @@ def get_plan(db: Session, depot: str, d: date) -> Plan | None:
 
 def queue_orders(db: Session, depot: str, d: date) -> list[Order]:
     return list(
-        db.scalars(
-            select(Order)
-            .where(Order.depot == depot, Order.service_date == d, Order.status.in_(QUEUE_STATUSES))
-            .order_by(Order.id)
-        )
+        db.scalars(select(Order).where(Order.depot == depot, Order.service_date == d, Order.status.in_(QUEUE_STATUSES)).order_by(Order.id))
     )
 
 
@@ -142,9 +139,7 @@ def _new_stop(o: Order, seq: int) -> Stop:
     )
 
 
-def apply_deferral(
-    db: Session, plan: Plan, o: Order, reason: str, note: str | None, source: str, by: str | None
-) -> Deferral:
+def apply_deferral(db: Session, plan: Plan, o: Order, reason: str, note: str | None, source: str, by: str | None) -> Deferral:
     to = next_operating_day(db, plan.service_date)
     df = Deferral(
         plan_id=plan.id,
@@ -349,9 +344,7 @@ def sync_load_lines(db: Session, trip: Trip, announce: str | None = None) -> Non
     for key, g in desired.items():
         ln = existing.get(key)
         if ln is None:
-            db.add(
-                LoadLine(trip_id=trip.id, stop_id=key[0], group=g["group"], unit=g["unit"], temp=g["temp"], planned=g["packs"])
-            )
+            db.add(LoadLine(trip_id=trip.id, stop_id=key[0], group=g["group"], unit=g["unit"], temp=g["temp"], planned=g["packs"]))
             add.append({"stop": names[key[0]], "group": g["group"], "qty": g["packs"], "unit": g["unit"], "temp": g["temp"]})
         elif ln.planned != g["packs"]:
             ln.planned = g["packs"]
@@ -407,7 +400,10 @@ def assign_demo_drivers(db: Session, plan: Plan) -> None:
     best: dict[str, tuple] = {}
     for t in plan.trips:
         for s in _active_stops(t):
-            key = (0 if s.outlet_id in store_outlets and s.order.temp_requirement == "chilled" else 1 if s.outlet_id in store_outlets else 2, t.trip_no)
+            key = (
+                0 if s.outlet_id in store_outlets and s.order.temp_requirement == "chilled" else 1 if s.outlet_id in store_outlets else 2,
+                t.trip_no,
+            )
             if t.vehicle_id not in best or key < best[t.vehicle_id]:
                 best[t.vehicle_id] = key
     ranked = sorted(best, key=lambda vid: (best[vid], vid))
@@ -548,11 +544,7 @@ def evaluate(db: Session, plan: Plan) -> dict:
         if len(trips) >= 2 and not any(w["rule"] == "max_trips" for w in warnings):
             warnings.append(_w("trip_limit", "amber", "At 2-trip daily limit", None))
         for grp in ("Fresh", "Style+Tech"):
-            mins = sum(
-                trip_minutes(atrip_by_key[(t.vehicle_id, t.trip_no)].orders, std)
-                for t in trips
-                if budget_group(t.brand) == grp
-            )
+            mins = sum(trip_minutes(atrip_by_key[(t.vehicle_id, t.trip_no)].orders, std) for t in trips if budget_group(t.brand) == grp)
             if mins and mins > 0.9 * BUDGET_MIN[grp] and not any(w["rule"] == "time_budget" for w in warnings):
                 warnings.append(_w("time_near", "amber", f"{mins:.0f} of {BUDGET_MIN[grp]} min driving budget used", None))
         blocking += sum(1 for w in warnings if w["severity"] == "red")
@@ -622,9 +614,7 @@ def _w(rule: str, severity: str, text: str, trip: Trip | None) -> dict:
 
 def _deferred_rows(db: Session, plan: Plan) -> list[dict]:
     out = []
-    for df in db.scalars(
-        select(Deferral).where(Deferral.plan_id == plan.id, Deferral.active.is_(True)).order_by(Deferral.id)
-    ):
+    for df in db.scalars(select(Deferral).where(Deferral.plan_id == plan.id, Deferral.active.is_(True)).order_by(Deferral.id)):
         o = db.get(Order, df.order_id)
         out.append(
             {

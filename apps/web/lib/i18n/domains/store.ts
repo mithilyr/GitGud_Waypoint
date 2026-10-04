@@ -13,7 +13,8 @@ export const store = defineDomain({
     "store.order.cutoffH": "Cutoff in {h} h {m} min.",
     "store.order.cutoffMin": "Cutoff in {m} minutes.",
     "store.order.cutoffPassed": "Cutoff has passed today.",
-    "store.order.afterCutoff": "Orders placed after {cutoff} wait for the next run.",
+    "store.order.afterCutoff":
+      "Orders placed after {cutoff} wait for the next run.",
     "store.order.items": "ITEMS",
     "store.order.lineCount": "{n} lines",
     "store.order.expected": "EXPECTED",
@@ -25,13 +26,15 @@ export const store = defineDomain({
     "store.order.place": "Place order",
     "store.order.foot": "Cutoff {cutoff} · delivers {date} {window}",
     "store.order.empty": "Nothing in this order yet.",
-    "store.order.copied": "Copied {n} lines from {date}. Change anything before you place it.",
+    "store.order.copied":
+      "Copied {n} lines from {date}. Change anything before you place it.",
     "store.order.noEarlier": "No earlier order to copy",
     "store.order.failed": "Could not place the order",
     // Add items (S1a)
     "store.add.eyebrow": "{outlet} outlet · adding to the next order",
     "store.add.title": "Add items.",
-    "store.add.lede": "From the depot catalogue. Items join this order until the {cutoff} cutoff.",
+    "store.add.lede":
+      "From the depot catalogue. Items join this order until the {cutoff} cutoff.",
     "store.add.search": "Search milk, rice, soap…",
     "store.add.all": "All",
     "store.add.often": "Often ordered here",
@@ -46,13 +49,15 @@ export const store = defineDomain({
     // Order received (S1c)
     "store.placed.eyebrow": "Received by dispatch · {at}",
     "store.placed.title": "Ruwan has your order.",
-    "store.placed.body": "{message} The truck and ETA show on Track from the morning of {date}.",
+    "store.placed.body":
+      "{message} The truck and ETA show on Track from the morning of {date}.",
     "store.placed.order": "ORDER",
     "store.placed.delivery": "DELIVERY",
     "store.placed.track": "Track this order",
     // Track (S2, S3, S3a, S3b, S3c, S3.1)
     "store.track.nothing": "Nothing on its way yet.",
-    "store.track.nothingBody": "Place an order and it shows up here once dispatch plans the run.",
+    "store.track.nothingBody":
+      "Place an order and it shows up here once dispatch plans the run.",
     "store.track.deferred": "Order deferred",
     "store.track.movesTo": "Your {kind}order moves to {date}.",
     "store.track.chilledKind": "chilled ",
@@ -61,10 +66,12 @@ export const store = defineDomain({
     "store.track.rescheduled": "Rescheduled for",
     "store.track.before08": "{date} · before 08:00",
     "store.track.secondSkip": "This is the 2nd deferral in a row. ",
-    "store.track.serveFirst": "Deferred outlets are served first on the next run, so it will not be skipped twice in a row.",
+    "store.track.serveFirst":
+      "Deferred outlets are served first on the next run, so it will not be skipped twice in a row.",
     "store.track.contact": "Contact dispatch",
     "store.track.received": "Order received.",
-    "store.track.receivedBody": "Dispatch is planning the run. The truck and ETA appear here once the plan is released.",
+    "store.track.receivedBody":
+      "Dispatch is planning the run. The truck and ETA appear here once the plan is released.",
     "store.track.problemReported": "Problem reported.",
     "store.track.receiptConfirmed": "Receipt confirmed.",
     "store.track.arrivingIn": "Arriving in {n} minutes.",
@@ -73,9 +80,11 @@ export const store = defineDomain({
     "store.track.beingLoaded": "Being loaded. Leaves {t}.",
     "store.track.deliveredAt": "Delivered at {t}.",
     "store.track.reportWith": "Report {code} is with dispatch.",
-    "store.track.closedSub": "Dispatch and {who} can see your count. This delivery is closed.",
+    "store.track.closedSub":
+      "Dispatch and {who} can see your count. This delivery is closed.",
     "store.track.theDriver": "the driver",
-    "store.track.confirmSub": "Confirm what you received, or flag a problem before the driver leaves.",
+    "store.track.confirmSub":
+      "Confirm what you received, or flag a problem before the driver leaves.",
     "store.track.stopsBefore": "{v} · {n} stop(s) before yours.",
     "store.track.noSignalEta": "No signal · ETA from plan",
     "store.track.statusClosed": "Closed",
@@ -94,7 +103,8 @@ export const store = defineDomain({
     "store.track.flaggedShort": "1+ short · flagged at the dock",
     "store.track.confirm": "Confirm receipt",
     "store.track.report": "Report an issue",
-    "store.track.confirmedToast": "Receipt confirmed. Dispatch can see your count.",
+    "store.track.confirmedToast":
+      "Receipt confirmed. Dispatch can see your count.",
     "store.track.confirmFailed": "Could not confirm",
     "store.track.signedLine": "Signed by {who} · {at}",
     "store.track.shortNext": " · a short line is on the next run",
@@ -113,7 +123,8 @@ export const store = defineDomain({
     "store.track.backToDelivery": "Back to delivery",
     "store.report.title": "Report a problem.",
     "store.report.eyebrow": "Delivered {t} · {v} · {who}",
-    "store.report.lede": "Tell dispatch what’s wrong. A photo helps them settle it faster.",
+    "store.report.lede":
+      "Tell dispatch what’s wrong. A photo helps them settle it faster.",
     "store.report.what": "What happened",
     "store.report.short": "Short",
     "store.report.damaged": "Damaged",
@@ -128,21 +139,26 @@ export const store = defineDomain({
     "store.history.eyebrow": "{outlet} outlet · past orders",
     "store.history.title": "History",
     "store.history.empty": "No orders yet.",
-    "store.history.emptyBody": "Your orders and how each delivery went are listed here.",
+    "store.history.emptyBody":
+      "Your orders and how each delivery went are listed here.",
     "store.history.lines": "{id} · {n} lines",
     // Help (S5)
     "store.help.title": "Help",
     "store.help.q1": "Missed the 4 PM cutoff?",
-    "store.help.a1": "Orders after 4 PM go on the next run. Dispatch shows the new date before you confirm.",
+    "store.help.a1":
+      "Orders after 4 PM go on the next run. Dispatch shows the new date before you confirm.",
     "store.help.q2": "Something arrived short or damaged",
-    "store.help.a2": "Open the delivery on Track and tap Report an issue. Add a photo if you can.",
+    "store.help.a2":
+      "Open the delivery on Track and tap Report an issue. Add a photo if you can.",
     "store.help.q3": "Order deferred",
-    "store.help.a3": "Dispatch tells you why and when it moves to. Deferred outlets are served first next run.",
+    "store.help.a3":
+      "Dispatch tells you why and when it moves to. Deferred outlets are served first next run.",
     "store.help.contact": "Contact dispatch",
     // Contact (S6)
     "store.contact.eyebrow": "{outlet} outlet · Ruwan, dispatch",
     "store.contact.title": "Contact dispatch",
-    "store.contact.lede": "Ask Ruwan about a deferral or a delivery. He replies here and by push.",
+    "store.contact.lede":
+      "Ask Ruwan about a deferral or a delivery. He replies here and by push.",
     "store.contact.cardTitle": "Message to Ruwan",
     "store.contact.placeholder": "Write your question…",
     "store.contact.send": "Send message",
@@ -170,7 +186,8 @@ export const store = defineDomain({
     "store.order.cutoffH": "නියමිත වේලාවට පැය {h}යි මිනිත්තු {m}යි.",
     "store.order.cutoffMin": "නියමිත වේලාවට මිනිත්තු {m}යි.",
     "store.order.cutoffPassed": "අද නියමිත වේලාව ඉකුත් වී ඇත.",
-    "store.order.afterCutoff": "{cutoff} පසු දෙන ඇණවුම් ඊළඟ ධාවනය දක්වා රැඳී සිටී.",
+    "store.order.afterCutoff":
+      "{cutoff} පසු දෙන ඇණවුම් ඊළඟ ධාවනය දක්වා රැඳී සිටී.",
     "store.order.items": "භාණ්ඩ",
     "store.order.lineCount": "පේළි {n}",
     "store.order.expected": "අපේක්ෂිත",
@@ -182,12 +199,14 @@ export const store = defineDomain({
     "store.order.place": "ඇණවුම දෙන්න",
     "store.order.foot": "නියමිත වේලාව {cutoff} · {date} {window} බෙදාහරී",
     "store.order.empty": "මෙම ඇණවුමේ තවම කිසිවක් නැත.",
-    "store.order.copied": "{date} සිට පේළි {n}ක් පිටපත් කළා. ඇණවුම දීමට පෙර ඕනෑම දෙයක් වෙනස් කරන්න.",
+    "store.order.copied":
+      "{date} සිට පේළි {n}ක් පිටපත් කළා. ඇණවුම දීමට පෙර ඕනෑම දෙයක් වෙනස් කරන්න.",
     "store.order.noEarlier": "පිටපත් කිරීමට පෙර ඇණවුමක් නැත",
     "store.order.failed": "ඇණවුම දිය නොහැකි විය",
     "store.add.eyebrow": "{outlet} අලෙවිසැල · ඊළඟ ඇණවුමට එක් කරයි",
     "store.add.title": "භාණ්ඩ එක් කරන්න.",
-    "store.add.lede": "ඩිපෝ නාමාවලියෙන්. {cutoff} නියමිත වේලාව දක්වා භාණ්ඩ මෙම ඇණවුමට එක් වේ.",
+    "store.add.lede":
+      "ඩිපෝ නාමාවලියෙන්. {cutoff} නියමිත වේලාව දක්වා භාණ්ඩ මෙම ඇණවුමට එක් වේ.",
     "store.add.search": "කිරි, සහල්, සබන් සොයන්න…",
     "store.add.all": "සියල්ල",
     "store.add.often": "මෙහි නිතර ඇණවුම් කරන",
@@ -201,12 +220,14 @@ export const store = defineDomain({
     "store.add.qty": "ප්‍රමාණය",
     "store.placed.eyebrow": "බෙදාහැරීම ලැබුණා · {at}",
     "store.placed.title": "රුවන්ට ඔබේ ඇණවුම ලැබුණා.",
-    "store.placed.body": "{message} {date} උදෑසන සිට ට්‍රක් රථය සහ ආසන්න වේලාව ලුහුබැඳීමේ දැක්වේ.",
+    "store.placed.body":
+      "{message} {date} උදෑසන සිට ට්‍රක් රථය සහ ආසන්න වේලාව ලුහුබැඳීමේ දැක්වේ.",
     "store.placed.order": "ඇණවුම",
     "store.placed.delivery": "බෙදාහැරීම",
     "store.placed.track": "මෙම ඇණවුම ලුහුබඳින්න",
     "store.track.nothing": "තවම කිසිවක් පැමිණෙන්නේ නැත.",
-    "store.track.nothingBody": "ඇණවුමක් දෙන්න. බෙදාහැරීම ධාවනය සැලසුම් කළ පසු එය මෙහි පෙනේ.",
+    "store.track.nothingBody":
+      "ඇණවුමක් දෙන්න. බෙදාහැරීම ධාවනය සැලසුම් කළ පසු එය මෙහි පෙනේ.",
     "store.track.deferred": "ඇණවුම කල් දමා ඇත",
     "store.track.movesTo": "ඔබේ {kind}ඇණවුම {date} වෙත මාරු වේ.",
     "store.track.chilledKind": "සිසිල් ",
@@ -215,10 +236,12 @@ export const store = defineDomain({
     "store.track.rescheduled": "නැවත සැලසුම් කළ දිනය",
     "store.track.before08": "{date} · 08:00ට පෙර",
     "store.track.secondSkip": "මෙය අඩුවී දෙවන වරට කල් දැමීමයි. ",
-    "store.track.serveFirst": "කල් දැමූ අලෙවිසැල් ඊළඟ ධාවනයේදී පළමුව සේවය කෙරේ, එබැවින් දෙවරක් අතහැරෙන්නේ නැත.",
+    "store.track.serveFirst":
+      "කල් දැමූ අලෙවිසැල් ඊළඟ ධාවනයේදී පළමුව සේවය කෙරේ, එබැවින් දෙවරක් අතහැරෙන්නේ නැත.",
     "store.track.contact": "බෙදාහරින්නා අමතන්න",
     "store.track.received": "ඇණවුම ලැබුණා.",
-    "store.track.receivedBody": "බෙදාහැරීම ධාවනය සැලසුම් කරයි. සැලසුම නිකුත් කළ පසු ට්‍රක් රථය සහ ආසන්න වේලාව මෙහි පෙනේ.",
+    "store.track.receivedBody":
+      "බෙදාහැරීම ධාවනය සැලසුම් කරයි. සැලසුම නිකුත් කළ පසු ට්‍රක් රථය සහ ආසන්න වේලාව මෙහි පෙනේ.",
     "store.track.problemReported": "ගැටලුව වාර්තා කළා.",
     "store.track.receiptConfirmed": "ලැබීම තහවුරු කළා.",
     "store.track.arrivingIn": "මිනිත්තු {n}කින් පැමිණේ.",
@@ -227,9 +250,11 @@ export const store = defineDomain({
     "store.track.beingLoaded": "පටවමින් පවතී. {t}ට පිටත් වේ.",
     "store.track.deliveredAt": "{t}ට බෙදා හැරියා.",
     "store.track.reportWith": "වාර්තාව {code} බෙදාහැරීම සතුව ඇත.",
-    "store.track.closedSub": "බෙදාහැරීම සහ {who}ට ඔබේ ගණන පෙනේ. මෙම බෙදාහැරීම වසා ඇත.",
+    "store.track.closedSub":
+      "බෙදාහැරීම සහ {who}ට ඔබේ ගණන පෙනේ. මෙම බෙදාහැරීම වසා ඇත.",
     "store.track.theDriver": "රියදුරු",
-    "store.track.confirmSub": "රියදුරු පිටත් වීමට පෙර ඔබට ලැබුණු දේ තහවුරු කරන්න, නැතහොත් ගැටලුවක් වාර්තා කරන්න.",
+    "store.track.confirmSub":
+      "රියදුරු පිටත් වීමට පෙර ඔබට ලැබුණු දේ තහවුරු කරන්න, නැතහොත් ගැටලුවක් වාර්තා කරන්න.",
     "store.track.stopsBefore": "{v} · ඔබට පෙර නැවතුම් {n}ක්.",
     "store.track.noSignalEta": "සංඥාව නැත · ආසන්න වේලාව සැලසුමෙන්",
     "store.track.statusClosed": "වසා ඇත",
@@ -267,7 +292,8 @@ export const store = defineDomain({
     "store.track.backToDelivery": "බෙදාහැරීමට ආපසු",
     "store.report.title": "ගැටලුවක් වාර්තා කරන්න.",
     "store.report.eyebrow": "{t}ට බෙදා හැරියා · {v} · {who}",
-    "store.report.lede": "වැරැද්ද කුමක්දැයි බෙදාහැරීමට කියන්න. ඡායාරූපයක් ඉක්මනින් විසඳීමට උදව් වේ.",
+    "store.report.lede":
+      "වැරැද්ද කුමක්දැයි බෙදාහැරීමට කියන්න. ඡායාරූපයක් ඉක්මනින් විසඳීමට උදව් වේ.",
     "store.report.what": "සිදු වූයේ කුමක්ද",
     "store.report.short": "අඩුයි",
     "store.report.damaged": "හානි වී ඇත",
@@ -281,19 +307,24 @@ export const store = defineDomain({
     "store.history.eyebrow": "{outlet} අලෙවිසැල · පෙර ඇණවුම්",
     "store.history.title": "ඉතිහාසය",
     "store.history.empty": "තවම ඇණවුම් නැත.",
-    "store.history.emptyBody": "ඔබේ ඇණවුම් සහ එක් එක් බෙදාහැරීම සිදු වූ ආකාරය මෙහි ලැයිස්තුගත වේ.",
+    "store.history.emptyBody":
+      "ඔබේ ඇණවුම් සහ එක් එක් බෙදාහැරීම සිදු වූ ආකාරය මෙහි ලැයිස්තුගත වේ.",
     "store.history.lines": "{id} · පේළි {n}",
     "store.help.title": "උදව්",
     "store.help.q1": "සවස 4 නියමිත වේලාව මග හැරුණාද?",
-    "store.help.a1": "සවස 4 න් පසු දෙන ඇණවුම් ඊළඟ ධාවනයට යයි. තහවුරු කිරීමට පෙර බෙදාහැරීම නව දිනය පෙන්වයි.",
+    "store.help.a1":
+      "සවස 4 න් පසු දෙන ඇණවුම් ඊළඟ ධාවනයට යයි. තහවුරු කිරීමට පෙර බෙදාහැරීම නව දිනය පෙන්වයි.",
     "store.help.q2": "යමක් අඩුවෙන් හෝ හානි වී පැමිණියාද",
-    "store.help.a2": "ලුහුබැඳීමේ බෙදාහැරීම විවෘත කර ගැටලුවක් වාර්තා කරන්න ඔබන්න. හැකි නම් ඡායාරූපයක් එක් කරන්න.",
+    "store.help.a2":
+      "ලුහුබැඳීමේ බෙදාහැරීම විවෘත කර ගැටලුවක් වාර්තා කරන්න ඔබන්න. හැකි නම් ඡායාරූපයක් එක් කරන්න.",
     "store.help.q3": "ඇණවුම කල් දමා ඇත",
-    "store.help.a3": "බෙදාහැරීම හේතුව සහ මාරු වන දිනය ඔබට පවසයි. කල් දැමූ අලෙවිසැල් ඊළඟ ධාවනයේදී පළමුව සේවය කෙරේ.",
+    "store.help.a3":
+      "බෙදාහැරීම හේතුව සහ මාරු වන දිනය ඔබට පවසයි. කල් දැමූ අලෙවිසැල් ඊළඟ ධාවනයේදී පළමුව සේවය කෙරේ.",
     "store.help.contact": "බෙදාහරින්නා අමතන්න",
     "store.contact.eyebrow": "{outlet} අලෙවිසැල · රුවන්, බෙදාහැරීම",
     "store.contact.title": "බෙදාහරින්නා අමතන්න",
-    "store.contact.lede": "කල් දැමීමක් හෝ බෙදාහැරීමක් ගැන රුවන්ගෙන් අසන්න. ඔහු මෙහි සහ පුෂ් මඟින් පිළිතුරු දෙයි.",
+    "store.contact.lede":
+      "කල් දැමීමක් හෝ බෙදාහැරීමක් ගැන රුවන්ගෙන් අසන්න. ඔහු මෙහි සහ පුෂ් මඟින් පිළිතුරු දෙයි.",
     "store.contact.cardTitle": "රුවන්ට පණිවිඩය",
     "store.contact.placeholder": "ඔබේ ප්‍රශ්නය ලියන්න…",
     "store.contact.send": "පණිවිඩය යවන්න",
@@ -320,7 +351,8 @@ export const store = defineDomain({
     "store.order.cutoffH": "கடைசி நேரம் {h} மணி {m} நிமிடத்தில்.",
     "store.order.cutoffMin": "{m} நிமிடத்தில் கடைசி நேரம்.",
     "store.order.cutoffPassed": "இன்றைய கடைசி நேரம் கடந்துவிட்டது.",
-    "store.order.afterCutoff": "{cutoff} பின் ஆர்டர்கள் அடுத்த ரவுண்டிற்கு செல்லும்.",
+    "store.order.afterCutoff":
+      "{cutoff} பின் ஆர்டர்கள் அடுத்த ரவுண்டிற்கு செல்லும்.",
     "store.order.items": "பொருட்கள்",
     "store.order.lineCount": "{n} வரிகள்",
     "store.order.expected": "எதிர்பார்ப்பு",
@@ -332,12 +364,14 @@ export const store = defineDomain({
     "store.order.place": "ஆர்டர் செய்யவும்",
     "store.order.foot": "கடைசி நேரம் {cutoff} · {date} {window} வழங்கல்",
     "store.order.empty": "இந்த ஆர்டரில் இன்னும் எதுவும் இல்லை.",
-    "store.order.copied": "{date} இலிருந்து {n} வரிகள் நகலெடுக்கப்பட்டன. ஆர்டர் செய்வதற்கு முன் எதையும் மாற்றலாம்.",
+    "store.order.copied":
+      "{date} இலிருந்து {n} வரிகள் நகலெடுக்கப்பட்டன. ஆர்டர் செய்வதற்கு முன் எதையும் மாற்றலாம்.",
     "store.order.noEarlier": "நகலெடுக்க முந்தைய ஆர்டர் இல்லை",
     "store.order.failed": "ஆர்டர் செய்ய முடியவில்லை",
     "store.add.eyebrow": "{outlet} கடை · அடுத்த ஆர்டரில் சேர்க்கிறது",
     "store.add.title": "பொருட்களைச் சேர்.",
-    "store.add.lede": "டெப்போ பட்டியலிலிருந்து. {cutoff} கடைசி நேரம் வரை பொருட்கள் இந்த ஆர்டரில் சேரும்.",
+    "store.add.lede":
+      "டெப்போ பட்டியலிலிருந்து. {cutoff} கடைசி நேரம் வரை பொருட்கள் இந்த ஆர்டரில் சேரும்.",
     "store.add.search": "பால், அரிசி, சோப்பு தேடு…",
     "store.add.all": "அனைத்தும்",
     "store.add.often": "இங்கே அடிக்கடி ஆர்டர் செய்பவை",
@@ -351,12 +385,14 @@ export const store = defineDomain({
     "store.add.qty": "அளவு",
     "store.placed.eyebrow": "அனுப்புநருக்குக் கிடைத்தது · {at}",
     "store.placed.title": "ரவுனுக்கு உங்கள் ஆர்டர் கிடைத்தது.",
-    "store.placed.body": "{message} {date} காலை முதல் லாரியும் வருகை நேரமும் கண்காணிப்பில் தெரியும்.",
+    "store.placed.body":
+      "{message} {date} காலை முதல் லாரியும் வருகை நேரமும் கண்காணிப்பில் தெரியும்.",
     "store.placed.order": "ஆர்டர்",
     "store.placed.delivery": "வழங்கல்",
     "store.placed.track": "இந்த ஆர்டரைக் கண்காணி",
     "store.track.nothing": "இன்னும் எதுவும் வரவில்லை.",
-    "store.track.nothingBody": "ஆர்டர் செய்யுங்கள். அனுப்புநர் ரவுண்டைத் திட்டமிட்டதும் இங்கே தெரியும்.",
+    "store.track.nothingBody":
+      "ஆர்டர் செய்யுங்கள். அனுப்புநர் ரவுண்டைத் திட்டமிட்டதும் இங்கே தெரியும்.",
     "store.track.deferred": "ஆர்டர் ஒத்திவைக்கப்பட்டது",
     "store.track.movesTo": "உங்கள் {kind}ஆர்டர் {date} க்கு மாறுகிறது.",
     "store.track.chilledKind": "குளிர் ",
@@ -365,10 +401,12 @@ export const store = defineDomain({
     "store.track.rescheduled": "மீண்டும் திட்டமிட்ட நாள்",
     "store.track.before08": "{date} · 08:00க்கு முன்",
     "store.track.secondSkip": "இது தொடர்ந்து 2வது ஒத்திவைப்பு. ",
-    "store.track.serveFirst": "ஒத்திவைக்கப்பட்ட கடைகள் அடுத்த ரவுண்டில் முதலில் சேவை பெறும், எனவே தொடர்ந்து இருமுறை தவறாது.",
+    "store.track.serveFirst":
+      "ஒத்திவைக்கப்பட்ட கடைகள் அடுத்த ரவுண்டில் முதலில் சேவை பெறும், எனவே தொடர்ந்து இருமுறை தவறாது.",
     "store.track.contact": "அனுப்புநரைத் தொடர்புகொள்",
     "store.track.received": "ஆர்டர் கிடைத்தது.",
-    "store.track.receivedBody": "அனுப்புநர் ரவுண்டைத் திட்டமிடுகிறார். திட்டம் வெளியானதும் லாரியும் வருகை நேரமும் இங்கே தெரியும்.",
+    "store.track.receivedBody":
+      "அனுப்புநர் ரவுண்டைத் திட்டமிடுகிறார். திட்டம் வெளியானதும் லாரியும் வருகை நேரமும் இங்கே தெரியும்.",
     "store.track.problemReported": "சிக்கல் தெரிவிக்கப்பட்டது.",
     "store.track.receiptConfirmed": "பெறுதல் உறுதிசெய்யப்பட்டது.",
     "store.track.arrivingIn": "{n} நிமிடத்தில் வருகிறது.",
@@ -377,9 +415,11 @@ export const store = defineDomain({
     "store.track.beingLoaded": "ஏற்றப்படுகிறது. {t} புறப்படும்.",
     "store.track.deliveredAt": "{t} க்கு வழங்கப்பட்டது.",
     "store.track.reportWith": "அறிக்கை {code} அனுப்புநரிடம் உள்ளது.",
-    "store.track.closedSub": "அனுப்புநரும் {who} உம் உங்கள் எண்ணிக்கையைப் பார்க்கலாம். இந்த வழங்கல் மூடப்பட்டது.",
+    "store.track.closedSub":
+      "அனுப்புநரும் {who} உம் உங்கள் எண்ணிக்கையைப் பார்க்கலாம். இந்த வழங்கல் மூடப்பட்டது.",
     "store.track.theDriver": "ஓட்டுநர்",
-    "store.track.confirmSub": "ஓட்டுநர் புறப்படுவதற்கு முன் நீங்கள் பெற்றதை உறுதிசெய்யுங்கள், அல்லது சிக்கலைத் தெரிவியுங்கள்.",
+    "store.track.confirmSub":
+      "ஓட்டுநர் புறப்படுவதற்கு முன் நீங்கள் பெற்றதை உறுதிசெய்யுங்கள், அல்லது சிக்கலைத் தெரிவியுங்கள்.",
     "store.track.stopsBefore": "{v} · உங்களுக்கு முன் {n} நிறுத்தம்.",
     "store.track.noSignalEta": "சிக்னல் இல்லை · திட்டத்திலிருந்து வருகை நேரம்",
     "store.track.statusClosed": "மூடப்பட்டது",
@@ -398,7 +438,8 @@ export const store = defineDomain({
     "store.track.flaggedShort": "1+ குறைவு · டாக்கில் குறிக்கப்பட்டது",
     "store.track.confirm": "பெறுதலை உறுதிசெய்",
     "store.track.report": "சிக்கலைத் தெரிவி",
-    "store.track.confirmedToast": "பெறுதல் உறுதிசெய்யப்பட்டது. அனுப்புநர் உங்கள் எண்ணிக்கையைப் பார்க்கலாம்.",
+    "store.track.confirmedToast":
+      "பெறுதல் உறுதிசெய்யப்பட்டது. அனுப்புநர் உங்கள் எண்ணிக்கையைப் பார்க்கலாம்.",
     "store.track.confirmFailed": "உறுதிசெய்ய முடியவில்லை",
     "store.track.signedLine": "{who} கையொப்பமிட்டார் · {at}",
     "store.track.shortNext": " · குறைந்த வரி அடுத்த ரவுண்டில் உள்ளது",
@@ -417,7 +458,8 @@ export const store = defineDomain({
     "store.track.backToDelivery": "வழங்கலுக்குத் திரும்பு",
     "store.report.title": "சிக்கலைத் தெரிவி.",
     "store.report.eyebrow": "{t} க்கு வழங்கப்பட்டது · {v} · {who}",
-    "store.report.lede": "என்ன தவறு என்று அனுப்புநரிடம் சொல்லுங்கள். புகைப்படம் விரைவாகத் தீர்க்க உதவும்.",
+    "store.report.lede":
+      "என்ன தவறு என்று அனுப்புநரிடம் சொல்லுங்கள். புகைப்படம் விரைவாகத் தீர்க்க உதவும்.",
     "store.report.what": "என்ன நடந்தது",
     "store.report.short": "குறைவு",
     "store.report.damaged": "சேதம்",
@@ -431,19 +473,24 @@ export const store = defineDomain({
     "store.history.eyebrow": "{outlet} கடை · முந்தைய ஆர்டர்கள்",
     "store.history.title": "வரலாறு",
     "store.history.empty": "இன்னும் ஆர்டர்கள் இல்லை.",
-    "store.history.emptyBody": "உங்கள் ஆர்டர்களும் ஒவ்வொரு வழங்கலும் எப்படி நடந்தது என்பதும் இங்கே பட்டியலிடப்படும்.",
+    "store.history.emptyBody":
+      "உங்கள் ஆர்டர்களும் ஒவ்வொரு வழங்கலும் எப்படி நடந்தது என்பதும் இங்கே பட்டியலிடப்படும்.",
     "store.history.lines": "{id} · {n} வரிகள்",
     "store.help.title": "உதவி",
     "store.help.q1": "மாலை 4 மணி கடைசி நேரத்தைத் தவறவிட்டீர்களா?",
-    "store.help.a1": "மாலை 4க்குப் பின் ஆர்டர்கள் அடுத்த ரவுண்டிற்கு செல்லும். உறுதிசெய்வதற்கு முன் அனுப்புநர் புதிய தேதியைக் காட்டுவார்.",
+    "store.help.a1":
+      "மாலை 4க்குப் பின் ஆர்டர்கள் அடுத்த ரவுண்டிற்கு செல்லும். உறுதிசெய்வதற்கு முன் அனுப்புநர் புதிய தேதியைக் காட்டுவார்.",
     "store.help.q2": "ஏதோ குறைவாக அல்லது சேதமாக வந்தது",
-    "store.help.a2": "கண்காணிப்பில் வழங்கலைத் திறந்து சிக்கலைத் தெரிவி என்பதைத் தட்டுங்கள். முடிந்தால் புகைப்படம் சேருங்கள்.",
+    "store.help.a2":
+      "கண்காணிப்பில் வழங்கலைத் திறந்து சிக்கலைத் தெரிவி என்பதைத் தட்டுங்கள். முடிந்தால் புகைப்படம் சேருங்கள்.",
     "store.help.q3": "ஆர்டர் ஒத்திவைக்கப்பட்டது",
-    "store.help.a3": "காரணத்தையும் மாறும் தேதியையும் அனுப்புநர் சொல்வார். ஒத்திவைக்கப்பட்ட கடைகள் அடுத்த ரவுண்டில் முதலில் சேவை பெறும்.",
+    "store.help.a3":
+      "காரணத்தையும் மாறும் தேதியையும் அனுப்புநர் சொல்வார். ஒத்திவைக்கப்பட்ட கடைகள் அடுத்த ரவுண்டில் முதலில் சேவை பெறும்.",
     "store.help.contact": "அனுப்புநரைத் தொடர்புகொள்",
     "store.contact.eyebrow": "{outlet} கடை · ரவுன், அனுப்புநர்",
     "store.contact.title": "அனுப்புநரைத் தொடர்புகொள்",
-    "store.contact.lede": "ஒத்திவைப்பு அல்லது வழங்கல் பற்றி ரவுனிடம் கேளுங்கள். அவர் இங்கும் புஷ் மூலமும் பதிலளிப்பார்.",
+    "store.contact.lede":
+      "ஒத்திவைப்பு அல்லது வழங்கல் பற்றி ரவுனிடம் கேளுங்கள். அவர் இங்கும் புஷ் மூலமும் பதிலளிப்பார்.",
     "store.contact.cardTitle": "ரவுனுக்கு செய்தி",
     "store.contact.placeholder": "உங்கள் கேள்வியை எழுதுங்கள்…",
     "store.contact.send": "செய்தி அனுப்பு",
@@ -452,7 +499,8 @@ export const store = defineDomain({
     "store.settings.sub": "{who} · {outlet} கடை",
     "store.settings.alerts": "ஆர்டர் அறிவிப்புகள்",
     "store.settings.received": "ஆர்டர் கிடைத்தது",
-    "store.settings.receivedSub": "அனுப்புநருக்கு என் ஆர்டர் கிடைத்ததும் தெரிவி",
+    "store.settings.receivedSub":
+      "அனுப்புநருக்கு என் ஆர்டர் கிடைத்ததும் தெரிவி",
     "store.settings.deferral": "ஒத்திவைப்பு அறிவிப்பு",
     "store.settings.deferralSub": "காரணத்துடன் உடனே சொல்",
     "store.settings.cutoffReminder": "கடைசி நேர நினைவூட்டல்",

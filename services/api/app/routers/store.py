@@ -98,7 +98,9 @@ def cutoff_info(db: Session, outlet: Outlet) -> dict:
         "passed": minutes_left <= 0,
         "enforced": settings.enforce_cutoff,
         "service_date": d.isoformat(),
-        "window": f"before {outlet.window_close_time}" if outlet.brand == "Fresh" else f"{outlet.window_open_time}–{outlet.window_close_time}",
+        "window": f"before {outlet.window_close_time}"
+        if outlet.brand == "Fresh"
+        else f"{outlet.window_open_time}–{outlet.window_close_time}",
     }
 
 
@@ -179,7 +181,9 @@ def place_order(body: NewOrder, user: User = StoreUser, db: Session = Depends(ge
         if not part:
             continue
         last = db.scalar(
-            select(func.max(Order.service_date)).where(Order.outlet_id == outlet.outlet_id, Order.status.in_(("received", "issue_reported", "delivered")))
+            select(func.max(Order.service_date)).where(
+                Order.outlet_id == outlet.outlet_id, Order.status.in_(("received", "issue_reported", "delivered"))
+            )
         )
         order = Order(
             id=f"ORD{n:07d}",
@@ -241,9 +245,7 @@ def _order_row(o: Order, db: Session) -> dict:
 @router.get("/orders")
 def history(user: User = StoreUser, db: Session = Depends(get_db)) -> list[dict]:
     outlet = _outlet(user, db)
-    orders = list(
-        db.scalars(select(Order).where(Order.outlet_id == outlet.outlet_id).order_by(Order.service_date.desc(), Order.id.desc()))
-    )
+    orders = list(db.scalars(select(Order).where(Order.outlet_id == outlet.outlet_id).order_by(Order.service_date.desc(), Order.id.desc())))
     rows = []
     for o in orders:
         r = _order_row(o, db)
@@ -256,10 +258,10 @@ def history(user: User = StoreUser, db: Session = Depends(get_db)) -> list[dict]
 
 def _summary(o: Order, stop: Stop | None, receipt: Receipt | None) -> str:
     if receipt and receipt.status == "confirmed":
-        short = [
-            ln for ln in receipt.lines if ln["received"] < ln["expected"]
-        ]
-        return "Received in full." if not short else "1 short: " + ", ".join(f"{s['group']} {s['received']} of {s['expected']}" for s in short)
+        short = [ln for ln in receipt.lines if ln["received"] < ln["expected"]]
+        return (
+            "Received in full." if not short else "1 short: " + ", ".join(f"{s['group']} {s['received']} of {s['expected']}" for s in short)
+        )
     if receipt:
         return "Issue reported."
     if o.status == "deferred":
@@ -282,11 +284,17 @@ def last_order(user: User = StoreUser, db: Session = Depends(get_db)) -> dict:
     """The most recent basket (chilled + ambient halves together) for 'Reorder last week'."""
     outlet = _outlet(user, db)
     latest = db.scalar(
-        select(Order).where(Order.outlet_id == outlet.outlet_id, Order.status != "confirmed").order_by(Order.service_date.desc(), Order.id.desc())
+        select(Order)
+        .where(Order.outlet_id == outlet.outlet_id, Order.status != "confirmed")
+        .order_by(Order.service_date.desc(), Order.id.desc())
     )
     if latest is None:
         raise HTTPException(404, "No earlier order to copy")
-    basket = list(db.scalars(select(Order).where(Order.outlet_id == outlet.outlet_id, Order.group_ref == latest.group_ref))) if latest.group_ref else [latest]
+    basket = (
+        list(db.scalars(select(Order).where(Order.outlet_id == outlet.outlet_id, Order.group_ref == latest.group_ref)))
+        if latest.group_ref
+        else [latest]
+    )
     return {
         "date": latest.service_date.isoformat(),
         "lines": [{"sku": ln["sku"], "name": ln["name"], "qty": ln["qty"]} for o in basket for ln in o.lines],
@@ -335,7 +343,9 @@ def _delivery_view(order: Order, db: Session) -> dict:
     lines = list(db.scalars(select(LoadLine).where(LoadLine.stop_id == stop.id)))
     siblings = [s for s in trip.stops if not s.removed]
     before = [s for s in siblings if s.seq < stop.seq and s.status not in ("delivered", "partial", "failed")]
-    last_done = max((s for s in siblings if s.seq < stop.seq and s.status in ("delivered", "partial", "failed")), key=lambda s: s.seq, default=None)
+    last_done = max(
+        (s for s in siblings if s.seq < stop.seq and s.status in ("delivered", "partial", "failed")), key=lambda s: s.seq, default=None
+    )
     minutes = None
     if stop.eta and last_done and last_done.eta:
         minutes = max(1, _m(stop.eta) - _m(last_done.eta))
@@ -394,9 +404,7 @@ def _m(hhmm: str) -> int:
 @router.get("/track")
 def track(user: User = StoreUser, db: Session = Depends(get_db)) -> dict:
     outlet = _outlet(user, db)
-    orders = list(
-        db.scalars(select(Order).where(Order.outlet_id == outlet.outlet_id).order_by(Order.service_date.desc(), Order.id))
-    )
+    orders = list(db.scalars(select(Order).where(Order.outlet_id == outlet.outlet_id).order_by(Order.service_date.desc(), Order.id)))
     if not orders:
         return {"deliveries": [], "date": None}
     # Show the freshest day that has a planned, deferred or delivered order.
@@ -435,7 +443,9 @@ def confirm(stop_id: int, body: Confirm, user: User = StoreUser, db: Session = D
     s = _own_stop(stop_id, user, db)
     if db.scalar(select(Receipt).where(Receipt.stop_id == s.id)):
         raise HTTPException(409, "Already confirmed")
-    expected = {ln.group: (ln.found if ln.found is not None else ln.planned) for ln in db.scalars(select(LoadLine).where(LoadLine.stop_id == s.id))}
+    expected = {
+        ln.group: (ln.found if ln.found is not None else ln.planned) for ln in db.scalars(select(LoadLine).where(LoadLine.stop_id == s.id))
+    }
     handed = {i["group"]: i["handed"] for i in (s.delivery or {}).get("items", [])}
     lines, conflicts = [], []
     for ln in body.lines:
@@ -453,14 +463,29 @@ def confirm(stop_id: int, body: Confirm, user: User = StoreUser, db: Session = D
     if conflicts:
         db.flush()
         for c in conflicts:
-            notify(db, role="dispatcher", depot=outlet.depot, kind="count_conflict", title=f"{outlet.name} · {c.line} count differs",
-                   body=f"Driver {c.driver_count}, store {c.store_count}", meta={"conflict_id": c.id, "stop_id": s.id})
+            notify(
+                db,
+                role="dispatcher",
+                depot=outlet.depot,
+                kind="count_conflict",
+                title=f"{outlet.name} · {c.line} count differs",
+                body=f"Driver {c.driver_count}, store {c.store_count}",
+                meta={"conflict_id": c.id, "stop_id": s.id},
+            )
             drv = db.scalar(select(User).where(User.role == "driver", User.vehicle_id == s.trip.vehicle_id))
             if drv:
-                notify(db, role="driver", user_id=drv.id, kind="count_conflict", title=f"{outlet.name} · {c.line}",
-                       body=f"You recorded {c.driver_count}, the store confirmed {c.store_count}. Neither count is overwritten.",
-                       meta={"conflict_id": c.id, "stop_id": s.id})
-    notify(db, role="dispatcher", depot=outlet.depot, kind="receipt", title=f"{outlet.name} confirmed receipt", body="", meta={"stop_id": s.id})
+                notify(
+                    db,
+                    role="driver",
+                    user_id=drv.id,
+                    kind="count_conflict",
+                    title=f"{outlet.name} · {c.line}",
+                    body=f"You recorded {c.driver_count}, the store confirmed {c.store_count}. Neither count is overwritten.",
+                    meta={"conflict_id": c.id, "stop_id": s.id},
+                )
+    notify(
+        db, role="dispatcher", depot=outlet.depot, kind="receipt", title=f"{outlet.name} confirmed receipt", body="", meta={"stop_id": s.id}
+    )
     db.commit()
     return {"ok": True, "conflicts": len(conflicts), "at": lk_hhmm(now())}
 
@@ -470,15 +495,24 @@ def report(stop_id: int, body: Report, user: User = StoreUser, db: Session = Dep
     s = _own_stop(stop_id, user, db)
     if body.kind not in ("short", "damaged", "wrong_item", "other"):
         raise HTTPException(400, "Pick what happened")
-    rpt = IssueReport(stop_id=s.id, order_id=s.order_id, kind=body.kind, line=body.line, note=body.note, photo=body.photo, reported_by=user.name)
+    rpt = IssueReport(
+        stop_id=s.id, order_id=s.order_id, kind=body.kind, line=body.line, note=body.note, photo=body.photo, reported_by=user.name
+    )
     db.add(rpt)
     if not db.scalar(select(Receipt).where(Receipt.stop_id == s.id)):
         db.add(Receipt(stop_id=s.id, order_id=s.order_id, status="issue", lines=[], confirmed_by=user.name))
     s.order.status = "issue_reported"
     outlet = db.get(Outlet, s.outlet_id)
     db.flush()
-    notify(db, role="dispatcher", depot=outlet.depot, kind="issue_report", title=f"{outlet.name} reported a problem",
-           body=f"{body.kind.replace('_', ' ')} · {body.line or 'whole delivery'}", meta={"stop_id": s.id, "report": rpt.code})
+    notify(
+        db,
+        role="dispatcher",
+        depot=outlet.depot,
+        kind="issue_report",
+        title=f"{outlet.name} reported a problem",
+        body=f"{body.kind.replace('_', ' ')} · {body.line or 'whole delivery'}",
+        meta={"stop_id": s.id, "report": rpt.code},
+    )
     db.commit()
     return {"code": rpt.code, "sent_at": lk_hhmm(now()), "reply_by": "10:00"}
 
@@ -486,8 +520,15 @@ def report(stop_id: int, body: Report, user: User = StoreUser, db: Session = Dep
 @router.post("/message")
 def message(body: Message, user: User = StoreUser, db: Session = Depends(get_db)) -> dict:
     outlet = _outlet(user, db)
-    notify(db, role="dispatcher", depot=outlet.depot, kind="store_message", title=f"{outlet.name}: message",
-           body=body.text, meta={"order_id": body.order_id, "outlet_id": outlet.outlet_id})
+    notify(
+        db,
+        role="dispatcher",
+        depot=outlet.depot,
+        kind="store_message",
+        title=f"{outlet.name}: message",
+        body=body.text,
+        meta={"order_id": body.order_id, "outlet_id": outlet.outlet_id},
+    )
     db.commit()
     return {"ok": True}
 
@@ -498,10 +539,21 @@ def message(body: Message, user: User = StoreUser, db: Session = Depends(get_db)
 @router.get("/notifications")
 def notifications(user: User = StoreUser, db: Session = Depends(get_db)) -> list[dict]:
     rows = db.scalars(
-        select(Notification).where(Notification.role == "store", Notification.outlet_id == user.outlet_id).order_by(Notification.id.desc()).limit(20)
+        select(Notification)
+        .where(Notification.role == "store", Notification.outlet_id == user.outlet_id)
+        .order_by(Notification.id.desc())
+        .limit(20)
     )
     return [
-        {"id": n.id, "kind": n.kind, "title": n.title, "body": n.body, "meta": n.meta, "at": lk_hhmm(n.created_at), "read": n.read_at is not None}
+        {
+            "id": n.id,
+            "kind": n.kind,
+            "title": n.title,
+            "body": n.body,
+            "meta": n.meta,
+            "at": lk_hhmm(n.created_at),
+            "read": n.read_at is not None,
+        }
         for n in rows
     ]
 
@@ -513,4 +565,3 @@ def read_notification(nid: int, user: User = StoreUser, db: Session = Depends(ge
         n.read_at = now()
         db.commit()
     return {"ok": True}
-

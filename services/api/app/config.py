@@ -23,7 +23,7 @@ class Settings(BaseSettings):
         # Hosts such as Render hand out plain postgres:// or postgresql:// URLs; SQLAlchemy needs the driver named.
         for prefix in ("postgres://", "postgresql://"):
             if v.startswith(prefix):
-                return "postgresql+psycopg://" + v[len(prefix):]
+                return "postgresql+psycopg://" + v[len(prefix) :]
         return v
 
 

@@ -4,6 +4,7 @@ Operational tables (order, plan, trip, stop, deferral, load_check,
 delivery_event, receipt, user) go in their own modules.
 See 02-plan/SYSTEM-ARCHITECTURE.md section 4.
 """
+
 from datetime import date
 
 from sqlalchemy import Date, Float, Integer, String

@@ -135,7 +135,7 @@ def test_depot_is_respected():
 def test_schedule_waits_for_mall_window():
     mall = order("m", brand="Style", dock="mall_bay", window_open="10:30", window_close="12:30")
     plan = run([mall], vehicles=(DRY,))
-    (dep, etas), = schedule_vehicle(plan.trips, STD).values()
+    ((dep, etas),) = schedule_vehicle(plan.trips, STD).values()
     assert etas[0].arrive_min >= 10 * 60 + 30
     assert etas[0].slack_min > 0
     assert dep >= 8 * 60
@@ -143,5 +143,5 @@ def test_schedule_waits_for_mall_window():
 
 def test_fresh_first_trip_leaves_at_0330():
     plan = run([order("a", window_close="07:30")], vehicles=(DRY,))
-    (dep, _), = schedule_vehicle(plan.trips, STD).values()
+    ((dep, _),) = schedule_vehicle(plan.trips, STD).values()
     assert dep == 3 * 60 + 30

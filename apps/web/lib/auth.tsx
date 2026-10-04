@@ -1,7 +1,13 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { createContext, useCallback, useContext, useEffect, useState } from "react";
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import { ApiError, get, getToken, isNetworkError, post, setToken } from "./api";
 
 export type Role = "dispatcher" | "loader" | "driver" | "store";
@@ -86,7 +92,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const login = useCallback(
     async (email: string, password: string) => {
-      const r = await post<{ token: string; user: User }>("/auth/login", { email, password });
+      const r = await post<{ token: string; user: User }>("/auth/login", {
+        email,
+        password,
+      });
       adopt(r.token, r.user);
       return r.user;
     },
@@ -95,7 +104,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const pinLogin = useCallback(
     async (userId: number, pin: string) => {
-      const r = await post<{ token: string; user: User }>("/auth/pin-login", { user_id: userId, pin });
+      const r = await post<{ token: string; user: User }>("/auth/pin-login", {
+        user_id: userId,
+        pin,
+      });
       adopt(r.token, r.user);
       return r.user;
     },
@@ -112,7 +124,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     setUser(null);
   }, []);
 
-  return <AuthCtx.Provider value={{ user, ready, login, pinLogin, adopt, logout }}>{children}</AuthCtx.Provider>;
+  return (
+    <AuthCtx.Provider value={{ user, ready, login, pinLogin, adopt, logout }}>
+      {children}
+    </AuthCtx.Provider>
+  );
 }
 
 export function useAuth() {

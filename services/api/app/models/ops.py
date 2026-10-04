@@ -3,6 +3,7 @@
 Reference tables (outlet, vehicle, ...) live in reference.py and are seeded from the shared CSVs.
 See docs/data-model.md for the diagram.
 """
+
 from datetime import date, datetime
 
 from sqlalchemy import JSON, Boolean, Date, Float, ForeignKey, Integer, String, Text, UniqueConstraint
@@ -112,9 +113,7 @@ class Trip(Base):
     last_seen_at: Mapped[datetime | None] = mapped_column(TZDateTime)  # last driver sync/heartbeat
 
     plan: Mapped[Plan] = relationship(back_populates="trips")
-    stops: Mapped[list["Stop"]] = relationship(
-        back_populates="trip", cascade="all, delete-orphan", order_by="Stop.seq"
-    )
+    stops: Mapped[list["Stop"]] = relationship(back_populates="trip", cascade="all, delete-orphan", order_by="Stop.seq")
     lines: Mapped[list["LoadLine"]] = relationship(cascade="all, delete-orphan")
 
     __table_args__ = (UniqueConstraint("plan_id", "vehicle_id", "trip_no"),)

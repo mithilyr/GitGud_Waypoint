@@ -14,14 +14,33 @@ import { useT } from "@/lib/i18n";
 
 type Note = { id: number; kind: string; title: string; body: string };
 
-export default function LoaderShell({ children }: { children: React.ReactNode }) {
+export default function LoaderShell({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   const user = useRequireRole("loader");
   const { t } = useT();
   const TABS = [
-    { href: "/loader/departures", label: t("loader.nav.departures"), match: "/loader/departures", wide: true },
-    { href: "/loader/load", label: t("loader.nav.load"), match: "/loader/load", wide: false },
+    {
+      href: "/loader/departures",
+      label: t("loader.nav.departures"),
+      match: "/loader/departures",
+      wide: true,
+    },
+    {
+      href: "/loader/load",
+      label: t("loader.nav.load"),
+      match: "/loader/load",
+      wide: false,
+    },
     { href: "/loader/issues", label: t("loader.nav.issues"), wide: true },
-    { href: "/loader/help", label: t("loader.nav.help"), also: ["/loader/settings"], wide: true },
+    {
+      href: "/loader/help",
+      label: t("loader.nav.help"),
+      also: ["/loader/settings"],
+      wide: true,
+    },
   ];
   const { logout } = useAuth();
   const router = useRouter();
@@ -41,8 +60,13 @@ export default function LoaderShell({ children }: { children: React.ReactNode })
           seen.current = rows[0].id;
           return;
         }
-        for (const n of rows.filter((r) => r.id > (seen.current ?? 0)).reverse()) {
-          toast(`${n.title}${n.body ? ` · ${n.body}` : ""}`, n.kind === "plan_changed" ? "warn" : "info");
+        for (const n of rows
+          .filter((r) => r.id > (seen.current ?? 0))
+          .reverse()) {
+          toast(
+            `${n.title}${n.body ? ` · ${n.body}` : ""}`,
+            n.kind === "plan_changed" ? "warn" : "info",
+          );
         }
         seen.current = rows[0].id;
       } catch {
@@ -75,7 +99,12 @@ export default function LoaderShell({ children }: { children: React.ReactNode })
     }
   }, [idle, user, logout, router]);
 
-  if (!user) return <div className="grid min-h-dvh place-items-center text-muted"><Spinner /></div>;
+  if (!user)
+    return (
+      <div className="grid min-h-dvh place-items-center text-muted">
+        <Spinner />
+      </div>
+    );
 
   const onLoadDetail = path.startsWith("/loader/load/");
   return (
@@ -84,7 +113,10 @@ export default function LoaderShell({ children }: { children: React.ReactNode })
       <TopBar
         home="/loader/departures"
         title={t("loader.brand")}
-        subtitle={t("loader.depotLine", { depot: user.depot ?? "", dock: user.dock ?? "" })}
+        subtitle={t("loader.depotLine", {
+          depot: user.depot ?? "",
+          dock: user.dock ?? "",
+        })}
         tabs={TABS.filter((x) => x.wide)}
         label={t("loader.nav.sections")}
         clock={{ time: hhmm(clock) }}
@@ -97,21 +129,37 @@ export default function LoaderShell({ children }: { children: React.ReactNode })
             }}
             className="flex h-9 items-center gap-2 rounded-[8px] border border-line bg-surface pl-2 pr-3 text-[13px] font-semibold"
           >
-            <span className="grid h-5 w-5 place-items-center rounded-full bg-primary text-[11px] font-semibold text-on-primary">{initial(user.name)}</span>
+            <span className="grid h-5 w-5 place-items-center rounded-full bg-primary text-[11px] font-semibold text-on-primary">
+              {initial(user.name)}
+            </span>
             {t("loader.switch", { name: user.name.split(" ")[0] })}
           </button>
         }
       />
       <div className="lg:hidden">
         <PhoneHeader
-          label={t("loader.depotDock", { depot: user.depot ?? "", dock: user.dock ?? "" })}
-          back={onLoadDetail ? "/loader/departures" : path.startsWith("/loader/settings") ? "/loader/help" : false}
+          label={t("loader.depotDock", {
+            depot: user.depot ?? "",
+            dock: user.dock ?? "",
+          })}
+          back={
+            onLoadDetail
+              ? "/loader/departures"
+              : path.startsWith("/loader/settings")
+                ? "/loader/help"
+                : false
+          }
           settings="/loader/settings"
         />
       </div>
-      <main className="mx-auto w-full max-w-[1280px] px-6 py-6 lg:px-6">{children}</main>
+      <main className="mx-auto w-full max-w-[1280px] px-6 py-6 lg:px-6">
+        {children}
+      </main>
       <WaypointString compact still className="mt-auto pt-10 lg:hidden" />
-      <WaypointString still className="fixed inset-x-0 bottom-0 -z-10 hidden lg:block" />
+      <WaypointString
+        still
+        className="fixed inset-x-0 bottom-0 -z-10 hidden lg:block"
+      />
       <BottomTabs tabs={TABS} />
     </div>
   );

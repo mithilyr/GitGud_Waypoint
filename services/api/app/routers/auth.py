@@ -32,9 +32,7 @@ def user_json(u: User, db: Session) -> dict:
         "dock": u.dock,
         "driver_code": u.driver_code,
         "vehicle_id": u.vehicle_id,
-        "outlet": {"id": outlet.outlet_id, "name": outlet.name, "brand": outlet.brand, "district": outlet.district}
-        if outlet
-        else None,
+        "outlet": {"id": outlet.outlet_id, "name": outlet.name, "brand": outlet.brand, "district": outlet.district} if outlet else None,
     }
 
 

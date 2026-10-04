@@ -8,7 +8,8 @@ export function usePref<T extends string | boolean>(key: string, initial: T) {
   useEffect(() => {
     try {
       const saved = localStorage.getItem(key);
-      if (saved !== null) setValue((typeof initial === "boolean" ? saved === "1" : saved) as T);
+      if (saved !== null)
+        setValue((typeof initial === "boolean" ? saved === "1" : saved) as T);
     } catch {
       /* ignore */
     }
@@ -18,7 +19,10 @@ export function usePref<T extends string | boolean>(key: string, initial: T) {
     (next: T) => {
       setValue(next);
       try {
-        localStorage.setItem(key, typeof next === "boolean" ? (next ? "1" : "0") : next);
+        localStorage.setItem(
+          key,
+          typeof next === "boolean" ? (next ? "1" : "0") : next,
+        );
       } catch {
         /* ignore */
       }

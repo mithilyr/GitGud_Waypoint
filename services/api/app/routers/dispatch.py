@@ -83,9 +83,7 @@ def context(user: User = Dispatcher) -> dict:
 @router.get("/queue")
 def queue(depot: str, date: date, user: User = Dispatcher, db: Session = Depends(get_db)) -> dict:
     orders = queue_orders(db, depot, date)
-    deferred_out = list(
-        db.scalars(select(Order).where(Order.depot == depot, Order.service_date == date, Order.status == "deferred"))
-    )
+    deferred_out = list(db.scalars(select(Order).where(Order.depot == depot, Order.service_date == date, Order.status == "deferred")))
     rows = []
     for o in orders + deferred_out:
         ol = o.outlet
@@ -108,9 +106,9 @@ def queue(depot: str, date: date, user: User = Dispatcher, db: Session = Depends
                 "district": o.district,
                 "weight_kg": o.weight_kg,
                 "volume_m3": o.volume_m3,
-                "window": f"Mall window {ol.mall_window}" if ol.mall_window else (
-                    f"Before {ol.window_close_time}" if o.brand == "Fresh" else f"{ol.window_open_time}–{ol.window_close_time}"
-                ),
+                "window": f"Mall window {ol.mall_window}"
+                if ol.mall_window
+                else (f"Before {ol.window_close_time}" if o.brand == "Fresh" else f"{ol.window_open_time}–{ol.window_close_time}"),
                 "flags": flags,
                 "status": o.status,
                 "days_since_last_served": o.days_since_last_served,
@@ -211,8 +209,15 @@ def resolve(cid: int, body: ResolveBody, user: User = Dispatcher, db: Session = 
         label = {"accept_store": "the store's count", "accept_driver": "your count", "acknowledged": "the change"}.get(
             body.action, "the change"
         )
-        notify(db, role="driver", user_id=drv.id, kind="conflict_resolved", title=f"{s.outlet.name}: settled",
-               body=f"Ruwan accepted {label}.", meta={"conflict_id": c.id})
+        notify(
+            db,
+            role="driver",
+            user_id=drv.id,
+            kind="conflict_resolved",
+            title=f"{s.outlet.name}: settled",
+            body=f"Ruwan accepted {label}.",
+            meta={"conflict_id": c.id},
+        )
     db.commit()
     return {"ok": True}
 
@@ -228,10 +233,15 @@ def answer_flag(line_id: int, body: AnswerBody, user: User = Dispatcher, db: Ses
     if body.note:
         ln.flag_note = (ln.flag_note or "") + f" · {user.name}: {body.note}"
     trip = db.get(Trip, ln.trip_id)
-    notify(db, role="loader", depot=trip.plan.depot, kind="flag_answered",
-           title=f"{user.name.split()[0]} answered your flag",
-           body=f"{ln.group}: " + ("top up from another vehicle" if body.answer == "top_up" else "send as is"),
-           meta={"trip_id": trip.id, "line_id": ln.id})
+    notify(
+        db,
+        role="loader",
+        depot=trip.plan.depot,
+        kind="flag_answered",
+        title=f"{user.name.split()[0]} answered your flag",
+        body=f"{ln.group}: " + ("top up from another vehicle" if body.answer == "top_up" else "send as is"),
+        meta={"trip_id": trip.id, "line_id": ln.id},
+    )
     db.commit()
     return {"ok": True}
 
@@ -244,7 +254,4 @@ def demand_outlook(start: date | None = None, user: User = Dispatcher, db: Sessi
 @router.get("/notifications")
 def notifications(user: User = Dispatcher, db: Session = Depends(get_db)) -> list[dict]:
     rows = db.scalars(select(Notification).where(Notification.role == "dispatcher").order_by(Notification.id.desc()).limit(30))
-    return [
-        {"id": n.id, "kind": n.kind, "title": n.title, "body": n.body, "at": lk_hhmm(n.created_at), "meta": n.meta} for n in rows
-    ]
-
+    return [{"id": n.id, "kind": n.kind, "title": n.title, "body": n.body, "at": lk_hhmm(n.created_at), "meta": n.meta} for n in rows]

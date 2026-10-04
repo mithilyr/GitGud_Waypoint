@@ -9,9 +9,7 @@ from app.security import decode_token
 _bearer = HTTPBearer(auto_error=False)
 
 
-def current_user(
-    cred: HTTPAuthorizationCredentials | None = Depends(_bearer), db: Session = Depends(get_db)
-) -> User:
+def current_user(cred: HTTPAuthorizationCredentials | None = Depends(_bearer), db: Session = Depends(get_db)) -> User:
     if cred is None:
         raise HTTPException(status.HTTP_401_UNAUTHORIZED, "Sign in first")
     try:

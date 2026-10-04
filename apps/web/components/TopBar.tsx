@@ -4,7 +4,13 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Icon, Logo } from "./ui";
 
-export type TopTab = { href: string; label: string; match?: string; also?: string[]; exact?: boolean };
+export type TopTab = {
+  href: string;
+  label: string;
+  match?: string;
+  also?: string[];
+  exact?: boolean;
+};
 
 const SHOW_FROM = { md: "hidden md:flex", lg: "hidden lg:flex" } as const;
 
@@ -36,19 +42,34 @@ export function TopBar({
 }) {
   const path = usePathname();
   return (
-    <header className={`sticky top-0 z-30 h-16 items-center gap-4 border-b border-line bg-surface px-6 ${SHOW_FROM[from]}`}>
+    <header
+      className={`sticky top-0 z-30 h-16 items-center gap-4 border-b border-line bg-surface px-6 ${SHOW_FROM[from]}`}
+    >
       <Link href={home} className="flex items-center gap-3">
         <Logo size={38} />
         <div className="leading-tight">
           <div className="text-[15px] font-semibold">{title}</div>
-          {subtitle ? <div className="text-[12px] font-medium text-muted">{subtitle}</div> : null}
+          {subtitle ? (
+            <div className="text-[12px] font-medium text-muted">{subtitle}</div>
+          ) : null}
         </div>
       </Link>
-      <nav className="mx-auto flex rounded-[8px] bg-neutral p-0.5" aria-label={label}>
+      <nav
+        className="mx-auto flex rounded-[8px] bg-neutral p-0.5"
+        aria-label={label}
+      >
         {tabs.map((t) => {
-          const on = t.exact ? path === t.href : [t.match ?? t.href, ...(t.also ?? [])].some((m) => path.startsWith(m));
+          const on = t.exact
+            ? path === t.href
+            : [t.match ?? t.href, ...(t.also ?? [])].some((m) =>
+                path.startsWith(m),
+              );
           return (
-            <Link key={t.href} href={t.href} className={`flex h-8 items-center rounded-[6px] px-5 text-[14px] ${on ? "border border-line bg-surface font-semibold text-ink" : "font-medium text-muted hover:text-ink"}`}>
+            <Link
+              key={t.href}
+              href={t.href}
+              className={`flex h-8 items-center rounded-[6px] px-5 text-[14px] ${on ? "border border-line bg-surface font-semibold text-ink" : "font-medium text-muted hover:text-ink"}`}
+            >
               {t.label}
             </Link>
           );
@@ -56,12 +77,21 @@ export function TopBar({
       </nav>
       {clock ? (
         <div className="text-right leading-tight">
-          <div className="font-data text-[15px] font-semibold tabular">{clock.time}</div>
-          {clock.date ? <div className="text-[11px] text-muted">{clock.date}</div> : null}
+          <div className="font-data text-[15px] font-semibold tabular">
+            {clock.time}
+          </div>
+          {clock.date ? (
+            <div className="text-[11px] text-muted">{clock.date}</div>
+          ) : null}
         </div>
       ) : null}
       {settings ? (
-        <Link href={settings.href} aria-label={settings.label} title={settings.label} className="grid h-9 w-9 place-items-center rounded-[8px] text-muted hover:bg-neutral hover:text-ink">
+        <Link
+          href={settings.href}
+          aria-label={settings.label}
+          title={settings.label}
+          className="grid h-9 w-9 place-items-center rounded-[8px] text-muted hover:bg-neutral hover:text-ink"
+        >
           <Icon.Settings />
         </Link>
       ) : null}

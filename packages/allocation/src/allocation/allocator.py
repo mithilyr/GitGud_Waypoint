@@ -10,6 +10,7 @@
 4. Anything left over becomes a Deferral with a reason code.
 Every returned Plan passes rules.validate() with zero violations.
 """
+
 from collections import defaultdict
 from collections.abc import Iterable
 

@@ -1,5 +1,9 @@
 /** Reads a photo the user picked and shrinks it to a small JPEG data URL (fits an offline outbox and the API). */
-export async function shrinkPhoto(file: File, maxSide = 900, quality = 0.7): Promise<string> {
+export async function shrinkPhoto(
+  file: File,
+  maxSide = 900,
+  quality = 0.7,
+): Promise<string> {
   const bitmap = await createImageBitmap(file);
   const scale = Math.min(1, maxSide / Math.max(bitmap.width, bitmap.height));
   const canvas = document.createElement("canvas");

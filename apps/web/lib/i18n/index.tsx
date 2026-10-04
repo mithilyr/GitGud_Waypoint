@@ -1,6 +1,13 @@
 "use client";
 
-import { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import { setDateLocale } from "../format";
 import { en, type Key } from "./en";
 import { si } from "./si";
@@ -16,12 +23,20 @@ export const LANGS: { value: Lang; label: string }[] = [
 const dict: Record<Lang, Record<Key, string>> = { en, si, ta };
 const LANG_KEY = "wp_lang";
 
-export function translate(lang: Lang, key: Key, vars: Record<string, string | number> = {}): string {
+export function translate(
+  lang: Lang,
+  key: Key,
+  vars: Record<string, string | number> = {},
+): string {
   const raw = dict[lang][key] ?? en[key] ?? key;
   return raw.replace(/\{(\w+)\}/g, (_, k) => String(vars[k] ?? ""));
 }
 
-type Ctx = { lang: Lang; setLang: (l: Lang) => void; t: (key: Key, vars?: Record<string, string | number>) => string };
+type Ctx = {
+  lang: Lang;
+  setLang: (l: Lang) => void;
+  t: (key: Key, vars?: Record<string, string | number>) => string;
+};
 const LangContext = createContext<Ctx | null>(null);
 
 export function LanguageProvider({ children }: { children: React.ReactNode }) {
@@ -52,7 +67,10 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
     }
   }, []);
 
-  const value = useMemo<Ctx>(() => ({ lang, setLang, t: (key, vars) => translate(lang, key, vars) }), [lang, setLang]);
+  const value = useMemo<Ctx>(
+    () => ({ lang, setLang, t: (key, vars) => translate(lang, key, vars) }),
+    [lang, setLang],
+  );
   return <LangContext.Provider value={value}>{children}</LangContext.Provider>;
 }
 

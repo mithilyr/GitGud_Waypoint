@@ -7,7 +7,8 @@ export const driverEn = {
   sync: "Sync",
   help: "Help",
   tripLeaves: "Trip {n} leaves at {t}.",
-  homeLede: "{count} {brand} stops in {district}. Everything is loaded and saved to your phone.",
+  homeLede:
+    "{count} {brand} stops in {district}. Everything is loaded and saved to your phone.",
   vehicle: "Vehicle",
   beforeYouLeave: "Before you leave",
   runSaved: "Run saved for offline use",
@@ -40,6 +41,16 @@ import { disp } from "./domains/disp";
 import { loader } from "./domains/loader";
 import { driver as driverDomain } from "./domains/driver";
 
-export const en = { ...driverEn, ...common.en, ...store.en, ...storeTrack.en, ...storeMisc.en, ...auth.en, ...disp.en, ...loader.en, ...driverDomain.en } as const;
+export const en = {
+  ...driverEn,
+  ...common.en,
+  ...store.en,
+  ...storeTrack.en,
+  ...storeMisc.en,
+  ...auth.en,
+  ...disp.en,
+  ...loader.en,
+  ...driverDomain.en,
+} as const;
 
 export type Key = keyof typeof en;

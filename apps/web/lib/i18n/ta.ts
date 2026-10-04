@@ -14,7 +14,8 @@ const driver: Record<keyof typeof driverEn, string> = {
   sync: "ஒத்திசை",
   help: "உதவி",
   tripLeaves: "பயணம் {n} {t} மணிக்குப் புறப்படும்.",
-  homeLede: "{district} {brand} நிறுத்தங்கள் {count}. அனைத்தும் ஏற்றப்பட்டு தொலைபேசியில் சேமிக்கப்பட்டுள்ளது.",
+  homeLede:
+    "{district} {brand} நிறுத்தங்கள் {count}. அனைத்தும் ஏற்றப்பட்டு தொலைபேசியில் சேமிக்கப்பட்டுள்ளது.",
   vehicle: "வாகனம்",
   beforeYouLeave: "புறப்படுவதற்கு முன்",
   runSaved: "பயணம் ஆஃப்லைனுக்காக சேமிக்கப்பட்டது",
@@ -38,4 +39,14 @@ const driver: Record<keyof typeof driverEn, string> = {
   tripDone: "பயணம் முடிந்தது.",
 };
 
-export const ta: Record<Key, string> = { ...driver, ...common.ta, ...store.ta, ...storeTrack.ta, ...storeMisc.ta, ...auth.ta, ...disp.ta, ...loader.ta, ...driverDomain.ta };
+export const ta: Record<Key, string> = {
+  ...driver,
+  ...common.ta,
+  ...store.ta,
+  ...storeTrack.ta,
+  ...storeMisc.ta,
+  ...auth.ta,
+  ...disp.ta,
+  ...loader.ta,
+  ...driverDomain.ta,
+};

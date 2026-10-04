@@ -15,14 +15,17 @@ export const disp = defineDomain({
     "disp.menu.depot": "Depot",
     "disp.menu.settings": "Settings",
     "disp.menu.reset": "Reset the demo day",
-    "disp.menu.resetConfirm": "Reset the demo day? All orders, plans, loads and deliveries go back to the start.",
+    "disp.menu.resetConfirm":
+      "Reset the demo day? All orders, plans, loads and deliveries go back to the start.",
     "disp.menu.resetDone": "Demo day reset. Queue restored.",
     // Orders
     "disp.orders.eyebrow": "Orders · {depot} depot · for {date}",
     "disp.orders.title": "{n} orders queued for {day}.",
     "disp.orders.chilled": "{n} are chilled and need a reefer slot.",
-    "disp.orders.skipOne": " {names} was skipped on the last run, so it is planned first.",
-    "disp.orders.skipMany": " {names} were skipped on the last run, so they are planned first.",
+    "disp.orders.skipOne":
+      " {names} was skipped on the last run, so it is planned first.",
+    "disp.orders.skipMany":
+      " {names} were skipped on the last run, so they are planned first.",
     "disp.orders.col.order": "Order",
     "disp.orders.col.outlet": "Outlet",
     "disp.orders.col.brand": "Brand",
@@ -44,17 +47,23 @@ export const disp = defineDomain({
     "disp.orders.build": "Build {day}’s plan →",
     // Plan
     "disp.plan.eyebrow": "Plan · {date} · {depot} depot",
-    "disp.plan.eyebrowReleased": "Plan · {date} · {depot} depot · released, v{v}",
+    "disp.plan.eyebrowReleased":
+      "Plan · {date} · {depot} depot · released, v{v}",
     "disp.plan.none": "No plan yet.",
-    "disp.plan.noneBody": "The engine assigns every queued order to a vehicle and trip, or defers it with a reason. You review and release.",
+    "disp.plan.noneBody":
+      "The engine assigns every queued order to a vehicle and trip, or defers it with a reason. You review and release.",
     "disp.plan.buildNow": "Build the plan →",
     "disp.plan.released": "Plan released.",
     "disp.plan.ready": "Plan ready to release.",
     "disp.plan.assigned": "{a} of {b} vehicles assigned.",
-    "disp.plan.releasedBody": "Any change now reaches the loader and driver as a clear notice with what to add and take off.",
-    "disp.plan.readyBody": "No blocking warnings. Releasing sends load lists to the {depot} dock and runs to drivers.",
-    "disp.plan.readyBodyDeferred": "No blocking warnings. {n} orders are deferred with a reason each. Releasing sends load lists to the {depot} dock and runs to drivers.",
-    "disp.plan.blockBody": "{u} unassigned, {b} rule warning(s). Fix them before you release the plan.",
+    "disp.plan.releasedBody":
+      "Any change now reaches the loader and driver as a clear notice with what to add and take off.",
+    "disp.plan.readyBody":
+      "No blocking warnings. Releasing sends load lists to the {depot} dock and runs to drivers.",
+    "disp.plan.readyBodyDeferred":
+      "No blocking warnings. {n} orders are deferred with a reason each. Releasing sends load lists to the {depot} dock and runs to drivers.",
+    "disp.plan.blockBody":
+      "{u} unassigned, {b} rule warning(s). Fix them before you release the plan.",
     "disp.plan.col.vehicle": "Vehicle",
     "disp.plan.col.trip1": "Trip 1",
     "disp.plan.col.trip2": "Trip 2",
@@ -69,14 +78,18 @@ export const disp = defineDomain({
     "disp.plan.secondSkip": "2nd skip in a row",
     "disp.plan.planned": "{outlet} planned on {v}. Check the warnings.",
     "disp.plan.couldNotMove": "Could not move",
-    "disp.plan.footReleased": "Released. Edits above notify the dock and the driver.",
-    "disp.plan.footReady": "No warnings. Releasing sends load lists to the dock and runs to drivers.",
-    "disp.plan.footBlock": "{n} warning(s) block release. Open a row to reassign or defer.",
+    "disp.plan.footReleased":
+      "Released. Edits above notify the dock and the driver.",
+    "disp.plan.footReady":
+      "No warnings. Releasing sends load lists to the dock and runs to drivers.",
+    "disp.plan.footBlock":
+      "{n} warning(s) block release. Open a row to reassign or defer.",
     "disp.plan.rebuild": "Rebuild",
     "disp.plan.openLive": "Open live runs →",
     "disp.plan.release": "Release plan →",
     "disp.plan.fix": "Fix warnings to release",
-    "disp.plan.releasedToast": "Plan released. Load lists are on the dock tablet and runs are on the drivers' phones.",
+    "disp.plan.releasedToast":
+      "Plan released. Load lists are on the dock tablet and runs are on the drivers' phones.",
     "disp.plan.workshop": "Workshop",
     "disp.plan.notAssigned": "Not assigned",
     "disp.plan.tripCell": "{brand} · {district} · {n} stop(s)",
@@ -98,7 +111,8 @@ export const disp = defineDomain({
     "disp.plan.deferEyebrow": "Defer order · {id}",
     "disp.plan.kindDry": "dry",
     "disp.plan.alreadySkipped": "Already skipped on the last run.",
-    "disp.plan.alreadySkippedBody": " Deferring again makes it the 2nd skip in a row. The store is told either way.",
+    "disp.plan.alreadySkippedBody":
+      " Deferring again makes it the 2nd skip in a row. The store is told either way.",
     "disp.plan.reason": "Reason",
     "disp.plan.reason.capacity_volume": "Capacity (volume)",
     "disp.plan.reason.capacity_weight": "Capacity (weight)",
@@ -108,15 +122,18 @@ export const disp = defineDomain({
     "disp.plan.reason.fuel_quota": "Fuel quota",
     "disp.plan.reason.manual": "Manual",
     "disp.plan.note": "Note (optional)",
-    "disp.plan.notePlaceholder": "e.g. Borrowed VEH057's slot for Peradeniya instead",
+    "disp.plan.notePlaceholder":
+      "e.g. Borrowed VEH057's slot for Peradeniya instead",
     "disp.plan.deferTo": "Defer to {date}",
     "disp.plan.deferToNext": "Defer to the next run",
-    "disp.plan.deferredToast": "Deferred. The store has been told the reason and the new date.",
+    "disp.plan.deferredToast":
+      "Deferred. The store has been told the reason and the new date.",
     // Live
     "disp.live.eyebrow": "Live runs · {depot} depot · {date}",
     "disp.live.eyebrowNone": "Live runs · {depot} depot",
     "disp.live.nothing": "Nothing is out yet.",
-    "disp.live.nothingBody": "Release the plan and the live board fills as loaders release vehicles and drivers start their runs.",
+    "disp.live.nothingBody":
+      "Release the plan and the live board fills as loaders release vehicles and drivers start their runs.",
     "disp.live.goPlan": "Go to the plan board →",
     "disp.live.title": "{out} vehicle(s) out. {needs}",
     "disp.live.needsSome": "{n} need(s) you.",
@@ -142,7 +159,8 @@ export const disp = defineDomain({
     "disp.live.backOnline": "Back online {t}",
     "disp.live.whatOffline": "What happened offline",
     "disp.live.synced": "synced {t}",
-    "disp.live.offlineNote": "Every offline record keeps the phone’s timestamp, so the order of events is kept even when uploads arrive late.",
+    "disp.live.offlineNote":
+      "Every offline record keeps the phone’s timestamp, so the order of events is kept even when uploads arrive late.",
     "disp.live.col.vehicle": "Vehicle",
     "disp.live.col.trip": "Trip",
     "disp.live.col.progress": "Progress",
@@ -156,8 +174,10 @@ export const disp = defineDomain({
     "disp.live.secondSkip": "2nd skip",
     "disp.live.issuesOpen": "Store reports open for: {list}.",
     // Demand
-    "disp.demand.eyebrow": "Demand outlook · both depots · next 2 weeks · from {date}",
-    "disp.demand.lede": "Forecast chilled demand is drawn against usable reefer capacity. Days over the line turn red and come with a concrete action. No action moves vehicles between depots.",
+    "disp.demand.eyebrow":
+      "Demand outlook · both depots · next 2 weeks · from {date}",
+    "disp.demand.lede":
+      "Forecast chilled demand is drawn against usable reefer capacity. Days over the line turn red and come with a concrete action. No action moves vehicles between depots.",
     "disp.demand.demand": "Chilled demand",
     "disp.demand.capacity": "Reefer capacity",
     "disp.demand.atRisk": "At risk",
@@ -168,16 +188,20 @@ export const disp = defineDomain({
     // Settings (D5)
     "disp.settings.sub": "{who} · Dispatcher · Peliyagoda planning office",
     "disp.settings.alerts": "ALERTS",
-    "disp.settings.darkSub": "Light for the office, dark for late planning sessions",
+    "disp.settings.darkSub":
+      "Light for the office, dark for late planning sessions",
     "disp.settings.lateRisk": "Late-risk warning",
-    "disp.settings.lateRiskSub": "Warn me when a stop's chance of running late passes this",
+    "disp.settings.lateRiskSub":
+      "Warn me when a stop's chance of running late passes this",
     "disp.settings.lateRiskValue": "Above 60%",
     "disp.settings.skipped": "Skipped-outlet warning",
-    "disp.settings.skippedSub": "Warn before an outlet is skipped twice in a row",
+    "disp.settings.skippedSub":
+      "Warn before an outlet is skipped twice in a row",
     "disp.settings.planReady": "Plan-ready reminder",
     "disp.settings.planReadySub": "The plan is due by 18:00",
     "disp.settings.syncConflicts": "Sync conflicts",
-    "disp.settings.syncConflictsSub": "Sound when a driver syncs a count that differs",
+    "disp.settings.syncConflictsSub":
+      "Sound when a driver syncs a count that differs",
     "disp.settings.liveBoard": "LIVE BOARD",
     "disp.settings.depotsShown": "Depots shown",
     "disp.settings.both": "Both",
@@ -196,13 +220,16 @@ export const disp = defineDomain({
     "disp.menu.depot": "ඩිපෝව",
     "disp.menu.settings": "සැකසුම්",
     "disp.menu.reset": "ආදර්ශන දිනය යළි සකසන්න",
-    "disp.menu.resetConfirm": "ආදර්ශන දිනය යළි සකසන්නද? සියලු ඇණවුම්, සැලසුම්, පැටවීම් සහ බෙදාහැරීම් ආරම්භයට පැමිණේ.",
+    "disp.menu.resetConfirm":
+      "ආදර්ශන දිනය යළි සකසන්නද? සියලු ඇණවුම්, සැලසුම්, පැටවීම් සහ බෙදාහැරීම් ආරම්භයට පැමිණේ.",
     "disp.menu.resetDone": "ආදර්ශන දිනය යළි සකස් කළා. පෝලිම යළි පිහිටුවා ඇත.",
     "disp.orders.eyebrow": "ඇණවුම් · {depot} ඩිපෝව · {date} සඳහා",
     "disp.orders.title": "{day} සඳහා ඇණවුම් {n}ක්.",
     "disp.orders.chilled": "{n}ක් සිසිල් බඩු, සිසිල් වාහන අවශ්‍යයි.",
-    "disp.orders.skipOne": " {names} පසුගිය ධාවනයේ මඟහැරුණි, එබැවින් පළමුව සැලසුම් කෙරේ.",
-    "disp.orders.skipMany": " {names} පසුගිය ධාවනයේ මඟහැරුණි, එබැවින් පළමුව සැලසුම් කෙරේ.",
+    "disp.orders.skipOne":
+      " {names} පසුගිය ධාවනයේ මඟහැරුණි, එබැවින් පළමුව සැලසුම් කෙරේ.",
+    "disp.orders.skipMany":
+      " {names} පසුගිය ධාවනයේ මඟහැරුණි, එබැවින් පළමුව සැලසුම් කෙරේ.",
     "disp.orders.col.order": "ඇණවුම",
     "disp.orders.col.outlet": "අලෙවිසැල",
     "disp.orders.col.brand": "වෙළඳ නාමය",
@@ -223,17 +250,23 @@ export const disp = defineDomain({
     "disp.orders.openPlan": "සැලසුම විවෘත කරන්න →",
     "disp.orders.build": "{day} සැලසුම සකසන්න →",
     "disp.plan.eyebrow": "සැලසුම · {date} · {depot} ඩිපෝව",
-    "disp.plan.eyebrowReleased": "සැලසුම · {date} · {depot} ඩිපෝව · නිකුත් කළා, v{v}",
+    "disp.plan.eyebrowReleased":
+      "සැලසුම · {date} · {depot} ඩිපෝව · නිකුත් කළා, v{v}",
     "disp.plan.none": "තවම සැලසුමක් නැත.",
-    "disp.plan.noneBody": "එන්ජිම සෑම පෝලිම් ඇණවුමක්ම වාහනයකට සහ ගමනකට පවරයි, නැතහොත් හේතුවක් සමඟ කල් දමයි. ඔබ සමාලෝචනය කර නිකුත් කරන්න.",
+    "disp.plan.noneBody":
+      "එන්ජිම සෑම පෝලිම් ඇණවුමක්ම වාහනයකට සහ ගමනකට පවරයි, නැතහොත් හේතුවක් සමඟ කල් දමයි. ඔබ සමාලෝචනය කර නිකුත් කරන්න.",
     "disp.plan.buildNow": "සැලසුම සකසන්න →",
     "disp.plan.released": "සැලසුම නිකුත් කළා.",
     "disp.plan.ready": "සැලසුම නිකුත් කිරීමට සූදානම්.",
     "disp.plan.assigned": "වාහන {b}න් {a}ක් පවරා ඇත.",
-    "disp.plan.releasedBody": "දැන් ඕනෑම වෙනසක් පැටවුම්කරුට සහ රියදුරුට එක් කළ යුතු සහ ඉවත් කළ යුතු දේ සමඟ පැහැදිලි දැනුම්දීමක් ලෙස ලැබේ.",
-    "disp.plan.readyBody": "අවහිර කරන අනතුරු ඇඟවීම් නැත. නිකුත් කිරීමෙන් {depot} ඩොක් එකට පැටවුම් ලැයිස්තු සහ රියදුරන්ට ධාවන යැවේ.",
-    "disp.plan.readyBodyDeferred": "අවහිර කරන අනතුරු ඇඟවීම් නැත. ඇණවුම් {n}ක් හේතුවක් සමඟ කල් දමා ඇත. නිකුත් කිරීමෙන් {depot} ඩොක් එකට පැටවුම් ලැයිස්තු සහ රියදුරන්ට ධාවන යැවේ.",
-    "disp.plan.blockBody": "පවරා නැති {u}ක්, නීති අනතුරු ඇඟවීම් {b}ක්. සැලසුම නිකුත් කිරීමට පෙර ඒවා නිවැරදි කරන්න.",
+    "disp.plan.releasedBody":
+      "දැන් ඕනෑම වෙනසක් පැටවුම්කරුට සහ රියදුරුට එක් කළ යුතු සහ ඉවත් කළ යුතු දේ සමඟ පැහැදිලි දැනුම්දීමක් ලෙස ලැබේ.",
+    "disp.plan.readyBody":
+      "අවහිර කරන අනතුරු ඇඟවීම් නැත. නිකුත් කිරීමෙන් {depot} ඩොක් එකට පැටවුම් ලැයිස්තු සහ රියදුරන්ට ධාවන යැවේ.",
+    "disp.plan.readyBodyDeferred":
+      "අවහිර කරන අනතුරු ඇඟවීම් නැත. ඇණවුම් {n}ක් හේතුවක් සමඟ කල් දමා ඇත. නිකුත් කිරීමෙන් {depot} ඩොක් එකට පැටවුම් ලැයිස්තු සහ රියදුරන්ට ධාවන යැවේ.",
+    "disp.plan.blockBody":
+      "පවරා නැති {u}ක්, නීති අනතුරු ඇඟවීම් {b}ක්. සැලසුම නිකුත් කිරීමට පෙර ඒවා නිවැරදි කරන්න.",
     "disp.plan.col.vehicle": "වාහනය",
     "disp.plan.col.trip1": "ගමන 1",
     "disp.plan.col.trip2": "ගමන 2",
@@ -246,16 +279,21 @@ export const disp = defineDomain({
     "disp.plan.engine": "එන්ජිම",
     "disp.plan.toDate": "{who} · {date} වෙත",
     "disp.plan.secondSkip": "දිගටම දෙවන වරට මඟහැරීම",
-    "disp.plan.planned": "{outlet} {v} මත සැලසුම් කළා. අනතුරු ඇඟවීම් පරීක්ෂා කරන්න.",
+    "disp.plan.planned":
+      "{outlet} {v} මත සැලසුම් කළා. අනතුරු ඇඟවීම් පරීක්ෂා කරන්න.",
     "disp.plan.couldNotMove": "මාරු කළ නොහැකි විය",
-    "disp.plan.footReleased": "නිකුත් කළා. ඉහත සංස්කරණ ඩොක් එකට සහ රියදුරුට දැනුම් දෙයි.",
-    "disp.plan.footReady": "අනතුරු ඇඟවීම් නැත. නිකුත් කිරීමෙන් ඩොක් එකට පැටවුම් ලැයිස්තු සහ රියදුරන්ට ධාවන යැවේ.",
-    "disp.plan.footBlock": "අනතුරු ඇඟවීම් {n}ක් නිකුත් කිරීම අවහිර කරයි. නැවත පවරන්න හෝ කල් දමන්න පේළියක් විවෘත කරන්න.",
+    "disp.plan.footReleased":
+      "නිකුත් කළා. ඉහත සංස්කරණ ඩොක් එකට සහ රියදුරුට දැනුම් දෙයි.",
+    "disp.plan.footReady":
+      "අනතුරු ඇඟවීම් නැත. නිකුත් කිරීමෙන් ඩොක් එකට පැටවුම් ලැයිස්තු සහ රියදුරන්ට ධාවන යැවේ.",
+    "disp.plan.footBlock":
+      "අනතුරු ඇඟවීම් {n}ක් නිකුත් කිරීම අවහිර කරයි. නැවත පවරන්න හෝ කල් දමන්න පේළියක් විවෘත කරන්න.",
     "disp.plan.rebuild": "නැවත සකසන්න",
     "disp.plan.openLive": "සජීවී ධාවන විවෘත කරන්න →",
     "disp.plan.release": "සැලසුම නිකුත් කරන්න →",
     "disp.plan.fix": "නිකුත් කිරීමට අනතුරු ඇඟවීම් නිවැරදි කරන්න",
-    "disp.plan.releasedToast": "සැලසුම නිකුත් කළා. පැටවුම් ලැයිස්තු ඩොක් ටැබ්ලටයේ ද ධාවන රියදුරන්ගේ දුරකථනවල ද ඇත.",
+    "disp.plan.releasedToast":
+      "සැලසුම නිකුත් කළා. පැටවුම් ලැයිස්තු ඩොක් ටැබ්ලටයේ ද ධාවන රියදුරන්ගේ දුරකථනවල ද ඇත.",
     "disp.plan.workshop": "වැඩමුළුව",
     "disp.plan.notAssigned": "පවරා නැත",
     "disp.plan.tripCell": "{brand} · {district} · නැවතුම් {n}",
@@ -269,7 +307,8 @@ export const disp = defineDomain({
     "disp.plan.movedToast": "{v} වෙත මාරු කළා. අනතුරු ඇඟවීම් යාවත්කාලීන කළා.",
     "disp.plan.defer": "කල් දමන්න",
     "disp.plan.vehicle": "වාහනය",
-    "disp.plan.trip": "ගමන {n} · {brand} · {district} · {t}ට පිටත් වේ · මිනිත්තු {m}",
+    "disp.plan.trip":
+      "ගමන {n} · {brand} · {district} · {t}ට පිටත් වේ · මිනිත්තු {m}",
     "disp.plan.stopLine": "{id} · {w} · {v} · ආසන්න වේලාව {eta}",
     "disp.plan.skippedLast": "පසුගිය ධාවනයේ මඟහැරුණි",
     "disp.plan.nothingAssigned": "මෙම වාහනයට කිසිවක් පවරා නැත.",
@@ -277,7 +316,8 @@ export const disp = defineDomain({
     "disp.plan.deferEyebrow": "ඇණවුම කල් දමන්න · {id}",
     "disp.plan.kindDry": "වියළි",
     "disp.plan.alreadySkipped": "පසුගිය ධාවනයේ දැනටමත් මඟහැරුණි.",
-    "disp.plan.alreadySkippedBody": " නැවත කල් දැමීමෙන් දිගටම දෙවන වරට මඟහැරේ. කෙසේ වුවත් අලෙවිසැලට දැනුම් දෙයි.",
+    "disp.plan.alreadySkippedBody":
+      " නැවත කල් දැමීමෙන් දිගටම දෙවන වරට මඟහැරේ. කෙසේ වුවත් අලෙවිසැලට දැනුම් දෙයි.",
     "disp.plan.reason": "හේතුව",
     "disp.plan.reason.capacity_volume": "ධාරිතාව (පරිමාව)",
     "disp.plan.reason.capacity_weight": "ධාරිතාව (බර)",
@@ -287,14 +327,17 @@ export const disp = defineDomain({
     "disp.plan.reason.fuel_quota": "ඉන්ධන කෝටාව",
     "disp.plan.reason.manual": "අතින්",
     "disp.plan.note": "සටහන (විකල්ප)",
-    "disp.plan.notePlaceholder": "උදා. පේරාදෙණිය සඳහා VEH057 හි ස්ථානය ලබා ගත්තා",
+    "disp.plan.notePlaceholder":
+      "උදා. පේරාදෙණිය සඳහා VEH057 හි ස්ථානය ලබා ගත්තා",
     "disp.plan.deferTo": "{date} වෙත කල් දමන්න",
     "disp.plan.deferToNext": "ඊළඟ ධාවනයට කල් දමන්න",
-    "disp.plan.deferredToast": "කල් දැමුවා. අලෙවිසැලට හේතුව සහ නව දිනය දැනුම් දුන්නා.",
+    "disp.plan.deferredToast":
+      "කල් දැමුවා. අලෙවිසැලට හේතුව සහ නව දිනය දැනුම් දුන්නා.",
     "disp.live.eyebrow": "සජීවී ධාවන · {depot} ඩිපෝව · {date}",
     "disp.live.eyebrowNone": "සජීවී ධාවන · {depot} ඩිපෝව",
     "disp.live.nothing": "තවම කිසිවක් පිටත්ව නැත.",
-    "disp.live.nothingBody": "සැලසුම නිකුත් කරන්න. පැටවුම්කරුවන් වාහන මුදාහරින විට සහ රියදුරන් ධාවන ආරම්භ කරන විට සජීවී පුවරුව පිරේ.",
+    "disp.live.nothingBody":
+      "සැලසුම නිකුත් කරන්න. පැටවුම්කරුවන් වාහන මුදාහරින විට සහ රියදුරන් ධාවන ආරම්භ කරන විට සජීවී පුවරුව පිරේ.",
     "disp.live.goPlan": "සැලසුම් පුවරුවට යන්න →",
     "disp.live.title": "වාහන {out}ක් පිටත්ව ඇත. {needs}",
     "disp.live.needsSome": "{n}ක් ඔබ අවශ්‍යයි.",
@@ -312,15 +355,18 @@ export const disp = defineDomain({
     "disp.live.ack": "පිළිගන්න",
     "disp.live.noted": "සටහන් කළා.",
     "disp.live.topUp": "පුරවන්න",
-    "disp.live.topUpToast": "වෙනත් වාහනයකින් පුරවන ලෙස පැටවුම්කරුට දැනුම් දුන්නා.",
+    "disp.live.topUpToast":
+      "වෙනත් වාහනයකින් පුරවන ලෙස පැටවුම්කරුට දැනුම් දුන්නා.",
     "disp.live.sendAsIs": "එලෙසම යවන්න",
-    "disp.live.sendAsIsToast": "එලෙසම යවන ලෙස පැටවුම්කරුට දැනුම් දුන්නා. අලෙවිසැල දන්නවා.",
+    "disp.live.sendAsIsToast":
+      "එලෙසම යවන ලෙස පැටවුම්කරුට දැනුම් දුන්නා. අලෙවිසැල දන්නවා.",
     "disp.live.failed": "අසාර්ථකයි",
     "disp.live.tripLine": "ගමන {n} {brand} · {district} · {kind}",
     "disp.live.backOnline": "{t}ට යළි සම්බන්ධ විය",
     "disp.live.whatOffline": "ඔෆ්ලයින් අතරතුර සිදු වූ දේ",
     "disp.live.synced": "{t}ට සමමුහුර්ත විය",
-    "disp.live.offlineNote": "සෑම ඔෆ්ලයින් වාර්තාවක්ම දුරකථනයේ වේලාව තබා ගනී, එබැවින් උඩුගත කිරීම් ප්‍රමාද වුවද සිදුවීම් අනුපිළිවෙල රැකේ.",
+    "disp.live.offlineNote":
+      "සෑම ඔෆ්ලයින් වාර්තාවක්ම දුරකථනයේ වේලාව තබා ගනී, එබැවින් උඩුගත කිරීම් ප්‍රමාද වුවද සිදුවීම් අනුපිළිවෙල රැකේ.",
     "disp.live.col.vehicle": "වාහනය",
     "disp.live.col.trip": "ගමන",
     "disp.live.col.progress": "ප්‍රගතිය",
@@ -333,8 +379,10 @@ export const disp = defineDomain({
     "disp.live.plannedFirst": "{date} පළමුව සැලසුම් කළා",
     "disp.live.secondSkip": "දෙවන වරට මඟහැරීම",
     "disp.live.issuesOpen": "අලෙවිසැල් වාර්තා විවෘතයි: {list}.",
-    "disp.demand.eyebrow": "ඉල්ලුම් දැක්ම · ඩිපෝ දෙකම · ඉදිරි සති 2 · {date} සිට",
-    "disp.demand.lede": "අනාවැකි කළ සිසිල් ඉල්ලුම භාවිත කළ හැකි සිසිල් වාහන ධාරිතාවට එරෙහිව ඇඳ ඇත. රේඛාව ඉක්මවන දින රතු වී නිශ්චිත ක්‍රියාමාර්ගයක් සමඟ පෙන්වයි. කිසිදු ක්‍රියාමාර්ගයකින් ඩිපෝ අතර වාහන මාරු නොවේ.",
+    "disp.demand.eyebrow":
+      "ඉල්ලුම් දැක්ම · ඩිපෝ දෙකම · ඉදිරි සති 2 · {date} සිට",
+    "disp.demand.lede":
+      "අනාවැකි කළ සිසිල් ඉල්ලුම භාවිත කළ හැකි සිසිල් වාහන ධාරිතාවට එරෙහිව ඇඳ ඇත. රේඛාව ඉක්මවන දින රතු වී නිශ්චිත ක්‍රියාමාර්ගයක් සමඟ පෙන්වයි. කිසිදු ක්‍රියාමාර්ගයකින් ඩිපෝ අතර වාහන මාරු නොවේ.",
     "disp.demand.demand": "සිසිල් ඉල්ලුම",
     "disp.demand.capacity": "සිසිල් වාහන ධාරිතාව",
     "disp.demand.atRisk": "අවදානමේ",
@@ -346,14 +394,16 @@ export const disp = defineDomain({
     "disp.settings.alerts": "දැනුම්දීම්",
     "disp.settings.darkSub": "කාර්යාලයට ආලෝකය, රාත්‍රී සැලසුම් සඳහා අඳුර",
     "disp.settings.lateRisk": "ප්‍රමාද අවදානම් අනතුරු ඇඟවීම",
-    "disp.settings.lateRiskSub": "නැවතුමක ප්‍රමාද වීමේ සම්භාවිතාව මෙය ඉක්මවන විට මට දන්වන්න",
+    "disp.settings.lateRiskSub":
+      "නැවතුමක ප්‍රමාද වීමේ සම්භාවිතාව මෙය ඉක්මවන විට මට දන්වන්න",
     "disp.settings.lateRiskValue": "60% ට ඉහළ",
     "disp.settings.skipped": "මඟහැරුණු අලෙවිසැල් අනතුරු ඇඟවීම",
     "disp.settings.skippedSub": "අලෙවිසැලක් දිගටම දෙවරක් මඟහැරීමට පෙර දන්වන්න",
     "disp.settings.planReady": "සැලසුම සූදානම් සිහි කැඳවීම",
     "disp.settings.planReadySub": "සැලසුම 18:00 වන විට සූදානම් විය යුතුයි",
     "disp.settings.syncConflicts": "සමමුහුර්ත ගැටුම්",
-    "disp.settings.syncConflictsSub": "රියදුරෙකු වෙනස් ගණනක් සමමුහුර්ත කරන විට ශබ්දය",
+    "disp.settings.syncConflictsSub":
+      "රියදුරෙකු වෙනස් ගණනක් සමමුහුර්ත කරන විට ශබ්දය",
     "disp.settings.liveBoard": "සජීවී පුවරුව",
     "disp.settings.depotsShown": "පෙන්වන ඩිපෝ",
     "disp.settings.both": "දෙකම",
@@ -372,13 +422,16 @@ export const disp = defineDomain({
     "disp.menu.depot": "டெப்போ",
     "disp.menu.settings": "அமைப்புகள்",
     "disp.menu.reset": "டெமோ நாளை மீட்டமை",
-    "disp.menu.resetConfirm": "டெமோ நாளை மீட்டமைக்கவா? அனைத்து ஆர்டர்கள், திட்டங்கள், ஏற்றங்கள், வழங்கல்கள் தொடக்கத்திற்குத் திரும்பும்.",
+    "disp.menu.resetConfirm":
+      "டெமோ நாளை மீட்டமைக்கவா? அனைத்து ஆர்டர்கள், திட்டங்கள், ஏற்றங்கள், வழங்கல்கள் தொடக்கத்திற்குத் திரும்பும்.",
     "disp.menu.resetDone": "டெமோ நாள் மீட்டமைக்கப்பட்டது. வரிசை மீட்கப்பட்டது.",
     "disp.orders.eyebrow": "ஆர்டர்கள் · {depot} டெப்போ · {date} க்கு",
     "disp.orders.title": "{day} க்கு {n} ஆர்டர்கள் வரிசையில்.",
     "disp.orders.chilled": "{n} குளிர்ப் பொருட்கள், குளிர் வாகன இடம் தேவை.",
-    "disp.orders.skipOne": " {names} கடந்த ஓட்டத்தில் தவறவிடப்பட்டது, எனவே முதலில் திட்டமிடப்படும்.",
-    "disp.orders.skipMany": " {names} கடந்த ஓட்டத்தில் தவறவிடப்பட்டன, எனவே முதலில் திட்டமிடப்படும்.",
+    "disp.orders.skipOne":
+      " {names} கடந்த ஓட்டத்தில் தவறவிடப்பட்டது, எனவே முதலில் திட்டமிடப்படும்.",
+    "disp.orders.skipMany":
+      " {names} கடந்த ஓட்டத்தில் தவறவிடப்பட்டன, எனவே முதலில் திட்டமிடப்படும்.",
     "disp.orders.col.order": "ஆர்டர்",
     "disp.orders.col.outlet": "கடை",
     "disp.orders.col.brand": "பிராண்ட்",
@@ -399,17 +452,23 @@ export const disp = defineDomain({
     "disp.orders.openPlan": "திட்டத்தைத் திற →",
     "disp.orders.build": "{day} திட்டத்தை உருவாக்கு →",
     "disp.plan.eyebrow": "திட்டம் · {date} · {depot} டெப்போ",
-    "disp.plan.eyebrowReleased": "திட்டம் · {date} · {depot} டெப்போ · வெளியிடப்பட்டது, v{v}",
+    "disp.plan.eyebrowReleased":
+      "திட்டம் · {date} · {depot} டெப்போ · வெளியிடப்பட்டது, v{v}",
     "disp.plan.none": "இன்னும் திட்டம் இல்லை.",
-    "disp.plan.noneBody": "இயந்திரம் வரிசையில் உள்ள ஒவ்வொரு ஆர்டரையும் வாகனத்திற்கும் பயணத்திற்கும் ஒதுக்கும், அல்லது காரணத்துடன் ஒத்திவைக்கும். நீங்கள் மதிப்பாய்வு செய்து வெளியிடுங்கள்.",
+    "disp.plan.noneBody":
+      "இயந்திரம் வரிசையில் உள்ள ஒவ்வொரு ஆர்டரையும் வாகனத்திற்கும் பயணத்திற்கும் ஒதுக்கும், அல்லது காரணத்துடன் ஒத்திவைக்கும். நீங்கள் மதிப்பாய்வு செய்து வெளியிடுங்கள்.",
     "disp.plan.buildNow": "திட்டத்தை உருவாக்கு →",
     "disp.plan.released": "திட்டம் வெளியிடப்பட்டது.",
     "disp.plan.ready": "திட்டம் வெளியிடத் தயார்.",
     "disp.plan.assigned": "{b} வாகனங்களில் {a} ஒதுக்கப்பட்டன.",
-    "disp.plan.releasedBody": "இனி எந்த மாற்றமும் ஏற்றுநருக்கும் ஓட்டுநருக்கும் எதைச் சேர்க்க, எதை எடுக்க என்ற தெளிவான அறிவிப்பாகச் செல்லும்.",
-    "disp.plan.readyBody": "தடுக்கும் எச்சரிக்கைகள் இல்லை. வெளியிட்டால் {depot} டாக்கிற்கு ஏற்றுப் பட்டியல்களும் ஓட்டுநர்களுக்குப் பயணங்களும் செல்லும்.",
-    "disp.plan.readyBodyDeferred": "தடுக்கும் எச்சரிக்கைகள் இல்லை. {n} ஆர்டர்கள் தலா ஒரு காரணத்துடன் ஒத்திவைக்கப்பட்டுள்ளன. வெளியிட்டால் {depot} டாக்கிற்கு ஏற்றுப் பட்டியல்களும் ஓட்டுநர்களுக்குப் பயணங்களும் செல்லும்.",
-    "disp.plan.blockBody": "{u} ஒதுக்கப்படவில்லை, {b} விதி எச்சரிக்கை(கள்). திட்டத்தை வெளியிடும் முன் சரிசெய்யுங்கள்.",
+    "disp.plan.releasedBody":
+      "இனி எந்த மாற்றமும் ஏற்றுநருக்கும் ஓட்டுநருக்கும் எதைச் சேர்க்க, எதை எடுக்க என்ற தெளிவான அறிவிப்பாகச் செல்லும்.",
+    "disp.plan.readyBody":
+      "தடுக்கும் எச்சரிக்கைகள் இல்லை. வெளியிட்டால் {depot} டாக்கிற்கு ஏற்றுப் பட்டியல்களும் ஓட்டுநர்களுக்குப் பயணங்களும் செல்லும்.",
+    "disp.plan.readyBodyDeferred":
+      "தடுக்கும் எச்சரிக்கைகள் இல்லை. {n} ஆர்டர்கள் தலா ஒரு காரணத்துடன் ஒத்திவைக்கப்பட்டுள்ளன. வெளியிட்டால் {depot} டாக்கிற்கு ஏற்றுப் பட்டியல்களும் ஓட்டுநர்களுக்குப் பயணங்களும் செல்லும்.",
+    "disp.plan.blockBody":
+      "{u} ஒதுக்கப்படவில்லை, {b} விதி எச்சரிக்கை(கள்). திட்டத்தை வெளியிடும் முன் சரிசெய்யுங்கள்.",
     "disp.plan.col.vehicle": "வாகனம்",
     "disp.plan.col.trip1": "பயணம் 1",
     "disp.plan.col.trip2": "பயணம் 2",
@@ -422,16 +481,21 @@ export const disp = defineDomain({
     "disp.plan.engine": "இயந்திரம்",
     "disp.plan.toDate": "{who} · {date} க்கு",
     "disp.plan.secondSkip": "தொடர்ந்து 2வது தவறல்",
-    "disp.plan.planned": "{outlet} {v} இல் திட்டமிடப்பட்டது. எச்சரிக்கைகளைப் பாருங்கள்.",
+    "disp.plan.planned":
+      "{outlet} {v} இல் திட்டமிடப்பட்டது. எச்சரிக்கைகளைப் பாருங்கள்.",
     "disp.plan.couldNotMove": "மாற்ற முடியவில்லை",
-    "disp.plan.footReleased": "வெளியிடப்பட்டது. மேலே உள்ள திருத்தங்கள் டாக்கிற்கும் ஓட்டுநருக்கும் தெரிவிக்கும்.",
-    "disp.plan.footReady": "எச்சரிக்கைகள் இல்லை. வெளியிட்டால் டாக்கிற்கு ஏற்றுப் பட்டியல்களும் ஓட்டுநர்களுக்குப் பயணங்களும் செல்லும்.",
-    "disp.plan.footBlock": "{n} எச்சரிக்கை(கள்) வெளியீட்டைத் தடுக்கின்றன. மறுஒதுக்க அல்லது ஒத்திவைக்க ஒரு வரியைத் திறக்கவும்.",
+    "disp.plan.footReleased":
+      "வெளியிடப்பட்டது. மேலே உள்ள திருத்தங்கள் டாக்கிற்கும் ஓட்டுநருக்கும் தெரிவிக்கும்.",
+    "disp.plan.footReady":
+      "எச்சரிக்கைகள் இல்லை. வெளியிட்டால் டாக்கிற்கு ஏற்றுப் பட்டியல்களும் ஓட்டுநர்களுக்குப் பயணங்களும் செல்லும்.",
+    "disp.plan.footBlock":
+      "{n} எச்சரிக்கை(கள்) வெளியீட்டைத் தடுக்கின்றன. மறுஒதுக்க அல்லது ஒத்திவைக்க ஒரு வரியைத் திறக்கவும்.",
     "disp.plan.rebuild": "மீண்டும் உருவாக்கு",
     "disp.plan.openLive": "நேரடி ஓட்டங்களைத் திற →",
     "disp.plan.release": "திட்டத்தை வெளியிடு →",
     "disp.plan.fix": "வெளியிட எச்சரிக்கைகளைச் சரிசெய்",
-    "disp.plan.releasedToast": "திட்டம் வெளியிடப்பட்டது. ஏற்றுப் பட்டியல்கள் டாக் டேப்லெட்டிலும் பயணங்கள் ஓட்டுநர் தொலைபேசிகளிலும் உள்ளன.",
+    "disp.plan.releasedToast":
+      "திட்டம் வெளியிடப்பட்டது. ஏற்றுப் பட்டியல்கள் டாக் டேப்லெட்டிலும் பயணங்கள் ஓட்டுநர் தொலைபேசிகளிலும் உள்ளன.",
     "disp.plan.workshop": "பட்டறை",
     "disp.plan.notAssigned": "ஒதுக்கப்படவில்லை",
     "disp.plan.tripCell": "{brand} · {district} · {n} நிறுத்தம்",
@@ -442,10 +506,12 @@ export const disp = defineDomain({
     "disp.plan.full": "{v} · {kind} · {pct}% நிறைந்தது",
     "disp.plan.moveTo": "இதற்கு மாற்று…",
     "disp.plan.moveLabel": "{outlet} ஐ மாற்று",
-    "disp.plan.movedToast": "{v} க்கு மாற்றப்பட்டது. எச்சரிக்கைகள் புதுப்பிக்கப்பட்டன.",
+    "disp.plan.movedToast":
+      "{v} க்கு மாற்றப்பட்டது. எச்சரிக்கைகள் புதுப்பிக்கப்பட்டன.",
     "disp.plan.defer": "ஒத்திவை",
     "disp.plan.vehicle": "வாகனம்",
-    "disp.plan.trip": "பயணம் {n} · {brand} · {district} · {t} புறப்படும் · {m} நிமிடம்",
+    "disp.plan.trip":
+      "பயணம் {n} · {brand} · {district} · {t} புறப்படும் · {m} நிமிடம்",
     "disp.plan.stopLine": "{id} · {w} · {v} · வருகை நேரம் {eta}",
     "disp.plan.skippedLast": "கடந்த ஓட்டத்தில் தவறியது",
     "disp.plan.nothingAssigned": "இந்த வாகனத்திற்கு எதுவும் ஒதுக்கப்படவில்லை.",
@@ -453,7 +519,8 @@ export const disp = defineDomain({
     "disp.plan.deferEyebrow": "ஆர்டரை ஒத்திவை · {id}",
     "disp.plan.kindDry": "உலர்",
     "disp.plan.alreadySkipped": "கடந்த ஓட்டத்தில் ஏற்கெனவே தவறியது.",
-    "disp.plan.alreadySkippedBody": " மீண்டும் ஒத்திவைத்தால் தொடர்ந்து 2வது தவறலாகும். எப்படியும் கடைக்குத் தெரிவிக்கப்படும்.",
+    "disp.plan.alreadySkippedBody":
+      " மீண்டும் ஒத்திவைத்தால் தொடர்ந்து 2வது தவறலாகும். எப்படியும் கடைக்குத் தெரிவிக்கப்படும்.",
     "disp.plan.reason": "காரணம்",
     "disp.plan.reason.capacity_volume": "கொள்ளளவு (அளவு)",
     "disp.plan.reason.capacity_weight": "கொள்ளளவு (எடை)",
@@ -463,14 +530,17 @@ export const disp = defineDomain({
     "disp.plan.reason.fuel_quota": "எரிபொருள் ஒதுக்கீடு",
     "disp.plan.reason.manual": "கைமுறை",
     "disp.plan.note": "குறிப்பு (விருப்பம்)",
-    "disp.plan.notePlaceholder": "எ.கா. பேராதனைக்கு VEH057 இடத்தை எடுத்துக்கொண்டேன்",
+    "disp.plan.notePlaceholder":
+      "எ.கா. பேராதனைக்கு VEH057 இடத்தை எடுத்துக்கொண்டேன்",
     "disp.plan.deferTo": "{date} க்கு ஒத்திவை",
     "disp.plan.deferToNext": "அடுத்த ஓட்டத்திற்கு ஒத்திவை",
-    "disp.plan.deferredToast": "ஒத்திவைக்கப்பட்டது. கடைக்குக் காரணமும் புதிய தேதியும் தெரிவிக்கப்பட்டது.",
+    "disp.plan.deferredToast":
+      "ஒத்திவைக்கப்பட்டது. கடைக்குக் காரணமும் புதிய தேதியும் தெரிவிக்கப்பட்டது.",
     "disp.live.eyebrow": "நேரடி ஓட்டங்கள் · {depot} டெப்போ · {date}",
     "disp.live.eyebrowNone": "நேரடி ஓட்டங்கள் · {depot} டெப்போ",
     "disp.live.nothing": "இன்னும் எதுவும் புறப்படவில்லை.",
-    "disp.live.nothingBody": "திட்டத்தை வெளியிடுங்கள். ஏற்றுநர்கள் வாகனங்களை விடுவித்து ஓட்டுநர்கள் பயணம் தொடங்கும்போது நேரடிப் பலகை நிரம்பும்.",
+    "disp.live.nothingBody":
+      "திட்டத்தை வெளியிடுங்கள். ஏற்றுநர்கள் வாகனங்களை விடுவித்து ஓட்டுநர்கள் பயணம் தொடங்கும்போது நேரடிப் பலகை நிரம்பும்.",
     "disp.live.goPlan": "திட்டப் பலகைக்குச் செல் →",
     "disp.live.title": "{out} வாகனம் வெளியே. {needs}",
     "disp.live.needsSome": "{n} க்கு நீங்கள் தேவை.",
@@ -488,15 +558,18 @@ export const disp = defineDomain({
     "disp.live.ack": "ஒப்புக்கொள்",
     "disp.live.noted": "குறிக்கப்பட்டது.",
     "disp.live.topUp": "நிரப்பு",
-    "disp.live.topUpToast": "வேறு வாகனத்திலிருந்து நிரப்ப ஏற்றுநருக்குச் சொல்லப்பட்டது.",
+    "disp.live.topUpToast":
+      "வேறு வாகனத்திலிருந்து நிரப்ப ஏற்றுநருக்குச் சொல்லப்பட்டது.",
     "disp.live.sendAsIs": "அப்படியே அனுப்பு",
-    "disp.live.sendAsIsToast": "அப்படியே அனுப்ப ஏற்றுநருக்குச் சொல்லப்பட்டது. கடைக்குத் தெரியும்.",
+    "disp.live.sendAsIsToast":
+      "அப்படியே அனுப்ப ஏற்றுநருக்குச் சொல்லப்பட்டது. கடைக்குத் தெரியும்.",
     "disp.live.failed": "தோல்வி",
     "disp.live.tripLine": "பயணம் {n} {brand} · {district} · {kind}",
     "disp.live.backOnline": "{t} க்கு மீண்டும் இணைந்தது",
     "disp.live.whatOffline": "ஆஃப்லைனில் நடந்தவை",
     "disp.live.synced": "{t} க்கு ஒத்திசைந்தது",
-    "disp.live.offlineNote": "ஒவ்வொரு ஆஃப்லைன் பதிவும் தொலைபேசியின் நேரத்தை வைத்திருக்கும், எனவே பதிவேற்றம் தாமதமாக வந்தாலும் நிகழ்வு வரிசை பாதுகாக்கப்படும்.",
+    "disp.live.offlineNote":
+      "ஒவ்வொரு ஆஃப்லைன் பதிவும் தொலைபேசியின் நேரத்தை வைத்திருக்கும், எனவே பதிவேற்றம் தாமதமாக வந்தாலும் நிகழ்வு வரிசை பாதுகாக்கப்படும்.",
     "disp.live.col.vehicle": "வாகனம்",
     "disp.live.col.trip": "பயணம்",
     "disp.live.col.progress": "முன்னேற்றம்",
@@ -509,8 +582,10 @@ export const disp = defineDomain({
     "disp.live.plannedFirst": "{date} அன்று முதலில் திட்டமிடப்பட்டது",
     "disp.live.secondSkip": "2வது தவறல்",
     "disp.live.issuesOpen": "கடை அறிக்கைகள் திறந்துள்ளன: {list}.",
-    "disp.demand.eyebrow": "தேவை கணிப்பு · இரு டெப்போக்கள் · அடுத்த 2 வாரங்கள் · {date} முதல்",
-    "disp.demand.lede": "முன்கணிக்கப்பட்ட குளிர் தேவை பயன்படுத்தக்கூடிய குளிர் வாகனக் கொள்ளளவுக்கு எதிராக வரையப்படுகிறது. கோட்டைத் தாண்டும் நாட்கள் சிவப்பாகி உறுதியான நடவடிக்கையுடன் வரும். எந்த நடவடிக்கையும் டெப்போக்களுக்கு இடையே வாகனங்களை மாற்றாது.",
+    "disp.demand.eyebrow":
+      "தேவை கணிப்பு · இரு டெப்போக்கள் · அடுத்த 2 வாரங்கள் · {date} முதல்",
+    "disp.demand.lede":
+      "முன்கணிக்கப்பட்ட குளிர் தேவை பயன்படுத்தக்கூடிய குளிர் வாகனக் கொள்ளளவுக்கு எதிராக வரையப்படுகிறது. கோட்டைத் தாண்டும் நாட்கள் சிவப்பாகி உறுதியான நடவடிக்கையுடன் வரும். எந்த நடவடிக்கையும் டெப்போக்களுக்கு இடையே வாகனங்களை மாற்றாது.",
     "disp.demand.demand": "குளிர் தேவை",
     "disp.demand.capacity": "குளிர் வாகனக் கொள்ளளவு",
     "disp.demand.atRisk": "ஆபத்தில்",
@@ -520,16 +595,20 @@ export const disp = defineDomain({
     "disp.demand.pay": "சம்பளம்",
     "disp.settings.sub": "{who} · அனுப்புநர் · பெலியகொட திட்ட அலுவலகம்",
     "disp.settings.alerts": "அறிவிப்புகள்",
-    "disp.settings.darkSub": "அலுவலகத்திற்கு வெளிச்சம், இரவுத் திட்டமிடலுக்கு இருள்",
+    "disp.settings.darkSub":
+      "அலுவலகத்திற்கு வெளிச்சம், இரவுத் திட்டமிடலுக்கு இருள்",
     "disp.settings.lateRisk": "தாமத ஆபத்து எச்சரிக்கை",
-    "disp.settings.lateRiskSub": "ஒரு நிறுத்தம் தாமதமாகும் வாய்ப்பு இதைத் தாண்டும்போது எனக்குச் சொல்",
+    "disp.settings.lateRiskSub":
+      "ஒரு நிறுத்தம் தாமதமாகும் வாய்ப்பு இதைத் தாண்டும்போது எனக்குச் சொல்",
     "disp.settings.lateRiskValue": "60%க்கு மேல்",
     "disp.settings.skipped": "தவறிய கடை எச்சரிக்கை",
-    "disp.settings.skippedSub": "ஒரு கடை தொடர்ந்து இருமுறை தவறுவதற்கு முன் எச்சரி",
+    "disp.settings.skippedSub":
+      "ஒரு கடை தொடர்ந்து இருமுறை தவறுவதற்கு முன் எச்சரி",
     "disp.settings.planReady": "திட்டத் தயார் நினைவூட்டல்",
     "disp.settings.planReadySub": "திட்டம் 18:00க்குள் தயாராக வேண்டும்",
     "disp.settings.syncConflicts": "ஒத்திசைவு முரண்பாடுகள்",
-    "disp.settings.syncConflictsSub": "ஓட்டுநர் வேறுபட்ட எண்ணிக்கையை ஒத்திசைக்கும்போது ஒலி",
+    "disp.settings.syncConflictsSub":
+      "ஓட்டுநர் வேறுபட்ட எண்ணிக்கையை ஒத்திசைக்கும்போது ஒலி",
     "disp.settings.liveBoard": "நேரடிப் பலகை",
     "disp.settings.depotsShown": "காட்டப்படும் டெப்போக்கள்",
     "disp.settings.both": "இரண்டும்",

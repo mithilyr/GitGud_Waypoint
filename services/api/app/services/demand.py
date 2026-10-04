@@ -4,6 +4,7 @@ Model, fitted on deliveries_train.csv: chilled volume = weekday average x (1 + 0
 Usable reefer capacity = reefer fleet volume x 0.35 (74% of the fleet available x 60% average fill x 80% inside the
 Fresh time budget). These are planning assumptions, shown on the screen.
 """
+
 import math
 from datetime import date, timedelta
 
@@ -72,9 +73,7 @@ def outlook(db: Session, start: date, days: int = 14) -> dict:
         "days": out_days,
         "at_risk": at_risk,
         "headline": (
-            f"Peak day needs {peak['pct'] - 100}% more reefer capacity."
-            if peak
-            else "Reefer capacity covers the next two weeks."
+            f"Peak day needs {peak['pct'] - 100}% more reefer capacity." if peak else "Reefer capacity covers the next two weeks."
         ),
         "assumptions": "Chilled demand = weekday average x festival ramp x payday, fitted on the training data. "
         "Usable reefer capacity = reefer fleet volume x 35% (availability x fill x Fresh time budget).",

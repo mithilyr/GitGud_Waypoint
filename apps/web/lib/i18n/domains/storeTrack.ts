@@ -6,7 +6,8 @@ export const storeTrack = defineDomain({
     "store.track.eyebrowArrived": "{outlet} outlet · delivery arrived",
     "store.track.gotIt": "Got it",
     "store.track.deferredTitle": "Order deferred.",
-    "store.track.deferredLede": "Your {kind}order moves to {date}, before 08:00.",
+    "store.track.deferredLede":
+      "Your {kind}order moves to {date}, before 08:00.",
     "store.closed.eyebrow": "{outlet} outlet · delivery closed {at}",
     "store.closed.received": "RECEIVED",
     "store.closed.short": "SHORT",
@@ -27,7 +28,8 @@ export const storeTrack = defineDomain({
     "store.track.eyebrowArrived": "{outlet} අලෙවිසැල · බෙදාහැරීම පැමිණියා",
     "store.track.gotIt": "තේරුණා",
     "store.track.deferredTitle": "ඇණවුම කල් දමා ඇත.",
-    "store.track.deferredLede": "ඔබේ {kind}ඇණවුම {date} වෙත මාරු වේ, 08:00ට පෙර.",
+    "store.track.deferredLede":
+      "ඔබේ {kind}ඇණවුම {date} වෙත මාරු වේ, 08:00ට පෙර.",
     "store.closed.eyebrow": "{outlet} අලෙවිසැල · බෙදාහැරීම {at}ට වසා ඇත",
     "store.closed.received": "ලැබුණා",
     "store.closed.short": "අඩු",
@@ -48,7 +50,8 @@ export const storeTrack = defineDomain({
     "store.track.eyebrowArrived": "{outlet} கடை · வழங்கல் வந்தது",
     "store.track.gotIt": "புரிந்தது",
     "store.track.deferredTitle": "ஆர்டர் ஒத்திவைக்கப்பட்டது.",
-    "store.track.deferredLede": "உங்கள் {kind}ஆர்டர் {date} க்கு மாறுகிறது, 08:00க்கு முன்.",
+    "store.track.deferredLede":
+      "உங்கள் {kind}ஆர்டர் {date} க்கு மாறுகிறது, 08:00க்கு முன்.",
     "store.closed.eyebrow": "{outlet} கடை · வழங்கல் {at} க்கு மூடப்பட்டது",
     "store.closed.received": "பெற்றது",
     "store.closed.short": "குறைவு",

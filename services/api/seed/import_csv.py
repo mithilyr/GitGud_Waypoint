@@ -3,6 +3,7 @@
 Idempotent: a table that already has rows is skipped, so this is safe to run
 on every container start. Run with: python -m seed.import_csv
 """
+
 import csv
 from datetime import date
 from pathlib import Path

@@ -35,9 +35,7 @@ def _active(t: Trip) -> list[Stop]:
 
 
 def _current_plan(db: Session, depot: str) -> Plan | None:
-    return db.scalar(
-        select(Plan).where(Plan.depot == depot, Plan.status == "released").order_by(Plan.service_date.desc(), Plan.id.desc())
-    )
+    return db.scalar(select(Plan).where(Plan.depot == depot, Plan.status == "released").order_by(Plan.service_date.desc(), Plan.id.desc()))
 
 
 def _trip_for(db: Session, trip_id: int, user: User) -> Trip:
@@ -253,12 +251,24 @@ def flag(line_id: int, body: FlagBody, user: User = Loader, db: Session = Depend
     stop.order.status = "shortfall"
     _mark_started(t, user)
     name = stop.outlet.name or stop.outlet_id
-    notify(db, role="dispatcher", depot=t.plan.depot, kind="loader_flag",
-           title=f"{t.vehicle_id} · {name} · {ln.group} {ln.found} of {ln.planned}",
-           body=f"{user.name.split()[0]}: {body.reason.replace('_', ' ')}. Top up from another vehicle or send as is.",
-           meta={"line_id": ln.id, "trip_id": t.id})
-    notify(db, role="store", outlet_id=stop.outlet_id, kind="shortfall", title=f"{ln.group}: {ln.found} of {ln.planned}",
-           body="Flagged at the dock before the truck leaves.", meta={"stop_id": stop.id})
+    notify(
+        db,
+        role="dispatcher",
+        depot=t.plan.depot,
+        kind="loader_flag",
+        title=f"{t.vehicle_id} · {name} · {ln.group} {ln.found} of {ln.planned}",
+        body=f"{user.name.split()[0]}: {body.reason.replace('_', ' ')}. Top up from another vehicle or send as is.",
+        meta={"line_id": ln.id, "trip_id": t.id},
+    )
+    notify(
+        db,
+        role="store",
+        outlet_id=stop.outlet_id,
+        kind="shortfall",
+        title=f"{ln.group}: {ln.found} of {ln.planned}",
+        body="Flagged at the dock before the truck leaves.",
+        meta={"stop_id": stop.id},
+    )
     db.commit()
     return {"ok": True}
 
@@ -299,10 +309,24 @@ def release(trip_id: int, body: ReleaseBody, user: User = Loader, db: Session = 
         o: Order = s.order
         o.status = "shortfall" if any(ln.flag_reason and ln.stop_id == s.id for ln in lines) else "loaded"
     for d in db.scalars(select(User).where(User.role == "driver", User.vehicle_id == t.vehicle_id)):
-        notify(db, role="driver", user_id=d.id, kind="load_released", title=f"Load released · {user.name.split()[0]}, {user.dock}",
-               body=f"{t.vehicle_id} is loaded and sealed ({t.seal_no}).", meta={"trip_id": t.id})
-    notify(db, role="dispatcher", depot=t.plan.depot, kind="departure", title=f"{t.vehicle_id} released by {user.name.split()[0]}",
-           body=f"Trip {t.trip_no} · {len(_active(t))} stops", meta={"trip_id": t.id})
+        notify(
+            db,
+            role="driver",
+            user_id=d.id,
+            kind="load_released",
+            title=f"Load released · {user.name.split()[0]}, {user.dock}",
+            body=f"{t.vehicle_id} is loaded and sealed ({t.seal_no}).",
+            meta={"trip_id": t.id},
+        )
+    notify(
+        db,
+        role="dispatcher",
+        depot=t.plan.depot,
+        kind="departure",
+        title=f"{t.vehicle_id} released by {user.name.split()[0]}",
+        body=f"Trip {t.trip_no} · {len(_active(t))} stops",
+        meta={"trip_id": t.id},
+    )
     db.commit()
     return {"ok": True, "at": lk_hhmm(t.released_at)}
 
@@ -310,7 +334,9 @@ def release(trip_id: int, body: ReleaseBody, user: User = Loader, db: Session = 
 @router.get("/notifications")
 def notifications(user: User = Loader, db: Session = Depends(get_db)) -> list[dict]:
     rows = db.scalars(
-        select(Notification).where(Notification.role == "loader", Notification.depot == user.depot).order_by(Notification.id.desc()).limit(20)
+        select(Notification)
+        .where(Notification.role == "loader", Notification.depot == user.depot)
+        .order_by(Notification.id.desc())
+        .limit(20)
     )
     return [{"id": n.id, "kind": n.kind, "title": n.title, "body": n.body, "at": lk_hhmm(n.created_at), "meta": n.meta} for n in rows]
-

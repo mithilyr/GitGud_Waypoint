@@ -27,10 +27,12 @@ def test_booklet_example_colombo_street_trip_is_112_minutes():
 
 
 def test_booklet_two_trip_example_is_valid():
-    plan = Plan(trips=[
-        Trip("VEH014", 1, [order("a"), order("b"), order("c", dock="street")]),
-        Trip("VEH014", 2, [order(f"c{i}", district="Colombo", dock="street") for i in range(4)]),
-    ])
+    plan = Plan(
+        trips=[
+            Trip("VEH014", 1, [order("a"), order("b"), order("c", dock="street")]),
+            Trip("VEH014", 2, [order(f"c{i}", district="Colombo", dock="street") for i in range(4)]),
+        ]
+    )
     assert validate(plan, {"VEH014": REEFER_TRUCK}, STD) == []
 
 

@@ -18,7 +18,9 @@ export default function LoadIndex() {
   const router = useRouter();
   const wide = useWide();
   const { t } = useT();
-  const { data, error, reload } = usePoll(() => get<{ depot: string; trips: Departure[] }>("/loader/departures"));
+  const { data, error, reload } = usePoll(() =>
+    get<{ depot: string; trips: Departure[] }>("/loader/departures"),
+  );
 
   useEffect(() => {
     if (wide) {
@@ -40,9 +42,15 @@ export default function LoadIndex() {
   if (data && !data.trips.length) {
     return (
       <div className="mx-auto max-w-[520px]">
-        <Empty title={t("loader.dep.empty")}>{t("loader.dep.emptyBody", { depot: data.depot })}</Empty>
+        <Empty title={t("loader.dep.empty")}>
+          {t("loader.dep.emptyBody", { depot: data.depot })}
+        </Empty>
       </div>
     );
   }
-  return <div className="grid place-items-center py-24 text-muted"><Spinner /></div>;
+  return (
+    <div className="grid place-items-center py-24 text-muted">
+      <Spinner />
+    </div>
+  );
 }

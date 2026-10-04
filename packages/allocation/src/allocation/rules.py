@@ -3,6 +3,7 @@
 The Hackathon engine and the Datathon notebook must both validate through
 this module so the two phases can never disagree.
 """
+
 from collections import defaultdict
 from dataclasses import dataclass
 

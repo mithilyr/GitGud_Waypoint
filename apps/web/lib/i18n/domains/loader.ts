@@ -21,12 +21,15 @@ export const loader = defineDomain({
     "loader.signin.digits": "{n} of 4 digits entered",
     "loader.signin.wrongPin": "That PIN is not right",
     "loader.signin.delete": "Delete",
-    "loader.signin.demoPins": "Demo PINs: Kamal 1234 · Tharindu 2345 · Fathima 3456 · Suresh 4567",
+    "loader.signin.demoPins":
+      "Demo PINs: Kamal 1234 · Tharindu 2345 · Fathima 3456 · Suresh 4567",
     // Departures (L2)
     "loader.dep.leaving": "Leaving {dock}",
-    "loader.dep.lede": "In departure order. Changes from the dispatcher show here straight away.",
+    "loader.dep.lede":
+      "In departure order. Changes from the dispatcher show here straight away.",
     "loader.dep.empty": "Nothing to load yet.",
-    "loader.dep.emptyBody": "When Ruwan releases the plan, the {depot} vehicles appear here in departure order.",
+    "loader.dep.emptyBody":
+      "When Ruwan releases the plan, the {depot} vehicles appear here in departure order.",
     "loader.dep.loading": "Loading {a}/{b}",
     "loader.dep.left": "Left",
     "loader.dep.status.RELEASED": "Released",
@@ -48,8 +51,10 @@ export const loader = defineDomain({
     "loader.load.volume": "Volume",
     "loader.load.releasedBy": "Released by {who} · seal {seal}",
     "loader.load.reefer": " · reefer {t} °C",
-    "loader.load.releasedBody": "The driver sees “Load released” and Ruwan sees the departure.",
-    "loader.load.hint": "Last stop goes in first, so the driver unloads in order.",
+    "loader.load.releasedBody":
+      "The driver sees “Load released” and Ruwan sees the departure.",
+    "loader.load.hint":
+      "Last stop goes in first, so the driver unloads in order.",
     "loader.load.flagged": "Flagged",
     "loader.load.all": "all {n}",
     "loader.load.now": "Load now · {ord} · {name}",
@@ -63,7 +68,8 @@ export const loader = defineDomain({
     "loader.load.releaseLeft": "Release · {n} left",
     "loader.load.releaseVehicle": "Release vehicle",
     "loader.load.backToDepartures": "Back to departures",
-    "loader.load.flagSent": "Flag sent. Ruwan and the store know before the truck leaves.",
+    "loader.load.flagSent":
+      "Flag sent. Ruwan and the store know before the truck leaves.",
     "loader.load.releasedToast": "{v} released. {who} sees “Load released”.",
     "loader.load.theDriver": "The driver",
     "loader.load.couldNotUpdate": "Could not update",
@@ -81,13 +87,15 @@ export const loader = defineDomain({
     // Plan changed (L3b)
     "loader.changed.tag": "Plan changed · {t}",
     "loader.changed.title": "{v}’s list changed while you were loading.",
-    "loader.changed.body": "{note}. The old list is locked, so no one loads from it by mistake.",
+    "loader.changed.body":
+      "{note}. The old list is locked, so no one loads from it by mistake.",
     "loader.changed.add": "Add",
     "loader.changed.remove": "Take off",
     "loader.changed.item": "{stop} · {g} {n} {unit}s",
     "loader.changed.loadedAlready": "Already loaded · unload it",
     "loader.changed.notLoaded": "Not loaded yet",
-    "loader.changed.recheck": "Weight and volume are re-checked against {kg} kg and {m3} m³ on the new list.",
+    "loader.changed.recheck":
+      "Weight and volume are re-checked against {kg} kg and {m3} m³ on the new list.",
     "loader.changed.show": "Show updated list",
     // Flag (L4)
     "loader.flag.title": "Flag shortfall or damage",
@@ -111,7 +119,8 @@ export const loader = defineDomain({
     "loader.rel.title": "Release vehicle",
     "loader.rel.ready": "Ready to release",
     "loader.rel.loaded": "{v} is loaded.",
-    "loader.rel.summary": "{a} of {b} items · {n} stops in stop order · leaves {t}",
+    "loader.rel.summary":
+      "{a} of {b} items · {n} stops in stop order · leaves {t}",
     "loader.rel.flags": "{n} flag(s)",
     "loader.rel.flagLine": "{g} {f} of {n} · {stop} · {answer}",
     "loader.rel.noAnswer": "no answer yet, will go as is",
@@ -121,24 +130,30 @@ export const loader = defineDomain({
     "loader.rel.zonesSub": "Separate zones",
     "loader.rel.sealed": "Doors sealed",
     "loader.rel.seal": "Seal number",
-    "loader.rel.confirm": "{who} confirms on the phone and sees “Load released” on the home screen. Ruwan sees the departure the moment you release.",
+    "loader.rel.confirm":
+      "{who} confirms on the phone and sees “Load released” on the home screen. Ruwan sees the departure the moment you release.",
     "loader.rel.go": "Release {v}",
     "loader.rel.failed": "Could not release",
     // Issues
     "loader.issues.title": "Flags you have sent.",
-    "loader.issues.lede": "Ruwan’s answers appear here as soon as he gives them.",
+    "loader.issues.lede":
+      "Ruwan’s answers appear here as soon as he gives them.",
     "loader.issues.none": "No flags.",
-    "loader.issues.noneBody": "If a count does not match, flag it from the load list before you release.",
+    "loader.issues.noneBody":
+      "If a count does not match, flag it from the load list before you release.",
     "loader.issues.topUp": "Top up",
     "loader.issues.asIs": "Send as is",
     "loader.issues.line": "{stop} · {g} {f} of {n}",
     // Help (L6)
     "loader.help.q1": "A count does not match",
-    "loader.help.a1": "Flag the shortfall or damage before you release. The dispatcher and the store are told at once.",
+    "loader.help.a1":
+      "Flag the shortfall or damage before you release. The dispatcher and the store are told at once.",
     "loader.help.q2": "Plan changed mid-load",
-    "loader.help.a2": "Tap Show updated list. Lines that moved are marked and the old list is locked.",
+    "loader.help.a2":
+      "Tap Show updated list. Lines that moved are marked and the old list is locked.",
     "loader.help.q3": "Doors will not seal, or reefer is warm",
-    "loader.help.a3": "Do not release. Flag it with a photo and Ruwan will reassign the vehicle.",
+    "loader.help.a3":
+      "Do not release. Flag it with a photo and Ruwan will reassign the vehicle.",
     "loader.help.flag": "Flag a problem",
     // Settings (L7)
     "loader.settings.sub": "{who} · {depot} depot · {dock}",
@@ -172,11 +187,14 @@ export const loader = defineDomain({
     "loader.signin.digits": "ඉලක්කම් 4න් {n}ක් ඇතුළත් කළා",
     "loader.signin.wrongPin": "එම PIN එක වැරදියි",
     "loader.signin.delete": "මකන්න",
-    "loader.signin.demoPins": "ආදර්ශන PIN: කමල් 1234 · තරිඳු 2345 · ෆාතිමා 3456 · සුරේෂ් 4567",
+    "loader.signin.demoPins":
+      "ආදර්ශන PIN: කමල් 1234 · තරිඳු 2345 · ෆාතිමා 3456 · සුරේෂ් 4567",
     "loader.dep.leaving": "{dock} පිටත්වීම",
-    "loader.dep.lede": "පිටත්වීමේ අනුපිළිවෙලට. බෙදාහරින්නාගේ වෙනස්කම් මෙහි වහාම පෙනේ.",
+    "loader.dep.lede":
+      "පිටත්වීමේ අනුපිළිවෙලට. බෙදාහරින්නාගේ වෙනස්කම් මෙහි වහාම පෙනේ.",
     "loader.dep.empty": "තවම පැටවීමට කිසිවක් නැත.",
-    "loader.dep.emptyBody": "රුවන් සැලසුම නිකුත් කරන විට {depot} වාහන පිටත්වීමේ අනුපිළිවෙලට මෙහි පෙනේ.",
+    "loader.dep.emptyBody":
+      "රුවන් සැලසුම නිකුත් කරන විට {depot} වාහන පිටත්වීමේ අනුපිළිවෙලට මෙහි පෙනේ.",
     "loader.dep.loading": "පටවමින් {a}/{b}",
     "loader.dep.left": "පිටත් විය",
     "loader.dep.status.RELEASED": "මුදාහැරියා",
@@ -188,7 +206,8 @@ export const loader = defineDomain({
     "loader.dep.released": "{t}ට මුදාහැරියා",
     "loader.dep.leaves": "{t}ට පිටත් වේ",
     "loader.dep.changed": "↻ {t}ට පේළි {n}ක් වෙනස් විය · බලන්න",
-    "loader.dep.noSheets": "මුද්‍රිත පත්‍ර නැත. සැමවිටම මෙම ලැයිස්තුවෙන් පටවන්න.",
+    "loader.dep.noSheets":
+      "මුද්‍රිත පත්‍ර නැත. සැමවිටම මෙම ලැයිස්තුවෙන් පටවන්න.",
     "loader.dep.pick": "වාහනයක් තෝරන්න.",
     "loader.load.eyebrow": "{v} · ගමන {n} {brand} · {t}ට පිටත් වේ",
     "loader.load.eyebrowDriver": " · රියදුරු {who}",
@@ -197,8 +216,10 @@ export const loader = defineDomain({
     "loader.load.volume": "පරිමාව",
     "loader.load.releasedBy": "{who} මුදාහැරියා · මුද්‍රාව {seal}",
     "loader.load.reefer": " · සිසිල් උෂ්ණත්වය {t} °C",
-    "loader.load.releasedBody": "රියදුරුට “පැටවීම මුදාහරින ලදී” ලෙස සහ රුවන්ට පිටත්වීම පෙනේ.",
-    "loader.load.hint": "අවසාන නැවතුම මුලින්ම ඇතුළු කරන්න, එවිට රියදුරුට අනුපිළිවෙලට බෑවිය හැක.",
+    "loader.load.releasedBody":
+      "රියදුරුට “පැටවීම මුදාහරින ලදී” ලෙස සහ රුවන්ට පිටත්වීම පෙනේ.",
+    "loader.load.hint":
+      "අවසාන නැවතුම මුලින්ම ඇතුළු කරන්න, එවිට රියදුරුට අනුපිළිවෙලට බෑවිය හැක.",
     "loader.load.flagged": "සලකුණු කළා",
     "loader.load.all": "සියල්ල {n}",
     "loader.load.now": "දැන් පටවන්න · {ord} · {name}",
@@ -212,8 +233,10 @@ export const loader = defineDomain({
     "loader.load.releaseLeft": "මුදාහරින්න · {n}ක් ඉතිරියි",
     "loader.load.releaseVehicle": "වාහනය මුදාහරින්න",
     "loader.load.backToDepartures": "පිටත්වීම් වෙත ආපසු",
-    "loader.load.flagSent": "සලකුණ යැවුවා. ට්‍රක් රථය පිටත් වීමට පෙර රුවන් සහ අලෙවිසැල දනී.",
-    "loader.load.releasedToast": "{v} මුදාහැරියා. {who}ට “පැටවීම මුදාහරින ලදී” පෙනේ.",
+    "loader.load.flagSent":
+      "සලකුණ යැවුවා. ට්‍රක් රථය පිටත් වීමට පෙර රුවන් සහ අලෙවිසැල දනී.",
+    "loader.load.releasedToast":
+      "{v} මුදාහැරියා. {who}ට “පැටවීම මුදාහරින ලදී” පෙනේ.",
     "loader.load.theDriver": "රියදුරු",
     "loader.load.couldNotUpdate": "යාවත්කාලීන කළ නොහැකි විය",
     "loader.load.lineLabel": "{g}, {unit} {n}, {state}",
@@ -229,13 +252,15 @@ export const loader = defineDomain({
     "loader.reason.wont_fit": "ඇතුළත් නොවේ",
     "loader.changed.tag": "සැලසුම වෙනස් විය · {t}",
     "loader.changed.title": "ඔබ පටවමින් සිටියදී {v} හි ලැයිස්තුව වෙනස් විය.",
-    "loader.changed.body": "{note}. පැරණි ලැයිස්තුව අගුළු දමා ඇත, එබැවින් කිසිවෙකු වැරදීමකින් එයින් නොපටවයි.",
+    "loader.changed.body":
+      "{note}. පැරණි ලැයිස්තුව අගුළු දමා ඇත, එබැවින් කිසිවෙකු වැරදීමකින් එයින් නොපටවයි.",
     "loader.changed.add": "එක් කරන්න",
     "loader.changed.remove": "ඉවත් කරන්න",
     "loader.changed.item": "{stop} · {g} {unit} {n}",
     "loader.changed.loadedAlready": "දැනටමත් පටවා ඇත · බෑවන්න",
     "loader.changed.notLoaded": "තවම පටවා නැත",
-    "loader.changed.recheck": "නව ලැයිස්තුවේ බර සහ පරිමාව {kg} kg සහ {m3} m³ ට එරෙහිව නැවත පරීක්ෂා කෙරේ.",
+    "loader.changed.recheck":
+      "නව ලැයිස්තුවේ බර සහ පරිමාව {kg} kg සහ {m3} m³ ට එරෙහිව නැවත පරීක්ෂා කෙරේ.",
     "loader.changed.show": "යාවත්කාලීන ලැයිස්තුව පෙන්වන්න",
     "loader.flag.title": "අඩුපාඩුව හෝ හානිය සලකුණු කරන්න",
     "loader.flag.eyebrow": "{v} · {stop} සඳහා · {temp}",
@@ -257,7 +282,8 @@ export const loader = defineDomain({
     "loader.rel.title": "වාහනය මුදාහරින්න",
     "loader.rel.ready": "මුදාහැරීමට සූදානම්",
     "loader.rel.loaded": "{v} පටවා ඇත.",
-    "loader.rel.summary": "භාණ්ඩ {b}න් {a}ක් · නැවතුම් {n}ක් නැවතුම් අනුපිළිවෙලට · {t}ට පිටත් වේ",
+    "loader.rel.summary":
+      "භාණ්ඩ {b}න් {a}ක් · නැවතුම් {n}ක් නැවතුම් අනුපිළිවෙලට · {t}ට පිටත් වේ",
     "loader.rel.flags": "සලකුණු {n}ක්",
     "loader.rel.flagLine": "{g} {n}න් {f} · {stop} · {answer}",
     "loader.rel.noAnswer": "තවම පිළිතුරක් නැත, එලෙසම යයි",
@@ -267,22 +293,27 @@ export const loader = defineDomain({
     "loader.rel.zonesSub": "වෙන් කළ කලාප",
     "loader.rel.sealed": "දොරවල් මුද්‍රා තබා ඇත",
     "loader.rel.seal": "මුද්‍රා අංකය",
-    "loader.rel.confirm": "{who} දුරකථනයේ තහවුරු කර මුල් තිරයේ “පැටවීම මුදාහරින ලදී” දකියි. ඔබ මුදාහරින මොහොතේම රුවන්ට පිටත්වීම පෙනේ.",
+    "loader.rel.confirm":
+      "{who} දුරකථනයේ තහවුරු කර මුල් තිරයේ “පැටවීම මුදාහරින ලදී” දකියි. ඔබ මුදාහරින මොහොතේම රුවන්ට පිටත්වීම පෙනේ.",
     "loader.rel.go": "{v} මුදාහරින්න",
     "loader.rel.failed": "මුදාහැරිය නොහැකි විය",
     "loader.issues.title": "ඔබ යැවූ සලකුණු.",
     "loader.issues.lede": "රුවන්ගේ පිළිතුරු ඔහු දුන් විගසම මෙහි පෙනේ.",
     "loader.issues.none": "සලකුණු නැත.",
-    "loader.issues.noneBody": "ගණනක් නොගැළපේ නම්, මුදාහැරීමට පෙර පැටවුම් ලැයිස්තුවෙන් සලකුණු කරන්න.",
+    "loader.issues.noneBody":
+      "ගණනක් නොගැළපේ නම්, මුදාහැරීමට පෙර පැටවුම් ලැයිස්තුවෙන් සලකුණු කරන්න.",
     "loader.issues.topUp": "පුරවන්න",
     "loader.issues.asIs": "එලෙසම යවන්න",
     "loader.issues.line": "{stop} · {g} {n}න් {f}",
     "loader.help.q1": "ගණනක් නොගැළපේ",
-    "loader.help.a1": "මුදාහැරීමට පෙර අඩුපාඩුව හෝ හානිය සලකුණු කරන්න. බෙදාහරින්නාට සහ අලෙවිසැලට වහාම දැනුම් දෙයි.",
+    "loader.help.a1":
+      "මුදාහැරීමට පෙර අඩුපාඩුව හෝ හානිය සලකුණු කරන්න. බෙදාහරින්නාට සහ අලෙවිසැලට වහාම දැනුම් දෙයි.",
     "loader.help.q2": "පැටවීමේදී සැලසුම වෙනස් විය",
-    "loader.help.a2": "යාවත්කාලීන ලැයිස්තුව පෙන්වන්න ඔබන්න. මාරු වූ පේළි සලකුණු කර ඇති අතර පැරණි ලැයිස්තුව අගුළු දමා ඇත.",
+    "loader.help.a2":
+      "යාවත්කාලීන ලැයිස්තුව පෙන්වන්න ඔබන්න. මාරු වූ පේළි සලකුණු කර ඇති අතර පැරණි ලැයිස්තුව අගුළු දමා ඇත.",
     "loader.help.q3": "දොරවල් මුද්‍රා නොවේ, හෝ සිසිල් වාහනය උණුසුමයි",
-    "loader.help.a3": "මුදාහරින්න එපා. ඡායාරූපයක් සමඟ සලකුණු කරන්න, රුවන් වාහනය නැවත පවරයි.",
+    "loader.help.a3":
+      "මුදාහරින්න එපා. ඡායාරූපයක් සමඟ සලකුණු කරන්න, රුවන් වාහනය නැවත පවරයි.",
     "loader.help.flag": "ගැටලුවක් සලකුණු කරන්න",
     "loader.settings.sub": "{who} · {depot} ඩිපෝව · {dock}",
     "loader.settings.darkSub": "ඩොක් එකේදී ඇසට පහසුයි",
@@ -290,7 +321,8 @@ export const loader = defineDomain({
     "loader.settings.planAlert": "සැලසුම් වෙනස් කිරීමේ දැනුම්දීම",
     "loader.settings.planAlertSub": "පැටවුමක් විවෘතව ඇති විට ඉහළ ශබ්දයක්",
     "loader.settings.flagReplies": "සලකුණු පිළිතුරු",
-    "loader.settings.flagRepliesSub": "රුවන් සලකුණකට පිළිතුරු දුන් විට මට දන්වන්න",
+    "loader.settings.flagRepliesSub":
+      "රුවන් සලකුණකට පිළිතුරු දුන් විට මට දන්වන්න",
     "loader.settings.tablet": "හවුල් ටැබ්ලටය",
     "loader.settings.idle": "නිෂ්ක්‍රිය විට ඉවත් වන්න",
     "loader.settings.idleValue": "මිනිත්තු 5කට පසු",
@@ -308,18 +340,22 @@ export const loader = defineDomain({
     "loader.depotLine": "{depot} டெப்போ · {dock}",
     "loader.signin.sub": "ஏற்றுநர் · கண்டி டெப்போ · டாக் 3",
     "loader.signin.title": "யார் ஏற்றுகிறார்கள்?",
-    "loader.signin.lede": "இந்த டேப்லெட் பகிரப்பட்டது. உங்கள் பெயரைத் தட்டுங்கள்.",
+    "loader.signin.lede":
+      "இந்த டேப்லெட் பகிரப்பட்டது. உங்கள் பெயரைத் தட்டுங்கள்.",
     "loader.signin.selected": "தேர்ந்தெடுக்கப்பட்டது",
     "loader.signin.enterPin": "{name}, உங்கள் PIN ஐ உள்ளிடுங்கள்",
     "loader.signin.pickName": "உங்கள் பெயரைத் தேர்ந்தெடுங்கள்",
     "loader.signin.digits": "4 இலக்கங்களில் {n} உள்ளிடப்பட்டது",
     "loader.signin.wrongPin": "அந்த PIN சரியல்ல",
     "loader.signin.delete": "அழி",
-    "loader.signin.demoPins": "டெமோ PIN: கமல் 1234 · தரிந்து 2345 · பாத்திமா 3456 · சுரேஷ் 4567",
+    "loader.signin.demoPins":
+      "டெமோ PIN: கமல் 1234 · தரிந்து 2345 · பாத்திமா 3456 · சுரேஷ் 4567",
     "loader.dep.leaving": "டாக் புறப்பாடு {dock}",
-    "loader.dep.lede": "புறப்படும் வரிசையில். அனுப்புநர் மாற்றங்கள் உடனே தெரியும்.",
+    "loader.dep.lede":
+      "புறப்படும் வரிசையில். அனுப்புநர் மாற்றங்கள் உடனே தெரியும்.",
     "loader.dep.empty": "இன்னும் ஏற்ற எதுவும் இல்லை.",
-    "loader.dep.emptyBody": "ரவுன் திட்டத்தை வெளியிட்டதும் {depot} வாகனங்கள் புறப்படும் வரிசையில் இங்கே தோன்றும்.",
+    "loader.dep.emptyBody":
+      "ரவுன் திட்டத்தை வெளியிட்டதும் {depot} வாகனங்கள் புறப்படும் வரிசையில் இங்கே தோன்றும்.",
     "loader.dep.loading": "ஏற்றுகிறது {a}/{b}",
     "loader.dep.left": "புறப்பட்டது",
     "loader.dep.status.RELEASED": "விடுவிக்கப்பட்டது",
@@ -331,7 +367,8 @@ export const loader = defineDomain({
     "loader.dep.released": "{t} க்கு விடுவிக்கப்பட்டது",
     "loader.dep.leaves": "{t} புறப்படும்",
     "loader.dep.changed": "↻ {t} · {n} மாற்றம் · பாருங்கள்",
-    "loader.dep.noSheets": "அச்சுத் தாள் இல்லை. எப்போதும் இப்பட்டியலிலிருந்து ஏற்றவும்.",
+    "loader.dep.noSheets":
+      "அச்சுத் தாள் இல்லை. எப்போதும் இப்பட்டியலிலிருந்து ஏற்றவும்.",
     "loader.dep.pick": "வாகனத்தைத் தேர்ந்தெடுங்கள்.",
     "loader.load.eyebrow": "{v} · பயணம் {n} {brand} · {t} புறப்படும்",
     "loader.load.eyebrowDriver": " · ஓட்டுநர் {who}",
@@ -340,8 +377,10 @@ export const loader = defineDomain({
     "loader.load.volume": "கொள்ளளவு",
     "loader.load.releasedBy": "{who} விடுவித்தார் · முத்திரை {seal}",
     "loader.load.reefer": " · குளிர் வெப்பநிலை {t} °C",
-    "loader.load.releasedBody": "ஓட்டுநர் “ஏற்றம் விடுவிக்கப்பட்டது” என்று பார்ப்பார், ரவுன் புறப்பாட்டைப் பார்ப்பார்.",
-    "loader.load.hint": "கடைசி நிறுத்தம் முதலில் ஏற்றப்படும், அதனால் ஓட்டுநர் வரிசைப்படி இறக்கலாம்.",
+    "loader.load.releasedBody":
+      "ஓட்டுநர் “ஏற்றம் விடுவிக்கப்பட்டது” என்று பார்ப்பார், ரவுன் புறப்பாட்டைப் பார்ப்பார்.",
+    "loader.load.hint":
+      "கடைசி நிறுத்தம் முதலில் ஏற்றப்படும், அதனால் ஓட்டுநர் வரிசைப்படி இறக்கலாம்.",
     "loader.load.flagged": "குறிக்கப்பட்டது",
     "loader.load.all": "அனைத்தும் {n}",
     "loader.load.now": "இப்போது ஏற்று · {ord} · {name}",
@@ -355,8 +394,10 @@ export const loader = defineDomain({
     "loader.load.releaseLeft": "விடுவி · {n} மீதம்",
     "loader.load.releaseVehicle": "வாகனத்தை விடுவி",
     "loader.load.backToDepartures": "புறப்பாடுகளுக்குத் திரும்பு",
-    "loader.load.flagSent": "குறி அனுப்பப்பட்டது. லாரி புறப்படுவதற்கு முன் ரவுனுக்கும் கடைக்கும் தெரியும்.",
-    "loader.load.releasedToast": "{v} விடுவிக்கப்பட்டது. {who} “ஏற்றம் விடுவிக்கப்பட்டது” என்று பார்ப்பார்.",
+    "loader.load.flagSent":
+      "குறி அனுப்பப்பட்டது. லாரி புறப்படுவதற்கு முன் ரவுனுக்கும் கடைக்கும் தெரியும்.",
+    "loader.load.releasedToast":
+      "{v} விடுவிக்கப்பட்டது. {who} “ஏற்றம் விடுவிக்கப்பட்டது” என்று பார்ப்பார்.",
     "loader.load.theDriver": "ஓட்டுநர்",
     "loader.load.couldNotUpdate": "புதுப்பிக்க முடியவில்லை",
     "loader.load.lineLabel": "{g}, {n} {unit}, {state}",
@@ -372,13 +413,15 @@ export const loader = defineDomain({
     "loader.reason.wont_fit": "பொருந்தவில்லை",
     "loader.changed.tag": "திட்டம் மாறியது · {t}",
     "loader.changed.title": "நீங்கள் ஏற்றும்போது {v} பட்டியல் மாறியது.",
-    "loader.changed.body": "{note}. பழைய பட்டியல் பூட்டப்பட்டுள்ளது, எனவே யாரும் தவறுதலாக அதிலிருந்து ஏற்ற மாட்டார்கள்.",
+    "loader.changed.body":
+      "{note}. பழைய பட்டியல் பூட்டப்பட்டுள்ளது, எனவே யாரும் தவறுதலாக அதிலிருந்து ஏற்ற மாட்டார்கள்.",
     "loader.changed.add": "சேர்",
     "loader.changed.remove": "எடு",
     "loader.changed.item": "{stop} · {g} {n} {unit}",
     "loader.changed.loadedAlready": "ஏற்கெனவே ஏற்றப்பட்டது · இறக்கு",
     "loader.changed.notLoaded": "இன்னும் ஏற்றப்படவில்லை",
-    "loader.changed.recheck": "புதிய பட்டியலில் எடையும் கொள்ளளவும் {kg} kg மற்றும் {m3} m³ க்கு எதிராக மீண்டும் சரிபார்க்கப்படும்.",
+    "loader.changed.recheck":
+      "புதிய பட்டியலில் எடையும் கொள்ளளவும் {kg} kg மற்றும் {m3} m³ க்கு எதிராக மீண்டும் சரிபார்க்கப்படும்.",
     "loader.changed.show": "புதுப்பித்த பட்டியலைக் காட்டு",
     "loader.flag.title": "குறைவு அல்லது சேதத்தைக் குறி",
     "loader.flag.eyebrow": "{v} · {stop} க்கு · {temp}",
@@ -392,15 +435,18 @@ export const loader = defineDomain({
     "loader.flag.photo": "புகைப்படம் சேர் (விருப்பம்)",
     "loader.flag.told": "உடனே தெரிவிக்கப்படுகிறது",
     "loader.flag.ruwan": "ரவுன், அனுப்புநர்",
-    "loader.flag.ruwanSub": " · வேறு வாகனத்திலிருந்து நிரப்பலாம் அல்லது அப்படியே அனுப்பலாம்",
+    "loader.flag.ruwanSub":
+      " · வேறு வாகனத்திலிருந்து நிரப்பலாம் அல்லது அப்படியே அனுப்பலாம்",
     "loader.flag.store": "{stop} கடை",
-    "loader.flag.storeSub": " · லாரி புறப்படுவதற்கு முன் {n} இல் {f} பார்ப்பார்",
+    "loader.flag.storeSub":
+      " · லாரி புறப்படுவதற்கு முன் {n} இல் {f} பார்ப்பார்",
     "loader.flag.send": "குறியை அனுப்பு",
     "loader.flag.failed": "அனுப்ப முடியவில்லை",
     "loader.rel.title": "வாகனத்தை விடுவி",
     "loader.rel.ready": "விடுவிக்கத் தயார்",
     "loader.rel.loaded": "{v} ஏற்றப்பட்டது.",
-    "loader.rel.summary": "{b} பொருட்களில் {a} · {n} நிறுத்தங்கள் நிறுத்த வரிசையில் · {t} புறப்படும்",
+    "loader.rel.summary":
+      "{b} பொருட்களில் {a} · {n} நிறுத்தங்கள் நிறுத்த வரிசையில் · {t} புறப்படும்",
     "loader.rel.flags": "{n} குறி(கள்)",
     "loader.rel.flagLine": "{g} {n} இல் {f} · {stop} · {answer}",
     "loader.rel.noAnswer": "இன்னும் பதில் இல்லை, அப்படியே செல்லும்",
@@ -410,22 +456,27 @@ export const loader = defineDomain({
     "loader.rel.zonesSub": "தனி மண்டலங்கள்",
     "loader.rel.sealed": "கதவுகள் முத்திரையிடப்பட்டன",
     "loader.rel.seal": "முத்திரை எண்",
-    "loader.rel.confirm": "{who} தொலைபேசியில் உறுதிசெய்து முகப்புத் திரையில் “ஏற்றம் விடுவிக்கப்பட்டது” என்று பார்ப்பார். நீங்கள் விடுவிக்கும் கணமே ரவுன் புறப்பாட்டைப் பார்ப்பார்.",
+    "loader.rel.confirm":
+      "{who} தொலைபேசியில் உறுதிசெய்து முகப்புத் திரையில் “ஏற்றம் விடுவிக்கப்பட்டது” என்று பார்ப்பார். நீங்கள் விடுவிக்கும் கணமே ரவுன் புறப்பாட்டைப் பார்ப்பார்.",
     "loader.rel.go": "{v} ஐ விடுவி",
     "loader.rel.failed": "விடுவிக்க முடியவில்லை",
     "loader.issues.title": "நீங்கள் அனுப்பிய குறிகள்.",
     "loader.issues.lede": "ரவுனின் பதில்கள் அவர் கொடுத்ததும் இங்கே தோன்றும்.",
     "loader.issues.none": "குறிகள் இல்லை.",
-    "loader.issues.noneBody": "எண்ணிக்கை பொருந்தவில்லை என்றால், விடுவிக்கும் முன் ஏற்றப் பட்டியலிலிருந்து குறியுங்கள்.",
+    "loader.issues.noneBody":
+      "எண்ணிக்கை பொருந்தவில்லை என்றால், விடுவிக்கும் முன் ஏற்றப் பட்டியலிலிருந்து குறியுங்கள்.",
     "loader.issues.topUp": "நிரப்பு",
     "loader.issues.asIs": "அப்படியே அனுப்பு",
     "loader.issues.line": "{stop} · {g} {n} இல் {f}",
     "loader.help.q1": "எண்ணிக்கை பொருந்தவில்லை",
-    "loader.help.a1": "விடுவிக்கும் முன் குறைவு அல்லது சேதத்தைக் குறியுங்கள். அனுப்புநருக்கும் கடைக்கும் உடனே தெரிவிக்கப்படும்.",
+    "loader.help.a1":
+      "விடுவிக்கும் முன் குறைவு அல்லது சேதத்தைக் குறியுங்கள். அனுப்புநருக்கும் கடைக்கும் உடனே தெரிவிக்கப்படும்.",
     "loader.help.q2": "ஏற்றும்போது திட்டம் மாறியது",
-    "loader.help.a2": "புதுப்பித்த பட்டியலைக் காட்டு என்பதைத் தட்டுங்கள். மாறிய வரிகள் குறிக்கப்படும், பழைய பட்டியல் பூட்டப்படும்.",
+    "loader.help.a2":
+      "புதுப்பித்த பட்டியலைக் காட்டு என்பதைத் தட்டுங்கள். மாறிய வரிகள் குறிக்கப்படும், பழைய பட்டியல் பூட்டப்படும்.",
     "loader.help.q3": "கதவுகள் மூடவில்லை, அல்லது குளிர் வாகனம் சூடாக உள்ளது",
-    "loader.help.a3": "விடுவிக்காதீர்கள். புகைப்படத்துடன் குறியுங்கள், ரவுன் வாகனத்தை மறுஒதுக்குவார்.",
+    "loader.help.a3":
+      "விடுவிக்காதீர்கள். புகைப்படத்துடன் குறியுங்கள், ரவுன் வாகனத்தை மறுஒதுக்குவார்.",
     "loader.help.flag": "சிக்கலைக் குறி",
     "loader.settings.sub": "{who} · {depot} டெப்போ · {dock}",
     "loader.settings.darkSub": "டாக்கில் கண்ணுக்கு எளிது",
@@ -433,7 +484,8 @@ export const loader = defineDomain({
     "loader.settings.planAlert": "திட்ட மாற்ற அறிவிப்பு",
     "loader.settings.planAlertSub": "ஏற்றம் திறந்திருக்கும்போது உரத்த ஒலி",
     "loader.settings.flagReplies": "குறி பதில்கள்",
-    "loader.settings.flagRepliesSub": "ரவுன் குறிக்குப் பதிலளிக்கும்போது எனக்குச் சொல்",
+    "loader.settings.flagRepliesSub":
+      "ரவுன் குறிக்குப் பதிலளிக்கும்போது எனக்குச் சொல்",
     "loader.settings.tablet": "பகிரப்பட்ட டேப்லெட்",
     "loader.settings.idle": "செயலற்றிருந்தால் வெளியேறு",
     "loader.settings.idleValue": "5 நிமிடம் கழித்து",

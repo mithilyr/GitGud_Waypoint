@@ -3,7 +3,11 @@
 import { useEffect, useRef } from "react";
 
 /** A finger-drawn signature. Emits a small PNG data URL, or null when cleared. */
-export function SignaturePad({ onChange }: { onChange: (dataUrl: string | null) => void }) {
+export function SignaturePad({
+  onChange,
+}: {
+  onChange: (dataUrl: string | null) => void;
+}) {
   const ref = useRef<HTMLCanvasElement>(null);
   const drawing = useRef(false);
   const dirty = useRef(false);
@@ -17,7 +21,9 @@ export function SignaturePad({ onChange }: { onChange: (dataUrl: string | null) 
     ctx.scale(ratio, ratio);
     ctx.lineWidth = 2.4;
     ctx.lineCap = "round";
-    ctx.strokeStyle = getComputedStyle(document.documentElement).getPropertyValue("--text") || "#111";
+    ctx.strokeStyle =
+      getComputedStyle(document.documentElement).getPropertyValue("--text") ||
+      "#111";
 
     const pos = (e: PointerEvent) => {
       const r = c.getBoundingClientRect();
@@ -58,7 +64,11 @@ export function SignaturePad({ onChange }: { onChange: (dataUrl: string | null) 
 
   return (
     <div>
-      <canvas ref={ref} className="h-28 w-full touch-none rounded-[10px] border border-dashed border-faint bg-surface" aria-label="Signature area" />
+      <canvas
+        ref={ref}
+        className="h-28 w-full touch-none rounded-[10px] border border-dashed border-faint bg-surface"
+        aria-label="Signature area"
+      />
       <button
         type="button"
         className="mt-1 text-[12px] font-semibold text-muted underline"

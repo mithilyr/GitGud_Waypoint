@@ -6,6 +6,7 @@ fuel is partly used, so demand exceeds capacity and the allocator has to defer o
 
 Idempotent for reference-like data; `reset_operations` wipes the operational rows and reseeds the day.
 """
+
 import csv
 import math
 import random
@@ -49,8 +50,26 @@ USERS = [
     ("tharindu@waypoint.demo", "Tharindu Wijesinghe", "loader", "2345", "Kandy", "Dock 3", None, {}),
     ("fathima@waypoint.demo", "Fathima Rizna", "loader", "3456", "Kandy", "Dock 3", None, {}),
     ("suresh@waypoint.demo", "Suresh Kumar", "loader", "4567", "Kandy", "Dock 3", None, {}),
-    ("driver@waypoint.demo", "Nuwan Perera", "driver", "4821", "Kandy", None, "+94 77 123 4567", {"vehicle_id": "VEH057", "driver_code": "DRV-0142"}),
-    ("driver2@waypoint.demo", "Mahesh Silva", "driver", "5678", "Kandy", None, "+94 77 555 0177", {"vehicle_id": "VEH045", "driver_code": "DRV-0177"}),
+    (
+        "driver@waypoint.demo",
+        "Nuwan Perera",
+        "driver",
+        "4821",
+        "Kandy",
+        None,
+        "+94 77 123 4567",
+        {"vehicle_id": "VEH057", "driver_code": "DRV-0142"},
+    ),
+    (
+        "driver2@waypoint.demo",
+        "Mahesh Silva",
+        "driver",
+        "5678",
+        "Kandy",
+        None,
+        "+94 77 555 0177",
+        {"vehicle_id": "VEH045", "driver_code": "DRV-0177"},
+    ),
     ("store@waypoint.demo", "Shanika Wijeratne", "store", None, "Kandy", None, "+94 71 555 0142", {"pilimathalawa": True}),
 ]
 
@@ -61,8 +80,22 @@ def seed_reference_extras(db: Session) -> None:
     """Item catalogue and outlet display names."""
     if not db.scalar(select(func.count()).select_from(Item)):
         for sku, name, cat, group, brand, temp, pack, label, kg, m3, price, often in ITEMS:
-            db.add(Item(sku=sku, name=name, category=cat, load_group=group, brand=brand, temp=temp, pack_size=pack,
-                        pack_label=label, kg_per_unit=kg, m3_per_unit=m3, price=price, often=often))
+            db.add(
+                Item(
+                    sku=sku,
+                    name=name,
+                    category=cat,
+                    load_group=group,
+                    brand=brand,
+                    temp=temp,
+                    pack_size=pack,
+                    pack_label=label,
+                    kg_per_unit=kg,
+                    m3_per_unit=m3,
+                    price=price,
+                    often=often,
+                )
+            )
     outlets = db.scalars(select(Outlet)).all()
     if outlets and not any(o.name for o in outlets):
         names = assign(
@@ -83,9 +116,16 @@ def seed_users(db: Session) -> None:
     for email, name, role, pin, depot, dock, phone, extra in USERS:
         db.add(
             User(
-                email=email, name=name, role=role, password_hash=hash_password(DEMO_PASSWORD),
-                pin_hash=hash_pin(pin) if pin else None, depot=depot, dock=dock, phone=phone,
-                vehicle_id=extra.get("vehicle_id"), driver_code=extra.get("driver_code"),
+                email=email,
+                name=name,
+                role=role,
+                password_hash=hash_password(DEMO_PASSWORD),
+                pin_hash=hash_pin(pin) if pin else None,
+                depot=depot,
+                dock=dock,
+                phone=phone,
+                vehicle_id=extra.get("vehicle_id"),
+                driver_code=extra.get("driver_code"),
                 outlet_id=pili.outlet_id if extra.get("pilimathalawa") and pili else None,
             )
         )
@@ -103,8 +143,15 @@ def _lines_for(rng: random.Random, items: list[Item], units: int, fixed: list[tu
         picks = [(it, max(1, round(units * w / total))) for it, w in zip(chosen, weights, strict=True)]
     return [
         {
-            "sku": it.sku, "name": it.name, "group": it.load_group, "qty": q, "packs": max(1, math.ceil(q / it.pack_size)),
-            "pack_label": it.pack_label, "temp": it.temp, "kg": round(it.kg_per_unit * q, 2), "m3": round(it.m3_per_unit * q, 4),
+            "sku": it.sku,
+            "name": it.name,
+            "group": it.load_group,
+            "qty": q,
+            "packs": max(1, math.ceil(q / it.pack_size)),
+            "pack_label": it.pack_label,
+            "temp": it.temp,
+            "kg": round(it.kg_per_unit * q, 2),
+            "m3": round(it.m3_per_unit * q, 4),
         }
         for it, q in picks
     ]
@@ -140,10 +187,20 @@ def seed_demo_day(db: Session) -> int:
         deferred_y = bool(int(r["deferred_yesterday"])) or bool(ukuwela and o.outlet_id == ukuwela.outlet_id)
         db.add(
             Order(
-                id=f"ORD{n:07d}", outlet_id=o.outlet_id, brand=o.brand, depot=o.depot, district=o.district, service_date=d,
-                temp_requirement=r["temp_requirement"], status="confirmed", weight_kg=float(r["weight_kg"]),
-                volume_m3=float(r["volume_m3"]), lines=lines, group_ref=baskets[o.outlet_id],
-                deferred_yesterday=deferred_y, days_since_last_served=int(r["days_since_last_served"]),
+                id=f"ORD{n:07d}",
+                outlet_id=o.outlet_id,
+                brand=o.brand,
+                depot=o.depot,
+                district=o.district,
+                service_date=d,
+                temp_requirement=r["temp_requirement"],
+                status="confirmed",
+                weight_kg=float(r["weight_kg"]),
+                volume_m3=float(r["volume_m3"]),
+                lines=lines,
+                group_ref=baskets[o.outlet_id],
+                deferred_yesterday=deferred_y,
+                days_since_last_served=int(r["days_since_last_served"]),
                 placed_by="seed",
             )
         )
@@ -163,8 +220,19 @@ def seed_demo_day(db: Session) -> int:
 def reset_operations(db: Session) -> int:
     """Wipe everything a walkthrough creates and reseed the delivery day. Accounts and reference data stay."""
     for model in (
-        Conflict, IssueReport, Receipt, DeliveryEvent, LoadLine, Deferral, Stop, Trip, Plan, Notification,
-        Order, VehicleStatus, FuelLedger,
+        Conflict,
+        IssueReport,
+        Receipt,
+        DeliveryEvent,
+        LoadLine,
+        Deferral,
+        Stop,
+        Trip,
+        Plan,
+        Notification,
+        Order,
+        VehicleStatus,
+        FuelLedger,
     ):
         db.execute(delete(model))
     db.commit()

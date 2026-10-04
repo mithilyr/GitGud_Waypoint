@@ -84,9 +84,13 @@
   --color-bad-line: var(--bad-stroke);
   --color-primary: var(--primary);
   --color-on-primary: var(--on-primary);
-  --font-sans: var(--font-geist-sans), var(--font-noto-si), var(--font-noto-ta), system-ui, sans-serif;
+  --font-sans:
+    var(--font-geist-sans), var(--font-noto-si), var(--font-noto-ta), system-ui,
+    sans-serif;
   --font-mono: var(--font-geist-mono), ui-monospace, monospace;
-  --font-display: var(--font-newsreader), var(--font-noto-si), var(--font-noto-ta), Georgia, serif;
+  --font-display:
+    var(--font-newsreader), var(--font-noto-si), var(--font-noto-ta), Georgia,
+    serif;
 }
 
 html {
@@ -97,7 +101,9 @@ html {
 body {
   background: var(--bg);
   color: var(--text);
-  font-family: var(--font-geist-sans), var(--font-noto-si), var(--font-noto-ta), system-ui, sans-serif;
+  font-family:
+    var(--font-geist-sans), var(--font-noto-si), var(--font-noto-ta), system-ui,
+    sans-serif;
   font-size: 15px;
   line-height: 1.45;
   min-height: 100dvh;
@@ -166,8 +172,16 @@ textarea {
 
 .hill-wash {
   background-image:
-    radial-gradient(ellipse 60% 40% at 15% 100%, color-mix(in srgb, var(--muted) 9%, transparent), transparent 70%),
-    radial-gradient(ellipse 50% 35% at 85% 0%, color-mix(in srgb, var(--muted) 7%, transparent), transparent 70%);
+    radial-gradient(
+      ellipse 60% 40% at 15% 100%,
+      color-mix(in srgb, var(--muted) 9%, transparent),
+      transparent 70%
+    ),
+    radial-gradient(
+      ellipse 50% 35% at 85% 0%,
+      color-mix(in srgb, var(--muted) 7%, transparent),
+      transparent 70%
+    );
 }
 
 /* Settings: text size (see lib/prefs.ts). */

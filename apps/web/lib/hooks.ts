@@ -61,7 +61,9 @@ export function useAction<A extends unknown[], R>(fn: (...a: A) => Promise<R>) {
 export function useTheme() {
   const [theme, setThemeState] = useState<"light" | "dark">("light");
   useEffect(() => {
-    setThemeState(document.documentElement.dataset.theme === "dark" ? "dark" : "light");
+    setThemeState(
+      document.documentElement.dataset.theme === "dark" ? "dark" : "light",
+    );
   }, []);
   const setTheme = (t: "light" | "dark") => {
     document.documentElement.dataset.theme = t;

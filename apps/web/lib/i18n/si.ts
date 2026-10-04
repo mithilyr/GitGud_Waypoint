@@ -14,7 +14,8 @@ const driver: Record<keyof typeof driverEn, string> = {
   sync: "සමමුහුර්ත",
   help: "උදව්",
   tripLeaves: "{n} වන ගමන {t}ට පිටත් වේ.",
-  homeLede: "{district} {brand} නැවතුම් {count}ක්. සියල්ල පටවා දුරකථනයේ සුරැකී ඇත.",
+  homeLede:
+    "{district} {brand} නැවතුම් {count}ක්. සියල්ල පටවා දුරකථනයේ සුරැකී ඇත.",
   vehicle: "වාහනය",
   beforeYouLeave: "පිටත් වීමට පෙර",
   runSaved: "ධාවනය ඔෆ්ලයින් සඳහා සුරැකිණි",
@@ -38,4 +39,14 @@ const driver: Record<keyof typeof driverEn, string> = {
   tripDone: "ධාවනය අවසන්.",
 };
 
-export const si: Record<Key, string> = { ...driver, ...common.si, ...store.si, ...storeTrack.si, ...storeMisc.si, ...auth.si, ...disp.si, ...loader.si, ...driverDomain.si };
+export const si: Record<Key, string> = {
+  ...driver,
+  ...common.si,
+  ...store.si,
+  ...storeTrack.si,
+  ...storeMisc.si,
+  ...auth.si,
+  ...disp.si,
+  ...loader.si,
+  ...driverDomain.si,
+};

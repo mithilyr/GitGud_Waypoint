@@ -29,7 +29,9 @@ export default function HelpPage() {
         <NavRow label={t("settings.title")} href="/store/settings" />
       </div>
       <Link href="/store/contact" className="mt-6 block lg:inline-block">
-        <Button size="lg" block className="lg:px-10">{t("store.help.contact")}</Button>
+        <Button size="lg" block className="lg:px-10">
+          {t("store.help.contact")}
+        </Button>
       </Link>
     </div>
   );

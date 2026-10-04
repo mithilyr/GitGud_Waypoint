@@ -3,7 +3,20 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { ActionBar } from "@/components/ActionBar";
-import { Bar, Button, Card, ErrorNote, Eyebrow, Headline, Icon, Lead, Pill, Sheet, Spinner, toast } from "@/components/ui";
+import {
+  Bar,
+  Button,
+  Card,
+  ErrorNote,
+  Eyebrow,
+  Headline,
+  Icon,
+  Lead,
+  Pill,
+  Sheet,
+  Spinner,
+  toast,
+} from "@/components/ui";
 import { get, post } from "@/lib/api";
 import { fmtDate, kg, m3 } from "@/lib/format";
 import { useAction, usePoll } from "@/lib/hooks";
@@ -12,7 +25,16 @@ import type { Key } from "@/lib/i18n/en";
 import { useDispatch } from "../layout";
 
 type Warning = { rule: string; severity: "red" | "amber"; text: string };
-type StopDetail = { order_id: string; outlet: string; temp: string; weight_kg: number; volume_m3: number; eta: string | null; seq: number; second_skip: boolean };
+type StopDetail = {
+  order_id: string;
+  outlet: string;
+  temp: string;
+  weight_kg: number;
+  volume_m3: number;
+  eta: string | null;
+  seq: number;
+  second_skip: boolean;
+};
 type TripRow = {
   trip_id: number;
   trip_no: number;
@@ -59,24 +81,56 @@ type Deferred = {
   second_skip: boolean;
 };
 type Board = {
-  plan: { id: number; depot: string; service_date: string; status: string; version: number } | null;
-  summary: { vehicles_total: number; vehicles_available: number; vehicles_assigned: number; unassigned: number; blocking: number; caution: number; orders_served: number; orders_deferred: number };
+  plan: {
+    id: number;
+    depot: string;
+    service_date: string;
+    status: string;
+    version: number;
+  } | null;
+  summary: {
+    vehicles_total: number;
+    vehicles_available: number;
+    vehicles_assigned: number;
+    unassigned: number;
+    blocking: number;
+    caution: number;
+    orders_served: number;
+    orders_deferred: number;
+  };
   vehicles: VehicleRow[];
   deferred: Deferred[];
 };
 
-const REASONS = ["capacity_volume", "capacity_weight", "no_reefer", "no_van", "time_budget", "fuel_quota", "manual"] as const;
+const REASONS = [
+  "capacity_volume",
+  "capacity_weight",
+  "no_reefer",
+  "no_van",
+  "time_budget",
+  "fuel_quota",
+  "manual",
+] as const;
 const reasonKey = (code: string) => `disp.plan.reason.${code}` as Key;
 
 export default function PlanPage() {
   const { t } = useT();
   const { depot, date } = useDispatch();
   const router = useRouter();
-  const { data, error, loading, reload, setData } = usePoll(() => get<Board>(`/dispatch/plan?depot=${depot}&date=${date}`), 0, [depot, date]);
+  const { data, error, loading, reload, setData } = usePoll(
+    () => get<Board>(`/dispatch/plan?depot=${depot}&date=${date}`),
+    0,
+    [depot, date],
+  );
   const [open, setOpen] = useState<VehicleRow | null>(null);
-  const [deferring, setDeferring] = useState<{ order: StopDetail | Deferred; trip?: TripRow } | null>(null);
+  const [deferring, setDeferring] = useState<{
+    order: StopDetail | Deferred;
+    trip?: TripRow;
+  } | null>(null);
 
-  const build = useAction(async () => setData(await post<Board>("/dispatch/plan", { depot, date })));
+  const build = useAction(async () =>
+    setData(await post<Board>("/dispatch/plan", { depot, date })),
+  );
   const release = useAction(async (id: number) => {
     const b = await post<Board>(`/dispatch/plan/${id}/release`);
     setData(b);
@@ -84,7 +138,12 @@ export default function PlanPage() {
     router.push("/dispatcher/live");
   });
 
-  if (loading && !data) return <div className="grid place-items-center py-24 text-muted"><Spinner /></div>;
+  if (loading && !data)
+    return (
+      <div className="grid place-items-center py-24 text-muted">
+        <Spinner />
+      </div>
+    );
   if (!data) return <ErrorNote error={error} retry={reload} />;
 
   if (!data.plan) {
@@ -94,7 +153,12 @@ export default function PlanPage() {
         <Headline className="mt-1">{t("disp.plan.none")}</Headline>
         <p className="mt-2 text-muted">{t("disp.plan.noneBody")}</p>
         <ErrorNote error={build.error} />
-        <Button size="lg" className="mt-5" busy={build.busy} onClick={() => build.run()}>
+        <Button
+          size="lg"
+          className="mt-5"
+          busy={build.busy}
+          onClick={() => build.run()}
+        >
           {t("disp.plan.buildNow")}
         </Button>
       </div>
@@ -110,20 +174,40 @@ export default function PlanPage() {
     <div className="rise fit-col">
       <Lead>
         {released
-          ? t("disp.plan.eyebrowReleased", { date: fmtDate(plan.service_date), depot: plan.depot, v: plan.version })
-          : t("disp.plan.eyebrow", { date: fmtDate(plan.service_date), depot: plan.depot })}
+          ? t("disp.plan.eyebrowReleased", {
+              date: fmtDate(plan.service_date),
+              depot: plan.depot,
+              v: plan.version,
+            })
+          : t("disp.plan.eyebrow", {
+              date: fmtDate(plan.service_date),
+              depot: plan.depot,
+            })}
       </Lead>
       <Headline className="mt-1">
-        {released ? t("disp.plan.released") : ready ? t("disp.plan.ready") : t("disp.plan.assigned", { a: summary.vehicles_assigned, b: summary.vehicles_available })}
+        {released
+          ? t("disp.plan.released")
+          : ready
+            ? t("disp.plan.ready")
+            : t("disp.plan.assigned", {
+                a: summary.vehicles_assigned,
+                b: summary.vehicles_available,
+              })}
       </Headline>
       <p className="mt-2 max-w-[760px] text-[15px] text-muted">
         {released
           ? t("disp.plan.releasedBody")
           : ready
             ? summary.orders_deferred
-              ? t("disp.plan.readyBodyDeferred", { n: summary.orders_deferred, depot: plan.depot })
+              ? t("disp.plan.readyBodyDeferred", {
+                  n: summary.orders_deferred,
+                  depot: plan.depot,
+                })
               : t("disp.plan.readyBody", { depot: plan.depot })
-            : t("disp.plan.blockBody", { u: summary.unassigned, b: summary.blocking })}
+            : t("disp.plan.blockBody", {
+                u: summary.unassigned,
+                b: summary.blocking,
+              })}
       </p>
 
       <Card className="mt-5 hidden min-h-[200px] overflow-hidden md:flex md:min-h-[200px] md:flex-1 md:flex-col">
@@ -131,7 +215,17 @@ export default function PlanPage() {
           <table className="w-full min-w-[1040px] text-left">
             <thead className="sticky top-0 z-10 bg-surface">
               <tr className="border-b border-line">
-                {(["vehicle", "trip1", "trip2", "volume", "weight", "fuel", "warning"] as const).map((h) => (
+                {(
+                  [
+                    "vehicle",
+                    "trip1",
+                    "trip2",
+                    "volume",
+                    "weight",
+                    "fuel",
+                    "warning",
+                  ] as const
+                ).map((h) => (
                   <th key={h} className="eyebrow px-4 py-3 font-semibold">
                     {t(`disp.plan.col.${h}` as Key)}
                   </th>
@@ -156,10 +250,15 @@ export default function PlanPage() {
 
       {deferred.length ? (
         <section className="mt-6 md:mt-4 md:flex md:max-h-[30%] md:shrink-0 md:flex-col">
-          <Eyebrow>{t("disp.plan.deferredTitle", { n: deferred.length })}</Eyebrow>
+          <Eyebrow>
+            {t("disp.plan.deferredTitle", { n: deferred.length })}
+          </Eyebrow>
           <Card className="mt-2 divide-y divide-line md:min-h-0 md:overflow-auto">
             {deferred.map((d) => (
-              <div key={d.order_id} className="flex flex-wrap items-center gap-x-4 gap-y-2 px-4 py-3">
+              <div
+                key={d.order_id}
+                className="flex flex-wrap items-center gap-x-4 gap-y-2 px-4 py-3"
+              >
                 <div className="min-w-[160px]">
                   <div className="font-semibold">{d.outlet}</div>
                   <div className="font-data text-muted">{d.order_id}</div>
@@ -167,21 +266,51 @@ export default function PlanPage() {
                 <div className="font-data tabular text-[13px] text-muted">
                   {kg(d.weight_kg)} · {m3(d.volume_m3)}
                 </div>
-                {d.temp === "chilled" ? <Pill tone="info">{t("common.chilled")}</Pill> : null}
-                <Pill tone="warn">{REASONS.includes(d.reason as (typeof REASONS)[number]) ? t(reasonKey(d.reason)) : d.reason_label}</Pill>
-                {d.second_skip ? <Pill tone="bad">{t("disp.plan.secondSkip")}</Pill> : null}
+                {d.temp === "chilled" ? (
+                  <Pill tone="info">{t("common.chilled")}</Pill>
+                ) : null}
+                <Pill tone="warn">
+                  {REASONS.includes(d.reason as (typeof REASONS)[number])
+                    ? t(reasonKey(d.reason))
+                    : d.reason_label}
+                </Pill>
+                {d.second_skip ? (
+                  <Pill tone="bad">{t("disp.plan.secondSkip")}</Pill>
+                ) : null}
                 <span className="text-[13px] text-muted">
-                  {t("disp.plan.toDate", { who: d.source === "dispatcher" ? t("disp.plan.you") : t("disp.plan.engine"), date: fmtDate(d.deferred_to) })}
+                  {t("disp.plan.toDate", {
+                    who:
+                      d.source === "dispatcher"
+                        ? t("disp.plan.you")
+                        : t("disp.plan.engine"),
+                    date: fmtDate(d.deferred_to),
+                  })}
                   {d.note ? ` · “${d.note}”` : ""}
                 </span>
-                <AssignMenu vehicles={vehicles} onPick={async (vid) => {
-                  try {
-                    apply(await post<Board>(`/dispatch/plan/${plan.id}/move`, { order_id: d.order_id, vehicle_id: vid }));
-                    toast(t("disp.plan.planned", { outlet: d.outlet, v: vid }), "info");
-                  } catch (e) {
-                    toast(e instanceof Error ? e.message : t("disp.plan.couldNotMove"), "bad");
-                  }
-                }} />
+                <AssignMenu
+                  vehicles={vehicles}
+                  onPick={async (vid) => {
+                    try {
+                      apply(
+                        await post<Board>(`/dispatch/plan/${plan.id}/move`, {
+                          order_id: d.order_id,
+                          vehicle_id: vid,
+                        }),
+                      );
+                      toast(
+                        t("disp.plan.planned", { outlet: d.outlet, v: vid }),
+                        "info",
+                      );
+                    } catch (e) {
+                      toast(
+                        e instanceof Error
+                          ? e.message
+                          : t("disp.plan.couldNotMove"),
+                        "bad",
+                      );
+                    }
+                  }}
+                />
               </div>
             ))}
           </Card>
@@ -191,13 +320,22 @@ export default function PlanPage() {
       <ActionBar
         note={
           <>
-            {released ? t("disp.plan.footReleased") : ready ? t("disp.plan.footReady") : t("disp.plan.footBlock", { n: summary.blocking })}
+            {released
+              ? t("disp.plan.footReleased")
+              : ready
+                ? t("disp.plan.footReady")
+                : t("disp.plan.footBlock", { n: summary.blocking })}
             <ErrorNote error={release.error} />
           </>
         }
       >
         {!released ? (
-          <Button variant="secondary" size="lg" busy={build.busy} onClick={() => build.run()}>
+          <Button
+            variant="secondary"
+            size="lg"
+            busy={build.busy}
+            onClick={() => build.run()}
+          >
             {t("disp.plan.rebuild")}
           </Button>
         ) : null}
@@ -206,14 +344,23 @@ export default function PlanPage() {
             {t("disp.plan.openLive")}
           </Button>
         ) : (
-          <Button size="lg" disabled={!ready} busy={release.busy} onClick={() => release.run(plan.id)}>
+          <Button
+            size="lg"
+            disabled={!ready}
+            busy={release.busy}
+            onClick={() => release.run(plan.id)}
+          >
             {ready ? t("disp.plan.release") : t("disp.plan.fix")}
           </Button>
         )}
       </ActionBar>
 
       <VehicleSheet
-        v={open ? vehicles.find((x) => x.vehicle_id === open.vehicle_id) ?? null : null}
+        v={
+          open
+            ? (vehicles.find((x) => x.vehicle_id === open.vehicle_id) ?? null)
+            : null
+        }
         vehicles={vehicles}
         planId={plan.id}
         onClose={() => setOpen(null)}
@@ -242,20 +389,37 @@ function VehicleTr({ v, onOpen }: { v: VehicleRow; onOpen: () => void }) {
     tr ? (
       <div>
         <div className="text-[14px] font-semibold">
-          {t("disp.plan.tripCell", { brand: tr.brand, district: tr.district, n: tr.stops })}
+          {t("disp.plan.tripCell", {
+            brand: tr.brand,
+            district: tr.district,
+            n: tr.stops,
+          })}
         </div>
-        {tr.chilled ? <span className="text-[12px] text-info">{t("disp.plan.chilledTag")}</span> : null}
+        {tr.chilled ? (
+          <span className="text-[12px] text-info">
+            {t("disp.plan.chilledTag")}
+          </span>
+        ) : null}
       </div>
     ) : (
       <span className="text-faint">—</span>
     );
   return (
-    <tr onClick={v.available || v.trips.length ? onOpen : undefined} className={`hoverable h-[60px] cursor-pointer border-b border-line last:border-0 hover:bg-neutral/60 ${!v.available ? "opacity-60" : ""}`}>
+    <tr
+      onClick={v.available || v.trips.length ? onOpen : undefined}
+      className={`hoverable h-[60px] cursor-pointer border-b border-line last:border-0 hover:bg-neutral/60 ${!v.available ? "opacity-60" : ""}`}
+    >
       <td className="px-4">
         <div className="font-data font-semibold">{v.vehicle_id}</div>
         <div className="text-[12px] text-muted">{v.kind}</div>
       </td>
-      <td className="px-4">{v.available ? cell(t1) : <Pill tone="neutral">{t("disp.plan.workshop")}</Pill>}</td>
+      <td className="px-4">
+        {v.available ? (
+          cell(t1)
+        ) : (
+          <Pill tone="neutral">{t("disp.plan.workshop")}</Pill>
+        )}
+      </td>
       <td className="px-4">{cell(t2)}</td>
       <td className="w-[170px] whitespace-nowrap px-4">
         {v.trips.length ? (
@@ -282,13 +446,19 @@ function VehicleTr({ v, onOpen }: { v: VehicleRow; onOpen: () => void }) {
       <td className="font-data tabular px-4">{v.fuel_left_pct}%</td>
       <td className="px-4">
         <div className="flex flex-wrap gap-1">
-          {!v.available ? <span className="text-[12px] text-muted">{v.workshop_note}</span> : null}
+          {!v.available ? (
+            <span className="text-[12px] text-muted">{v.workshop_note}</span>
+          ) : null}
           {v.warnings.map((w, i) => (
             <Pill key={i} tone={w.severity === "red" ? "bad" : "warn"}>
               {w.text}
             </Pill>
           ))}
-          {v.available && !v.trips.length ? <span className="text-[12px] text-muted">{t("disp.plan.notAssigned")}</span> : null}
+          {v.available && !v.trips.length ? (
+            <span className="text-[12px] text-muted">
+              {t("disp.plan.notAssigned")}
+            </span>
+          ) : null}
         </div>
       </td>
     </tr>
@@ -299,38 +469,69 @@ function VehicleCard({ v, onOpen }: { v: VehicleRow; onOpen: () => void }) {
   const { t } = useT();
   return (
     <Card className={`p-4 ${!v.available ? "opacity-60" : ""}`}>
-      <button onClick={v.available || v.trips.length ? onOpen : undefined} className="block w-full text-left">
+      <button
+        onClick={v.available || v.trips.length ? onOpen : undefined}
+        className="block w-full text-left"
+      >
         <div className="flex items-start justify-between gap-2">
           <div>
-            <div className="font-data text-[15px] font-semibold">{v.vehicle_id}</div>
+            <div className="font-data text-[15px] font-semibold">
+              {v.vehicle_id}
+            </div>
             <div className="text-[12px] text-muted">{v.kind}</div>
           </div>
-          {!v.available ? <Pill tone="neutral">{t("disp.plan.workshop")}</Pill> : <span className="font-data text-[12px] text-muted tabular">{v.fuel_left_pct}%</span>}
+          {!v.available ? (
+            <Pill tone="neutral">{t("disp.plan.workshop")}</Pill>
+          ) : (
+            <span className="font-data text-[12px] text-muted tabular">
+              {v.fuel_left_pct}%
+            </span>
+          )}
         </div>
         {v.trips.map((tr) => (
           <div key={tr.trip_id} className="mt-2 text-[14px] font-semibold">
-            {t("disp.plan.tripCell", { brand: tr.brand, district: tr.district, n: tr.stops })}
-            {tr.chilled ? <span className="ml-1 text-[12px] font-normal text-info">{t("disp.plan.chilledTag")}</span> : null}
+            {t("disp.plan.tripCell", {
+              brand: tr.brand,
+              district: tr.district,
+              n: tr.stops,
+            })}
+            {tr.chilled ? (
+              <span className="ml-1 text-[12px] font-normal text-info">
+                {t("disp.plan.chilledTag")}
+              </span>
+            ) : null}
           </div>
         ))}
-        {v.available && !v.trips.length ? <div className="mt-2 text-[12px] text-muted">{t("disp.plan.notAssigned")}</div> : null}
+        {v.available && !v.trips.length ? (
+          <div className="mt-2 text-[12px] text-muted">
+            {t("disp.plan.notAssigned")}
+          </div>
+        ) : null}
         {v.trips.length ? (
           <div className="mt-3 grid grid-cols-2 gap-3">
             <div>
-              <div className="font-data mb-1 text-[11px] text-muted tabular">{v.volume_m3.toFixed(1)}/{v.volume_cap_m3} m³ · {v.volume_pct}%</div>
+              <div className="font-data mb-1 text-[11px] text-muted tabular">
+                {v.volume_m3.toFixed(1)}/{v.volume_cap_m3} m³ · {v.volume_pct}%
+              </div>
               <Bar pct={v.volume_pct} />
             </div>
             <div>
-              <div className="font-data mb-1 text-[11px] text-muted tabular">{v.weight_pct}%</div>
+              <div className="font-data mb-1 text-[11px] text-muted tabular">
+                {v.weight_pct}%
+              </div>
               <Bar pct={v.weight_pct} />
             </div>
           </div>
         ) : null}
         {v.warnings.length || !v.available ? (
           <div className="mt-3 flex flex-wrap gap-1">
-            {!v.available ? <span className="text-[12px] text-muted">{v.workshop_note}</span> : null}
+            {!v.available ? (
+              <span className="text-[12px] text-muted">{v.workshop_note}</span>
+            ) : null}
             {v.warnings.map((w, i) => (
-              <Pill key={i} tone={w.severity === "red" ? "bad" : "warn"}>{w.text}</Pill>
+              <Pill key={i} tone={w.severity === "red" ? "bad" : "warn"}>
+                {w.text}
+              </Pill>
             ))}
           </div>
         ) : null}
@@ -339,22 +540,42 @@ function VehicleCard({ v, onOpen }: { v: VehicleRow; onOpen: () => void }) {
   );
 }
 
-function AssignMenu({ vehicles, onPick }: { vehicles: VehicleRow[]; onPick: (vehicleId: string) => void }) {
+function AssignMenu({
+  vehicles,
+  onPick,
+}: {
+  vehicles: VehicleRow[];
+  onPick: (vehicleId: string) => void;
+}) {
   const { t } = useT();
   const [v, setV] = useState("");
   return (
     <div className="flex items-center gap-2">
-      <select value={v} onChange={(e) => setV(e.target.value)} className="h-9 rounded-[8px] border border-line bg-surface px-2 text-[13px]" aria-label={t("disp.plan.assignTo")}>
+      <select
+        value={v}
+        onChange={(e) => setV(e.target.value)}
+        className="h-9 rounded-[8px] border border-line bg-surface px-2 text-[13px]"
+        aria-label={t("disp.plan.assignTo")}
+      >
         <option value="">{t("disp.plan.planIt")}</option>
         {vehicles
           .filter((x) => x.available)
           .map((x) => (
             <option key={x.vehicle_id} value={x.vehicle_id}>
-              {t("disp.plan.full", { v: x.vehicle_id, kind: x.kind, pct: x.volume_pct })}
+              {t("disp.plan.full", {
+                v: x.vehicle_id,
+                kind: x.kind,
+                pct: x.volume_pct,
+              })}
             </option>
           ))}
       </select>
-      <Button size="sm" variant="secondary" disabled={!v} onClick={() => v && onPick(v)}>
+      <Button
+        size="sm"
+        variant="secondary"
+        disabled={!v}
+        onClick={() => v && onPick(v)}
+      >
         {t("disp.plan.assign")}
       </Button>
     </div>
@@ -381,10 +602,18 @@ function VehicleSheet({
   async function move(orderId: string, vehicleId: string) {
     setBusy(orderId);
     try {
-      onChange(await post<Board>(`/dispatch/plan/${planId}/move`, { order_id: orderId, vehicle_id: vehicleId }));
+      onChange(
+        await post<Board>(`/dispatch/plan/${planId}/move`, {
+          order_id: orderId,
+          vehicle_id: vehicleId,
+        }),
+      );
       toast(t("disp.plan.movedToast", { v: vehicleId }), "info");
     } catch (e) {
-      toast(e instanceof Error ? e.message : t("disp.plan.couldNotMove"), "bad");
+      toast(
+        e instanceof Error ? e.message : t("disp.plan.couldNotMove"),
+        "bad",
+      );
     } finally {
       setBusy(null);
     }
@@ -396,12 +625,18 @@ function VehicleSheet({
           <div className="flex items-start justify-between">
             <div>
               <Eyebrow>{v.kind}</Eyebrow>
-              <div className="font-display text-[28px] font-medium">{v.vehicle_id}</div>
+              <div className="font-display text-[28px] font-medium">
+                {v.vehicle_id}
+              </div>
               <div className="font-data text-muted">
                 {v.volume_cap_m3} m³ · {kg(v.weight_cap_kg)}
               </div>
             </div>
-            <button onClick={onClose} aria-label={t("common.close")} className="grid h-9 w-9 place-items-center rounded-full hover:bg-neutral">
+            <button
+              onClick={onClose}
+              aria-label={t("common.close")}
+              className="grid h-9 w-9 place-items-center rounded-full hover:bg-neutral"
+            >
               <Icon.Close />
             </button>
           </div>
@@ -415,40 +650,68 @@ function VehicleSheet({
           {v.trips.map((trip) => (
             <div key={trip.trip_id} className="mt-6">
               <Eyebrow>
-                {t("disp.plan.trip", { n: trip.trip_no, brand: trip.brand, district: trip.district, t: trip.depart ?? "?", m: trip.minutes })}
+                {t("disp.plan.trip", {
+                  n: trip.trip_no,
+                  brand: trip.brand,
+                  district: trip.district,
+                  t: trip.depart ?? "?",
+                  m: trip.minutes,
+                })}
               </Eyebrow>
               <div className="mt-2 divide-y divide-line rounded-[10px] border border-line">
                 {trip.stops_detail
                   .slice()
                   .sort((a, b) => a.seq - b.seq)
                   .map((s) => (
-                    <div key={s.order_id} className="flex flex-wrap items-center gap-2 px-3 py-2.5">
+                    <div
+                      key={s.order_id}
+                      className="flex flex-wrap items-center gap-2 px-3 py-2.5"
+                    >
                       <span className="font-data w-5 text-muted">{s.seq}</span>
                       <div className="min-w-[120px] flex-1">
                         <div className="font-semibold">{s.outlet}</div>
                         <div className="font-data text-[12px] text-muted">
-                          {t("disp.plan.stopLine", { id: s.order_id, w: kg(s.weight_kg), v: m3(s.volume_m3), eta: s.eta ?? "" })}
+                          {t("disp.plan.stopLine", {
+                            id: s.order_id,
+                            w: kg(s.weight_kg),
+                            v: m3(s.volume_m3),
+                            eta: s.eta ?? "",
+                          })}
                         </div>
                       </div>
-                      {s.temp === "chilled" ? <Pill tone="info">{t("common.chilled")}</Pill> : null}
-                      {s.second_skip ? <Pill tone="bad">{t("disp.plan.skippedLast")}</Pill> : null}
+                      {s.temp === "chilled" ? (
+                        <Pill tone="info">{t("common.chilled")}</Pill>
+                      ) : null}
+                      {s.second_skip ? (
+                        <Pill tone="bad">{t("disp.plan.skippedLast")}</Pill>
+                      ) : null}
                       <select
                         defaultValue=""
                         disabled={busy === s.order_id}
-                        onChange={(e) => e.target.value && move(s.order_id, e.target.value)}
+                        onChange={(e) =>
+                          e.target.value && move(s.order_id, e.target.value)
+                        }
                         className="h-8 max-w-[150px] rounded-[6px] border border-line bg-surface px-1.5 text-[12px]"
-                        aria-label={t("disp.plan.moveLabel", { outlet: s.outlet })}
+                        aria-label={t("disp.plan.moveLabel", {
+                          outlet: s.outlet,
+                        })}
                       >
                         <option value="">{t("disp.plan.moveTo")}</option>
                         {vehicles
-                          .filter((x) => x.available && x.vehicle_id !== v.vehicle_id)
+                          .filter(
+                            (x) => x.available && x.vehicle_id !== v.vehicle_id,
+                          )
                           .map((x) => (
                             <option key={x.vehicle_id} value={x.vehicle_id}>
                               {x.vehicle_id} · {x.kind}
                             </option>
                           ))}
                       </select>
-                      <Button size="sm" variant="danger" onClick={() => onDefer(s, trip)}>
+                      <Button
+                        size="sm"
+                        variant="danger"
+                        onClick={() => onDefer(s, trip)}
+                      >
                         {t("disp.plan.defer")}
                       </Button>
                     </div>
@@ -456,7 +719,9 @@ function VehicleSheet({
               </div>
             </div>
           ))}
-          {!v.trips.length ? <p className="mt-6 text-muted">{t("disp.plan.nothingAssigned")}</p> : null}
+          {!v.trips.length ? (
+            <p className="mt-6 text-muted">{t("disp.plan.nothingAssigned")}</p>
+          ) : null}
         </div>
       ) : null}
     </Sheet>
@@ -481,7 +746,11 @@ function DeferSheet({
   const [note, setNote] = useState("");
   const a = useAction(async () => {
     if (!target) return;
-    const b = await post<Board>(`/dispatch/plan/${planId}/defer`, { order_id: target.order.order_id, reason, note: note || null });
+    const b = await post<Board>(`/dispatch/plan/${planId}/defer`, {
+      order_id: target.order.order_id,
+      reason,
+      note: note || null,
+    });
     toast(t("disp.plan.deferredToast"));
     setNote("");
     onDone(b);
@@ -494,14 +763,24 @@ function DeferSheet({
         <div className="p-6">
           <Eyebrow>{t("disp.plan.deferEyebrow", { id: o.order_id })}</Eyebrow>
           <div className="mt-1 font-display text-[26px] font-medium">
-            {o.outlet} <span className="text-muted">· {o.temp === "chilled" ? t("disp.orders.kind.chilled") : t("disp.plan.kindDry")}</span>
+            {o.outlet}{" "}
+            <span className="text-muted">
+              ·{" "}
+              {o.temp === "chilled"
+                ? t("disp.orders.kind.chilled")
+                : t("disp.plan.kindDry")}
+            </span>
           </div>
           <div className="font-data mt-1 text-muted">
             {kg(o.weight_kg)} · {m3(o.volume_m3)}
           </div>
           {skipped ? (
-            <div className="mt-4 rounded-[10px] bg-bad-bg px-3 py-2.5 text-[14px] text-bad" role="alert">
-              <b>{t("disp.plan.alreadySkipped")}</b>{t("disp.plan.alreadySkippedBody")}
+            <div
+              className="mt-4 rounded-[10px] bg-bad-bg px-3 py-2.5 text-[14px] text-bad"
+              role="alert"
+            >
+              <b>{t("disp.plan.alreadySkipped")}</b>
+              {t("disp.plan.alreadySkippedBody")}
             </div>
           ) : null}
           <Eyebrow className="mt-5">{t("disp.plan.reason")}</Eyebrow>
@@ -533,7 +812,9 @@ function DeferSheet({
               {t("common.cancel")}
             </Button>
             <Button busy={a.busy} onClick={() => a.run()}>
-              {nextDate ? t("disp.plan.deferTo", { date: fmtDate(nextDate) }) : t("disp.plan.deferToNext")}
+              {nextDate
+                ? t("disp.plan.deferTo", { date: fmtDate(nextDate) })
+                : t("disp.plan.deferToNext")}
             </Button>
           </div>
         </div>

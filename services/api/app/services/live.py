@@ -1,4 +1,5 @@
 """The dispatcher's live run board (D-L): where every released trip is, and what needs a person."""
+
 from datetime import timedelta
 
 from sqlalchemy import select
@@ -38,7 +39,9 @@ def trip_state(trip: Trip, stops: list[Stop]) -> dict:
 def offline_log(db: Session, trip: Trip) -> list[dict]:
     """Events that reached the server late: what happened while the phone had no signal."""
     rows = db.scalars(
-        select(DeliveryEvent).where(DeliveryEvent.trip_id == trip.id, DeliveryEvent.late_by_s > SIGNAL_GAP_S).order_by(DeliveryEvent.device_ts)
+        select(DeliveryEvent)
+        .where(DeliveryEvent.trip_id == trip.id, DeliveryEvent.late_by_s > SIGNAL_GAP_S)
+        .order_by(DeliveryEvent.device_ts)
     )
     log = []
     for e in rows:
@@ -58,9 +61,7 @@ def offline_log(db: Session, trip: Trip) -> list[dict]:
 
 def board(db: Session, plan: Plan) -> dict:
     rows = []
-    open_conflicts = list(
-        db.scalars(select(Conflict).where(Conflict.status == "open").order_by(Conflict.id))
-    )
+    open_conflicts = list(db.scalars(select(Conflict).where(Conflict.status == "open").order_by(Conflict.id)))
     conflict_by_trip: dict[int, list[Conflict]] = {}
     for c in open_conflicts:
         s = db.get(Stop, c.stop_id)
@@ -155,7 +156,12 @@ def board(db: Session, plan: Plan) -> dict:
             }
         )
     issues = []
-    for rc in db.scalars(select(Receipt).join(Stop, Receipt.stop_id == Stop.id).join(Trip, Stop.trip_id == Trip.id).where(Trip.plan_id == plan.id, Receipt.status == "issue")):
+    for rc in db.scalars(
+        select(Receipt)
+        .join(Stop, Receipt.stop_id == Stop.id)
+        .join(Trip, Stop.trip_id == Trip.id)
+        .where(Trip.plan_id == plan.id, Receipt.status == "issue")
+    ):
         s = db.get(Stop, rc.stop_id)
         issues.append({"stop_id": s.id, "outlet": s.outlet.name or s.outlet_id, "vehicle_id": s.trip.vehicle_id})
     return {

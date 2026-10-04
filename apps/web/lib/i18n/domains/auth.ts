@@ -3,7 +3,8 @@ import { defineDomain } from "../define";
 export const auth = defineDomain({
   en: {
     "home.title": "From the store’s order to the signed receipt.",
-    "home.lede": "Four people, one shared record. Sign in and Waypoint opens the screens for your role: order, plan, load, deliver, receive.",
+    "home.lede":
+      "Four people, one shared record. Sign in and Waypoint opens the screens for your role: order, plan, load, deliver, receive.",
     "status.online": "System online",
     "status.waking": "Waking the server, about a minute",
     "status.checking": "Checking",
@@ -16,7 +17,8 @@ export const auth = defineDomain({
     "home.demoLoader": "{email} · PIN 1234",
     "home.demoDriver": "{email} (sets a PIN on the phone)",
     "login.title": "Sign in to Waypoint.",
-    "login.lede": "Use the account Waypoint gave you. It opens the screens for your role.",
+    "login.lede":
+      "Use the account Waypoint gave you. It opens the screens for your role.",
     "login.email": "Email",
     "login.password": "Password",
     "login.submit": "Sign in",
@@ -27,7 +29,8 @@ export const auth = defineDomain({
   },
   si: {
     "home.title": "අලෙවිසැලේ ඇණවුමේ සිට අත්සන් කළ රිසිට්පත දක්වා.",
-    "home.lede": "පුද්ගලයන් හතරයි, හවුල් වාර්තාවක්. පිවිසෙන්න, Waypoint ඔබේ භූමිකාවට අදාළ තිර විවෘත කරයි: ඇණවුම, සැලසුම, පැටවීම, බෙදාහැරීම, භාර ගැනීම.",
+    "home.lede":
+      "පුද්ගලයන් හතරයි, හවුල් වාර්තාවක්. පිවිසෙන්න, Waypoint ඔබේ භූමිකාවට අදාළ තිර විවෘත කරයි: ඇණවුම, සැලසුම, පැටවීම, බෙදාහැරීම, භාර ගැනීම.",
     "status.online": "පද්ධතිය සක්‍රියයි",
     "status.waking": "සේවාදායකය අවදි කරයි, මිනිත්තුවක් පමණ",
     "status.checking": "පරීක්ෂා කරයි",
@@ -40,7 +43,8 @@ export const auth = defineDomain({
     "home.demoLoader": "{email} · PIN 1234",
     "home.demoDriver": "{email} (දුරකථනයේ PIN එකක් සකසයි)",
     "login.title": "Waypoint වෙත පිවිසෙන්න.",
-    "login.lede": "Waypoint ඔබට දුන් ගිණුමෙන් පිවිසෙන්න. එය ඔබේ භූමිකාවට අදාළ තිර විවෘත කරයි.",
+    "login.lede":
+      "Waypoint ඔබට දුන් ගිණුමෙන් පිවිසෙන්න. එය ඔබේ භූමිකාවට අදාළ තිර විවෘත කරයි.",
     "login.email": "විද්‍යුත් තැපෑල",
     "login.password": "මුරපදය",
     "login.submit": "පිවිසෙන්න",
@@ -51,7 +55,8 @@ export const auth = defineDomain({
   },
   ta: {
     "home.title": "கடையின் ஆர்டரிலிருந்து கையொப்பமிட்ட ரசீது வரை.",
-    "home.lede": "நான்கு பேர், ஒரே பதிவு. உள்நுழையுங்கள்; Waypoint உங்கள் பணிக்கான திரைகளைத் திறக்கும்: ஆர்டர், திட்டம், ஏற்றுதல், வழங்கல், பெறுதல்.",
+    "home.lede":
+      "நான்கு பேர், ஒரே பதிவு. உள்நுழையுங்கள்; Waypoint உங்கள் பணிக்கான திரைகளைத் திறக்கும்: ஆர்டர், திட்டம், ஏற்றுதல், வழங்கல், பெறுதல்.",
     "status.online": "அமைப்பு இயங்குகிறது",
     "status.waking": "சேவையகத்தை எழுப்புகிறது, சுமார் ஒரு நிமிடம்",
     "status.checking": "சரிபார்க்கிறது",
@@ -64,7 +69,8 @@ export const auth = defineDomain({
     "home.demoLoader": "{email} · PIN 1234",
     "home.demoDriver": "{email} (தொலைபேசியில் PIN அமைக்கும்)",
     "login.title": "Waypoint-இல் உள்நுழைக.",
-    "login.lede": "Waypoint உங்களுக்கு வழங்கிய கணக்கில் உள்நுழையுங்கள். அது உங்கள் பணிக்கான திரைகளைத் திறக்கும்.",
+    "login.lede":
+      "Waypoint உங்களுக்கு வழங்கிய கணக்கில் உள்நுழையுங்கள். அது உங்கள் பணிக்கான திரைகளைத் திறக்கும்.",
     "login.email": "மின்னஞ்சல்",
     "login.password": "கடவுச்சொல்",
     "login.submit": "உள்நுழை",

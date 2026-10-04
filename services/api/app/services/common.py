@@ -1,4 +1,5 @@
 """Shared helpers: clock, notifications, conversions between DB rows and the allocation package."""
+
 import math
 from collections import OrderedDict
 from datetime import date, datetime, timedelta, timezone
@@ -57,9 +58,7 @@ def notify(
     depot: str | None = None,
     meta: dict | None = None,
 ) -> Notification:
-    n = Notification(
-        role=role, kind=kind, title=title, body=body, user_id=user_id, outlet_id=outlet_id, depot=depot, meta=meta or {}
-    )
+    n = Notification(role=role, kind=kind, title=title, body=body, user_id=user_id, outlet_id=outlet_id, depot=depot, meta=meta or {})
     db.add(n)
     return n
 
@@ -118,9 +117,7 @@ def load_groups(order: Order) -> list[dict]:
     """Collapse an order's lines into what the loader and driver handle: one row per load group."""
     groups: OrderedDict[str, dict] = OrderedDict()
     for ln in order.lines or []:
-        g = groups.setdefault(
-            ln["group"], {"group": ln["group"], "packs": 0, "unit": ln.get("pack_label", "crate"), "temp": ln["temp"]}
-        )
+        g = groups.setdefault(ln["group"], {"group": ln["group"], "packs": 0, "unit": ln.get("pack_label", "crate"), "temp": ln["temp"]})
         g["packs"] += int(ln.get("packs", 1))
     return list(groups.values())
 

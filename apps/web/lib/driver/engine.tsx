@@ -4,14 +4,45 @@
 // outbox (IndexedDB) FIRST; sending is a separate, retried step. So nothing depends on signal, and a
 // retry can never double-apply because the server dedupes on the client UUID.
 
-import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from "react";
-import { ApiError, getToken, isNetworkError, post, get, setForceOffline, setToken } from "@/lib/api";
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
+import {
+  ApiError,
+  getToken,
+  isNetworkError,
+  post,
+  get,
+  setForceOffline,
+  setToken,
+} from "@/lib/api";
 import { User, useAuth } from "@/lib/auth";
 import { uuid } from "@/lib/format";
-import { kvDel, kvGet, kvSet, outboxAll, outboxDelete, outboxPut, type OutboxEvent } from "./idb";
+import {
+  kvDel,
+  kvGet,
+  kvSet,
+  outboxAll,
+  outboxDelete,
+  outboxPut,
+  type OutboxEvent,
+} from "./idb";
 import { checkPin, makePinRecord } from "./pin";
 
-export type Item = { group: string; unit: string; temp: string; planned: number; expected: number; flag: string | null };
+export type Item = {
+  group: string;
+  unit: string;
+  temp: string;
+  planned: number;
+  expected: number;
+  flag: string | null;
+};
 export type Delivery = {
   outcome: string;
   items: { group: string; unit: string; planned: number; handed: number }[];
@@ -45,11 +76,35 @@ export type TripT = {
   district: string;
   status: "planned" | "loading" | "released" | "out" | "completed";
   depart: string | null;
-  checks: { load_released: boolean; released_by: string | null; released_at: string | null; dock: string | null; reefer_temp: number | null; seal_no: string | null; chilled: boolean };
+  checks: {
+    load_released: boolean;
+    released_by: string | null;
+    released_at: string | null;
+    dock: string | null;
+    reefer_temp: number | null;
+    seal_no: string | null;
+    chilled: boolean;
+  };
   stops: StopT[];
 };
-export type Notice = { id: number; kind: string; title: string; body: string; at: string; read: boolean; meta: Record<string, unknown> };
-export type ConflictT = { id: number; stop_id: number; stop: string; line: string; driver_count: number; store_count: number; stance: string | null };
+export type Notice = {
+  id: number;
+  kind: string;
+  title: string;
+  body: string;
+  at: string;
+  read: boolean;
+  meta: Record<string, unknown>;
+};
+export type ConflictT = {
+  id: number;
+  stop_id: number;
+  stop: string;
+  line: string;
+  driver_count: number;
+  store_count: number;
+  stance: string | null;
+};
 export type Run = {
   server_time: string;
   driver: { id: number; name: string; code: string | null };
@@ -111,25 +166,51 @@ export function applyLocal(run: Run, e: OutboxEvent): Run {
     case "deliver":
       if (stop && trip) {
         const p = e.payload ?? {};
-        const items = ((p.items as { group: string; handed: number }[]) ?? []).map((i) => {
+        const items = (
+          (p.items as { group: string; handed: number }[]) ?? []
+        ).map((i) => {
           const it = stop.items.find((x) => x.group === i.group);
-          return { group: i.group, unit: it?.unit ?? "crate", planned: it?.expected ?? i.handed, handed: i.handed };
+          return {
+            group: i.group,
+            unit: it?.unit ?? "crate",
+            planned: it?.expected ?? i.handed,
+            handed: i.handed,
+          };
         });
         let outcome = (p.outcome as string) ?? "delivered";
-        if (outcome !== "failed") outcome = items.some((i) => i.handed < i.planned) ? "partial" : "delivered";
+        if (outcome !== "failed")
+          outcome = items.some((i) => i.handed < i.planned)
+            ? "partial"
+            : "delivered";
         stop.status = outcome as StopT["status"];
         stop.done_at = hhmm(e.device_ts);
-        stop.delivery = { outcome, items, note: p.note as string, reason: p.reason as string, signed_by: p.signed_by as string, photo: p.photo as string };
-        if (trip.stops.filter((s) => !s.removed).every((s) => ["delivered", "partial", "failed"].includes(s.status))) trip.status = "completed";
+        stop.delivery = {
+          outcome,
+          items,
+          note: p.note as string,
+          reason: p.reason as string,
+          signed_by: p.signed_by as string,
+          photo: p.photo as string,
+        };
+        if (
+          trip.stops
+            .filter((s) => !s.removed)
+            .every((s) => ["delivered", "partial", "failed"].includes(s.status))
+        )
+          trip.status = "completed";
       }
       break;
     case "conflict_answer": {
-      const c = r.conflicts.find((x) => x.id === Number(e.payload?.conflict_id));
+      const c = r.conflicts.find(
+        (x) => x.id === Number(e.payload?.conflict_id),
+      );
       if (c) c.stance = String(e.payload?.stance);
       break;
     }
     case "notice_read": {
-      const n = r.notices.find((x) => x.id === Number(e.payload?.notification_id));
+      const n = r.notices.find(
+        (x) => x.id === Number(e.payload?.notification_id),
+      );
       if (n) n.read = true;
       break;
     }
@@ -138,7 +219,11 @@ export function applyLocal(run: Run, e: OutboxEvent): Run {
 }
 
 function hhmm(iso: string) {
-  return new Date(iso).toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit", timeZone: "Asia/Colombo" });
+  return new Date(iso).toLocaleTimeString("en-GB", {
+    hour: "2-digit",
+    minute: "2-digit",
+    timeZone: "Asia/Colombo",
+  });
 }
 
 export function DriverProvider({ children }: { children: React.ReactNode }) {
@@ -160,7 +245,10 @@ export function DriverProvider({ children }: { children: React.ReactNode }) {
   const online = !simulate && !netDown;
 
   // What the driver sees: the last server copy with everything still in the outbox replayed on top.
-  const run = useMemo(() => (serverRun ? outbox.reduce(applyLocal, serverRun) : null), [serverRun, outbox]);
+  const run = useMemo(
+    () => (serverRun ? outbox.reduce(applyLocal, serverRun) : null),
+    [serverRun, outbox],
+  );
 
   const markOffline = useCallback(() => {
     setNetDown(true);
@@ -202,18 +290,38 @@ export function DriverProvider({ children }: { children: React.ReactNode }) {
     busy.current = true;
     setSyncing(true);
     // "Send photos on Wi-Fi only": while on mobile data, records that carry a proof photo stay in the outbox.
-    const conn = (navigator as Navigator & { connection?: { type?: string } }).connection;
-    const holdPhotos = localStorage.getItem("wp_driver_wifi") === "1" && conn?.type === "cellular";
-    const batch = outboxRef.current.filter((e) => !(holdPhotos && e.payload?.photo));
+    const conn = (navigator as Navigator & { connection?: { type?: string } })
+      .connection;
+    const holdPhotos =
+      localStorage.getItem("wp_driver_wifi") === "1" &&
+      conn?.type === "cellular";
+    const batch = outboxRef.current.filter(
+      (e) => !(holdPhotos && e.payload?.photo),
+    );
     try {
       if (batch.length) {
         setOutbox((o) => o.map((e) => ({ ...e, state: "sending" as const })));
-        const res = await post<{ results: { client_uuid: string; status: string; message: string }[]; run: Run }>("/sync", {
-          events: batch.map((e) => ({ client_uuid: e.client_uuid, kind: e.kind, trip_id: e.trip_id, stop_id: e.stop_id, device_ts: e.device_ts, payload: e.payload ?? {} })),
+        const res = await post<{
+          results: { client_uuid: string; status: string; message: string }[];
+          run: Run;
+        }>("/sync", {
+          events: batch.map((e) => ({
+            client_uuid: e.client_uuid,
+            kind: e.kind,
+            trip_id: e.trip_id,
+            stop_id: e.stop_id,
+            device_ts: e.device_ts,
+            payload: e.payload ?? {},
+          })),
         });
         for (const e of batch) await outboxDelete(e.client_uuid);
-        setOutbox((o) => o.filter((e) => !batch.some((b) => b.client_uuid === e.client_uuid)));
-        const notes = res.results.filter((r) => r.status === "conflict" || r.status === "rejected").map((r) => r.message).filter(Boolean);
+        setOutbox((o) =>
+          o.filter((e) => !batch.some((b) => b.client_uuid === e.client_uuid)),
+        );
+        const notes = res.results
+          .filter((r) => r.status === "conflict" || r.status === "rejected")
+          .map((r) => r.message)
+          .filter(Boolean);
         if (notes.length) setMessage(notes[0]);
         persistRun(res.run);
       } else {
@@ -247,7 +355,12 @@ export function DriverProvider({ children }: { children: React.ReactNode }) {
 
   const record: Engine["record"] = useCallback(
     async (e) => {
-      const full: OutboxEvent = { ...e, client_uuid: uuid(), device_ts: new Date().toISOString(), state: "waiting" };
+      const full: OutboxEvent = {
+        ...e,
+        client_uuid: uuid(),
+        device_ts: new Date().toISOString(),
+        state: "waiting",
+      };
       await outboxPut(full);
       setOutbox((o) => [...o, full]);
       // Try straight away; if there is no signal this simply stays saved on the phone.
@@ -277,10 +390,19 @@ export function DriverProvider({ children }: { children: React.ReactNode }) {
     [profile],
   );
 
-  const lock = useCallback(() => setPhase(profile?.pin ? "locked" : "signin"), [profile]);
+  const lock = useCallback(
+    () => setPhase(profile?.pin ? "locked" : "signin"),
+    [profile],
+  );
 
   const forget = useCallback(async () => {
-    if (outboxRef.current.length && !confirm("Some records have not been sent. Signing out now would lose them. Sign out anyway?")) return;
+    if (
+      outboxRef.current.length &&
+      !confirm(
+        "Some records have not been sent. Signing out now would lose them. Sign out anyway?",
+      )
+    )
+      return;
     for (const k of ["profile", "run", "token"]) await kvDel(k);
     for (const e of outboxRef.current) await outboxDelete(e.client_uuid);
     setToken(null);
@@ -308,7 +430,25 @@ export function DriverProvider({ children }: { children: React.ReactNode }) {
 
   return (
     <Ctx.Provider
-      value={{ phase, profile, run, outbox, online, simulate, offlineSince, lastSync, syncing, message, setPin, unlock, lock, forget, record, sync, setSimulate }}
+      value={{
+        phase,
+        profile,
+        run,
+        outbox,
+        online,
+        simulate,
+        offlineSince,
+        lastSync,
+        syncing,
+        message,
+        setPin,
+        unlock,
+        lock,
+        forget,
+        record,
+        sync,
+        setSimulate,
+      }}
     >
       {children}
     </Ctx.Provider>

@@ -5,6 +5,7 @@ trip_minutes = depot_to_district_freeflow_min
              + sum(service_allowance_min[brand, dock_type])
 The return leg is not added; the daily budgets already allow for it.
 """
+
 from dataclasses import dataclass, field
 
 from allocation.models import Order

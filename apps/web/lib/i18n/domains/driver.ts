@@ -6,7 +6,8 @@ export const driver = defineDomain({
     "drv.signin.title": "Sign in to see your runs.",
     "drv.signin.verify": "Verify and continue",
     "drv.signin.fill": "Fill the demo driver account",
-    "drv.signin.once": "You do this once. After that, a 4-digit PIN opens the app, even with no signal.",
+    "drv.signin.once":
+      "You do this once. After that, a 4-digit PIN opens the app, even with no signal.",
     "drv.signin.failed": "Could not sign in",
     "drv.pin.depot": "{code} · {depot} depot",
     "drv.pin.choose": "Choose a 4-digit PIN",
@@ -16,23 +17,28 @@ export const driver = defineDomain({
     "drv.pin.wrong": "That PIN is not right",
     "drv.pin.mismatch": "The two PINs did not match. Start again.",
     "drv.pin.simulated": "No signal (simulated)",
-    "drv.pin.unlockNote": "No signal needed to unlock. Your run downloads when you reach signal or the depot Wi-Fi.",
+    "drv.pin.unlockNote":
+      "No signal needed to unlock. Your run downloads when you reach signal or the depot Wi-Fi.",
     "drv.pin.setupNote": "This PIN stays on this phone.",
-    "drv.pin.demo": "Demo: this PIN only opens Nuwan’s run on this phone, with or without signal. The server never stores it.",
+    "drv.pin.demo":
+      "Demo: this PIN only opens Nuwan’s run on this phone, with or without signal. The server never stores it.",
     "drv.pin.notYou": "Not {name}? Sign in with your email",
     "drv.pin.you": "you",
     "drv.pin.delete": "Delete",
     "drv.shell.offlineSince": "Offline since {t}",
     "drv.shell.now": "now",
-    "drv.shell.keepGoing": "Keep going. Everything you record is saved here and sends when signal returns.",
+    "drv.shell.keepGoing":
+      "Keep going. Everything you record is saved here and sends when signal returns.",
     "drv.shell.saved": "{n} record(s) saved on this phone",
     "drv.shell.noRun": "No run for you yet.",
-    "drv.shell.noRunBody": "Dispatch has not released a plan with your vehicle. This screen updates by itself.",
+    "drv.shell.noRunBody":
+      "Dispatch has not released a plan with your vehicle. This screen updates by itself.",
     "drv.shell.sections": "Sections",
     "drv.change.title": "Plan changed",
     "drv.change.tag": "Plan changed · {t}",
     "drv.change.removed": "Removed from your run: {name}",
-    "drv.change.upToDate": "Your stop list is up to date below. Ruwan sees when you have read this.",
+    "drv.change.upToDate":
+      "Your stop list is up to date below. Ruwan sees when you have read this.",
     "drv.home.eyebrow": "{date} · {depot} depot",
     "drv.home.trip": "Trip {n} · {district}",
     "drv.home.reefer": "Reefer temperature",
@@ -66,7 +72,8 @@ export const driver = defineDomain({
     "drv.stop.startFirst": "Start the trip from the Run tab first.",
     "drv.stop.proofPhoto": "Proof photo",
     "drv.stop.report": "Report issue",
-    "drv.stop.arrivedNote": "Arrived {t}. Saved on this phone first, then sent when online.",
+    "drv.stop.arrivedNote":
+      "Arrived {t}. Saved on this phone first, then sent when online.",
     "drv.rec.eyebrow": "{name} · arrived {t}",
     "drv.rec.title": "Record delivery",
     "drv.rec.all": "All delivered",
@@ -86,8 +93,10 @@ export const driver = defineDomain({
     "drv.rec.receivedBy": "Received by (name)",
     "drv.rec.photo": "Proof photo",
     "drv.rec.photoOpt": "Photo (optional)",
-    "drv.rec.needProof": "Add proof: a photo, a signature, or the name of who received it.",
-    "drv.rec.needShort": "Partial means at least one line is short. Lower a count or choose All delivered.",
+    "drv.rec.needProof":
+      "Add proof: a photo, a signature, or the name of who received it.",
+    "drv.rec.needShort":
+      "Partial means at least one line is short. Lower a count or choose All delivered.",
     "drv.rec.savedNote": "Saved on this phone first, then sent when online.",
     "drv.rec.fewer": "One fewer {g}",
     "drv.rec.more": "One more {g}",
@@ -95,30 +104,38 @@ export const driver = defineDomain({
     "drv.sync.savedPhone": "Saved on this phone.",
     "drv.sync.sending": "Sending {n}…",
     "drv.sync.backOnline": "Back online.",
-    "drv.sync.recordsKeep": "Records keep the time you made them, in the order they happened.",
+    "drv.sync.recordsKeep":
+      "Records keep the time you made them, in the order they happened.",
     "drv.sync.reached": "Everything you recorded has reached dispatch.",
     "drv.sync.needsAnswer": "Needs your answer",
-    "drv.sync.conflictBody": "You recorded {a}, the store confirmed {b} while you were offline. Neither count is overwritten.",
+    "drv.sync.conflictBody":
+      "You recorded {a}, the store confirmed {b} while you were offline. Neither count is overwritten.",
     "drv.sync.youChoseAccept": "You chose to accept {n}. Ruwan will settle it.",
-    "drv.sync.youChoseDispute": "You chose to dispute ({n}). Ruwan will settle it.",
+    "drv.sync.youChoseDispute":
+      "You chose to dispute ({n}). Ruwan will settle it.",
     "drv.sync.disputeBtn": "Dispute · {n}",
     "drv.sync.acceptBtn": "Accept · {n}",
     "drv.sync.savedTitle": "Saved on this phone",
     "drv.sync.outbox": "Outbox",
     "drv.sync.sendingPill": "Sending",
-    "drv.sync.nothing": "Nothing waiting. New records appear here until they are sent.",
+    "drv.sync.nothing":
+      "Nothing waiting. New records appear here until they are sent.",
     "drv.help.eyebrow": "Works offline · {depot} · {v}",
     "drv.help.q1": "Lost signal?",
-    "drv.help.a1": "Keep delivering. Everything saves on your phone and sends by itself when the signal returns.",
+    "drv.help.a1":
+      "Keep delivering. Everything saves on your phone and sends by itself when the signal returns.",
     "drv.help.q2": "Store count is different",
-    "drv.help.a2": "Accept the store's count or dispute yours on the Sync tab. Nothing is overwritten; Ruwan reviews disputes.",
+    "drv.help.a2":
+      "Accept the store's count or dispute yours on the Sync tab. Nothing is overwritten; Ruwan reviews disputes.",
     "drv.help.q3": "Cannot unload, or store is closed",
-    "drv.help.a3": "Record the stop as Failed and pick a reason. Ruwan is told straight away.",
+    "drv.help.a3":
+      "Record the stop as Failed and pick a reason. Ruwan is told straight away.",
     "drv.help.call": "Call {name} · dispatcher",
     "drv.help.dispatch": "dispatch",
     "drv.call.eyebrow": "Peliyagoda dispatch · {v}",
     "drv.call.title": "Calling {name}",
-    "drv.call.lede": "Opening your phone’s dialler. With no signal, a text with your vehicle, stop and time is sent instead.",
+    "drv.call.lede":
+      "Opening your phone’s dialler. With no signal, a text with your vehicle, stop and time is sent instead.",
     "drv.call.sees": "What {name} sees",
     "drv.call.line": "{v} · stop {n}{stop} · {eta}",
     "drv.call.same": "The same line as your entry on the Live board.",
@@ -133,7 +150,8 @@ export const driver = defineDomain({
     "drv.settings.planAlert": "Plan-change alert",
     "drv.settings.planAlertSub": "Sound and vibration, even when locked",
     "drv.settings.simulate": "Simulate no signal",
-    "drv.settings.simulateSub": "For demos: works like airplane mode inside this app.",
+    "drv.settings.simulateSub":
+      "For demos: works like airplane mode inside this app.",
     "drv.settings.security": "SECURITY",
     "drv.settings.lockNow": "Lock now",
     "drv.settings.autoLock": "Auto-lock",
@@ -146,7 +164,8 @@ export const driver = defineDomain({
     "drv.signin.title": "ඔබේ ධාවන බැලීමට පිවිසෙන්න.",
     "drv.signin.verify": "තහවුරු කර ඉදිරියට යන්න",
     "drv.signin.fill": "ආදර්ශන රියදුරු ගිණුම පුරවන්න",
-    "drv.signin.once": "ඔබ මෙය එක් වරක් කරයි. ඉන්පසු සංඥාව නැතත් ඉලක්කම් 4ක PIN එකකින් යෙදුම විවෘත වේ.",
+    "drv.signin.once":
+      "ඔබ මෙය එක් වරක් කරයි. ඉන්පසු සංඥාව නැතත් ඉලක්කම් 4ක PIN එකකින් යෙදුම විවෘත වේ.",
     "drv.signin.failed": "පිවිසිය නොහැකි විය",
     "drv.pin.depot": "{code} · {depot} ඩිපෝව",
     "drv.pin.choose": "ඉලක්කම් 4ක PIN එකක් තෝරන්න",
@@ -156,29 +175,35 @@ export const driver = defineDomain({
     "drv.pin.wrong": "එම PIN එක වැරදියි",
     "drv.pin.mismatch": "PIN දෙක නොගැළපුණා. නැවත ආරම්භ කරන්න.",
     "drv.pin.simulated": "සංඥාව නැත (අනුකරණය)",
-    "drv.pin.unlockNote": "අගුළු හැරීමට සංඥාව අවශ්‍ය නැත. ඔබ සංඥාවට හෝ ඩිපෝ Wi-Fi වෙත පැමිණි විට ධාවනය බාගත වේ.",
+    "drv.pin.unlockNote":
+      "අගුළු හැරීමට සංඥාව අවශ්‍ය නැත. ඔබ සංඥාවට හෝ ඩිපෝ Wi-Fi වෙත පැමිණි විට ධාවනය බාගත වේ.",
     "drv.pin.setupNote": "මෙම PIN එක මෙම දුරකථනයේම පවතී.",
-    "drv.pin.demo": "ආදර්ශනය: මෙම PIN එක මෙම දුරකථනයේ පමණක් නුවන්ගේ ධාවනය විවෘත කරයි. සේවාදායකය එය කිසිදා ගබඩා නොකරයි.",
+    "drv.pin.demo":
+      "ආදර්ශනය: මෙම PIN එක මෙම දුරකථනයේ පමණක් නුවන්ගේ ධාවනය විවෘත කරයි. සේවාදායකය එය කිසිදා ගබඩා නොකරයි.",
     "drv.pin.notYou": "{name} නොවේද? ඔබේ විද්‍යුත් තැපෑලෙන් පිවිසෙන්න",
     "drv.pin.you": "ඔබ",
     "drv.pin.delete": "මකන්න",
     "drv.shell.offlineSince": "{t} සිට ඔෆ්ලයින්",
     "drv.shell.now": "දැන්",
-    "drv.shell.keepGoing": "ඉදිරියට යන්න. ඔබ වාර්තා කරන සියල්ල මෙහි සුරැකී සංඥාව ආපසු ලැබුණු විට යැවේ.",
+    "drv.shell.keepGoing":
+      "ඉදිරියට යන්න. ඔබ වාර්තා කරන සියල්ල මෙහි සුරැකී සංඥාව ආපසු ලැබුණු විට යැවේ.",
     "drv.shell.saved": "මෙම දුරකථනයේ වාර්තා {n}ක් සුරැකී ඇත",
     "drv.shell.noRun": "ඔබට තවම ධාවනයක් නැත.",
-    "drv.shell.noRunBody": "බෙදාහැරීම ඔබේ වාහනය සහිත සැලසුමක් නිකුත් කර නැත. මෙම තිරය ස්වයංක්‍රීයව යාවත්කාලීන වේ.",
+    "drv.shell.noRunBody":
+      "බෙදාහැරීම ඔබේ වාහනය සහිත සැලසුමක් නිකුත් කර නැත. මෙම තිරය ස්වයංක්‍රීයව යාවත්කාලීන වේ.",
     "drv.shell.sections": "අංශ",
     "drv.change.title": "සැලසුම වෙනස් විය",
     "drv.change.tag": "සැලසුම වෙනස් විය · {t}",
     "drv.change.removed": "ඔබේ ධාවනයෙන් ඉවත් කළා: {name}",
-    "drv.change.upToDate": "ඔබේ නැවතුම් ලැයිස්තුව පහත යාවත්කාලීනව ඇත. ඔබ මෙය කියවූ බව රුවන්ට පෙනේ.",
+    "drv.change.upToDate":
+      "ඔබේ නැවතුම් ලැයිස්තුව පහත යාවත්කාලීනව ඇත. ඔබ මෙය කියවූ බව රුවන්ට පෙනේ.",
     "drv.home.eyebrow": "{date} · {depot} ඩිපෝව",
     "drv.home.trip": "ගමන {n} · {district}",
     "drv.home.reefer": "සිසිල් උෂ්ණත්වය",
     "drv.home.seal": "මුද්‍රාව {s}",
     "drv.home.fuel": "මෙම සතියේ ඉතිරි ඉන්ධන: {left} L ({quota} L කෝටාවෙන්).",
-    "drv.home.tickFirst": "ආරම්භ කිරීමට ටයර්, ලයිට් සහ දොර පරීක්ෂාව සලකුණු කරන්න.",
+    "drv.home.tickFirst":
+      "ආරම්භ කිරීමට ටයර්, ලයිට් සහ දොර පරීක්ෂාව සලකුණු කරන්න.",
     "drv.stops.eyebrow": "ගමන {n} · {brand} · {district}",
     "drv.stops.stopOf": "නැවතුම {n}න් {i}",
     "drv.stops.progress": "බෙදා හැරියා {d} · ඉතිරි {r}",
@@ -206,7 +231,8 @@ export const driver = defineDomain({
     "drv.stop.startFirst": "පළමුව ධාවන ටැබයෙන් ගමන ආරම්භ කරන්න.",
     "drv.stop.proofPhoto": "සාක්ෂි ඡායාරූපය",
     "drv.stop.report": "ගැටලුව වාර්තා කරන්න",
-    "drv.stop.arrivedNote": "{t}ට පැමිණියා. පළමුව මෙම දුරකථනයේ සුරැකී, පසුව මාර්ගගතව ඇති විට යැවේ.",
+    "drv.stop.arrivedNote":
+      "{t}ට පැමිණියා. පළමුව මෙම දුරකථනයේ සුරැකී, පසුව මාර්ගගතව ඇති විට යැවේ.",
     "drv.rec.eyebrow": "{name} · {t}ට පැමිණියා",
     "drv.rec.title": "බෙදාහැරීම වාර්තා කරන්න",
     "drv.rec.all": "සියල්ල බෙදා හැරියා",
@@ -226,9 +252,12 @@ export const driver = defineDomain({
     "drv.rec.receivedBy": "භාර ගත්තේ (නම)",
     "drv.rec.photo": "සාක්ෂි ඡායාරූපය",
     "drv.rec.photoOpt": "ඡායාරූපය (විකල්ප)",
-    "drv.rec.needProof": "සාක්ෂියක් එක් කරන්න: ඡායාරූපයක්, අත්සනක් හෝ භාර ගත් අයගේ නම.",
-    "drv.rec.needShort": "අර්ධ යනු අවම වශයෙන් එක් පේළියක් අඩු බවයි. ගණනක් අඩු කරන්න හෝ සියල්ල බෙදා හැරියා තෝරන්න.",
-    "drv.rec.savedNote": "පළමුව මෙම දුරකථනයේ සුරැකී, පසුව මාර්ගගතව ඇති විට යැවේ.",
+    "drv.rec.needProof":
+      "සාක්ෂියක් එක් කරන්න: ඡායාරූපයක්, අත්සනක් හෝ භාර ගත් අයගේ නම.",
+    "drv.rec.needShort":
+      "අර්ධ යනු අවම වශයෙන් එක් පේළියක් අඩු බවයි. ගණනක් අඩු කරන්න හෝ සියල්ල බෙදා හැරියා තෝරන්න.",
+    "drv.rec.savedNote":
+      "පළමුව මෙම දුරකථනයේ සුරැකී, පසුව මාර්ගගතව ඇති විට යැවේ.",
     "drv.rec.fewer": "{g} එකක් අඩු",
     "drv.rec.more": "{g} එකක් වැඩි",
     "drv.sync.last": "අවසන් සමමුහුර්තය {t}",
@@ -238,9 +267,11 @@ export const driver = defineDomain({
     "drv.sync.recordsKeep": "වාර්තා ඔබ සෑදූ වේලාව සහ සිදු වූ අනුපිළිවෙල රකී.",
     "drv.sync.reached": "ඔබ වාර්තා කළ සියල්ල බෙදාහැරීමට ළඟා වී ඇත.",
     "drv.sync.needsAnswer": "ඔබේ පිළිතුර අවශ්‍යයි",
-    "drv.sync.conflictBody": "ඔබ {a} වාර්තා කළා, ඔබ ඔෆ්ලයින් සිටියදී අලෙවිසැල {b} තහවුරු කළා. කිසිදු ගණනක් උඩින් ලියැවෙන්නේ නැත.",
+    "drv.sync.conflictBody":
+      "ඔබ {a} වාර්තා කළා, ඔබ ඔෆ්ලයින් සිටියදී අලෙවිසැල {b} තහවුරු කළා. කිසිදු ගණනක් උඩින් ලියැවෙන්නේ නැත.",
     "drv.sync.youChoseAccept": "ඔබ {n} පිළිගැනීමට තෝරා ගත්තා. රුවන් එය විසඳයි.",
-    "drv.sync.youChoseDispute": "ඔබ විරෝධය දැක්වීමට ({n}) තෝරා ගත්තා. රුවන් එය විසඳයි.",
+    "drv.sync.youChoseDispute":
+      "ඔබ විරෝධය දැක්වීමට ({n}) තෝරා ගත්තා. රුවන් එය විසඳයි.",
     "drv.sync.disputeBtn": "විරෝධය · {n}",
     "drv.sync.acceptBtn": "පිළිගන්න · {n}",
     "drv.sync.savedTitle": "මෙම දුරකථනයේ සුරැකී ඇත",
@@ -249,16 +280,20 @@ export const driver = defineDomain({
     "drv.sync.nothing": "රැඳී කිසිවක් නැත. නව වාර්තා යවන තෙක් මෙහි පෙනේ.",
     "drv.help.eyebrow": "ඔෆ්ලයින් ක්‍රියා කරයි · {depot} · {v}",
     "drv.help.q1": "සංඥාව නැති වුණාද?",
-    "drv.help.a1": "බෙදාහැරීම දිගටම කරන්න. සියල්ල ඔබේ දුරකථනයේ සුරැකී සංඥාව ආපසු ලැබුණු විට ඉබේම යැවේ.",
+    "drv.help.a1":
+      "බෙදාහැරීම දිගටම කරන්න. සියල්ල ඔබේ දුරකථනයේ සුරැකී සංඥාව ආපසු ලැබුණු විට ඉබේම යැවේ.",
     "drv.help.q2": "අලෙවිසැලේ ගණන වෙනස්",
-    "drv.help.a2": "සමමුහුර්ත ටැබයේ අලෙවිසැලේ ගණන පිළිගන්න හෝ ඔබේ ගණනට විරෝධය දක්වන්න. කිසිවක් උඩින් නොලියැවේ; රුවන් විරෝධතා සමාලෝචනය කරයි.",
+    "drv.help.a2":
+      "සමමුහුර්ත ටැබයේ අලෙවිසැලේ ගණන පිළිගන්න හෝ ඔබේ ගණනට විරෝධය දක්වන්න. කිසිවක් උඩින් නොලියැවේ; රුවන් විරෝධතා සමාලෝචනය කරයි.",
     "drv.help.q3": "බෑවිය නොහැක, හෝ අලෙවිසැල වසා ඇත",
-    "drv.help.a3": "නැවතුම අසාර්ථක ලෙස වාර්තා කර හේතුවක් තෝරන්න. රුවන්ට වහාම දැනුම් දෙයි.",
+    "drv.help.a3":
+      "නැවතුම අසාර්ථක ලෙස වාර්තා කර හේතුවක් තෝරන්න. රුවන්ට වහාම දැනුම් දෙයි.",
     "drv.help.call": "{name} අමතන්න · බෙදාහරින්නා",
     "drv.help.dispatch": "බෙදාහරින්නා",
     "drv.call.eyebrow": "පැලියගොඩ බෙදාහැරීම · {v}",
     "drv.call.title": "{name} අමතමින්",
-    "drv.call.lede": "ඔබේ දුරකථනයේ ඩයලරය විවෘත වේ. සංඥාව නැතිනම්, ඒ වෙනුවට ඔබේ වාහනය, නැවතුම සහ වේලාව සහිත පෙළ පණිවිඩයක් යැවේ.",
+    "drv.call.lede":
+      "ඔබේ දුරකථනයේ ඩයලරය විවෘත වේ. සංඥාව නැතිනම්, ඒ වෙනුවට ඔබේ වාහනය, නැවතුම සහ වේලාව සහිත පෙළ පණිවිඩයක් යැවේ.",
     "drv.call.sees": "{name} දකින දේ",
     "drv.call.line": "{v} · නැවතුම {n}{stop} · {eta}",
     "drv.call.same": "සජීවී පුවරුවේ ඔබේ ඇතුළත් කිරීමට සමාන පේළියම.",
@@ -273,7 +308,8 @@ export const driver = defineDomain({
     "drv.settings.planAlert": "සැලසුම් වෙනස් කිරීමේ දැනුම්දීම",
     "drv.settings.planAlertSub": "අගුළු දමා ඇති විටත් ශබ්දය සහ කම්පනය",
     "drv.settings.simulate": "සංඥාව නැත අනුකරණය කරන්න",
-    "drv.settings.simulateSub": "ආදර්ශන සඳහා: මෙම යෙදුම තුළ ගුවන් යානා මාදිලිය මෙන් ක්‍රියා කරයි.",
+    "drv.settings.simulateSub":
+      "ආදර්ශන සඳහා: මෙම යෙදුම තුළ ගුවන් යානා මාදිලිය මෙන් ක්‍රියා කරයි.",
     "drv.settings.security": "ආරක්ෂාව",
     "drv.settings.lockNow": "දැන් අගුළු දමන්න",
     "drv.settings.autoLock": "ස්වයං අගුල",
@@ -286,7 +322,8 @@ export const driver = defineDomain({
     "drv.signin.title": "உங்கள் பயணங்களைப் பார்க்க உள்நுழையுங்கள்.",
     "drv.signin.verify": "சரிபார்த்து தொடர்",
     "drv.signin.fill": "டெமோ ஓட்டுநர் கணக்கை நிரப்பு",
-    "drv.signin.once": "இதை ஒருமுறை செய்கிறீர்கள். அதன் பிறகு சிக்னல் இல்லாவிட்டாலும் 4 இலக்க PIN ஆப்பைத் திறக்கும்.",
+    "drv.signin.once":
+      "இதை ஒருமுறை செய்கிறீர்கள். அதன் பிறகு சிக்னல் இல்லாவிட்டாலும் 4 இலக்க PIN ஆப்பைத் திறக்கும்.",
     "drv.signin.failed": "உள்நுழைய முடியவில்லை",
     "drv.pin.depot": "{code} · {depot} டெப்போ",
     "drv.pin.choose": "4 இலக்க PIN ஐத் தேர்ந்தெடுங்கள்",
@@ -294,31 +331,39 @@ export const driver = defineDomain({
     "drv.pin.enter": "உங்கள் PIN ஐ உள்ளிடுங்கள்",
     "drv.pin.digits": "4 இலக்கங்களில் {n}",
     "drv.pin.wrong": "அந்த PIN சரியல்ல",
-    "drv.pin.mismatch": "இரண்டு PIN களும் பொருந்தவில்லை. மீண்டும் தொடங்குங்கள்.",
+    "drv.pin.mismatch":
+      "இரண்டு PIN களும் பொருந்தவில்லை. மீண்டும் தொடங்குங்கள்.",
     "drv.pin.simulated": "சிக்னல் இல்லை (உருவகம்)",
-    "drv.pin.unlockNote": "திறக்க சிக்னல் தேவையில்லை. நீங்கள் சிக்னல் அல்லது டெப்போ Wi-Fi ஐ அடையும்போது பயணம் பதிவிறக்கப்படும்.",
+    "drv.pin.unlockNote":
+      "திறக்க சிக்னல் தேவையில்லை. நீங்கள் சிக்னல் அல்லது டெப்போ Wi-Fi ஐ அடையும்போது பயணம் பதிவிறக்கப்படும்.",
     "drv.pin.setupNote": "இந்த PIN இந்தத் தொலைபேசியிலேயே இருக்கும்.",
-    "drv.pin.demo": "டெமோ: இந்த PIN இந்தத் தொலைபேசியில் மட்டுமே நுவனின் பயணத்தைத் திறக்கும். சேவையகம் இதைச் சேமிக்காது.",
+    "drv.pin.demo":
+      "டெமோ: இந்த PIN இந்தத் தொலைபேசியில் மட்டுமே நுவனின் பயணத்தைத் திறக்கும். சேவையகம் இதைச் சேமிக்காது.",
     "drv.pin.notYou": "{name} இல்லையா? உங்கள் மின்னஞ்சலால் உள்நுழையுங்கள்",
     "drv.pin.you": "நீங்கள்",
     "drv.pin.delete": "அழி",
     "drv.shell.offlineSince": "{t} முதல் ஆஃப்லைன்",
     "drv.shell.now": "இப்போது",
-    "drv.shell.keepGoing": "தொடருங்கள். நீங்கள் பதிவு செய்வது அனைத்தும் இங்கே சேமிக்கப்பட்டு சிக்னல் வந்ததும் அனுப்பப்படும்.",
+    "drv.shell.keepGoing":
+      "தொடருங்கள். நீங்கள் பதிவு செய்வது அனைத்தும் இங்கே சேமிக்கப்பட்டு சிக்னல் வந்ததும் அனுப்பப்படும்.",
     "drv.shell.saved": "இந்தத் தொலைபேசியில் {n} பதிவு(கள்) சேமிக்கப்பட்டன",
     "drv.shell.noRun": "உங்களுக்கு இன்னும் பயணம் இல்லை.",
-    "drv.shell.noRunBody": "உங்கள் வாகனத்துடன் திட்டத்தை அனுப்புநர் இன்னும் வெளியிடவில்லை. இந்தத் திரை தானாகப் புதுப்பிக்கும்.",
+    "drv.shell.noRunBody":
+      "உங்கள் வாகனத்துடன் திட்டத்தை அனுப்புநர் இன்னும் வெளியிடவில்லை. இந்தத் திரை தானாகப் புதுப்பிக்கும்.",
     "drv.shell.sections": "பிரிவுகள்",
     "drv.change.title": "திட்டம் மாறியது",
     "drv.change.tag": "திட்டம் மாறியது · {t}",
     "drv.change.removed": "உங்கள் பயணத்திலிருந்து நீக்கப்பட்டது: {name}",
-    "drv.change.upToDate": "உங்கள் நிறுத்தப் பட்டியல் கீழே புதுப்பிக்கப்பட்டுள்ளது. நீங்கள் இதைப் படித்ததை ரவுன் பார்ப்பார்.",
+    "drv.change.upToDate":
+      "உங்கள் நிறுத்தப் பட்டியல் கீழே புதுப்பிக்கப்பட்டுள்ளது. நீங்கள் இதைப் படித்ததை ரவுன் பார்ப்பார்.",
     "drv.home.eyebrow": "{date} · {depot} டெப்போ",
     "drv.home.trip": "பயணம் {n} · {district}",
     "drv.home.reefer": "குளிர் வெப்பநிலை",
     "drv.home.seal": "முத்திரை {s}",
-    "drv.home.fuel": "இந்த வாரம் மீதமுள்ள எரிபொருள்: {left} L ({quota} L ஒதுக்கீட்டில்).",
-    "drv.home.tickFirst": "தொடங்க டயர், விளக்குகள், கதவுகள் சரிபார்ப்பைக் குறியுங்கள்.",
+    "drv.home.fuel":
+      "இந்த வாரம் மீதமுள்ள எரிபொருள்: {left} L ({quota} L ஒதுக்கீட்டில்).",
+    "drv.home.tickFirst":
+      "தொடங்க டயர், விளக்குகள், கதவுகள் சரிபார்ப்பைக் குறியுங்கள்.",
     "drv.stops.eyebrow": "பயணம் {n} · {brand} · {district}",
     "drv.stops.stopOf": "{n} இல் நிறுத்தம் {i}",
     "drv.stops.progress": "வழங்கப்பட்டது {d} · மீதம் {r}",
@@ -346,7 +391,8 @@ export const driver = defineDomain({
     "drv.stop.startFirst": "முதலில் பயணம் தாவலில் பயணத்தைத் தொடங்குங்கள்.",
     "drv.stop.proofPhoto": "சான்று புகைப்படம்",
     "drv.stop.report": "சிக்கலைத் தெரிவி",
-    "drv.stop.arrivedNote": "{t} க்கு வந்தது. முதலில் இந்தத் தொலைபேசியில் சேமிக்கப்பட்டு, இணைப்பில் இருக்கும்போது அனுப்பப்படும்.",
+    "drv.stop.arrivedNote":
+      "{t} க்கு வந்தது. முதலில் இந்தத் தொலைபேசியில் சேமிக்கப்பட்டு, இணைப்பில் இருக்கும்போது அனுப்பப்படும்.",
     "drv.rec.eyebrow": "{name} · {t} க்கு வந்தது",
     "drv.rec.title": "வழங்கலைப் பதிவு செய்",
     "drv.rec.all": "அனைத்தும் வழங்கப்பட்டது",
@@ -366,39 +412,52 @@ export const driver = defineDomain({
     "drv.rec.receivedBy": "பெற்றவர் (பெயர்)",
     "drv.rec.photo": "சான்று புகைப்படம்",
     "drv.rec.photoOpt": "புகைப்படம் (விருப்பம்)",
-    "drv.rec.needProof": "சான்று சேருங்கள்: புகைப்படம், கையொப்பம் அல்லது பெற்றவரின் பெயர்.",
-    "drv.rec.needShort": "பகுதியளவு என்றால் குறைந்தது ஒரு வரி குறைவு. ஒரு எண்ணிக்கையைக் குறையுங்கள் அல்லது அனைத்தும் வழங்கப்பட்டது என்பதைத் தேர்ந்தெடுங்கள்.",
-    "drv.rec.savedNote": "முதலில் இந்தத் தொலைபேசியில் சேமிக்கப்பட்டு, இணைப்பில் இருக்கும்போது அனுப்பப்படும்.",
+    "drv.rec.needProof":
+      "சான்று சேருங்கள்: புகைப்படம், கையொப்பம் அல்லது பெற்றவரின் பெயர்.",
+    "drv.rec.needShort":
+      "பகுதியளவு என்றால் குறைந்தது ஒரு வரி குறைவு. ஒரு எண்ணிக்கையைக் குறையுங்கள் அல்லது அனைத்தும் வழங்கப்பட்டது என்பதைத் தேர்ந்தெடுங்கள்.",
+    "drv.rec.savedNote":
+      "முதலில் இந்தத் தொலைபேசியில் சேமிக்கப்பட்டு, இணைப்பில் இருக்கும்போது அனுப்பப்படும்.",
     "drv.rec.fewer": "{g} ஒன்று குறை",
     "drv.rec.more": "{g} ஒன்று கூட்டு",
     "drv.sync.last": "கடைசி ஒத்திசைவு {t}",
     "drv.sync.savedPhone": "இந்தத் தொலைபேசியில் சேமிக்கப்பட்டது.",
     "drv.sync.sending": "{n} அனுப்புகிறது…",
     "drv.sync.backOnline": "மீண்டும் இணைப்பில்.",
-    "drv.sync.recordsKeep": "பதிவுகள் நீங்கள் உருவாக்கிய நேரத்தையும் நடந்த வரிசையையும் வைத்திருக்கும்.",
-    "drv.sync.reached": "நீங்கள் பதிவு செய்தது அனைத்தும் அனுப்புநரை அடைந்துவிட்டது.",
+    "drv.sync.recordsKeep":
+      "பதிவுகள் நீங்கள் உருவாக்கிய நேரத்தையும் நடந்த வரிசையையும் வைத்திருக்கும்.",
+    "drv.sync.reached":
+      "நீங்கள் பதிவு செய்தது அனைத்தும் அனுப்புநரை அடைந்துவிட்டது.",
     "drv.sync.needsAnswer": "உங்கள் பதில் தேவை",
-    "drv.sync.conflictBody": "நீங்கள் {a} பதிவு செய்தீர்கள், நீங்கள் ஆஃப்லைனில் இருந்தபோது கடை {b} உறுதிசெய்தது. எந்த எண்ணிக்கையும் மேலெழுதப்படாது.",
-    "drv.sync.youChoseAccept": "நீங்கள் {n} ஐ ஏற்கத் தேர்ந்தீர்கள். ரவுன் தீர்ப்பார்.",
-    "drv.sync.youChoseDispute": "நீங்கள் மறுக்கத் ({n}) தேர்ந்தீர்கள். ரவுன் தீர்ப்பார்.",
+    "drv.sync.conflictBody":
+      "நீங்கள் {a} பதிவு செய்தீர்கள், நீங்கள் ஆஃப்லைனில் இருந்தபோது கடை {b} உறுதிசெய்தது. எந்த எண்ணிக்கையும் மேலெழுதப்படாது.",
+    "drv.sync.youChoseAccept":
+      "நீங்கள் {n} ஐ ஏற்கத் தேர்ந்தீர்கள். ரவுன் தீர்ப்பார்.",
+    "drv.sync.youChoseDispute":
+      "நீங்கள் மறுக்கத் ({n}) தேர்ந்தீர்கள். ரவுன் தீர்ப்பார்.",
     "drv.sync.disputeBtn": "மறு · {n}",
     "drv.sync.acceptBtn": "ஏற்று · {n}",
     "drv.sync.savedTitle": "இந்தத் தொலைபேசியில் சேமிக்கப்பட்டது",
     "drv.sync.outbox": "வெளிச்செல்லும் பெட்டி",
     "drv.sync.sendingPill": "அனுப்புகிறது",
-    "drv.sync.nothing": "எதுவும் காத்திருக்கவில்லை. புதிய பதிவுகள் அனுப்பப்படும் வரை இங்கே தோன்றும்.",
+    "drv.sync.nothing":
+      "எதுவும் காத்திருக்கவில்லை. புதிய பதிவுகள் அனுப்பப்படும் வரை இங்கே தோன்றும்.",
     "drv.help.eyebrow": "ஆஃப்லைனிலும் வேலை செய்யும் · {depot} · {v}",
     "drv.help.q1": "சிக்னல் இழந்தீர்களா?",
-    "drv.help.a1": "தொடர்ந்து வழங்குங்கள். அனைத்தும் உங்கள் தொலைபேசியில் சேமிக்கப்பட்டு சிக்னல் வந்ததும் தானாக அனுப்பப்படும்.",
+    "drv.help.a1":
+      "தொடர்ந்து வழங்குங்கள். அனைத்தும் உங்கள் தொலைபேசியில் சேமிக்கப்பட்டு சிக்னல் வந்ததும் தானாக அனுப்பப்படும்.",
     "drv.help.q2": "கடையின் எண்ணிக்கை வேறு",
-    "drv.help.a2": "ஒத்திசை தாவலில் கடையின் எண்ணிக்கையை ஏற்கவும் அல்லது உங்களுடையதை மறுக்கவும். எதுவும் மேலெழுதப்படாது; ரவுன் மறுப்புகளை மதிப்பாய்வு செய்வார்.",
+    "drv.help.a2":
+      "ஒத்திசை தாவலில் கடையின் எண்ணிக்கையை ஏற்கவும் அல்லது உங்களுடையதை மறுக்கவும். எதுவும் மேலெழுதப்படாது; ரவுன் மறுப்புகளை மதிப்பாய்வு செய்வார்.",
     "drv.help.q3": "இறக்க முடியவில்லை, அல்லது கடை மூடியுள்ளது",
-    "drv.help.a3": "நிறுத்தத்தை தோல்வி என்று பதிந்து காரணத்தைத் தேர்ந்தெடுங்கள். ரவுனுக்கு உடனே தெரிவிக்கப்படும்.",
+    "drv.help.a3":
+      "நிறுத்தத்தை தோல்வி என்று பதிந்து காரணத்தைத் தேர்ந்தெடுங்கள். ரவுனுக்கு உடனே தெரிவிக்கப்படும்.",
     "drv.help.call": "{name} ஐ அழை · அனுப்புநர்",
     "drv.help.dispatch": "அனுப்புநர்",
     "drv.call.eyebrow": "பெலியகொட அனுப்புநர் · {v}",
     "drv.call.title": "{name} ஐ அழைக்கிறது",
-    "drv.call.lede": "உங்கள் தொலைபேசியின் டயலரைத் திறக்கிறது. சிக்னல் இல்லையென்றால், அதற்குப் பதிலாக உங்கள் வாகனம், நிறுத்தம், நேரத்துடன் ஒரு உரைச்செய்தி அனுப்பப்படும்.",
+    "drv.call.lede":
+      "உங்கள் தொலைபேசியின் டயலரைத் திறக்கிறது. சிக்னல் இல்லையென்றால், அதற்குப் பதிலாக உங்கள் வாகனம், நிறுத்தம், நேரத்துடன் ஒரு உரைச்செய்தி அனுப்பப்படும்.",
     "drv.call.sees": "{name} பார்ப்பது",
     "drv.call.line": "{v} · நிறுத்தம் {n}{stop} · {eta}",
     "drv.call.same": "நேரடிப் பலகையில் உங்கள் பதிவில் உள்ள அதே வரி.",
@@ -409,16 +468,19 @@ export const driver = defineDomain({
     "drv.settings.darkSub": "விடியலுக்கு முன் கேபினில் கண்ணுக்கு எளிது",
     "drv.settings.offline": "ஆஃப்லைன் மற்றும் அறிவிப்புகள்",
     "drv.settings.wifi": "புகைப்படங்களை Wi-Fi இல் மட்டும் அனுப்பு",
-    "drv.settings.wifiSub": "தரவைச் சேமிக்கும். புகைப்படங்கள் தொலைபேசியில் காத்திருக்கும்.",
+    "drv.settings.wifiSub":
+      "தரவைச் சேமிக்கும். புகைப்படங்கள் தொலைபேசியில் காத்திருக்கும்.",
     "drv.settings.planAlert": "திட்ட மாற்ற அறிவிப்பு",
     "drv.settings.planAlertSub": "பூட்டியிருந்தாலும் ஒலியும் அதிர்வும்",
     "drv.settings.simulate": "சிக்னல் இல்லை என்று உருவகப்படுத்து",
-    "drv.settings.simulateSub": "டெமோவுக்கு: இந்த ஆப்புக்குள் விமானப் பயன்முறை போல வேலை செய்யும்.",
+    "drv.settings.simulateSub":
+      "டெமோவுக்கு: இந்த ஆப்புக்குள் விமானப் பயன்முறை போல வேலை செய்யும்.",
     "drv.settings.security": "பாதுகாப்பு",
     "drv.settings.lockNow": "இப்போது பூட்டு",
     "drv.settings.autoLock": "தானியங்கிப் பூட்டு",
     "drv.settings.autoLockValue": "2 நிமிடம் கழித்து",
     "drv.settings.changePin": "PIN ஐ மாற்று",
-    "drv.settings.signOutNote": "வெளிச்செல்லும் பெட்டி காலியாக இருக்கும்போது மட்டும்.",
+    "drv.settings.signOutNote":
+      "வெளிச்செல்லும் பெட்டி காலியாக இருக்கும்போது மட்டும்.",
   },
 });

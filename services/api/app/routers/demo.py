@@ -11,13 +11,15 @@ router = APIRouter(prefix="/demo", tags=["demo"])
 
 @router.get("/info")
 def info() -> dict:
+    # Public demo accounts for the judge walkthrough (the same accounts are in the README).
     return {
         "service_date": settings.demo_service_date,
+        # Public demo accounts for the judge walkthrough (the same accounts are in the README).
         "accounts": [
-            {"role": "Dispatcher", "email": "dispatcher@waypoint.demo", "password": "waypoint2026"},
-            {"role": "Loader", "email": "loader@waypoint.demo", "password": "waypoint2026", "pin": "1234"},
-            {"role": "Driver", "email": "driver@waypoint.demo", "password": "waypoint2026", "pin": "set on the phone"},
-            {"role": "Store manager", "email": "store@waypoint.demo", "password": "waypoint2026"},
+            {"role": "Dispatcher", "email": "dispatcher@waypoint.demo", "password": "waypoint2026"},  # nosec B105
+            {"role": "Loader", "email": "loader@waypoint.demo", "password": "waypoint2026", "pin": "1234"},  # nosec B105
+            {"role": "Driver", "email": "driver@waypoint.demo", "password": "waypoint2026", "pin": "set on the phone"},  # nosec B105
+            {"role": "Store manager", "email": "store@waypoint.demo", "password": "waypoint2026"},  # nosec B105
         ],
     }
 

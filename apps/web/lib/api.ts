@@ -43,14 +43,18 @@ async function detail(res: Response): Promise<string> {
   try {
     const body = await res.json();
     if (typeof body.detail === "string") return body.detail;
-    if (Array.isArray(body.detail)) return body.detail.map((d: { msg: string }) => d.msg).join("; ");
+    if (Array.isArray(body.detail))
+      return body.detail.map((d: { msg: string }) => d.msg).join("; ");
   } catch {
     /* not JSON */
   }
   return `${res.status} ${res.statusText}`;
 }
 
-export async function api<T>(path: string, init: RequestInit & { json?: unknown } = {}): Promise<T> {
+export async function api<T>(
+  path: string,
+  init: RequestInit & { json?: unknown } = {},
+): Promise<T> {
   if (forceOffline) throw new TypeError("offline (simulated)");
   const headers = new Headers(init.headers);
   const token = getToken();
@@ -60,13 +64,19 @@ export async function api<T>(path: string, init: RequestInit & { json?: unknown 
     headers.set("Content-Type", "application/json");
     body = JSON.stringify(init.json);
   }
-  const res = await fetch(`/api${path}`, { ...init, headers, body, cache: "no-store" });
+  const res = await fetch(`/api${path}`, {
+    ...init,
+    headers,
+    body,
+    cache: "no-store",
+  });
   if (!res.ok) throw new ApiError(res.status, await detail(res));
   return res.json() as Promise<T>;
 }
 
 export const get = <T>(path: string) => api<T>(path);
-export const post = <T>(path: string, json?: unknown) => api<T>(path, { method: "POST", json: json ?? {} });
+export const post = <T>(path: string, json?: unknown) =>
+  api<T>(path, { method: "POST", json: json ?? {} });
 
 /** True for failures that mean "no connection" rather than "the server said no". */
 export function isNetworkError(e: unknown): boolean {

@@ -1,6 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+import { Fragment, useState } from "react";
 import { ActionBar } from "@/components/ActionBar";
 import {
   Button,
@@ -30,6 +31,7 @@ export type QueueOrder = {
   window: string;
   flags: string[];
   status: string;
+  lines: { name: string; group: string; qty: number; pack_label: string }[];
 };
 
 type Queue = {
@@ -51,10 +53,60 @@ const FLAG_TONE: Record<string, "bad" | "warn" | "info" | "neutral"> = {
   "MALL WINDOW": "warn",
 };
 
+/** The lines inside one order: what the store asked for. */
+function ItemsList({ lines }: { lines: QueueOrder["lines"] }) {
+  const { t } = useT();
+  return (
+    <ul className="divide-y divide-line rounded-[8px] border border-line">
+      {lines.map((l, i) => (
+        <li
+          key={`${l.name}-${i}`}
+          className="flex items-center justify-between gap-3 px-3 py-2 text-[14px]"
+        >
+          <span className="min-w-0 flex-1">
+            <span className="font-medium">{l.name}</span>
+            <span className="ml-2 text-[12px] text-muted">{l.group}</span>
+          </span>
+          <span className="font-data text-[13px] font-semibold tabular">
+            {t("disp.orders.qty", { n: l.qty })}
+          </span>
+        </li>
+      ))}
+    </ul>
+  );
+}
+
+function ItemsToggle({
+  n,
+  open,
+  onClick,
+}: {
+  n: number;
+  open: boolean;
+  onClick: () => void;
+}) {
+  const { t } = useT();
+  return (
+    <button
+      onClick={onClick}
+      aria-expanded={open}
+      className="inline-flex h-8 items-center gap-1.5 whitespace-nowrap rounded-[6px] border border-line bg-surface px-3 text-[13px] font-semibold hover:bg-neutral"
+    >
+      {open ? t("disp.orders.hideItems") : t("disp.orders.viewItems", { n })}
+      <span aria-hidden className={open ? "rotate-90" : ""}>
+        ›
+      </span>
+    </button>
+  );
+}
+
 export default function OrdersPage() {
   const { t } = useT();
   const { depot, date } = useDispatch();
   const router = useRouter();
+  const [open, setOpen] = useState<string[]>([]);
+  const toggle = (id: string) =>
+    setOpen((x) => (x.includes(id) ? x.filter((i) => i !== id) : [...x, id]));
   const { data, error, loading, reload } = usePoll(
     () => get<Queue>(`/dispatch/queue?depot=${depot}&date=${date}`),
     6000,
@@ -116,40 +168,56 @@ export default function OrdersPage() {
                     {t(`disp.orders.col.${h}` as Key)}
                   </th>
                 ))}
+                <th className="w-px px-4 py-3" />
               </tr>
             </thead>
             <tbody>
               {data.orders.map((o) => (
-                <tr
-                  key={o.id}
-                  className="h-12 border-b border-line last:border-0"
-                >
-                  <td className="font-data px-4 font-semibold">{o.id}</td>
-                  <td className="px-4 font-medium">{o.outlet}</td>
-                  <td className="px-4 text-[14px] text-muted">
-                    {o.temp === "chilled"
-                      ? `${o.brand} · ${t("disp.orders.kind.chilled")}`
-                      : o.brand === "Fresh"
-                        ? `${o.brand} · ${t("disp.orders.kind.dry")}`
-                        : o.brand}
-                  </td>
-                  <td className="font-data px-4 tabular">
-                    {kg(o.weight_kg)} · {m3(o.volume_m3)}
-                  </td>
-                  <td className="px-4 text-[14px] text-muted">{o.window}</td>
-                  <td className="px-4">
-                    <div className="flex flex-wrap gap-1">
-                      {o.status === "deferred" ? (
-                        <Pill tone="warn">{t("disp.flag.deferred")}</Pill>
-                      ) : null}
-                      {o.flags.map((f) => (
-                        <Pill key={f} tone={FLAG_TONE[f] ?? "neutral"}>
-                          {t(`disp.flag.${f}` as Key)}
-                        </Pill>
-                      ))}
-                    </div>
-                  </td>
-                </tr>
+                <Fragment key={o.id}>
+                  <tr
+                    className={`h-12 border-line ${open.includes(o.id) ? "" : "border-b last:border-0"}`}
+                  >
+                    <td className="font-data px-4 font-semibold">{o.id}</td>
+                    <td className="px-4 font-medium">{o.outlet}</td>
+                    <td className="px-4 text-[14px] text-muted">
+                      {o.temp === "chilled"
+                        ? `${o.brand} · ${t("disp.orders.kind.chilled")}`
+                        : o.brand === "Fresh"
+                          ? `${o.brand} · ${t("disp.orders.kind.dry")}`
+                          : o.brand}
+                    </td>
+                    <td className="font-data px-4 tabular">
+                      {kg(o.weight_kg)} · {m3(o.volume_m3)}
+                    </td>
+                    <td className="px-4 text-[14px] text-muted">{o.window}</td>
+                    <td className="px-4">
+                      <div className="flex flex-wrap gap-1">
+                        {o.status === "deferred" ? (
+                          <Pill tone="warn">{t("disp.flag.deferred")}</Pill>
+                        ) : null}
+                        {o.flags.map((f) => (
+                          <Pill key={f} tone={FLAG_TONE[f] ?? "neutral"}>
+                            {t(`disp.flag.${f}` as Key)}
+                          </Pill>
+                        ))}
+                      </div>
+                    </td>
+                    <td className="px-4">
+                      <ItemsToggle
+                        n={o.lines.length}
+                        open={open.includes(o.id)}
+                        onClick={() => toggle(o.id)}
+                      />
+                    </td>
+                  </tr>
+                  {open.includes(o.id) ? (
+                    <tr className="border-b border-line last:border-0">
+                      <td colSpan={7} className="px-4 pb-4 pt-1">
+                        <ItemsList lines={o.lines} />
+                      </td>
+                    </tr>
+                  ) : null}
+                </Fragment>
               ))}
             </tbody>
           </table>
@@ -187,6 +255,18 @@ export default function OrdersPage() {
             <div className="font-data mt-1 text-[12px] text-muted tabular">
               {kg(o.weight_kg)} · {m3(o.volume_m3)}
             </div>
+            <div className="mt-3">
+              <ItemsToggle
+                n={o.lines.length}
+                open={open.includes(o.id)}
+                onClick={() => toggle(o.id)}
+              />
+            </div>
+            {open.includes(o.id) ? (
+              <div className="mt-3">
+                <ItemsList lines={o.lines} />
+              </div>
+            ) : null}
           </Card>
         ))}
       </div>

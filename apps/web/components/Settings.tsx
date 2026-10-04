@@ -50,7 +50,8 @@ export function ValueRow({ label, sub, value, onClick }: { label: string; sub?: 
   return (
     <Row label={label} sub={sub} onClick={onClick}>
       {value ? <span className="text-[13px] text-muted lg:text-[14px] lg:font-medium">{value}</span> : null}
-      <span className="text-[18px] leading-none text-muted" aria-hidden>›</span>
+      {/* Only rows that do something get the chevron; a read-only value does not look tappable. */}
+      {onClick ? <span className="text-[18px] leading-none text-muted" aria-hidden>›</span> : null}
     </Row>
   );
 }

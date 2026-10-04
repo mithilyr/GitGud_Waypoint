@@ -1,10 +1,10 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { Button, Headline, Lead } from "@/components/ui";
 import {
   DarkModeRow,
   LanguageRow,
+  SettingsLayout,
   SettingsSection,
   TextSizeRow,
   ToggleRow,
@@ -21,15 +21,18 @@ export default function StoreSettingsPage() {
   const [received, setReceived] = usePref<boolean>("wp_store_received", true);
   const [deferral, setDeferral] = usePref<boolean>("wp_store_deferral", true);
   return (
-    <div className="rise lg:mx-auto lg:max-w-[640px]">
-      <Lead>
-        {t("store.settings.sub", {
-          who: user?.name?.split(" ")[0] ?? "",
-          outlet: user?.outlet?.name ?? "",
-        })}
-      </Lead>
-      <Headline className="mt-1">{t("settings.title")}</Headline>
-      <div className="mt-6">
+    <SettingsLayout
+      lead={t("store.settings.sub", {
+        who: user?.name?.split(" ")[0] ?? "",
+        outlet: user?.outlet?.name ?? "",
+      })}
+      onDone={() => router.push("/store")}
+      onSignOut={() => {
+        logout();
+        router.replace("/");
+      }}
+    >
+      <div>
         <SettingsSection title={t("settings.display")}>
           <DarkModeRow sub={t("settings.darkModeSub")} />
           <LanguageRow />
@@ -58,25 +61,6 @@ export default function StoreSettingsPage() {
           />
         </SettingsSection>
       </div>
-      <Button
-        size="lg"
-        block
-        className="mt-8"
-        onClick={() => router.push("/store/help")}
-      >
-        {t("common.done")}
-      </Button>
-      <Button
-        variant="ghost"
-        block
-        className="mt-2"
-        onClick={() => {
-          logout();
-          router.replace("/");
-        }}
-      >
-        {t("store.settings.signOutRow")}
-      </Button>
-    </div>
+    </SettingsLayout>
   );
 }

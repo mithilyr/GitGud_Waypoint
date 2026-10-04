@@ -1,10 +1,10 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { Button, Headline, Lead } from "@/components/ui";
 import {
   DarkModeRow,
   LanguageRow,
+  SettingsLayout,
   SettingsSection,
   TextSizeRow,
   ToggleRow,
@@ -31,16 +31,16 @@ export default function LoaderSettingsPage() {
     router.replace("/loader");
   };
   return (
-    <div className="rise mx-auto max-w-[620px]">
-      <Lead mono>
-        {t("loader.settings.sub", {
-          who: user?.name ?? "",
-          depot: user?.depot ?? "",
-          dock: user?.dock ?? "",
-        })}
-      </Lead>
-      <Headline className="mt-1">{t("settings.title")}</Headline>
-      <div className="mt-6">
+    <SettingsLayout
+      lead={t("loader.settings.sub", {
+        who: user?.name ?? "",
+        depot: user?.depot ?? "",
+        dock: user?.dock ?? "",
+      })}
+      onDone={() => router.push("/loader/departures")}
+      onSignOut={signOut}
+    >
+      <div>
         <SettingsSection title={t("settings.display")}>
           <DarkModeRow sub={t("loader.settings.darkSub")} />
           <LanguageRow />
@@ -71,15 +71,6 @@ export default function LoaderSettingsPage() {
           />
         </SettingsSection>
       </div>
-      <Button
-        size="xl"
-        variant="secondary"
-        block
-        className="mt-8"
-        onClick={signOut}
-      >
-        {t("common.signOut")}
-      </Button>
-    </div>
+    </SettingsLayout>
   );
 }

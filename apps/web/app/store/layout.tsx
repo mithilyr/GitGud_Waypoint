@@ -159,7 +159,7 @@ export default function StoreLayout({
         <WaypointString compact still className="mt-auto pt-10 lg:hidden" />
         <WaypointString
           still
-          className="fixed inset-x-0 bottom-0 -z-10 hidden lg:block"
+          className="fixed inset-x-0 bottom-0 -z-10 opacity-40 blur-[2px] hidden lg:block"
         />
         <BottomTabs tabs={tabs} />
       </div>

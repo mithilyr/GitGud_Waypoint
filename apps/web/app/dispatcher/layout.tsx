@@ -50,6 +50,22 @@ export default function DispatcherLayout({
   const [menu, setMenu] = useState(false);
   const seen = useRef<number | null>(null);
 
+  // The account menu closes on a click or tap anywhere else, and on Escape. The menu is rendered in both the
+  // desktop and the phone header, so "inside" is found by attribute rather than by a single ref.
+  useEffect(() => {
+    if (!menu) return;
+    const away = (e: PointerEvent) => {
+      if (!(e.target as Element).closest("[data-user-menu]")) setMenu(false);
+    };
+    const esc = (e: KeyboardEvent) => e.key === "Escape" && setMenu(false);
+    document.addEventListener("pointerdown", away);
+    document.addEventListener("keydown", esc);
+    return () => {
+      document.removeEventListener("pointerdown", away);
+      document.removeEventListener("keydown", esc);
+    };
+  }, [menu]);
+
   useEffect(() => {
     if (!user) return;
     get<{ depots: string[]; default_depot: string; service_date: string }>(
@@ -112,7 +128,7 @@ export default function DispatcherLayout({
   }
 
   const userMenu = (
-    <div className="relative">
+    <div className="relative" data-user-menu>
       <button
         onClick={() => setMenu((m) => !m)}
         className="flex h-9 items-center gap-2 rounded-[8px] border border-line bg-surface pl-2 pr-3 text-[13px] font-semibold"
@@ -128,7 +144,7 @@ export default function DispatcherLayout({
       </button>
       {menu ? (
         <div
-          className="rise absolute right-0 top-12 z-40 w-64 rounded-[12px] border border-line bg-surface p-2 shadow-lg"
+          className="rise absolute right-0 top-12 glass-bar z-40 w-64 rounded-[12px] border border-line p-2 shadow-lg"
           role="menu"
         >
           <div className="px-3 py-2">
@@ -212,7 +228,7 @@ export default function DispatcherLayout({
           }}
           right={userMenu}
         />
-        <header className="sticky top-0 z-30 flex h-14 items-center justify-between border-b border-line bg-surface px-5 md:hidden">
+        <header className="glass-bar sticky top-0 z-30 flex h-14 items-center justify-between border-b border-line px-5 md:hidden">
           <Link href="/dispatcher/orders" className="flex items-center gap-2">
             <Logo size={32} />
             <span className="text-[15px] font-semibold">{t("disp.brand")}</span>
@@ -233,7 +249,7 @@ export default function DispatcherLayout({
         {/* Desktop: the same string as a fixed background along the bottom, behind the page. */}
         <WaypointString
           still
-          className="fixed inset-x-0 bottom-0 -z-10 hidden md:block"
+          className="fixed inset-x-0 bottom-0 -z-10 opacity-40 blur-[2px] hidden md:block"
         />
         <BottomTabs
           below="md"

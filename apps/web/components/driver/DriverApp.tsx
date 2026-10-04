@@ -12,13 +12,13 @@ import {
   Icon,
   Lead,
   Logo,
-  NavRow,
   Pill,
   SectionLabel,
   Sheet,
   Spinner,
   Tile,
 } from "@/components/ui";
+import { HelpLayout } from "@/components/HelpLayout";
 import { WaypointString } from "@/components/WaypointString";
 import { HOME, useAuth } from "@/lib/auth";
 import { DriverProvider, useDriver, type TripT } from "@/lib/driver/engine";
@@ -29,6 +29,7 @@ import { SettingsButton, useWide } from "@/components/Chrome";
 import {
   DarkModeRow,
   LanguageRow,
+  SettingsLayout,
   SettingsSection,
   TextSizeRow,
   ToggleRow,
@@ -270,58 +271,67 @@ function Shell() {
     if (idle >= 300) lock();
   }, [idle, lock]);
 
+  // Settings, Help, Sync and the call screen use the full width; the stop list sits beside an open stop only.
+  const split =
+    wide &&
+    !!run &&
+    !!current &&
+    !["sync", "help", "call", "settings"].includes(screen.name);
+
   return (
-    <div className="mx-auto flex min-h-dvh max-w-[520px] flex-col pb-[calc(4rem+env(safe-area-inset-bottom))] lg:max-w-[1120px] lg:pb-8">
-      <header className="sticky top-0 z-20 flex h-14 items-center bg-bg px-3 lg:h-16 lg:border-b lg:border-line lg:px-6">
-        <div className="w-16">
-          {stack.length > 1 ? (
-            <button
-              onClick={back}
-              aria-label={t("common.back")}
-              className="-ml-2 grid h-11 w-11 place-items-center rounded-full hover:bg-neutral"
-            >
-              <Icon.Back />
-            </button>
-          ) : null}
-        </div>
-        <div className="flex-1 text-center text-[12px] font-medium text-muted lg:hidden">
-          {label}
-        </div>
-        {/* Desktop: the four sections as tabs in the header. */}
-        <nav
-          className="mx-auto hidden rounded-[8px] bg-neutral p-0.5 lg:flex"
-          aria-label={t("drv.shell.sections")}
-        >
-          {(
-            [
-              ["home", t("run")],
-              ["stops", t("stops")],
-              ["sync", t("sync")],
-              ["help", t("help")],
-            ] as const
-          ).map(([k, text]) => (
-            <button
-              key={k}
-              onClick={() => goTab(k)}
-              className={`flex h-8 items-center rounded-[6px] px-5 text-[14px] ${tab === k ? "border border-line bg-surface font-semibold text-ink" : "font-medium text-muted hover:text-ink"}`}
-            >
-              {text}
-              {k === "sync" && pending + needsAnswer ? (
-                <span className="ml-2 grid h-4 min-w-4 place-items-center rounded-full bg-warn px-1 text-[10px] font-bold text-bg">
-                  {pending + needsAnswer}
-                </span>
-              ) : null}
-            </button>
-          ))}
-        </nav>
-        <span className="mr-3 hidden whitespace-nowrap text-[12px] font-medium text-muted lg:block">
-          {label}
-        </span>
-        <div className="flex w-16 justify-end lg:w-auto">
-          <SettingsButton
-            to={() => push({ name: "settings" })}
-            label={t("settings.title")}
-          />
+    <div className="flex min-h-dvh flex-col pb-[calc(4rem+env(safe-area-inset-bottom))] lg:pb-8">
+      <header className="glass-bar sticky top-0 z-20 lg:border-b lg:border-line">
+        <div className="mx-auto flex h-14 max-w-[520px] items-center px-3 lg:h-16 lg:max-w-[1120px] lg:px-6">
+          <div className="w-16">
+            {stack.length > 1 ? (
+              <button
+                onClick={back}
+                aria-label={t("common.back")}
+                className="-ml-2 grid h-11 w-11 place-items-center rounded-full hover:bg-neutral"
+              >
+                <Icon.Back />
+              </button>
+            ) : null}
+          </div>
+          <div className="flex-1 text-center text-[12px] font-medium text-muted lg:hidden">
+            {label}
+          </div>
+          {/* Desktop: the four sections as tabs in the header. */}
+          <nav
+            className="mx-auto hidden rounded-[8px] bg-neutral p-0.5 lg:flex"
+            aria-label={t("drv.shell.sections")}
+          >
+            {(
+              [
+                ["home", t("run")],
+                ["stops", t("stops")],
+                ["sync", t("sync")],
+                ["help", t("help")],
+              ] as const
+            ).map(([k, text]) => (
+              <button
+                key={k}
+                onClick={() => goTab(k)}
+                className={`flex h-8 items-center rounded-[6px] px-5 text-[14px] ${tab === k ? "border border-line bg-surface font-semibold text-ink" : "font-medium text-muted hover:text-ink"}`}
+              >
+                {text}
+                {k === "sync" && pending + needsAnswer ? (
+                  <span className="ml-2 grid h-4 min-w-4 place-items-center rounded-full bg-warn px-1 text-[10px] font-bold text-bg">
+                    {pending + needsAnswer}
+                  </span>
+                ) : null}
+              </button>
+            ))}
+          </nav>
+          <span className="mr-3 hidden whitespace-nowrap text-[12px] font-medium text-muted lg:block">
+            {label}
+          </span>
+          <div className="flex w-16 justify-end lg:w-auto">
+            <SettingsButton
+              to={() => push({ name: "settings" })}
+              label={t("settings.title")}
+            />
+          </div>
         </div>
       </header>
 
@@ -354,12 +364,11 @@ function Shell() {
         </div>
       ) : null}
 
-      <div className="lg:grid lg:grid-cols-[360px_minmax(0,1fr)] lg:gap-10 lg:px-6">
+      <div
+        className={`mx-auto w-full max-w-[520px] lg:max-w-[1120px] lg:px-6 ${split ? "lg:grid lg:grid-cols-[360px_minmax(0,1fr)] lg:gap-10" : ""}`}
+      >
         {/* Desktop: the stop list stays on the left while a stop is open on the right. */}
-        {wide &&
-        run &&
-        current &&
-        !["sync", "help", "call", "settings"].includes(screen.name) ? (
+        {split && current ? (
           <aside className="py-6">
             <Stops
               trip={current}
@@ -370,7 +379,7 @@ function Shell() {
         <main className="mx-auto w-full max-w-[520px] px-6 py-6 lg:max-w-[640px] lg:px-0">
           {/* Settings, Help and Sync work without a run too, so the driver can always sign out. */}
           {screen.name === "settings" ? (
-            <SettingsScreen />
+            <SettingsScreen onDone={() => goTab("home")} />
           ) : screen.name === "help" ? (
             <HelpScreen
               onCall={() => push({ name: "call" })}
@@ -481,10 +490,10 @@ function Shell() {
       <WaypointString compact still className="mt-auto pt-10 lg:hidden" />
       <WaypointString
         still
-        className="fixed inset-x-0 bottom-0 -z-10 hidden lg:block"
+        className="fixed inset-x-0 bottom-0 -z-10 opacity-40 blur-[2px] hidden lg:block"
       />
       <nav
-        className="safe-bottom fixed inset-x-0 bottom-0 z-20 border-t border-line bg-surface lg:hidden"
+        className="glass-bar safe-bottom fixed inset-x-0 bottom-0 z-20 border-t border-line lg:hidden"
         aria-label={t("drv.shell.sections")}
       >
         <ul className="mx-auto flex max-w-[520px]">
@@ -735,7 +744,7 @@ function Stops({
             <li key={s.id}>
               <button
                 onClick={() => onOpen(s.id)}
-                className={`hoverable w-full rounded-[12px] border bg-surface px-4 py-3 text-left ${isNext ? "border-ink" : "border-line"}`}
+                className={`hoverable w-full glass rounded-[12px] border px-4 py-3 text-left ${isNext ? "border-ink" : "border-line"}`}
               >
                 <div className="flex items-center gap-3">
                   <span
@@ -1342,34 +1351,27 @@ function HelpScreen({
     ["drv.help.q3", "drv.help.a3"],
   ];
   return (
-    <div className="rise">
-      <Lead>
-        {t("drv.help.eyebrow", {
-          depot: d.run?.depot ?? "",
-          v: d.run?.vehicle?.id ?? "",
-        })}
-      </Lead>
-      <Headline className="mt-1">{t("help")}</Headline>
-      <div className="mt-5 space-y-3">
-        {HELP.map(([q, a]) => (
-          <Card key={q} className="p-4">
-            <div className="text-[15px] font-semibold">{t(q)}</div>
-            <p className="mt-2 text-[13px] text-muted">{t(a)}</p>
-          </Card>
-        ))}
-        <NavRow label={t("settings.title")} onClick={onSettings} />
-      </div>
-      <Button size="xl" block className="mt-6" onClick={onCall}>
-        <Icon.Phone />{" "}
-        {t("drv.help.call", {
-          name: d.run?.dispatcher?.name ?? t("drv.help.dispatch"),
-        })}
-      </Button>
-    </div>
+    <HelpLayout
+      lead={t("drv.help.eyebrow", {
+        depot: d.run?.depot ?? "",
+        v: d.run?.vehicle?.id ?? "",
+      })}
+      title={t("help")}
+      items={HELP.map(([q, a]) => ({ q: t(q), a: t(a) }))}
+      settings={{ label: t("settings.title"), onClick: onSettings }}
+      action={
+        <Button size="xl" block onClick={onCall}>
+          <Icon.Phone />{" "}
+          {t("drv.help.call", {
+            name: d.run?.dispatcher?.name ?? t("drv.help.dispatch"),
+          })}
+        </Button>
+      }
+    />
   );
 }
 
-function SettingsScreen() {
+function SettingsScreen({ onDone }: { onDone: () => void }) {
   const d = useDriver();
   const { t } = useT();
   const [wifi, setWifi] = usePref<boolean>("wp_driver_wifi", false);
@@ -1378,16 +1380,17 @@ function SettingsScreen() {
     true,
   );
   return (
-    <div className="rise">
-      <Lead>
-        {t("drv.settings.sub", {
-          who: d.profile?.user.name ?? "",
-          v: d.run?.vehicle?.id ?? d.profile?.user.vehicle_id ?? "",
-          depot: d.run?.depot ?? d.profile?.user.depot ?? "",
-        })}
-      </Lead>
-      <Headline className="mt-1">{t("settings.title")}</Headline>
-      <div className="mt-6">
+    <SettingsLayout
+      lead={t("drv.settings.sub", {
+        who: d.profile?.user.name ?? "",
+        v: d.run?.vehicle?.id ?? d.profile?.user.vehicle_id ?? "",
+        depot: d.run?.depot ?? d.profile?.user.depot ?? "",
+      })}
+      onDone={onDone}
+      onSignOut={d.forget}
+      signOutNote={t("drv.settings.signOutNote")}
+    >
+      <div>
         <SettingsSection title={t("settings.display")}>
           <DarkModeRow sub={t("drv.settings.darkSub")} />
           <LanguageRow />
@@ -1421,19 +1424,7 @@ function SettingsScreen() {
           />
         </SettingsSection>
       </div>
-      <Button
-        size="xl"
-        variant="secondary"
-        block
-        className="mt-8"
-        onClick={d.forget}
-      >
-        {t("common.signOut")}
-      </Button>
-      <p className="mt-2 text-center text-[12px] text-muted">
-        {t("drv.settings.signOutNote")}
-      </p>
-    </div>
+    </SettingsLayout>
   );
 }
 

@@ -550,11 +550,11 @@ function AssignMenu({
   const { t } = useT();
   const [v, setV] = useState("");
   return (
-    <div className="flex items-center gap-2">
+    <div className="flex w-full min-w-0 items-center gap-2 sm:w-auto">
       <select
         value={v}
         onChange={(e) => setV(e.target.value)}
-        className="h-9 rounded-[8px] border border-line bg-surface px-2 text-[13px]"
+        className="h-9 min-w-0 flex-1 rounded-[8px] border border-line bg-surface px-2 text-[13px] sm:flex-none"
         aria-label={t("disp.plan.assignTo")}
       >
         <option value="">{t("disp.plan.planIt")}</option>

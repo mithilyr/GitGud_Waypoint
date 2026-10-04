@@ -484,12 +484,20 @@ export default function LivePage() {
           })}
         </Lead>
         <Headline className="mt-1">
-          {t("disp.live.title", {
-            out: data.headline.out,
-            needs: data.headline.needs_you
-              ? t("disp.live.needsSome", { n: data.headline.needs_you })
-              : t("disp.live.needsNone"),
-          })}
+          {t(
+            data.headline.out === 1 ? "disp.live.titleOne" : "disp.live.title",
+            {
+              out: data.headline.out,
+              needs: data.headline.needs_you
+                ? t(
+                    data.headline.needs_you === 1
+                      ? "disp.live.needsOne"
+                      : "disp.live.needsSome",
+                    { n: data.headline.needs_you },
+                  )
+                : t("disp.live.needsNone"),
+            },
+          )}
         </Headline>
 
         <div className="mt-5 space-y-5 md:min-h-0 md:flex-1 md:overflow-auto md:pb-5 lg:grid lg:grid-cols-[minmax(0,1fr)_400px] lg:grid-rows-[minmax(0,1fr)_auto] lg:gap-x-5 lg:gap-y-5 lg:space-y-0 lg:overflow-hidden lg:pb-5">

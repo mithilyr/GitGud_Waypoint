@@ -108,6 +108,7 @@ function PinScreen({ mode }: { mode: "setup" | "unlock" }) {
       <p className="mt-1 max-w-[300px] text-center text-[12px] text-muted">
         {mode === "unlock" ? t("drv.pin.unlockNote") : t("drv.pin.setupNote")}
       </p>
+      {mode === "setup" ? <p className="mt-2 max-w-[300px] text-center text-[12px] text-muted">{t("drv.pin.demo")}</p> : null}
       <button onClick={forget} className="mt-4 text-[13px] font-semibold text-muted underline">{t("drv.pin.notYou", { name: name.split(" ")[0] || t("drv.pin.you") })}</button>
     </main>
     <div className="pt-6">
@@ -261,6 +262,7 @@ function Shell() {
       </Sheet>
 
       <WaypointString compact still className="mt-auto pt-10 lg:hidden" />
+      <WaypointString still className="fixed inset-x-0 bottom-0 -z-10 hidden lg:block" />
       <nav className="safe-bottom fixed inset-x-0 bottom-0 z-20 border-t border-line bg-surface lg:hidden" aria-label={t("drv.shell.sections")}>
         <ul className="mx-auto flex max-w-[520px]">
           {(

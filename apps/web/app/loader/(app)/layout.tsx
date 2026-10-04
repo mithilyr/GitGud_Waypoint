@@ -111,6 +111,7 @@ export default function LoaderShell({ children }: { children: React.ReactNode })
       </div>
       <main className="mx-auto w-full max-w-[1280px] px-6 py-6 lg:px-6">{children}</main>
       <WaypointString compact still className="mt-auto pt-10 lg:hidden" />
+      <WaypointString still className="fixed inset-x-0 bottom-0 -z-10 hidden lg:block" />
       <BottomTabs tabs={TABS} />
     </div>
   );

@@ -201,7 +201,10 @@ export function DriverProvider({ children }: { children: React.ReactNode }) {
     if (busy.current || phase !== "ready") return;
     busy.current = true;
     setSyncing(true);
-    const batch = outboxRef.current;
+    // "Send photos on Wi-Fi only": while on mobile data, records that carry a proof photo stay in the outbox.
+    const conn = (navigator as Navigator & { connection?: { type?: string } }).connection;
+    const holdPhotos = localStorage.getItem("wp_driver_wifi") === "1" && conn?.type === "cellular";
+    const batch = outboxRef.current.filter((e) => !(holdPhotos && e.payload?.photo));
     try {
       if (batch.length) {
         setOutbox((o) => o.map((e) => ({ ...e, state: "sending" as const })));

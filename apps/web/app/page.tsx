@@ -69,7 +69,7 @@ export default function SignIn() {
         <Logo size={40} />
         <span className="text-[15px] font-semibold">Waypoint</span>
         <div className="ml-auto">
-          <LanguageSwitch />
+          <LanguageSwitch short />
         </div>
       </header>
 

@@ -112,6 +112,7 @@ export default function StoreLayout({ children }: { children: React.ReactNode })
         ) : null}
         <main className="mx-auto w-full max-w-[520px] px-6 py-6 lg:max-w-[1120px] lg:px-8 lg:py-8">{children}</main>
         <WaypointString compact still className="mt-auto pt-10 lg:hidden" />
+        <WaypointString still className="fixed inset-x-0 bottom-0 -z-10 hidden lg:block" />
         <BottomTabs tabs={tabs} />
       </div>
     </Ctx.Provider>

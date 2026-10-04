@@ -145,14 +145,14 @@ jobs:
       - name: Build web image
         run: docker build -t waypoint-web:ci --build-arg API_INTERNAL_URL=http://api:8000 apps/web
       - name: Scan API image (critical findings with a fix fail)
-        uses: aquasecurity/trivy-action@v0.28.0
+        uses: aquasecurity/trivy-action@v0.36.0
         with:
           image-ref: waypoint-api:ci
           severity: CRITICAL
           ignore-unfixed: true
           exit-code: "1"
       - name: Scan web image (critical findings with a fix fail)
-        uses: aquasecurity/trivy-action@v0.28.0
+        uses: aquasecurity/trivy-action@v0.36.0
         with:
           image-ref: waypoint-web:ci
           severity: CRITICAL

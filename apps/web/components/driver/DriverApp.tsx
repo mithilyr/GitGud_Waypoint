@@ -140,6 +140,26 @@ function Shell() {
   const wide = useWide();
   const nextStop = current?.stops.find((x) => !x.removed && (x.status === "pending" || x.status === "arrived")) ?? current?.stops.find((x) => !x.removed);
   const tab = screen.name === "home" ? "home" : screen.name === "sync" ? "sync" : screen.name === "help" || screen.name === "call" || screen.name === "settings" ? "help" : "stops";
+  const [planAlert] = usePref<boolean>("wp_driver_plan_alert", true);
+
+  // Auto-lock after 5 minutes without a touch (the Settings row says so). The run and outbox stay on the phone;
+  // the PIN opens it again and sync resumes.
+  const [idle, setIdle] = useState(0);
+  const lock = d.lock;
+  useEffect(() => {
+    const reset = () => setIdle(0);
+    window.addEventListener("pointerdown", reset);
+    window.addEventListener("keydown", reset);
+    const t = setInterval(() => setIdle((i) => i + 1), 1000);
+    return () => {
+      window.removeEventListener("pointerdown", reset);
+      window.removeEventListener("keydown", reset);
+      clearInterval(t);
+    };
+  }, []);
+  useEffect(() => {
+    if (idle >= 300) lock();
+  }, [idle, lock]);
 
   return (
     <div className="mx-auto flex min-h-dvh max-w-[520px] flex-col pb-[calc(4rem+env(safe-area-inset-bottom))] lg:max-w-[1120px] lg:pb-8">
@@ -190,7 +210,14 @@ function Shell() {
         </aside>
       ) : null}
       <main className="mx-auto w-full max-w-[520px] px-6 py-6 lg:max-w-[640px] lg:px-0">
-        {!run || !current ? (
+        {/* Settings, Help and Sync work without a run too, so the driver can always sign out. */}
+        {screen.name === "settings" ? (
+          <SettingsScreen />
+        ) : screen.name === "help" ? (
+          <HelpScreen onCall={() => push({ name: "call" })} onSettings={() => push({ name: "settings" })} />
+        ) : screen.name === "sync" ? (
+          <SyncScreen />
+        ) : !run || !current ? (
           <Card className="p-6 text-center">
             <p className="font-display text-[24px]">{t("drv.shell.noRun")}</p>
             <p className="mt-1 text-muted">{t("drv.shell.noRunBody")}</p>
@@ -208,19 +235,14 @@ function Shell() {
           <StopDetail trip={current} stopId={screen.id} onRecord={() => push({ name: "record", id: screen.id })} onDone={() => goTab("stops")} />
         ) : screen.name === "record" ? (
           <Record trip={current} stopId={screen.id} onSaved={() => goTab("stops")} />
-        ) : screen.name === "sync" ? (
-          <SyncScreen />
-        ) : screen.name === "help" ? (
-          <HelpScreen onCall={() => push({ name: "call" })} onSettings={() => push({ name: "settings" })} />
-        ) : screen.name === "settings" ? (
-          <SettingsScreen />
         ) : (
           <CallScreen onBack={back} />
         )}
       </main>
       </div>
 
-      <Sheet open={!!unreadPlanChange} onClose={() => {}} title={t("drv.change.title")}>
+      {/* With plan alerts off the change waits for the Run tab instead of interrupting another screen. */}
+      <Sheet open={!!unreadPlanChange && (planAlert || screen.name === "home")} onClose={() => {}} title={t("drv.change.title")}>
         {unreadPlanChange && current ? (
           <div className="p-6">
             <Pill tone="warn">{t("drv.change.tag", { t: unreadPlanChange.at })}</Pill>

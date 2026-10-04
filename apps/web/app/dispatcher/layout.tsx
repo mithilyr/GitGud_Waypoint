@@ -191,6 +191,8 @@ export default function DispatcherLayout({ children }: { children: React.ReactNo
         {/* Wide screens: the page never scrolls. The content fills what is left under the header; long lists scroll inside their own card. */}
         <div className="mx-auto w-full max-w-[1440px] px-5 pb-6 pt-6 sm:px-8 md:flex md:min-h-0 md:flex-1 md:flex-col md:pb-0 md:pt-5">{children}</div>
         <WaypointString compact still className="mt-auto pt-6 md:hidden" />
+        {/* Desktop: the same string as a fixed background along the bottom, behind the page. */}
+        <WaypointString still className="fixed inset-x-0 bottom-0 -z-10 hidden md:block" />
         <BottomTabs below="md" tabs={tabs.map((x) => ({ href: x.href, label: x.label }))} />
       </div>
     </Ctx.Provider>

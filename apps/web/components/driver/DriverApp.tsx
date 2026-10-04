@@ -261,6 +261,7 @@ function Shell() {
       </Sheet>
 
       <WaypointString compact still className="mt-auto pt-10 lg:hidden" />
+      <WaypointString still className="fixed inset-x-0 bottom-0 -z-10 hidden lg:block" />
       <nav className="safe-bottom fixed inset-x-0 bottom-0 z-20 border-t border-line bg-surface lg:hidden" aria-label={t("drv.shell.sections")}>
         <ul className="mx-auto flex max-w-[520px]">
           {(

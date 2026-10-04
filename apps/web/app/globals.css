@@ -321,3 +321,44 @@ html[data-density="compact"] table tbody td {
     height: calc(100dvh / 1.12);
   }
 }
+
+/* Frosted glass: panels that sit above the page background let it show through, softened. */
+.glass {
+  background: color-mix(in srgb, var(--surface) 68%, transparent);
+  -webkit-backdrop-filter: blur(14px) saturate(1.35);
+  backdrop-filter: blur(14px) saturate(1.35);
+}
+.glass-bar {
+  background: color-mix(in srgb, var(--surface) 78%, transparent);
+  -webkit-backdrop-filter: blur(18px) saturate(1.4);
+  backdrop-filter: blur(18px) saturate(1.4);
+}
+@supports not (
+  (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))
+) {
+  .glass,
+  .glass-bar {
+    background: var(--surface);
+  }
+}
+
+/* A sticky action bar whose frosted background runs edge to edge of the window, while its content stays in the page column. */
+.bar-bleed {
+  isolation: isolate;
+}
+.bar-bleed::before {
+  content: "";
+  position: absolute;
+  inset-block: 0;
+  left: 50%;
+  width: 100vw;
+  transform: translateX(-50%);
+  z-index: -1;
+  border-top: 1px solid var(--border);
+  background: color-mix(in srgb, var(--surface) 78%, transparent);
+  -webkit-backdrop-filter: blur(18px) saturate(1.4);
+  backdrop-filter: blur(18px) saturate(1.4);
+}
+body {
+  overflow-x: clip;
+}

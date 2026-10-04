@@ -385,9 +385,7 @@ function DeliveryView({
     <div>
       <div className="flex items-center justify-between gap-2">
         <p className="min-w-0 truncate text-[13px] font-medium text-muted">
-          {arrived
-            ? t("store.track.eyebrowArrived", { outlet })
-            : t("store.track.eyebrowToday", { outlet })}
+          {t("store.track.eyebrowOrder", { kind: kindLabel, id: d.order.id })}
         </p>
         {s.no_signal && !arrived ? (
           <Pill tone="warn">{t("store.track.noSignalEta")}</Pill>
@@ -420,6 +418,22 @@ function DeliveryView({
               sub={`${s.vehicle_kind}${s.driver ? ` · ${s.driver}` : ""}`}
             />
           </div>
+          <SectionLabel className="mt-6">
+            {t("store.track.onThisDelivery")}
+          </SectionLabel>
+          <ul className="mt-2 divide-y divide-line">
+            {s.lines.map((l) => (
+              <li
+                key={l.group}
+                className="flex items-center justify-between gap-3 py-2.5 text-[14px]"
+              >
+                <span className="min-w-0 flex-1 font-medium">{l.group}</span>
+                <span className="font-data text-[12px] text-muted">
+                  {l.planned} {l.unit}
+                </span>
+              </li>
+            ))}
+          </ul>
           <Steps steps={d.steps} />
         </>
       ) : (
@@ -558,6 +572,11 @@ function Steps({ steps }: { steps: Delivery["steps"] }) {
                 className={`text-[14px] ${st.state === "current" ? "font-bold" : "font-medium"} ${st.state === "todo" ? "text-ink" : ""}`}
               >
                 {STEP_KEY[st.label] ? t(STEP_KEY[st.label]) : st.label}
+                {st.state === "current" ? (
+                  <span className="ml-2 rounded-full bg-accent/25 px-2 py-0.5 align-middle text-[10px] font-bold uppercase tracking-[0.6px]">
+                    {t("store.track.now")}
+                  </span>
+                ) : null}
               </div>
               {st.detail ? (
                 <div className="text-[13px] text-warn">{st.detail}</div>

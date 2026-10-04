@@ -22,6 +22,9 @@ export const storeTrack = defineDomain({
     "store.sent.photoCount": "{n} attached",
     "store.sent.noPhoto": "None attached",
     "store.sent.problemVal": "{kind} · {line}",
+    "store.track.eyebrowOrder": "{kind} order · {id}",
+    "store.track.onThisDelivery": "On this delivery",
+    "store.track.now": "Now",
   },
   si: {
     "store.track.eyebrowToday": "{outlet} අලෙවිසැල · අද බෙදාහැරීම",
@@ -44,6 +47,9 @@ export const storeTrack = defineDomain({
     "store.sent.photoCount": "{n}ක් අමුණා ඇත",
     "store.sent.noPhoto": "කිසිවක් අමුණා නැත",
     "store.sent.problemVal": "{kind} · {line}",
+    "store.track.eyebrowOrder": "{kind} ඇණවුම · {id}",
+    "store.track.onThisDelivery": "මෙම බෙදාහැරීමේ ඇති දේ",
+    "store.track.now": "දැන්",
   },
   ta: {
     "store.track.eyebrowToday": "{outlet} கடை · இன்றைய வழங்கல்",
@@ -66,5 +72,8 @@ export const storeTrack = defineDomain({
     "store.sent.photoCount": "{n} இணைக்கப்பட்டது",
     "store.sent.noPhoto": "எதுவும் இணைக்கவில்லை",
     "store.sent.problemVal": "{kind} · {line}",
+    "store.track.eyebrowOrder": "{kind} ஆர்டர் · {id}",
+    "store.track.onThisDelivery": "இந்த வழங்கலில் உள்ளவை",
+    "store.track.now": "இப்போது",
   },
 });

@@ -57,7 +57,7 @@ export default function LoaderSignIn() {
     <div className="flex min-h-dvh flex-col overflow-x-clip">
       <main className="relative mx-auto flex w-full max-w-[520px] flex-1 flex-col px-5 pb-6 pt-4">
         <HomeLink />
-        <div className="mt-2 flex items-center gap-3">
+        <div className="mt-2 flex items-center justify-center gap-3">
           <Logo size={40} />
           <div>
             <div className="text-[15px] font-semibold leading-tight">
@@ -68,11 +68,13 @@ export default function LoaderSignIn() {
             </div>
           </div>
         </div>
-        <h1 className="mt-8 font-display text-[32px] font-medium leading-[1.2] tracking-[-0.7px]">
+        <h1 className="mt-8 text-center font-display text-[32px] font-medium leading-[1.2] tracking-[-0.7px]">
           {t("loader.signin.title")}
         </h1>
-        <p className="mt-1 text-[14px] text-muted">{t("loader.signin.lede")}</p>
-        <div className="mt-4">
+        <p className="mt-1 text-center text-[14px] text-muted">
+          {t("loader.signin.lede")}
+        </p>
+        <div className="mt-4 flex justify-center">
           <LanguageSwitch />
         </div>
 

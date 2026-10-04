@@ -66,8 +66,8 @@ export default function DemandPage() {
 
       <div className="mt-5 grid gap-4 md:min-h-0 md:flex-1 md:overflow-auto md:content-start md:pb-4 lg:grid-cols-2">
         {depots.map((depot) => (
-          <Card key={depot} className="p-4">
-            <div className="flex items-baseline justify-between">
+          <Card key={depot} className="min-w-0 p-4">
+            <div className="flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1">
               <div className="font-display text-[22px] font-medium">
                 {depot}
               </div>
@@ -82,7 +82,7 @@ export default function DemandPage() {
                 </span>
               </div>
             </div>
-            <div className="mt-3 flex h-[190px] items-end gap-1.5 md:h-[clamp(96px,19dvh,190px)]">
+            <div className="mt-3 flex h-[190px] items-end gap-0.5 sm:gap-1.5 md:h-[clamp(96px,19dvh,190px)]">
               {data.days.map((d) => {
                 const x = d.depots[depot];
                 const over = x.pct > 100;
@@ -108,11 +108,12 @@ export default function DemandPage() {
                 );
               })}
             </div>
-            <div className="mt-1.5 flex gap-1.5">
+            <div className="mt-1.5 flex gap-0.5 sm:gap-1.5">
               {data.days.map((d) => (
-                <div key={d.date} className="flex-1 text-center">
+                <div key={d.date} className="min-w-0 flex-1 text-center">
                   <div className="text-[10px] font-semibold text-muted">
-                    {d.dow}
+                    <span className="sm:hidden">{d.dow.slice(0, 1)}</span>
+                    <span className="hidden sm:inline">{d.dow}</span>
                   </div>
                   <div className="font-data text-[11px]">{d.date.slice(8)}</div>
                   <div className="h-3 text-[9px] text-warn">

@@ -43,7 +43,7 @@ export function TopBar({
   const path = usePathname();
   return (
     <header
-      className={`sticky top-0 z-30 h-16 items-center gap-4 border-b border-line bg-surface px-6 ${SHOW_FROM[from]}`}
+      className={`sticky top-0 z-30 h-16 items-center gap-4 glass-bar border-b border-line px-6 ${SHOW_FROM[from]}`}
     >
       <Link href={home} className="flex items-center gap-3">
         <Logo size={38} />

@@ -30,7 +30,7 @@ export function PhoneHeader({
   const router = useRouter();
   const { t } = useT();
   return (
-    <header className="sticky top-0 z-20 flex h-14 items-center bg-bg px-3">
+    <header className="glass-bar sticky top-0 z-20 flex h-14 items-center px-3">
       <div className="w-16">
         {back ? (
           <button
@@ -92,7 +92,7 @@ export function BottomTabs({
   return (
     <>
       <nav
-        className={`safe-bottom fixed inset-x-0 bottom-0 z-20 border-t border-line bg-surface ${HIDE_FROM[below]}`}
+        className={`safe-bottom glass-bar fixed inset-x-0 bottom-0 z-20 border-t border-line ${HIDE_FROM[below]}`}
         aria-label="Sections"
       >
         <ul className="mx-auto flex max-w-[520px]">

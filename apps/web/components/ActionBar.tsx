@@ -14,7 +14,7 @@ export function ActionBar({
   children: React.ReactNode;
 }) {
   return (
-    <div className="sticky bottom-16 z-20 -mx-5 mt-6 border-t border-line bg-bg/95 px-5 py-3 backdrop-blur sm:-mx-8 sm:px-8 md:bottom-0 md:mt-4 md:shrink-0">
+    <div className="sticky bottom-16 z-20 -mx-5 mt-6 bar-bleed px-5 py-3 sm:-mx-8 sm:px-8 md:bottom-0 md:mt-4 md:shrink-0">
       <div className="mx-auto flex max-w-[1440px] flex-wrap items-center gap-x-4 gap-y-3">
         {note ? (
           <div className="min-w-0 flex-1 text-[14px] text-muted">{note}</div>

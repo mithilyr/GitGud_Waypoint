@@ -271,7 +271,7 @@ export function Card({
   return (
     <div
       {...rest}
-      className={`rounded-[12px] border border-line bg-surface ${className}`}
+      className={`glass rounded-[12px] border border-line ${className}`}
     >
       {children}
     </div>
@@ -592,7 +592,7 @@ export function Sheet({
   // Rendered on document.body so no animated or clipped ancestor can trap the fixed overlay.
   return createPortal(
     <div
-      className="fixed inset-0 z-50 flex"
+      className="fixed inset-0 z-50 flex backdrop-blur-[3px]"
       style={{ background: "var(--overlay)" }}
       onClick={onClose}
       role="dialog"
@@ -601,7 +601,7 @@ export function Sheet({
     >
       <div
         onClick={(e) => e.stopPropagation()}
-        className={`rise bg-surface text-ink shadow-xl ${side ? "ml-auto h-full w-full max-w-[460px] overflow-y-auto" : "m-auto max-h-[92dvh] w-full max-w-[560px] self-end overflow-y-auto rounded-t-[16px] sm:self-center sm:rounded-[16px]"}`}
+        className={`rise glass-bar text-ink shadow-xl ${side ? "ml-auto h-full w-full max-w-[460px] overflow-y-auto" : "m-auto max-h-[92dvh] w-full max-w-[560px] self-end overflow-y-auto rounded-t-[16px] sm:self-center sm:rounded-[16px]"}`}
       >
         {children}
       </div>

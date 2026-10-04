@@ -1,7 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { Button, Card, Headline, Lead, NavRow } from "@/components/ui";
+import { HelpLayout } from "@/components/HelpLayout";
+import { Button } from "@/components/ui";
 import { useAuth } from "@/lib/auth";
 import { useT } from "@/lib/i18n";
 import type { Key } from "@/lib/i18n/en";
@@ -16,28 +17,21 @@ export default function HelpPage() {
   const { t } = useT();
   const { user } = useAuth();
   return (
-    <div className="rise mx-auto max-w-[620px]">
-      <Lead mono>
-        {t("loader.depotLine", {
-          depot: user?.depot ?? "",
-          dock: user?.dock ?? "",
-        })}
-      </Lead>
-      <Headline className="mt-1">{t("loader.nav.help")}</Headline>
-      <div className="mt-5 space-y-3">
-        {HELP.map(([q, a]) => (
-          <Card key={q} className="p-4">
-            <div className="text-[14px] font-semibold">{t(q)}</div>
-            <p className="mt-2 text-[12px] font-medium text-muted">{t(a)}</p>
-          </Card>
-        ))}
-        <NavRow label={t("settings.title")} href="/loader/settings" />
-      </div>
-      <Link href="/loader/load" className="mt-6 block">
-        <Button size="xl" block>
-          {t("loader.help.flag")}
-        </Button>
-      </Link>
-    </div>
+    <HelpLayout
+      lead={t("loader.depotLine", {
+        depot: user?.depot ?? "",
+        dock: user?.dock ?? "",
+      })}
+      title={t("loader.nav.help")}
+      items={HELP.map(([q, a]) => ({ q: t(q), a: t(a) }))}
+      settings={{ label: t("settings.title"), href: "/loader/settings" }}
+      action={
+        <Link href="/loader/load" className="block">
+          <Button size="xl" block>
+            {t("loader.help.flag")}
+          </Button>
+        </Link>
+      }
+    />
   );
 }

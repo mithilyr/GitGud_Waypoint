@@ -191,23 +191,27 @@ export default function OrdersPage() {
         ))}
       </div>
 
-      <div className="mt-4 flex shrink-0 flex-wrap items-center gap-x-8 gap-y-2">
-        {[
-          [t("disp.orders.total"), data.total],
-          [t("disp.orders.chilledTile"), data.chilled],
-          [t("disp.orders.vanOnly"), data.van_only],
-          [t("disp.orders.mallDock"), data.mall_dock],
-        ].map(([k, v]) => (
-          <div key={k}>
-            <Eyebrow>{k}</Eyebrow>
-            <div className="font-display text-[26px] font-medium tabular">
-              {v}
-            </div>
+      {/* The totals sit in the bottom bar, clear of the waypoint string. */}
+      <ActionBar
+        note={
+          <div className="flex flex-wrap items-center gap-x-8 gap-y-2">
+            {[
+              [t("disp.orders.total"), data.total],
+              [t("disp.orders.chilledTile"), data.chilled],
+              [t("disp.orders.vanOnly"), data.van_only],
+              [t("disp.orders.mallDock"), data.mall_dock],
+            ].map(([k, v]) => (
+              <div key={k}>
+                <Eyebrow>{k}</Eyebrow>
+                <div className="font-display text-[26px] font-medium leading-none tabular text-ink">
+                  {v}
+                </div>
+              </div>
+            ))}
+            <ErrorNote error={build.error} />
           </div>
-        ))}
-      </div>
-
-      <ActionBar note={<ErrorNote error={build.error} />}>
+        }
+      >
         {data.plan && data.plan.status !== "released" ? (
           <Button
             variant="secondary"

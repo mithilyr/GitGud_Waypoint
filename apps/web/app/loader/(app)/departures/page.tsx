@@ -161,25 +161,37 @@ function Departures() {
           ))}
         </ul>
       )}
-      <p className="mt-4 text-[12px] font-medium text-muted">
-        {t("loader.dep.noSheets")}
-      </p>
     </div>
   );
 
-  if (!wide) return <div className="rise mx-auto max-w-[520px]">{list}</div>;
+  // Pinned to the bottom of the screen (above the phone tab bar), so it never scrolls away with the list.
+  const note = (
+    <p className="glass-bar fixed inset-x-0 bottom-[calc(4rem+env(safe-area-inset-bottom))] z-10 border-t border-line px-4 py-2.5 text-center text-[12px] font-medium text-muted lg:bottom-0">
+      {t("loader.dep.noSheets")}
+    </p>
+  );
+  if (!wide)
+    return (
+      <>
+        <div className="rise mx-auto max-w-[520px] pb-10">{list}</div>
+        {note}
+      </>
+    );
   // Tablet and desktop: both panes scroll on their own, so the page stays put under the header.
   return (
-    <div className="rise grid h-[calc(100dvh-7rem)] grid-cols-[380px_1fr] gap-6 overflow-hidden">
-      {list}
-      <Card className="min-h-0 overflow-auto p-5">
-        {active ? (
-          <LoadPanel tripId={active.trip_id} onReleased={reload} />
-        ) : (
-          <Empty title={t("loader.dep.pick")} />
-        )}
-      </Card>
-    </div>
+    <>
+      <div className="rise grid h-[calc(100dvh-10rem)] grid-cols-[380px_1fr] gap-6 overflow-hidden">
+        {list}
+        <Card className="min-h-0 overflow-auto p-5">
+          {active ? (
+            <LoadPanel tripId={active.trip_id} onReleased={reload} />
+          ) : (
+            <Empty title={t("loader.dep.pick")} />
+          )}
+        </Card>
+      </div>
+      {note}
+    </>
   );
 }
 

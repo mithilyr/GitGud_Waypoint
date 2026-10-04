@@ -29,5 +29,5 @@ export const SCENE_LINES: Record<string, [number, string][]> = {
     [0.5, "The allocation engine, the API and the web app have automated tests, and one test walks order, plan, load, deliver and receipt through the whole system."],
     [8, "We used Claude Code to write much of the code under our direction. We chose the scope and every departure, we review what we present, and every use is logged in our AI disclosure."],
   ],
-  outro: [[0.5, "Waypoint: order, plan, load, deliver, receipt. Try the live demo or read the code, links on screen. Thank you."]],
+  outro: [[0.5, "Waypoint: order, plan, load, deliver, receipt. Try the live demo, linked on screen. Thank you."]],
 };

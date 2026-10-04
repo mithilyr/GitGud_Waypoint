@@ -1,5 +1,5 @@
 import React from "react";
-import { AbsoluteFill, Sequence } from "remotion";
+import { AbsoluteFill, Audio, Sequence, staticFile } from "remotion";
 import { CLIPS } from "./data";
 import { ClipScene, clipFrames } from "./components/ClipScene";
 import { AllocScene, ArchScene, FidelityScene, FlowScene, OfflineScene, OutroScene, ProblemScene, ProofScene, TitleScene } from "./components/Scenes";
@@ -27,6 +27,7 @@ export const Main: React.FC = () => {
   let at = 0;
   return (
     <AbsoluteFill style={{ background: "#f7f6f3" }}>
+      <Audio src={staticFile("audio/music.m4a")} volume={0.79} />
       {TIMELINE.map((t) => {
         const from = at; at += t.frames;
         return <Sequence key={t.id} from={from} durationInFrames={t.frames}>{t.node}</Sequence>;

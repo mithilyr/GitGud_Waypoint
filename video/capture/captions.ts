@@ -47,12 +47,11 @@ fs.writeFileSync("out/youtube-description.md", `Waypoint: one system from the st
 Four roles, one shared record: dispatcher, loader, driver (offline-first PWA) and store manager, in English, Sinhala and Tamil.
 
 Live demo: https://waypoint-web-5ssl.onrender.com (first load can take a minute on the free tier; demo accounts are on the sign-in page)
-Code: https://github.com/mithilyr/gitgud_waypoint
 
 Chapters
 ${chapters.map((c) => `${tc(starts[c], false).replace(/^0:/, "0:")} ${chapterTitle[c]}`).join("\n")}
 
 Built with Claude Code under our direction. Every use is listed in docs/ai-disclosure.md.
-Runtime: ${tc(total, false)}. Video made with Remotion from real screen recordings of the running app.
+Runtime: ${tc(total, false)}. Video made with Remotion from real screen recordings of the running app. Music is an original generated ambient track.
 `);
 console.log("captions", lines.length, "lines; total", total.toFixed(1) + "s");

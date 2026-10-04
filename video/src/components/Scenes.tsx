@@ -21,12 +21,12 @@ const Page: React.FC<{ children: React.ReactNode; dark?: boolean }> = ({ childre
 // ---------- 1. Title ----------
 export const TitleScene: React.FC = () => {
   const f = useCurrentFrame();
-  const p = interpolate(f, [4, 60], [0, 1], clamp);
-  const a = useAppear(40), b = useAppear(60), c = useAppear(85);
+  const t = interpolate(f, [6, 96], [0, 9], clamp);
+  const a = useAppear(104), b = useAppear(124), c = useAppear(146);
   return (
     <Fade inF={6}>
       <AbsoluteFill style={{ background: C.bg, alignItems: "center", justifyContent: "center", flexDirection: "column", gap: 26 }}>
-        <Logo size={230} progress={p} />
+        <Logo size={230} t={t} />
         <div style={{ ...a, fontFamily: serif, fontSize: 150, letterSpacing: -4, color: C.ink, lineHeight: 1 }}>Waypoint</div>
         <div style={{ ...b, fontFamily: serif, fontSize: 52, color: C.muted, fontStyle: "italic" }}>From the store's order to the signed receipt.</div>
         <div style={{ ...c, fontFamily: mono, fontSize: 26, letterSpacing: 2.2, textTransform: "uppercase", color: C.muted, marginTop: 30 }}>Team GitGud · Tech-Triathlon 2026 · Hackathon demo</div>
@@ -76,61 +76,73 @@ export const ProblemScene: React.FC = () => {
 };
 
 // ---------- 3. One flow ----------
-const NODES = ["Order", "Plan", "Load", "Deliver", "Receipt"];
+const FLOW = [
+  ["Order", "Store manager"],
+  ["Plan", "Dispatcher"],
+  ["Load", "Loader"],
+  ["Deliver", "Driver"],
+  ["Receipt", "Store manager"],
+];
 export const FlowScene: React.FC = () => {
   const f = useCurrentFrame();
-  const prog = interpolate(f, [10, 120], [0, 4], clamp);
-  const ys = [0, 1, 0.45, 1, 0];
-  const x0 = 220, step = (W - 440) / 4;
-  const pts = NODES.map((_, i) => [x0 + i * step, 560 + (ys[i] - 0.5) * 220]);
-  const d = pts.map((p, i) => `${i ? "L" : "M"}${p[0]} ${p[1]}`).join(" ");
+  const prog = interpolate(f, [24, 120], [0, 4], clamp); // 0..4 along the line
   return (
     <Page>
       <div style={useAppear(0)}><Eyebrow>The answer</Eyebrow></div>
-      <div style={{ ...useAppear(6), marginTop: 20 }}><H1 size={100}>One shared record,<br />four roles.</H1></div>
-      <svg width={W} height={1080} style={{ position: "absolute", left: 0, top: 0 }}>
-        <path d={d} fill="none" stroke={C.mark} strokeWidth={7} strokeLinecap="round" strokeLinejoin="round" pathLength={1} strokeDasharray={1} strokeDashoffset={1 - prog / 4} />
-        {pts.map((p, i) => (
-          <g key={i} opacity={prog >= i ? 1 : 0.15}>
-            <circle cx={p[0]} cy={p[1]} r={i === 4 ? 26 : 22} fill={i === 4 ? C.orange : C.bg} stroke={C.mark} strokeWidth={i === 4 ? 0 : 6} />
-            <text x={p[0]} y={p[1] + (ys[i] > 0.5 ? 72 : -48)} textAnchor="middle" style={{ fontFamily: serif, fontSize: 48, fill: C.ink }}>{NODES[i]}</text>
-          </g>
-        ))}
-      </svg>
-      <Body size={30} color={C.muted} style={{ ...useAppear(130), position: "absolute", left: 120, right: 120, bottom: 90, textAlign: "center" }}>Next: the real app, run end to end. Order to receipt, all four roles.</Body>
+      <div style={{ ...useAppear(6), marginTop: 22 }}><H1 size={104}>One shared record.</H1></div>
+      <Body size={38} color={C.muted} style={{ ...useAppear(14), marginTop: 18 }}>Four roles read and write the same order, from the first tap to the signed receipt.</Body>
+      <div style={{ position: "relative", marginTop: 120, height: 260 }}>
+        <div style={{ position: "absolute", left: 100, right: 100, top: 22, height: 6, borderRadius: 3, background: C.line }} />
+        <div style={{ position: "absolute", left: 100, top: 22, height: 6, borderRadius: 3, background: C.mark, width: `calc((100% - 200px) * ${prog / 4})` }} />
+        <div style={{ position: "absolute", left: 100, right: 100, top: 0, display: "flex", justifyContent: "space-between" }}>
+          {FLOW.map(([n, who], i) => {
+            const on = prog >= i - 0.01, last = i === 4;
+            return (
+              <div key={n} style={{ width: 0, display: "flex", flexDirection: "column", alignItems: "center", opacity: on ? 1 : 0.35 }}>
+                <div style={{ width: 50, height: 50, borderRadius: 25, boxSizing: "border-box", background: last ? C.orange : C.bg, border: last ? "none" : `7px solid ${C.mark}` }} />
+                <div style={{ marginTop: 30, fontFamily: serif, fontSize: 56, color: C.ink, whiteSpace: "nowrap" }}>{n}</div>
+                <div style={{ marginTop: 8, fontFamily: mono, fontSize: 22, letterSpacing: 1.6, textTransform: "uppercase", color: C.muted, whiteSpace: "nowrap" }}>{who}</div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+      <Body size={30} color={C.muted} style={{ ...useAppear(130), marginTop: 40 }}>Next: the real app, run end to end.</Body>
     </Page>
   );
 };
 
 // ---------- 4. Architecture ----------
-const Box: React.FC<{ x: number; y: number; w: number; h: number; title: string; sub: string[]; delay: number; accent?: boolean }> = ({ x, y, w, h, title, sub, delay, accent }) => (
-  <div style={{ ...useAppear(delay), position: "absolute", left: x, top: y, width: w, height: h, background: accent ? C.mark : C.surface, color: accent ? "#fff" : C.ink, border: `1.5px solid ${accent ? C.mark : C.line}`, borderRadius: 20, padding: "22px 26px", boxSizing: "border-box" }}>
-    <div style={{ fontFamily: serif, fontSize: 40 }}>{title}</div>
-    {sub.map((s) => <div key={s} style={{ fontFamily: sans, fontSize: 24, marginTop: 6, color: accent ? "#cfe0d9" : C.muted }}>{s}</div>)}
+const Box: React.FC<{ title: string; sub: string[]; delay: number; accent?: boolean; w?: number }> = ({ title, sub, delay, accent, w }) => (
+  <div style={{ ...useAppear(delay), width: w, flex: w ? undefined : 1, boxSizing: "border-box", background: accent ? C.mark : C.surface, color: accent ? "#fff" : C.ink, border: `1.5px solid ${accent ? C.mark : C.line}`, borderRadius: 20, padding: "26px 28px" }}>
+    <div style={{ fontFamily: serif, fontSize: 44 }}>{title}</div>
+    {sub.map((x) => <div key={x} style={{ fontFamily: sans, fontSize: 26, marginTop: 8, color: accent ? "#cfe0d9" : C.muted }}>{x}</div>)}
   </div>
 );
-export const ArchScene: React.FC = () => {
+const Arrow: React.FC<{ delay: number }> = ({ delay }) => {
   const f = useCurrentFrame();
-  const line = (x1: number, y1: number, x2: number, y2: number, delay: number) => (
-    <line x1={x1} y1={y1} x2={x2} y2={y2} stroke={C.mark} strokeWidth={4} strokeLinecap="round" opacity={interpolate(f, [delay, delay + 12], [0, 1], clamp)} markerEnd="url(#ah)" />
-  );
-  return (
-    <Page>
-      <div style={useAppear(0)}><Eyebrow>Under the hood · architecture</Eyebrow></div>
-      <div style={{ ...useAppear(6), marginTop: 18 }}><H1 size={78}>Everything runs from one command.</H1></div>
-      <svg width={W} height={1080} style={{ position: "absolute", left: 0, top: 110 }}>
-        <defs><marker id="ah" markerWidth="10" markerHeight="10" refX="7" refY="5" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill={C.mark} /></marker></defs>
-        {line(560, 560, 660, 560, 60)}{line(1020, 560, 1120, 560, 80)}{line(1500, 470, 1560, 400, 100)}{line(1500, 640, 1560, 700, 110)}
-      </svg>
-      <Box x={120} y={490} w={440} h={360} title="Browser" sub={["Next.js 15 · TypeScript", "/dispatcher /loader", "/driver /store", "Driver PWA: IndexedDB", "outbox + service worker"]} delay={30} />
-      <Box x={660} y={550} w={360} h={240} title="Next.js server" sub={["Rewrites /api/*", "No CORS, no API", "address in the bundle"]} delay={50} />
-      <Box x={1120} y={490} w={380} h={360} title="FastAPI" sub={["Auth · orders · plans", "loading · delivery", "sync · receipts", "insights", "SQLAlchemy · Alembic"]} delay={70} accent />
-      <Box x={1560} y={390} w={300} h={200} title="allocation" sub={["Pure Python", "rules · allocator"]} delay={90} />
-      <Box x={1560} y={730} w={300} h={200} title="PostgreSQL 16" sub={["Orders, plans,", "loads, events"]} delay={100} />
-      <Body size={30} color={C.muted} style={{ ...useAppear(140), position: "absolute", left: 120, bottom: 100, width: 1500 }}>docker compose up: database, migrations, seed data (120 outlets, 60 vehicles) and a queued delivery day. Passwords and PINs are hashed, every route checks the role, and a store sees only its own outlet.</Body>
-    </Page>
-  );
+  const o = interpolate(f, [delay, delay + 12], [0, 1], clamp);
+  return <svg width={70} height={30} style={{ flexShrink: 0, opacity: o }}><path d="M4 15 H56 M46 5 L58 15 L46 25" fill="none" stroke={C.mark} strokeWidth={4} strokeLinecap="round" strokeLinejoin="round" /></svg>;
 };
+export const ArchScene: React.FC = () => (
+  <Page>
+    <div style={useAppear(0)}><Eyebrow>Under the hood · architecture</Eyebrow></div>
+    <div style={{ ...useAppear(6), marginTop: 18 }}><H1 size={84}>Everything runs from one command.</H1></div>
+    <div style={{ display: "flex", alignItems: "center", gap: 16, marginTop: 70 }}>
+      <Box title="Browser" sub={["Next.js 15, TypeScript", "Four role areas", "Driver PWA with an", "offline outbox"]} delay={28} />
+      <Arrow delay={46} />
+      <Box title="Next.js server" sub={["Forwards /api/*", "to the API", "No CORS to set up"]} delay={44} />
+      <Arrow delay={62} />
+      <Box title="FastAPI" sub={["Orders, plans, loading", "Delivery, sync, receipts", "SQLAlchemy, Alembic"]} delay={60} accent />
+      <Arrow delay={78} />
+      <div style={{ display: "flex", flexDirection: "column", gap: 20, flex: 1 }}>
+        <Box title="Plan engine" sub={["Pure Python rules"]} delay={76} />
+        <Box title="PostgreSQL 16" sub={["Orders, plans, events"]} delay={90} />
+      </div>
+    </div>
+    <Body size={30} color={C.muted} style={{ ...useAppear(130), marginTop: 56, maxWidth: 1600 }}>docker compose up starts the database, runs the migrations, loads 120 outlets and 60 vehicles, and queues a delivery day. Passwords and PINs are hashed, every route checks the role, and a store sees only its own outlet.</Body>
+  </Page>
+);
 
 // ---------- 5. Allocation ----------
 export const AllocScene: React.FC = () => {
@@ -240,7 +252,7 @@ export const OutroScene: React.FC = () => {
         <div style={{ ...useAppear(6), fontFamily: serif, fontSize: 120, letterSpacing: -3, color: C.ink }}>Waypoint</div>
         <div style={{ ...useAppear(20), fontFamily: serif, fontStyle: "italic", fontSize: 46, color: C.muted }}>Order → plan → load → deliver → receipt.</div>
         <div style={{ ...useAppear(40), marginTop: 36, fontFamily: mono, fontSize: 32, color: C.ink, textAlign: "center", lineHeight: 1.7 }}>
-          waypoint-web-5ssl.onrender.com<br />github.com/mithilyr/gitgud_waypoint
+          waypoint-web-5ssl.onrender.com
         </div>
         <Body size={26} color={C.muted} style={{ ...useAppear(60), marginTop: 10 }}>Demo accounts are on the sign-in page. First load can take a minute on the free tier.</Body>
         <div style={{ ...useAppear(80), fontFamily: mono, fontSize: 24, letterSpacing: 2.2, textTransform: "uppercase", color: C.muted, marginTop: 20 }}>Team GitGud · Tech-Triathlon 2026 · The Intelligent Enterprise</div>

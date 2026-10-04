@@ -107,7 +107,7 @@ export default function PlanPage() {
   const apply = (b: Board) => setData(b);
 
   return (
-    <div className="rise">
+    <div className="rise fit-col">
       <Lead>
         {released
           ? t("disp.plan.eyebrowReleased", { date: fmtDate(plan.service_date), depot: plan.depot, v: plan.version })
@@ -126,8 +126,8 @@ export default function PlanPage() {
             : t("disp.plan.blockBody", { u: summary.unassigned, b: summary.blocking })}
       </p>
 
-      <Card className="mt-6 hidden overflow-hidden md:block">
-        <div className="max-h-[58dvh] overflow-auto">
+      <Card className="mt-5 hidden min-h-[200px] overflow-hidden md:flex md:min-h-[200px] md:flex-1 md:flex-col">
+        <div className="fit-scroll">
           <table className="w-full min-w-[1040px] text-left">
             <thead className="sticky top-0 z-10 bg-surface">
               <tr className="border-b border-line">
@@ -155,9 +155,9 @@ export default function PlanPage() {
       </div>
 
       {deferred.length ? (
-        <section className="mt-8">
+        <section className="mt-6 md:mt-4 md:flex md:max-h-[30%] md:shrink-0 md:flex-col">
           <Eyebrow>{t("disp.plan.deferredTitle", { n: deferred.length })}</Eyebrow>
-          <Card className="mt-2 divide-y divide-line">
+          <Card className="mt-2 divide-y divide-line md:min-h-0 md:overflow-auto">
             {deferred.map((d) => (
               <div key={d.order_id} className="flex flex-wrap items-center gap-x-4 gap-y-2 px-4 py-3">
                 <div className="min-w-[160px]">

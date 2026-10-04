@@ -55,7 +55,7 @@ export default function OrdersPage() {
   const skippedNames = [...new Set(skipped.map((o) => o.outlet))].slice(0, 2);
 
   return (
-    <div className="rise">
+    <div className="rise fit-col">
       <Lead>{t("disp.orders.eyebrow", { depot, date: fmtDate(data.date) })}</Lead>
       <Headline className="mt-1">{t("disp.orders.title", { n: data.total, day })}</Headline>
       <p className="mt-3 max-w-[900px] text-[15px] text-muted">
@@ -63,8 +63,8 @@ export default function OrdersPage() {
         {skippedNames.length ? t(skippedNames.length > 1 ? "disp.orders.skipMany" : "disp.orders.skipOne", { names: skippedNames.join(", ") }) : ""}
       </p>
 
-      <Card className="mt-6 hidden overflow-hidden md:block">
-        <div className="max-h-[56dvh] overflow-auto">
+      <Card className="mt-5 hidden min-h-[180px] overflow-hidden md:flex md:min-h-0 md:flex-1 md:flex-col">
+        <div className="fit-scroll">
           <table className="w-full min-w-[820px] text-left">
             <thead className="sticky top-0 bg-surface">
               <tr className="border-b border-line">
@@ -130,7 +130,7 @@ export default function OrdersPage() {
         ))}
       </div>
 
-      <div className="mt-5 flex flex-wrap items-center gap-6">
+      <div className="mt-4 flex shrink-0 flex-wrap items-center gap-x-8 gap-y-2">
         {[
           [t("disp.orders.total"), data.total],
           [t("disp.orders.chilledTile"), data.chilled],

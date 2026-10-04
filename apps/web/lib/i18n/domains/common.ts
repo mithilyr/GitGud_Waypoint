@@ -2,7 +2,7 @@ import { defineDomain } from "../define";
 
 export const common = defineDomain({
   en: {
-    "common.home": "Home",
+    "common.home": "Back to sign in",
     "common.back": "Back",
     "common.done": "Done",
     "common.cancel": "Cancel",
@@ -26,7 +26,7 @@ export const common = defineDomain({
     "settings.compact": "Compact",
   },
   si: {
-    "common.home": "මුල් පිටුව",
+    "common.home": "පිවිසුම වෙත ආපසු",
     "common.back": "ආපසු",
     "common.done": "අවසන්",
     "common.cancel": "අවලංගු කරන්න",
@@ -50,7 +50,7 @@ export const common = defineDomain({
     "settings.compact": "සංයුක්ත",
   },
   ta: {
-    "common.home": "முகப்பு",
+    "common.home": "உள்நுழைவுக்குத் திரும்பு",
     "common.back": "பின்",
     "common.done": "முடிந்தது",
     "common.cancel": "ரத்து",

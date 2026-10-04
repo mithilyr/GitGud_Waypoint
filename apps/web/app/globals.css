@@ -286,3 +286,24 @@ html[data-density="compact"] table tbody td {
     padding: 1.5rem;
   }
 }
+
+/* Dispatcher on wide screens: the page fills the window and never scrolls; long lists scroll inside their own card. */
+@media (min-width: 768px) {
+  .fit-col {
+    display: flex;
+    flex: 1 1 0%;
+    min-height: 0;
+    flex-direction: column;
+  }
+  .fit-scroll {
+    flex: 1 1 0%;
+    min-height: 0;
+    overflow: auto;
+  }
+}
+/* Large text size zooms the body, so the window-high shell is divided by the same factor. */
+@media (min-width: 768px) {
+  html[data-text-size="large"] .fit-root {
+    height: calc(100dvh / 1.12);
+  }
+}

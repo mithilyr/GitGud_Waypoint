@@ -14,7 +14,7 @@ export default function StoreSettingsPage() {
   const [received, setReceived] = usePref<boolean>("wp_store_received", true);
   const [deferral, setDeferral] = usePref<boolean>("wp_store_deferral", true);
   return (
-    <div className="rise">
+    <div className="rise lg:mx-auto lg:max-w-[640px]">
       <Lead>{t("store.settings.sub", { who: user?.name?.split(" ")[0] ?? "", outlet: user?.outlet?.name ?? "" })}</Lead>
       <Headline className="mt-1">{t("settings.title")}</Headline>
       <div className="mt-6">

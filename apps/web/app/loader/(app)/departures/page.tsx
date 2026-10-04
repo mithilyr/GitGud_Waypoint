@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation";
 import { Suspense, useEffect, useState } from "react";
 import { useWide } from "@/components/Chrome";
-import { LoadPanel } from "@/components/loader/LoadPanel";
+import { KEY, LoadPanel } from "@/components/loader/LoadPanel";
 import { Card, Empty, ErrorNote, Headline, Lead, Pill, Spinner, type Tone } from "@/components/ui";
 import { get } from "@/lib/api";
 import { fmtLong } from "@/lib/format";
@@ -31,7 +31,6 @@ export type Departure = {
 };
 
 const TONE: Record<string, Tone> = { RELEASED: "ok", LEFT: "ok", LOADING: "info", "PLAN CHANGED": "warn", "NOT STARTED": "neutral" };
-export const KEY = "wp_loader_trip";
 
 function Departures() {
   const { t } = useT();
@@ -52,14 +51,14 @@ function Departures() {
   const active = trips.find((x) => x.trip_id === sel) ?? (wide ? trips.find((x) => x.status === "LOADING") ?? trips.find((x) => x.status === "PLAN CHANGED") ?? trips.find((x) => x.status === "NOT STARTED") ?? trips[0] : undefined);
 
   const list = (
-    <div>
+    <div className="lg:min-h-0 lg:overflow-auto lg:pr-1">
       <Lead>{data.date ? fmtLong(data.date) : ""}</Lead>
       <Headline className="mt-1">{t("loader.dep.leaving", { dock: data.dock })}</Headline>
       <p className="mt-2 text-[14px] leading-[1.5] text-muted">{t("loader.dep.lede")}</p>
       {!trips.length ? (
         <div className="mt-5"><Empty title={t("loader.dep.empty")}>{t("loader.dep.emptyBody", { depot: data.depot })}</Empty></div>
       ) : (
-        <ul className="mt-5 space-y-3">
+        <ul className="mt-5">
           {trips.map((tr) => (
             <li key={tr.trip_id}>
               <button
@@ -69,10 +68,12 @@ function Departures() {
                   if (!wide) router.push(`/loader/load/${tr.trip_id}`);
                 }}
                 aria-current={active?.trip_id === tr.trip_id}
-                className={`hoverable w-full rounded-[12px] border bg-surface p-4 text-left ${active?.trip_id === tr.trip_id && wide ? "border-ink" : "border-line"}`}
+                className={`hoverable w-full border px-4 py-4 text-left ${
+                  (wide ? active?.trip_id === tr.trip_id : tr.status === "LOADING") ? "rounded-[12px] border-line bg-surface shadow-sm" : "rounded-none border-transparent border-b-line"
+                } ${wide && active?.trip_id === tr.trip_id ? "!border-ink" : ""}`}
               >
                 <div className="flex items-center justify-between gap-2">
-                  <span className="font-data text-[17px] font-semibold">{tr.vehicle_id}</span>
+                  <span className={`font-data text-[17px] font-semibold ${tr.status === "RELEASED" || tr.status === "LEFT" ? "text-faint" : ""}`}>{tr.vehicle_id}</span>
                   <Pill tone={TONE[tr.status] ?? "neutral"}>
                     {tr.status === "LOADING" ? t("loader.dep.loading", { a: tr.loaded, b: tr.total }) : t(`loader.dep.status.${tr.status}` as Key)}
                   </Pill>
@@ -95,10 +96,11 @@ function Departures() {
   );
 
   if (!wide) return <div className="rise mx-auto max-w-[520px]">{list}</div>;
+  // Tablet and desktop: both panes scroll on their own, so the page stays put under the header.
   return (
-    <div className="rise grid grid-cols-[380px_1fr] gap-6">
+    <div className="rise grid h-[calc(100dvh-7rem)] grid-cols-[380px_1fr] gap-6 overflow-hidden">
       {list}
-      <Card className="p-5">{active ? <LoadPanel tripId={active.trip_id} onReleased={reload} /> : <Empty title={t("loader.dep.pick")} />}</Card>
+      <Card className="min-h-0 overflow-auto p-5">{active ? <LoadPanel tripId={active.trip_id} onReleased={reload} /> : <Empty title={t("loader.dep.pick")} />}</Card>
     </div>
   );
 }

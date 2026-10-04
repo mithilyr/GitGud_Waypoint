@@ -15,7 +15,7 @@ export default function ContactPage() {
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState<string | null>(null);
   return (
-    <div className="rise">
+    <div className="rise lg:mx-auto lg:max-w-[640px]">
       <Lead>{t("store.contact.eyebrow", { outlet: user?.outlet?.name ?? "" })}</Lead>
       <Headline className="mt-1">{t("store.contact.title")}</Headline>
       <p className="mt-2 text-[14px] text-muted">{t("store.contact.lede")}</p>

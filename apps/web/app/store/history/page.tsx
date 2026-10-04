@@ -27,7 +27,7 @@ export default function HistoryPage() {
       {!data.length ? (
         <div className="mt-5"><Empty title={t("store.history.empty")}>{t("store.history.emptyBody")}</Empty></div>
       ) : (
-        <div className="mt-5 space-y-3">
+        <div className="mt-5 space-y-3 lg:grid lg:grid-cols-2 lg:gap-4 lg:space-y-0">
           {data.map((o) => (
             <Link key={o.id} href="/store/track" className="block">
               <Card className="p-4">
@@ -44,8 +44,8 @@ export default function HistoryPage() {
           ))}
         </div>
       )}
-      <Link href="/store" className="mt-6 block">
-        <Button size="lg" block>{t("store.order.reorder")}</Button>
+      <Link href="/store" className="mt-6 block lg:inline-block">
+        <Button size="lg" block className="lg:px-10">{t("store.order.reorder")}</Button>
       </Link>
     </div>
   );

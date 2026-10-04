@@ -19,7 +19,7 @@ export default function HelpPage() {
     <div className="rise">
       <Lead>{t("store.outlet", { name: user?.outlet?.name ?? "" })}</Lead>
       <Headline className="mt-1">{t("store.help.title")}</Headline>
-      <div className="mt-5 space-y-3">
+      <div className="mt-5 space-y-3 lg:grid lg:grid-cols-2 lg:items-start lg:gap-4 lg:space-y-0">
         {HELP.map(([q, a]) => (
           <Card key={q} className="p-4">
             <div className="text-[16px] font-semibold">{t(q)}</div>
@@ -28,8 +28,8 @@ export default function HelpPage() {
         ))}
         <NavRow label={t("settings.title")} href="/store/settings" />
       </div>
-      <Link href="/store/contact" className="mt-6 block">
-        <Button size="lg" block>{t("store.help.contact")}</Button>
+      <Link href="/store/contact" className="mt-6 block lg:inline-block">
+        <Button size="lg" block className="lg:px-10">{t("store.help.contact")}</Button>
       </Link>
     </div>
   );

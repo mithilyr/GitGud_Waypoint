@@ -15,7 +15,7 @@ import { useT } from "@/lib/i18n";
 type Note = { id: number; kind: string; title: string; body: string };
 
 export default function LoaderShell({ children }: { children: React.ReactNode }) {
-  const user = useRequireRole("loader", "/loader");
+  const user = useRequireRole("loader");
   const { t } = useT();
   const TABS = [
     { href: "/loader/departures", label: t("loader.nav.departures"), match: "/loader/departures", wide: true },

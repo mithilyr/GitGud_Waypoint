@@ -33,3 +33,7 @@ Thumbs.db
 .vscode/*
 !.vscode/extensions.json
 .idea/
+
+# Test coverage output
+.coverage
+coverage.xml
